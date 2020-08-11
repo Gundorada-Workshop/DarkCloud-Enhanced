@@ -6,9 +6,6 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-//Dayuppy added this comment to commit a change.
-//Dayuppy made another commit.
-
 namespace Dark_Cloud_Improved_Version
 {
     static class Program
@@ -16,7 +13,8 @@ namespace Dark_Cloud_Improved_Version
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        /// 
+
+        public static readonly double PI = 3.1415926535897;
 
         [DllImport("user32.dll", SetLastError = true)] //Import DLL that will allow us to retrieve processIDs from Window Handles.
         static extern int GetWindowThreadProcessId(IntPtr hWnd, out int processID); //This is a function within the dll that we are adding to our program.
@@ -28,10 +26,10 @@ namespace Dark_Cloud_Improved_Version
         static extern int CloseHandle(IntPtr processH);
 
         [DllImport("kernel32.dll")] //Import for reading process memory.
-        public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
+        public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
 
         [DllImport("kernel32.dll", SetLastError = true)] //Import for writing process memory.
-        static extern bool WriteProcessMemory(int hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesWritten);
+        static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesWritten);
 
         private static int GetProcessID(string procName) //Function for retrieving processID from running processes.
         {
@@ -73,6 +71,15 @@ namespace Dark_Cloud_Improved_Version
             Console.Read(); //Wait for input and then discard it.
         }
 
+        static short ReadShort(int address)
+        {
+            byte[] dataBuffer = new byte[2];
+
+            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+
+            return BitConverter.ToInt16(dataBuffer, 0);
+        }
+
         static int ReadInt(int address)
         {
             byte[] dataBuffer = new byte[4];
@@ -80,6 +87,54 @@ namespace Dark_Cloud_Improved_Version
             ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return BitConverter.ToInt32(dataBuffer, 0);
+        }
+
+        static short WriteShort(int address, short value)
+        {
+            byte[] dataBuffer = BitConverter.GetBytes(value);
+
+            WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _);
+            return BitConverter.ToInt16(dataBuffer, 0);
+        }
+
+        static int WriteInt(int address, int value)
+        {
+            byte[] dataBuffer = BitConverter.GetBytes(value);
+
+            WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); 
+            return BitConverter.ToInt32(dataBuffer, 0);
+        }
+
+        public class Dungeon
+        {
+            private const uint MagicCircleOne_PosX = 0x21DE61C0;
+            private const uint MagicCircleOne_PosY = 0x21DE61C8;
+            private const uint MagicCircleTwo_PosX = 0x21DE61E0;
+            private const uint MagicCircleTwo_PosY = 0x21DE61E8;
+            private const uint MagicCircleThree_PosX = 0x21DE61E0;
+            private const uint MagicCircleThree_PosY = 0x21DE61E8;
+        }
+
+        public class Player
+        {
+            private const int HP = 0x21CD955E;
+            private const int MaxHP = 0x21CD9552;
+            private const int Gilda = 0x21CDD892;
+            private const int MagicCrystal = 0x202A35A0;
+            private const int Map = 0x202A359C;
+
+
+            public void SetGilda(short amount)
+            {
+                WriteShort(Player.Gilda, amount);
+                Console.WriteLine("WriteShortValue: " + WriteShort(Player.Gilda, amount));
+            }
+
+            public void GetGilda()
+            {
+                ReadShort(Player.Gilda);
+                Console.WriteLine("ReadShortValue: " + ReadShort(Player.Gilda));
+            }
         }
 
         [STAThread]
@@ -90,10 +145,14 @@ namespace Dark_Cloud_Improved_Version
 
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            //Application.Run(new Form1());.
+
+            Dungeon dungeon = new Dungeon(); //Create a new instance of our dungeon class within the main function so we may modify it
+            Player player = new Player();
 
             int hasMagicCrystal = ReadInt(0x202A35A0);
-
+            player.GetGilda();
+            player.SetGilda(10990);
             Console.WriteLine("processHandle: " + processH);
             Console.WriteLine("hasMagicCrystal: " + ReadInt(0x202A35A0));  //Outputs 1 if player has Magic Crystal in inventory
             CloseHandle(processH); //Close our handle to the process, we are finished with our program
