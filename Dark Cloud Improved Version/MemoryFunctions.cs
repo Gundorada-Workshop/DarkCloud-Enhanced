@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -16,10 +17,10 @@ namespace Dark_Cloud_Improved_Version
         internal static extern int CloseHandle(IntPtr processH);
 
         [DllImport("kernel32.dll")] //Import for reading process memory.
-        private static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
+        private static extern int ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
 
         [DllImport("kernel32.dll", SetLastError = true)] //Import for writing process memory.
-        private static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesWritten);
+        private static extern int WriteProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesWritten);
 
         private static int GetProcessID(string procName) //Function for retrieving processID from running processes.
         {
@@ -56,68 +57,96 @@ namespace Dark_Cloud_Improved_Version
         //Open process with Read and Write permissions
         internal static readonly IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ | PROCESS_SUSPEND_RESUME, false, PID);
 
-        internal static short ReadShort(int address)
+        internal static ushort ReadByte(int address)  //Read unsigned short from address
         {
-            byte[] dataBuffer = new byte[2]; //Read this many bytes of the address
+            byte[] dataBuffer = new byte[1];
 
-            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
-            return BitConverter.ToInt16(dataBuffer, 0); //Convert Bit Array to 16-bit Int (short) and return it
+            return BitConverter.ToUInt16(dataBuffer, 0);
         }
 
         internal static ushort ReadUShort(int address)  //Read unsigned short from address
         {
             byte[] dataBuffer = new byte[2];
 
-            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return BitConverter.ToUInt16(dataBuffer, 0);
+        }
+
+        internal static short ReadShort(int address)
+        {
+            byte[] dataBuffer = new byte[2]; //Read this many bytes of the address
+
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+
+            return BitConverter.ToInt16(dataBuffer, 0); //Convert Bit Array to 16-bit Int (short) and return it
         }
 
         internal static int ReadInt(int address)
         {
             byte[] dataBuffer = new byte[4];
 
-            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return BitConverter.ToInt32(dataBuffer, 0);
         }
 
-        internal static float ReadFloat(int address) //Currently not working
+        internal static float ReadFloat(int address)
         {
-            byte[] dataBuffer = new byte[4];
+            byte[] dataBuffer = new byte[8];
 
-            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _);
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
 
             return BitConverter.ToSingle(dataBuffer, 0);
         }
 
-        internal static void WriteShort(int address, short value)
+        internal static Double ReadDouble(int address)
         {
-            byte[] dataBuffer = BitConverter.GetBytes(value);
+            byte[] dataBuffer = new byte[8];
 
-            WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _);
+            ReadProcessMemory(processH, address, dataBuffer, 8, out _);
+
+            return BitConverter.ToDouble(dataBuffer, 0); ;
         }
 
-        internal static void WriteUShort(int address, ushort value) //Write unsigned short to address
+        internal static int Write(int address, byte[] value)
         {
-            byte[] dataBuffer = BitConverter.GetBytes(value);
-
-            WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _);
+            return WriteProcessMemory(processH, address, value, value.Length, out _);
         }
 
-        internal static void WriteInt(int address, int value)
+        internal static int WriteString(int address, String value)
         {
-            byte[] dataBuffer = BitConverter.GetBytes(value);
+            // http://stackoverflow.com/questions/16072709/converting-string-to-byte-array-in-c-sharp
+            var arr = Encoding.ASCII.GetBytes(value);
 
-            WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); 
+            return WriteProcessMemory(processH, address, arr, arr.Length, out _);
         }
 
-        internal static void WriteFloat(int address, float value) //Currently not working
+        internal static int WriteByte(int address, byte value)
         {
-            byte[] dataBuffer = BitConverter.GetBytes(value);
+            return Write(address, BitConverter.GetBytes(value));
+        }
 
-            WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+        internal static int WriteUShort(int address, ushort value)
+        {
+            return Write(address, BitConverter.GetBytes(value));
+        }
+
+        internal static int WriteInt(int address, int value)
+        {
+            return Write(address, BitConverter.GetBytes(value));
+        }
+
+        internal static int WriteFloat(int address, float value)
+        {
+            return Write(address, BitConverter.GetBytes(value));
+        }
+
+        internal static int WriteDouble(int address, double value)
+        {
+            return Write(address, BitConverter.GetBytes(value));
         }
     }
 }
