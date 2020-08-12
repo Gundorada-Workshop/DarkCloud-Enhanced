@@ -66,11 +66,11 @@ namespace Dark_Cloud_Improved_Version
             return BitConverter.ToUInt16(dataBuffer, 0);
         }
 
-        internal static ushort ReadUShort(int address)  //Read unsigned short from address
+        internal static ushort ReadUShort(int address)  //Read signed short from address
         {
             byte[] dataBuffer = new byte[2];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
 
             return BitConverter.ToUInt16(dataBuffer, 0);
         }
@@ -116,7 +116,7 @@ namespace Dark_Cloud_Improved_Version
             return WriteProcessMemory(processH, address, value, value.Length, out _);
         }
 
-        internal static int WriteString(int address, String value)
+        internal static int WriteString(int address, String value) //Untested
         {
             // http://stackoverflow.com/questions/16072709/converting-string-to-byte-array-in-c-sharp
             var arr = Encoding.ASCII.GetBytes(value);

@@ -16,47 +16,41 @@ namespace Dark_Cloud_Improved_Version
         }
 
         [STAThread]
-            static void Main()
-            {
-            //Dayuppy - Commented out the GUI form for now so that we may use the console to print variables for debugging purposes.
-            //Console can be turned back to Windows Application in project properties. After that, uncomment the three lines below to display the GUI.
+        static void Main()
+        {
+            if (Memory.PID != 0) //If we actually found a running instance of PCSX2, continue
+                {
+                    //Dayuppy - Commented out the GUI form for now so that we may use the console to print variables for debugging purposes.
+                    //Console can be turned back to Windows Application in project properties. After that, uncomment the three lines below to display the GUI.
 
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+                    //Application.EnableVisualStyles();
+                    //Application.SetCompatibleTextRenderingDefault(false);
+                    //Application.Run(new Form1());
 
+                    Console.WriteLine("processHandle: " + Memory.processH);
 
-            //Everything below is just testing and examples of how to read/write with the new functions.
-            Console.WriteLine("processHandle: " + Memory.processH);
+                    //Everything below is just testing and examples of how to read/write with the new functions.
 
-            Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.gilda));
-            Console.WriteLine("Toan's HP: " + Memory.ReadUShort(Player.Toan.hp));
-            Console.WriteLine("Toan's MaxHP: " + Memory.ReadUShort(Player.Toan.maxHP));
-            
-            //Player.SetGilda(100); // or Memory.WriteUShort(Player.Gilda, 100);
+                    Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.gilda));
+                    Console.WriteLine("Toan's HP: " + Memory.ReadUShort(Player.Toan.hp));
 
-            Memory.WriteUShort(Player.Toan.hp, 100);
+                    Player.SetGilda(100); // or Memory.WriteUShort(Player.Gilda, 100);
 
-            Memory.WriteUShort(Player.gilda, 65000);
-            Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.gilda));
+                    //Test writing Unsigned Shorts, Bytes, Ints, and Floats. Will take effect immediately when the program is launched, and only once.
+                    Memory.WriteUShort(Player.Toan.hp, 100);
+                    Memory.WriteByte(Player.Toan.status, 08); //set stamina Buff
+                    Memory.WriteInt(Player.Toan.WeaponSlot1.type, 290); //Bone Rapier in Weapon Slot 1 for Toan
+                    Memory.WriteFloat(Player.positionX, 1000); //Set player's position out of dungeon to 1000
 
-            Memory.WriteUShort(Player.Toan.maxHP, 150);
+                    Console.WriteLine("Player has Magic Crystal: " + Memory.ReadInt(Player.magicCrystal));  //Outputs 1 if player has Magic Crystal in dungeon
 
-            Memory.WriteUShort(Player.Xiao.hp, 62);
-            Memory.WriteUShort(Player.Xiao.maxHP, 78);
+                    Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
+                }
 
-            Memory.WriteByte(Player.Toan.status, 08); //set stamina Buff
-            Memory.WriteInt(Player.Toan.WeaponSlot1.type, 290); //Bone Rapier in Weapon Slot 1 for Toan
-
-            Console.WriteLine("Player has Magic Crystal: " + Memory.ReadInt(Player.magicCrystal));  //Outputs 1 if player has Magic Crystal in inventory
-            Console.WriteLine("Player Position X: " + Memory.ReadFloat(Player.positionX) + "\tPlayer Position Y: " + Memory.ReadFloat(Player.positionY) + "\tPlayer Position Z: " + Memory.ReadFloat(Player.positionZ));
-            Console.WriteLine("Dungeon Player Position X: " + Memory.ReadFloat(Player.dunPositionX) + "\tDungeon Player Position Y: " + Memory.ReadFloat(Player.dunPositionY) + "\tDungeon Player Position Z: " + Memory.ReadFloat(Player.dunPositionZ));
-
-            Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
             PressEntertoContinue();
-            }
         }
     }
+}
 
 //Mike's comment
 //Wind's comment woohoo
