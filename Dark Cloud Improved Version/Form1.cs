@@ -15,11 +15,26 @@ namespace Dark_Cloud_Improved_Version
         public Form1()
         {
             InitializeComponent();
+        }
 
-            //2nd test
-            //3rd test
-            //4th test
-            //5th test
+        private void button1_Click(object sender, EventArgs e)      //dayuppy
+        {
+            //place here the function you want to use from your .cs file        
+        }
+
+        private void button2_Click(object sender, EventArgs e)      //mike
+        {
+            //place here the function you want to use from your .cs file
+        }
+
+        private void button3_Click(object sender, EventArgs e)      //plgue
+        {
+            //place here the function you want to use from your .cs file
+        }
+
+        private void button4_Click(object sender, EventArgs e)      //wordofwind
+        {
+            CustomChests.ChestRandomizer();
         }
     }
 }

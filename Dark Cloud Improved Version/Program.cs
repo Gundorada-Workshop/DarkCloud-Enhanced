@@ -23,9 +23,9 @@ namespace Dark_Cloud_Improved_Version
                     //Dayuppy - Commented out the GUI form for now so that we may use the console to print variables for debugging purposes.
                     //Console can be turned back to Windows Application in project properties. After that, uncomment the three lines below to display the GUI.
 
-                    //Application.EnableVisualStyles();
-                    //Application.SetCompatibleTextRenderingDefault(false);
-                    //Application.Run(new Form1());
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new Form1());
 
                     Console.WriteLine("processHandle: " + Memory.processH);
 
