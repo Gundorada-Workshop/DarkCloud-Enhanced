@@ -77,7 +77,7 @@ namespace Dark_Cloud_Improved_Version
             return BitConverter.ToInt32(dataBuffer, 0);
         }
 
-        internal static float ReadFloat(int address)
+        internal static float ReadFloat(int address) //Currently not working
         {
             byte[] dataBuffer = new byte[4];
 
@@ -101,7 +101,7 @@ namespace Dark_Cloud_Improved_Version
             WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); 
         }
 
-        internal static void WriteFloat(int address, float value)
+        internal static void WriteFloat(int address, float value) //Currently not working
         {
             byte[] dataBuffer = BitConverter.GetBytes(value);
 

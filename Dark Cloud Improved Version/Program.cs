@@ -29,15 +29,13 @@ namespace Dark_Cloud_Improved_Version
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());.
-
-            Dungeon dungeon = new Dungeon(); //Create a new instance of our dungeon class within the main function so we may modify it
-            Player player = new Player();
-
-            int hasMagicCrystal = Memory.ReadInt(0x202A35A0);
-            player.GetGilda();
-            player.SetGilda(10990);
             Console.WriteLine("processHandle: " + Memory.processH);
-            Console.WriteLine("hasMagicCrystal: " + Memory.ReadInt(0x202A35A0));  //Outputs 1 if player has Magic Crystal in inventory
+
+            Player.GetGilda();
+            Player.SetGilda(109);
+
+            Console.WriteLine("Player has Magic Crystal: " + Memory.ReadInt(Player.MagicCrystal));  //Outputs 1 if player has Magic Crystal in inventory
+            Console.WriteLine("Player PositionX: " + Memory.ReadInt(Player.PositionX));  //Outputs 1 if player has Magic Crystal in inventory
             Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
             PressEntertoContinue();
             }
