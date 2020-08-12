@@ -29,25 +29,28 @@ namespace Dark_Cloud_Improved_Version
             //Everything below is just testing and examples of how to read/write with the new functions.
             Console.WriteLine("processHandle: " + Memory.processH);
 
-            Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.Gilda));
-            Console.WriteLine("Toan's HP: " + Memory.ReadUShort(Player.Toan.HP));
-            Console.WriteLine("Toan's MaxHP: " + Memory.ReadUShort(Player.Toan.MaxHP));
+            Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.gilda));
+            Console.WriteLine("Toan's HP: " + Memory.ReadUShort(Player.Toan.hp));
+            Console.WriteLine("Toan's MaxHP: " + Memory.ReadUShort(Player.Toan.maxHP));
             
             //Player.SetGilda(100); // or Memory.WriteUShort(Player.Gilda, 100);
 
-            Memory.WriteUShort(Player.Toan.HP, 100);
+            Memory.WriteUShort(Player.Toan.hp, 100);
 
-            Memory.WriteUShort(Player.Gilda, 65000);
-            Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.Gilda));
+            Memory.WriteUShort(Player.gilda, 65000);
+            Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.gilda));
 
-            Memory.WriteUShort(Player.Toan.MaxHP, 150);
+            Memory.WriteUShort(Player.Toan.maxHP, 150);
 
-            Memory.WriteUShort(Player.Xiao.HP, 62);
-            Memory.WriteUShort(Player.Xiao.MaxHP, 78);
+            Memory.WriteUShort(Player.Xiao.hp, 62);
+            Memory.WriteUShort(Player.Xiao.maxHP, 78);
 
-            Console.WriteLine("Player has Magic Crystal: " + Memory.ReadInt(Player.MagicCrystal));  //Outputs 1 if player has Magic Crystal in inventory
-            Console.WriteLine("Player Position X: " + Memory.ReadFloat(Player.PositionX) + "\tPlayer Position Y: " + Memory.ReadFloat(Player.PositionY) + "\tPlayer Position Z: " + Memory.ReadFloat(Player.PositionZ));
-            Console.WriteLine("Dungeon Player Position X: " + Memory.ReadFloat(Player.DunPositionX) + "\tDungeon Player Position Y: " + Memory.ReadFloat(Player.DunPositionY) + "\tDungeon Player Position Z: " + Memory.ReadFloat(Player.DunPositionZ));
+            Memory.WriteByte(Player.Toan.status, 08); //set stamina Buff
+            Memory.WriteInt(Player.Toan.WeaponSlot1.type, 290); //Bone Rapier in Weapon Slot 1 for Toan
+
+            Console.WriteLine("Player has Magic Crystal: " + Memory.ReadInt(Player.magicCrystal));  //Outputs 1 if player has Magic Crystal in inventory
+            Console.WriteLine("Player Position X: " + Memory.ReadFloat(Player.positionX) + "\tPlayer Position Y: " + Memory.ReadFloat(Player.positionY) + "\tPlayer Position Z: " + Memory.ReadFloat(Player.positionZ));
+            Console.WriteLine("Dungeon Player Position X: " + Memory.ReadFloat(Player.dunPositionX) + "\tDungeon Player Position Y: " + Memory.ReadFloat(Player.dunPositionY) + "\tDungeon Player Position Z: " + Memory.ReadFloat(Player.dunPositionZ));
 
             Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
             PressEntertoContinue();
