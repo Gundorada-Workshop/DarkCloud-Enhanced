@@ -34,6 +34,7 @@ namespace Dark_Cloud_Improved_Version
         {
             public const int HP = 0x21CD955E;
             public const int MaxHP = 0x21CD9552;
+            public const int defence = 0x21CDD894;
 
             public static short GetHP()
             {
@@ -66,6 +67,7 @@ namespace Dark_Cloud_Improved_Version
         {
             public const int HP = 0x21CD9560;
             public const int MaxHP = 0x21CD9554;
+            public const int defence = 0x21CDD898;
 
             public static short GetHP()
             {
