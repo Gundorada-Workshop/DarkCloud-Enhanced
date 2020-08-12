@@ -17,17 +17,17 @@ namespace Dark_Cloud_Improved_Version
         public const int DunPositionY = 0x21EA1D38;
         public const int DunPositionZ = 0x21EA1D34;
 
-        public static short GetGilda()
+        public static ushort GetGilda() //These are example functions that we could make more of if we want. It will mean more code but better readability and function.
         {
-            short value = Memory.ReadShort(Gilda);
+            ushort value = Memory.ReadUShort(Gilda);
             Console.WriteLine("Player has " + value + " Gilda");
             return value;
         }
 
-        public static void SetGilda(short value)
+        public static void SetGilda(ushort value)
         {
             Console.WriteLine("Player's Gilda was set to: " + value);
-            Memory.WriteShort(Gilda, value);
+            Memory.WriteUShort(Gilda, value);
         }
 
         internal class Toan
@@ -35,32 +35,6 @@ namespace Dark_Cloud_Improved_Version
             public const int HP = 0x21CD955E;
             public const int MaxHP = 0x21CD9552;
             public const int defence = 0x21CDD894;
-
-            public static short GetHP()
-            {
-                short value = Memory.ReadShort(HP);
-                Console.WriteLine("Toan has " + value + " HP");
-                return value;
-            }
-
-            public static void SetHP(short value)
-            {
-                Console.WriteLine("Toan's HP was set to: " + value);
-                Memory.WriteShort(HP, value);
-            }
-
-            public static short GetMaxHP()
-            {
-                short value = Memory.ReadShort(MaxHP);
-                Console.WriteLine("Toan has " + value + " MaxHP");
-                return value;
-            }
-
-            public static void SetMaxHP(short value)
-            {
-                Console.WriteLine("Toan's MaxHP was set to: " + value);
-                Memory.WriteShort(MaxHP, value);
-            }
         }
 
         internal class Xiao
@@ -68,32 +42,6 @@ namespace Dark_Cloud_Improved_Version
             public const int HP = 0x21CD9560;
             public const int MaxHP = 0x21CD9554;
             public const int defence = 0x21CDD898;
-
-            public static short GetHP()
-            {
-                short value = Memory.ReadShort(HP);
-                Console.WriteLine("Xiao has " + value + " HP");
-                return value;
-            }
-
-            public static void SetHP(short value)
-            {
-                Console.WriteLine("Xiao's HP was set to: " + value);
-                Memory.WriteShort(HP, value);
-            }
-
-            public static short GetMaxHP()
-            {
-                short value = Memory.ReadShort(MaxHP);
-                Console.WriteLine("Xiao has " + value + " MaxHP");
-                return value;
-            }
-
-            public static void SetMaxHP(short value)
-            {
-                Console.WriteLine("Xiao's MaxHP was set to: " + value);
-                Memory.WriteShort(MaxHP, value);
-            }
         }
     }
 }

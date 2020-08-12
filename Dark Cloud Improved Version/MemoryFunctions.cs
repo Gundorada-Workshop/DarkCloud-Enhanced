@@ -58,11 +58,20 @@ namespace Dark_Cloud_Improved_Version
 
         internal static short ReadShort(int address)
         {
+            byte[] dataBuffer = new byte[2]; //Read this many bytes of the address
+
+            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+
+            return BitConverter.ToInt16(dataBuffer, 0); //Convert Bit Array to 16-bit Int (short) and return it
+        }
+
+        internal static ushort ReadUShort(int address)  //Read unsigned short from address
+        {
             byte[] dataBuffer = new byte[2];
 
             ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
-            return BitConverter.ToInt16(dataBuffer, 0);
+            return BitConverter.ToUInt16(dataBuffer, 0);
         }
 
         internal static int ReadInt(int address)
@@ -78,12 +87,19 @@ namespace Dark_Cloud_Improved_Version
         {
             byte[] dataBuffer = new byte[4];
 
-            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _);
 
             return BitConverter.ToSingle(dataBuffer, 0);
         }
 
         internal static void WriteShort(int address, short value)
+        {
+            byte[] dataBuffer = BitConverter.GetBytes(value);
+
+            WriteProcessMemory(processH, (IntPtr)address, dataBuffer, dataBuffer.Length, out _);
+        }
+
+        internal static void WriteUShort(int address, ushort value) //Write unsigned short to address
         {
             byte[] dataBuffer = BitConverter.GetBytes(value);
 

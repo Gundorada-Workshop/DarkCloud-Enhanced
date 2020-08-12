@@ -27,17 +27,17 @@ namespace Dark_Cloud_Improved_Version
 
             Console.WriteLine("processHandle: " + Memory.processH);
 
-            Player.GetGilda();
-            Player.Toan.GetHP();
-            Player.Toan.GetMaxHP();
-            Player.Xiao.GetHP();
-            Player.Xiao.GetMaxHP();
+            Console.WriteLine("Player's Gilda: " + Memory.ReadUShort(Player.Gilda));
+            Console.WriteLine("Toan's HP: " + Memory.ReadUShort(Player.Toan.HP));
+            Console.WriteLine("Toan's MaxHP: " + Memory.ReadUShort(Player.Toan.MaxHP));
+            
+            Player.SetGilda(100); // or Memory.WriteUShort(Player.Gilda, 100);
 
-            Player.SetGilda(8050);
-            Player.Toan.SetHP(100);
-            Player.Toan.SetMaxHP(175);
-            Player.Xiao.SetHP(300);
-            Player.Xiao.SetMaxHP(350);
+            Memory.WriteUShort(Player.Toan.HP, 100);
+            Memory.WriteUShort(Player.Toan.MaxHP, 150);
+
+            Memory.WriteUShort(Player.Xiao.HP, 62);
+            Memory.WriteUShort(Player.Xiao.MaxHP, 78);
 
             Console.WriteLine("Player has Magic Crystal: " + Memory.ReadInt(Player.MagicCrystal));  //Outputs 1 if player has Magic Crystal in inventory
             //Console.WriteLine("Player PositionX: " + Memory.ReadInt(Player.PositionX)); //ReadFloat is not working currently.
