@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Addresses.cs" />
     <Compile Include="Dungeon.cs" />
     <Compile Include="MathFunctions.cs" />
     <Compile Include="Player.cs" />
