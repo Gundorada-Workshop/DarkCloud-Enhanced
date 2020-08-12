@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addresses.cs" />
+    <Compile Include="MenuShortcuts.cs" />
     <Compile Include="Dungeon.cs" />
     <Compile Include="MathFunctions.cs" />
     <Compile Include="Player.cs" />
