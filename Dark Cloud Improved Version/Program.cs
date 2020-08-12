@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Dark_Cloud_Improved_Version
@@ -28,14 +23,24 @@ namespace Dark_Cloud_Improved_Version
 
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());.
+            //Application.Run(new Form1());
+
             Console.WriteLine("processHandle: " + Memory.processH);
 
             Player.GetGilda();
-            Player.SetGilda(109);
+            Player.Toan.GetHP();
+            Player.Toan.GetMaxHP();
+            Player.Xiao.GetHP();
+            Player.Xiao.GetMaxHP();
+
+            Player.SetGilda(8050);
+            Player.Toan.SetHP(100);
+            Player.Toan.SetMaxHP(175);
+            Player.Xiao.SetHP(300);
+            Player.Xiao.SetMaxHP(350);
 
             Console.WriteLine("Player has Magic Crystal: " + Memory.ReadInt(Player.MagicCrystal));  //Outputs 1 if player has Magic Crystal in inventory
-            Console.WriteLine("Player PositionX: " + Memory.ReadInt(Player.PositionX));  //Outputs 1 if player has Magic Crystal in inventory
+            //Console.WriteLine("Player PositionX: " + Memory.ReadInt(Player.PositionX)); //ReadFloat is not working currently.
             Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
             PressEntertoContinue();
             }

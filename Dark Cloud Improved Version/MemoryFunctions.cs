@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -43,6 +39,7 @@ namespace Dark_Cloud_Improved_Version
             else //We did not find a process matching procName.
             {
                 Console.WriteLine(procName + " was not found in the list of running processes.");
+                CloseHandle(processH);
                 return 0;
             }
         }
@@ -85,7 +82,6 @@ namespace Dark_Cloud_Improved_Version
 
             return BitConverter.ToSingle(dataBuffer, 0);
         }
-
 
         internal static void WriteShort(int address, short value)
         {

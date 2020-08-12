@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dark_Cloud_Improved_Version
 {
     internal class Player
     {
-        public const int HP = 0x21CD955E;
-        public const int MaxHP = 0x21CD9552;
         public const int Gilda = 0x21CDD892;
         public const int MagicCrystal = 0x202A35A0;
         public const int Map = 0x202A359C;
@@ -23,27 +17,81 @@ namespace Dark_Cloud_Improved_Version
         public const int DunPositionY = 0x21EA1D38;
         public const int DunPositionZ = 0x21EA1D34;
 
-        //private Vector3 GetPosition()
-        //{
-        //    Vector3 Vec;
-
-        //    Vec.X = ReadFloat(PlayerPositionX);
-        //    Vec.Y = ReadFloat(PlayerPositionY);
-        //    Vec.Z = ReadFloat(PlayerPositionZ);
-
-        //    return Vec;
-        //    }
-        //}
-
-        public static void SetGilda(short amount)
-        {
-            Console.WriteLine("Player's Gilda was set to: " + amount);
-            Memory.WriteShort(Gilda, amount);
-        }
-
         public static short GetGilda()
         {
-            return Memory.ReadShort(Gilda);
+            short value = Memory.ReadShort(Gilda);
+            Console.WriteLine("Player has " + value + " Gilda");
+            return value;
+        }
+
+        public static void SetGilda(short value)
+        {
+            Console.WriteLine("Player's Gilda was set to: " + value);
+            Memory.WriteShort(Gilda, value);
+        }
+
+        internal class Toan
+        {
+            public const int HP = 0x21CD955E;
+            public const int MaxHP = 0x21CD9552;
+
+            public static short GetHP()
+            {
+                short value = Memory.ReadShort(HP);
+                Console.WriteLine("Toan has " + value + " HP");
+                return value;
+            }
+
+            public static void SetHP(short value)
+            {
+                Console.WriteLine("Toan's HP was set to: " + value);
+                Memory.WriteShort(HP, value);
+            }
+
+            public static short GetMaxHP()
+            {
+                short value = Memory.ReadShort(MaxHP);
+                Console.WriteLine("Toan has " + value + " MaxHP");
+                return value;
+            }
+
+            public static void SetMaxHP(short value)
+            {
+                Console.WriteLine("Toan's MaxHP was set to: " + value);
+                Memory.WriteShort(MaxHP, value);
+            }
+        }
+
+        internal class Xiao
+        {
+            public const int HP = 0x21CD9560;
+            public const int MaxHP = 0x21CD9554;
+
+            public static short GetHP()
+            {
+                short value = Memory.ReadShort(HP);
+                Console.WriteLine("Xiao has " + value + " HP");
+                return value;
+            }
+
+            public static void SetHP(short value)
+            {
+                Console.WriteLine("Xiao's HP was set to: " + value);
+                Memory.WriteShort(HP, value);
+            }
+
+            public static short GetMaxHP()
+            {
+                short value = Memory.ReadShort(MaxHP);
+                Console.WriteLine("Xiao has " + value + " MaxHP");
+                return value;
+            }
+
+            public static void SetMaxHP(short value)
+            {
+                Console.WriteLine("Xiao's MaxHP was set to: " + value);
+                Memory.WriteShort(MaxHP, value);
+            }
         }
     }
 }
