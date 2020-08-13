@@ -32,9 +32,16 @@ namespace Dark_Cloud_Improved_Version
         public const int dungeonDebugMenu = 0x202A35EC;
 
         //Inputs
-        //Triangle = 10, square = 80, circle = 20, cross = 50, R1 = 08, R2 = 02, L1 = 04, L2 = 01
-        public const int inputs1 = 0x21CBC5DC;
-        //Start = 08, select = 01, Dpad up = 10, Dpad down = 40, Dpad left = 80, Dpad right = 20, R3 = 04, L3 = 02
-        public const int inputs2 = 0x21CBC5DD;
+        public const int buttonInputs = 0x21CBC544; //UShort
+
+        //Square = 128        Cross = 64      Circle = 32       Triangle = 16
+        //DPadLeft = 32768        DPadDown = 16384      DPadRight = 8192       DPadUP = 4096
+        //Select = 256     L3 = 512      R3 = 1024      Start = 2048
+        //L1 = 4        L2 = 1      R1 = 8      R2 = 2
+
+        public const int LeftAnalogInputX = 0x21CBC5E0; //Byte
+        public const int LeftAnalogInputY = 0x21CBC54C;
+        public const int RightAnalogInputX = 0x21CBC554;
+        public const int RightAnalogInputY = 0x21CBC550;
     }
 }

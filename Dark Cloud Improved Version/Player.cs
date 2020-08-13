@@ -17,6 +17,15 @@ namespace Dark_Cloud_Improved_Version
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
 
+        public static bool inDungeon()
+        {
+            if (Memory.ReadByte(0x21ADF1A0) != 0)  //If this value is non-zero, we are almost certainly in a dungeon.
+                return true;
+
+            else
+                return false;
+        }
+
         public static ushort GetGilda() //These are example functions that we could make more of if we want. It will mean more code but better readability and function.
         {
             ushort value = Memory.ReadUShort(gilda);
