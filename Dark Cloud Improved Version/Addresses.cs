@@ -43,5 +43,12 @@ namespace Dark_Cloud_Improved_Version
         public const int LeftAnalogInputY = 0x21CBC54C;
         public const int RightAnalogInputX = 0x21CBC554;
         public const int RightAnalogInputY = 0x21CBC550;
+
+        public const int checkFloor = 0x21CD954E;   //tells the current floor player is on, updates when entering the floor
+
+        public const int firstChest = 0x21DD0260;   //first chest rolled in the floor
+        public const int firstChestSize = 0x21DD0268;       //either small or big chest
+        public const int backfloorFirstChest = 0x21DE0D70;
+        public const int backfloorFirstChestSize = 0x21DE0D78;
     }
 }

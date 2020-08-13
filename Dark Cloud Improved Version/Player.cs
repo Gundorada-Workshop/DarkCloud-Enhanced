@@ -17,9 +17,9 @@ namespace Dark_Cloud_Improved_Version
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
 
-        public static bool inDungeon()
+        public static bool inDungeonFloor()
         {
-            if (Memory.ReadByte(0x21ADF1A0) != 0)  //If this value is non-zero, we are almost certainly in a dungeon.
+            if (Memory.ReadByte(0x21CD954F) != 255)  //Value is 255 when in town AND dungeon select, changes when floor is loaded.
                 return true;
 
             else
