@@ -31,6 +31,8 @@ namespace Dark_Cloud_Improved_Version
         public const int itemDebugMenu = 0x21D9EC08;
         public const int dungeonDebugMenu = 0x202A35EC;
 
+        public const int townSoftReset = 0x202A287C; //This allows resetting to main menu in town with a value of 1
+
         //Inputs
         public const int buttonInputs = 0x21CBC544; //UShort
 
