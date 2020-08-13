@@ -10,13 +10,13 @@ namespace Dark_Cloud_Improved_Version
         [DllImport("user32.dll", SetLastError = true)] //Import DLL that will allow us to retrieve processIDs from Window Handles.
         private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int processID); //This is a function within the dll that we are adding to our program.
 
-        [DllImport("kernel32.dll")] //Import DLL for reading processes and add the function to our program.
+        [DllImport("kernel32.dll", SetLastError = true)] //Import DLL for reading processes and add the function to our program.
         private static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
         [DllImport("kernel32.dll", SetLastError = true)]  //Import DLL again for Closing Handles to processes and add the function to our program.
         internal static extern int CloseHandle(IntPtr processH);
 
-        [DllImport("kernel32.dll")] //Import for reading process memory.
+        [DllImport("kernel32.dll", SetLastError = true)] //Import for reading process memory.
         private static extern int ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
 
         [DllImport("kernel32.dll", SetLastError = true)] //Import for writing process memory.
@@ -57,16 +57,16 @@ namespace Dark_Cloud_Improved_Version
         //Open process with Read and Write permissions
         internal static readonly IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ | PROCESS_SUSPEND_RESUME, false, PID);
 
-        internal static ushort ReadByte(int address)  //Read unsigned short from address
+        internal static ushort ReadByte(int address)  //Read byte from address
         {
             byte[] dataBuffer = new byte[1];
 
             ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
-            return BitConverter.ToUInt16(dataBuffer, 0);
+            return dataBuffer[0];
         }
 
-        internal static ushort ReadUShort(int address)  //Read signed short from address
+        internal static ushort ReadUShort(int address)  //Read unsigned short from address
         {
             byte[] dataBuffer = new byte[2];
 

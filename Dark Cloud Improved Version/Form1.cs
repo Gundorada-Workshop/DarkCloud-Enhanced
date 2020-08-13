@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,9 +18,12 @@ namespace Dark_Cloud_Improved_Version
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)      //dayuppy
+        public static Thread dayThread = new Thread(new ThreadStart(Dayuppy.Testing)); //Create a new thread to run Testing() from within Dayuppy.cs
+
+        private void button1_Click(object sender, EventArgs e)      //Dayuppy
         {
-            //place here the function you want to use from your .cs file        
+            if (!dayThread.IsAlive) //If we are not already running
+                dayThread.Start(); //Start thread
         }
 
         private void button2_Click(object sender, EventArgs e)      //mike

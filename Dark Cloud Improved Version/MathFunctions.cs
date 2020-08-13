@@ -6,12 +6,12 @@
 
         public struct Vector2
         {
-            float X, Y;
+            public float x, y;
         };
 
         public struct Vector3
         {
-            float X, Y, Z;
+            public float x, y, z;
         };
     }
 }
