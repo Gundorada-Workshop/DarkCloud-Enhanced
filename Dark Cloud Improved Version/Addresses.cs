@@ -21,6 +21,15 @@ namespace Dark_Cloud_Improved_Version
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
 
+        //Hide HUD
+        public const int hideHud = 0x202A347C;
+        public const int hideClock = 0x202A2894;
+        public const int showNPCArrows = 0x202A28A4;
+
+        public const int timeofDayRead = 0x202A28F4; //Same as Time of Day value but does not clear when leaving town. Only for reading
+        public const int timeofDayWrite = 0x21CD4310; //Time of Day in town 
+
+
         //The percent of damage poison does to you based on max hp, default is "0.04"
         public const int poisonDamagePercent = 0x202A1860;
 

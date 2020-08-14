@@ -22,6 +22,8 @@ namespace Dark_Cloud_Improved_Version
                      }
                 #endregion
 
+                Memory.WriteInt(Addresses.hideHud, 1);
+
                 Math.Vector3 position = new Math.Vector3();
                 Math.Vector3 dunPosition = new Math.Vector3();
 
