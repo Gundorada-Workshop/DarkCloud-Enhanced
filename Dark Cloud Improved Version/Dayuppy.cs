@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 
@@ -94,14 +95,58 @@ namespace Dark_Cloud_Improved_Version
                 modifiedTexture2 = FileSystem.ReadAllBytes("20429f10.tm2");
                 //modifiedTexture3 = FileSystem.ReadAllBytes("20429f10.tm2");
             }
+            
+            string[] elementName = new string[6];
+
+            elementName[0] = "Fire";
+            elementName[1] = "Ice";
+            elementName[2] = "Thunder";
+            elementName[3] = "Wind";
+            elementName[4] = "Holy";
+            elementName[5] = "None";
 
             while (1 == 1)
             {
+                byte elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot1.element);
                 int currentCharacter = Memory.ReadInt(Player.currentCharacter); //Read 4 bytes of currentCharacter value and check if Toan, Xiao, etc. Toan = 1680945251, Xiao = 1647587427
                 
                 TimeSpan ts = stopWatch.Elapsed;
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10); //Format the TimeSpan value.
                 Console.WriteLine("RunTime " + elapsedTime);
+
+                if ((Memory.ReadUShort(Addresses.buttonInputs) == 4096))  //If DPadUp, go to previous element
+                {
+                    if (Player.inDungeonFloor() == true && elementSelected > 0)
+                    {
+                        elementSelected--;
+                        Memory.WriteByte(Player.Toan.WeaponSlot1.element, elementSelected); //Set element selected
+
+                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+                        Memory.WriteByteArray(Addresses.dunMessage10, MesConvert("Toan's first weapon changed active attribute to   \n" + elementName[elementSelected] + "                         \n                     "));
+                        Thread.Sleep(250);
+                        Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
+                        Thread.Sleep(1000); //Wait one second
+                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+                        Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+                    }
+                }
+
+                if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384))  //If DPadDOWN, go to next element
+                {
+                    if ((Player.inDungeonFloor() == true && elementSelected < 5))
+                    {
+                        elementSelected++;
+                        Memory.WriteByte(Player.Toan.WeaponSlot1.element, elementSelected); //Set element selected
+
+                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+                        Memory.WriteByteArray(Addresses.dunMessage10, MesConvert("Toan's first weapon changed active attribute to   \n" + elementName[elementSelected] + "                         \n                     "));
+                        Thread.Sleep(250);
+                        Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
+                        Thread.Sleep(1000); //Wait one second
+                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+                        Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+                    }
+                }
 
                 #region Cheat Codes
                 if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
@@ -115,6 +160,7 @@ namespace Dark_Cloud_Improved_Version
                             Memory.WriteInt(Addresses.townSoftReset, 1); //If we are in town, this will take us to the main menu
                     }
                 }
+
                 if ((Memory.ReadUShort(Addresses.buttonInputs) == 4111))  //If L1+L2+R1+R2+DpadUp is pressed, activate godmode
                 {
                     Thread.Sleep(2000); //Wait two seconds
@@ -186,11 +232,14 @@ namespace Dark_Cloud_Improved_Version
                 dunPosition.z = Memory.ReadFloat(Player.dunPositionZ);
 
                 Console.WriteLine("Input: " + Memory.ReadUShort(Addresses.buttonInputs));
-                
-                //if(Player.inDungeonFloor() == false)
-                //    Console.WriteLine("Player Position:\t\tX: " + position.x + "\t\tY: " + position.y + "\t\tY: " + position.z);
-                //else
-                //    Console.WriteLine("Dungeon Player Position:\t\tX: " + dunPosition.x + "\t\tY: " + dunPosition.y + "\t\tY: " + dunPosition.z);
+
+                Console.WriteLine("elementSelected: " + elementSelected);
+                Console.WriteLine("elementSelected Name: " + elementName[elementSelected]);
+
+                if (Player.inDungeonFloor() == false)
+                    Console.WriteLine("Player Position:\t\tX: " + position.x + "\t\tY: " + position.y + "\t\tY: " + position.z);
+                else
+                    Console.WriteLine("Dungeon Player Position:\t\tX: " + dunPosition.x + "\t\tY: " + dunPosition.y + "\t\tY: " + dunPosition.z);
 
                 Thread.Sleep(10); //10ms
                 Console.Clear();

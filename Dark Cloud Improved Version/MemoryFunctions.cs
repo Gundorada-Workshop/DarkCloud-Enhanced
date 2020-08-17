@@ -57,7 +57,7 @@ namespace Dark_Cloud_Improved_Version
         //Open process with Read and Write permissions
         internal static readonly IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ | PROCESS_SUSPEND_RESUME, false, PID);
 
-        internal static ushort ReadByte(int address)  //Read byte from address
+        internal static byte ReadByte(int address)  //Read byte from address
         {
             byte[] dataBuffer = new byte[1];
 
