@@ -43,7 +43,7 @@ namespace Dark_Cloud_Improved_Version
 
         internal class Toan
         {
-            public const int hp = 0x21CD955E;
+            public const int hp = 0x21CE1FA8;
             public const int maxHP = 0x21CD9552;
             public const int defence = 0x21CDD894;
             public const int thirst = 0x21CDD850;
@@ -109,7 +109,7 @@ namespace Dark_Cloud_Improved_Version
 
         internal class Xiao
         {
-            public const int hp = 0x21CD9560;
+            public const int hp = 0x21CE1FAA;
             public const int maxHP = 0x21CD9554;
             public const int defence = 0x21CDD898;
         }
