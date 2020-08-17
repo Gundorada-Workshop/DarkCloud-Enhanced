@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using Microsoft.VisualBasic.FileIO;
 
 namespace Dark_Cloud_Improved_Version
 {
