@@ -83,11 +83,17 @@ namespace Dark_Cloud_Improved_Version
 
             int textureAddress1 = 0x20429F10;
             int textureAddress2 = 0x2043A350;
-            int textureAddress3 = 0x2044A790;
+            //int textureAddress3 = 0x2044A790;
 
-            byte[] modifiedTexture1 = FileSystem.ReadAllBytes("20429f10.tm2");
-            byte[] modifiedTexture2 = FileSystem.ReadAllBytes("20429f10.tm2");
-            byte[] modifiedTexture3= FileSystem.ReadAllBytes("20429f10.tm2");
+            byte[] modifiedTexture1 = new byte[] { 0x00 };
+            byte[] modifiedTexture2 = new byte[] { 0x00 };
+
+            if (FileSystem.FileExists("20429f10.tm2"))
+            {
+                modifiedTexture1 = FileSystem.ReadAllBytes("20429f10.tm2");
+                modifiedTexture2 = FileSystem.ReadAllBytes("20429f10.tm2");
+                //modifiedTexture3 = FileSystem.ReadAllBytes("20429f10.tm2");
+            }
 
             while (1 == 1)
             {
