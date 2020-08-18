@@ -20,8 +20,13 @@ namespace Dark_Cloud_Improved_Version
         public const int dunPositionX = 0x21EA1D30;
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
+        
+        public const int townMessageWidth = 0x21EB6438;
+        public const int townMessageHeight = 0x21EB643C;
 
         public const int dunMessage = 0x21EA76B4; //Message box to display while in dungeon - 4294967295 shows nothing
+        public const int dunMessageWidth = 0x21EB6438;
+        public const int dunMessageHeight = 0x21EB643C;
         public const int dunMessage10 = 0x20998BB8; //The address pointing to the text of the 10th dungeon message. 157 Byte array
 
         //Hide HUD

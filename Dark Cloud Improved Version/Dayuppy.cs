@@ -9,9 +9,1676 @@ namespace Dark_Cloud_Improved_Version
 {
     class Dayuppy
     {
+        public static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
         public static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 157); //Read 157 bytes of byte array that stores dungeon message 10
 
-        public static byte[] MesConvert(string message)
+        public static void ElementSwapping()
+        {
+            string[] elementName = new string[6];
+
+            elementName[0] = "Fire";
+            elementName[1] = "Ice";
+            elementName[2] = "Thunder";
+            elementName[3] = "Wind";
+            elementName[4] = "Holy";
+            elementName[5] = "None";
+
+            byte elementSelected;
+
+            while (1 == 1)
+            {
+                int currentCharacter = Player.CurrentCharacterNum();
+                byte currentWeaponSlot;
+
+                if ((Memory.ReadUShort(Addresses.buttonInputs) == 4096 && Player.InDungeonFloor() == true))  //If DPadUp and in dungeon, go to previous element
+                {
+                    switch (currentCharacter)
+                    {
+                        case 0:
+                            currentWeaponSlot = Memory.ReadByte(Player.Toan.currentWeaponSlot);
+
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 1:
+                            currentWeaponSlot = Memory.ReadByte(Player.Xiao.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 2:
+                            currentWeaponSlot = Memory.ReadByte(Player.Goro.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 3:
+                            currentWeaponSlot = Memory.ReadByte(Player.Ruby.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 4:
+                            currentWeaponSlot = Memory.ReadByte(Player.Ungaga.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 5:
+                            currentWeaponSlot = Memory.ReadByte(Player.Osmond.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected > 0)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+                    }
+                }
+
+                if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384 && Player.InDungeonFloor() == true))  //If DPadDOWN, go to next element
+                {
+                    switch (currentCharacter)
+                    {
+                        case 0:
+                            currentWeaponSlot = Memory.ReadByte(Player.Toan.currentWeaponSlot);
+
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Toan.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 1:
+                            currentWeaponSlot = Memory.ReadByte(Player.Xiao.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Xiao.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 2:
+                            currentWeaponSlot = Memory.ReadByte(Player.Goro.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Goro.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Goro.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 3:
+                            currentWeaponSlot = Memory.ReadByte(Player.Ruby.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Ruby.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 4:
+                            currentWeaponSlot = Memory.ReadByte(Player.Ungaga.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Ungaga.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+
+                        case 5:
+                            currentWeaponSlot = Memory.ReadByte(Player.Osmond.currentWeaponSlot);
+                            switch (currentWeaponSlot)
+                            {
+                                case 0:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot0.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 1:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot1.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 2:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot2.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 3:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot3.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 4:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot4.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 5:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot5.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 6:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot6.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 7:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot7.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot8.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected++;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+
+                                case 9:
+                                    elementSelected = Memory.ReadByte(Player.Osmond.WeaponSlot9.elementHUD);
+
+                                    if (elementSelected < 5)
+                                    {
+                                        elementSelected--;
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
+                                        Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
+                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                     ");
+                                    }
+
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+        public static byte[] displayMessage(string message)
         {
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
             byte[] outputMessage = new byte[customMessage.Length * 2];
@@ -20,12 +1687,12 @@ namespace Dark_Cloud_Improved_Version
             
             System.Math.Ceiling(maxNumLines);
 
-            Console.WriteLine();
-            Console.WriteLine("maxNumLines: " + maxNumLines);
-            Console.WriteLine();
-            Console.WriteLine("Custom  Message: " + BitConverter.ToString(customMessage));
-            Console.WriteLine();
-            Console.WriteLine("Dungeon Message: " + BitConverter.ToString(originalDunMessage));
+            //Console.WriteLine();
+            //Console.WriteLine("maxNumLines: " + maxNumLines);
+            //Console.WriteLine();
+            //Console.WriteLine("Custom  Message: " + BitConverter.ToString(customMessage));
+            //Console.WriteLine();
+            //Console.WriteLine("Dungeon Message: " + BitConverter.ToString(originalDunMessage));
 
             byte[] normalCharTable =
             {0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F,
@@ -72,11 +1739,23 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
             Console.WriteLine(BitConverter.ToString(outputMessage));
+
+            Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+            Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
+            Thread.Sleep(50);
+            Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
+            Thread.Sleep(2000); //Wait two seconds
+            Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+            Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+
             return outputMessage;
         }
 
         public static void Testing()
         {
+            if (!elementSwapThread.IsAlive) //If we are not already running
+                elementSwapThread.Start(); //Start thread
+
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
@@ -85,6 +1764,8 @@ namespace Dark_Cloud_Improved_Version
             int textureAddress1 = 0x20429F10;
             int textureAddress2 = 0x2043A350;
             //int textureAddress3 = 0x2044A790;
+
+            byte[] testImage = FileSystem.ReadAllBytes("test.tm2");
 
             byte[] modifiedTexture1 = new byte[] { 0x00 };
             byte[] modifiedTexture2 = new byte[] { 0x00 };
@@ -95,66 +1776,21 @@ namespace Dark_Cloud_Improved_Version
                 modifiedTexture2 = FileSystem.ReadAllBytes("20429f10.tm2");
                 //modifiedTexture3 = FileSystem.ReadAllBytes("20429f10.tm2");
             }
-            
-            string[] elementName = new string[6];
-
-            elementName[0] = "Fire";
-            elementName[1] = "Ice";
-            elementName[2] = "Thunder";
-            elementName[3] = "Wind";
-            elementName[4] = "Holy";
-            elementName[5] = "None";
 
             while (1 == 1)
             {
-                byte elementSelected = Memory.ReadByte(Player.Toan.WeaponSlot1.element);
                 int currentCharacter = Memory.ReadInt(Player.currentCharacter); //Read 4 bytes of currentCharacter value and check if Toan, Xiao, etc. Toan = 1680945251, Xiao = 1647587427
                 
                 TimeSpan ts = stopWatch.Elapsed;
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10); //Format the TimeSpan value.
-                Console.WriteLine("RunTime " + elapsedTime);
+                //Console.WriteLine("RunTime " + elapsedTime);
 
-                if ((Memory.ReadUShort(Addresses.buttonInputs) == 4096))  //If DPadUp, go to previous element
-                {
-                    if (Player.inDungeonFloor() == true && elementSelected > 0)
-                    {
-                        elementSelected--;
-                        Memory.WriteByte(Player.Toan.WeaponSlot1.element, elementSelected); //Set element selected
-
-                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                        Memory.WriteByteArray(Addresses.dunMessage10, MesConvert("Toan's first weapon changed active attribute to   \n" + elementName[elementSelected] + "                         \n                     "));
-                        Thread.Sleep(250);
-                        Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
-                        Thread.Sleep(1000); //Wait one second
-                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                        Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
-                    }
-                }
-
-                if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384))  //If DPadDOWN, go to next element
-                {
-                    if ((Player.inDungeonFloor() == true && elementSelected < 5))
-                    {
-                        elementSelected++;
-                        Memory.WriteByte(Player.Toan.WeaponSlot1.element, elementSelected); //Set element selected
-
-                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                        Memory.WriteByteArray(Addresses.dunMessage10, MesConvert("Toan's first weapon changed active attribute to   \n" + elementName[elementSelected] + "                         \n                     "));
-                        Thread.Sleep(250);
-                        Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
-                        Thread.Sleep(1000); //Wait one second
-                        Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                        Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
-                    }
-                }
-
-                #region Cheat Codes
                 if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
                 {
                     Thread.Sleep(2000); //Wait two seconds
                     if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //Check again
                     {
-                        if (Player.inDungeonFloor() == true)
+                        if (Player.InDungeonFloor() == true)
                             Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
                         else
                             Memory.WriteInt(Addresses.townSoftReset, 1); //If we are in town, this will take us to the main menu
@@ -166,30 +1802,18 @@ namespace Dark_Cloud_Improved_Version
                     Thread.Sleep(2000); //Wait two seconds
                     if ((Memory.ReadUShort(Addresses.buttonInputs) == 4111))  //Check again
                     {
-                        if (Player.inDungeonFloor() == true)
+                        if (Player.InDungeonFloor() == true)
                         {
                             if (godMode == true)
                             {
                                 godMode = false;
-                                Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                                Memory.WriteByteArray(Addresses.dunMessage10, MesConvert("God Mode deactivated.             \n                    \nYou are no longer invincible to enemy damage."));
-                                Thread.Sleep(250);
-                                Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
-                                Thread.Sleep(3000); //Wait three seconds
-                                Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                                Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+                                Memory.WriteByteArray(Addresses.dunMessage10, displayMessage("God Mode deactivated.             \n                    \nYou are no longer invincible to enemy damage."));
                             }
 
                             else if (godMode == false)
                             {
                                 godMode = true;
-                                Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                                Memory.WriteByteArray(Addresses.dunMessage10, MesConvert("God Mode activated.             \n                          \nYou are now invincible to enemy damage.      "));
-                                Thread.Sleep(250);
-                                Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
-                                Thread.Sleep(3000); //Wait three seconds
-                                Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                                Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+                                displayMessage("God Mode activated.             \n                          \nYou are now invincible to enemy damage.      ");
                             }           
                         }
                     }
@@ -198,7 +1822,7 @@ namespace Dark_Cloud_Improved_Version
                 if (godMode == true)
                 {
                     Thread.Sleep(50);
-                    if (Player.inDungeonFloor() == false) //We left the dungeon
+                    if (Player.InDungeonFloor() == false) //We left the dungeon
                         godMode = false; //Disable god mode.
 
                     if (currentCharacter == 1680945251) //Toan
@@ -210,42 +1834,20 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(Player.Xiao.hp, Memory.ReadUShort(Player.Xiao.maxHP)); //Set Xiaos's HP to match max HP
                     }
                 }
-                #endregion
 
-                if (currentCharacter == 1647587427) //If Xiao
+                if (Player.CurrentCharacterNum() == 2) //If Xiao
                 {
                     Memory.WriteByteArray(textureAddress1, modifiedTexture1);
                     Memory.WriteByteArray(textureAddress2, modifiedTexture2);
                     ///Memory.WriteByteArray(textureAddress3, modifiedTexture3);
                 }
-                //Memory.WriteInt(Addresses.hideHud, 1);
+                //Console.WriteLine("Input: " + Memory.ReadUShort(Addresses.buttonInputs));
 
-                Math.Vector3 position = new Math.Vector3();
-                Math.Vector3 dunPosition = new Math.Vector3();
-
-                position.x = Memory.ReadFloat(Player.positionX);
-                position.y = Memory.ReadFloat(Player.positionY);
-                position.z = Memory.ReadFloat(Player.positionZ);
-
-                dunPosition.x = Memory.ReadFloat(Player.dunPositionX);
-                dunPosition.y = Memory.ReadFloat(Player.dunPositionY);
-                dunPosition.z = Memory.ReadFloat(Player.dunPositionZ);
-
-                Console.WriteLine("Input: " + Memory.ReadUShort(Addresses.buttonInputs));
-
-                Console.WriteLine("elementSelected: " + elementSelected);
-                Console.WriteLine("elementSelected Name: " + elementName[elementSelected]);
-
-                if (Player.inDungeonFloor() == false)
-                    Console.WriteLine("Player Position:\t\tX: " + position.x + "\t\tY: " + position.y + "\t\tY: " + position.z);
-                else
-                    Console.WriteLine("Dungeon Player Position:\t\tX: " + dunPosition.x + "\t\tY: " + dunPosition.y + "\t\tY: " + dunPosition.z);
-
-                Thread.Sleep(10); //10ms
-                Console.Clear();
+                //Thread.Sleep(10); //10ms
+                //Console.Clear();
             }
-            //Console.WriteLine("L1+R1+Select+Start was pressed... broke out of loop.");
             //Form1.dayThread.Abort();
+            //elementSwapThread.Abort();
             //stopWatch.Stop();
         }
     }
