@@ -93,6 +93,15 @@ namespace Dark_Cloud_Improved_Version
             return BitConverter.ToInt16(dataBuffer, 0); //Convert Bit Array to 16-bit Int (short) and return it
         }
 
+        internal static uint ReadUInt(int address)
+        {
+            byte[] dataBuffer = new byte[4];
+
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+
+            return BitConverter.ToUInt32(dataBuffer, 0);
+        }
+
         internal static int ReadInt(int address)
         {
             byte[] dataBuffer = new byte[4];

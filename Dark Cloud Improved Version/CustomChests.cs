@@ -42,7 +42,7 @@ namespace Dark_Cloud_Improved_Version
         {
             Console.WriteLine("Chest rando running");
             while (loop == 1) {          
-                if (Player.inDungeonFloor() == true)
+                if (Player.InDungeonFloor() == true)
                 {
                     currentFloor = Memory.ReadByte(Addresses.checkFloor);
 

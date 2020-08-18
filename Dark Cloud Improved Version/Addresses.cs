@@ -24,6 +24,8 @@ namespace Dark_Cloud_Improved_Version
         public const int townMessageWidth = 0x21EB6438;
         public const int townMessageHeight = 0x21EB643C;
 
+        public const int dungeonClear = 0x21DF881C; //If this int = 4294967281, the dungeon is likely cleared. No idea why.
+
         public const int dunMessage = 0x21EA76B4; //Message box to display while in dungeon - 4294967295 shows nothing
         public const int dunMessageWidth = 0x21EB6438;
         public const int dunMessageHeight = 0x21EB643C;

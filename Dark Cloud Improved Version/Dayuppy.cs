@@ -9,10 +9,10 @@ namespace Dark_Cloud_Improved_Version
 {
     class Dayuppy
     {
-        public static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
-        public static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 157); //Read 157 bytes of byte array that stores dungeon message 10
+        private static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
+        private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 158); //Read 158 bytes of byte array that stores dungeon message 10
 
-        public static void ElementSwapping()
+        private static void ElementSwapping()
         {
             string[] elementName = new string[6];
 
@@ -30,7 +30,7 @@ namespace Dark_Cloud_Improved_Version
                 int currentCharacter = Player.CurrentCharacterNum();
                 byte currentWeaponSlot;
 
-                if ((Memory.ReadUShort(Addresses.buttonInputs) == 4096 && Player.InDungeonFloor() == true))  //If DPadUp and in dungeon, go to previous element
+                if (Memory.ReadUShort(Addresses.buttonInputs) == 4096 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0)  //If DPadUp and in dungeon, go to previous element
                 {
                     switch (currentCharacter)
                     {
@@ -853,7 +853,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
-                if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384 && Player.InDungeonFloor() == true))  //If DPadDOWN, go to next element
+                if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0))  //If DPadDOWN, go to next element
                 {
                     switch (currentCharacter)
                     {
@@ -1678,7 +1678,7 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static byte[] displayMessage(string message)
+        private static byte[] displayMessage(string message)
         {
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
             byte[] outputMessage = new byte[customMessage.Length * 2];
@@ -1780,12 +1780,18 @@ namespace Dark_Cloud_Improved_Version
             while (1 == 1)
             {
                 int currentCharacter = Memory.ReadInt(Player.currentCharacter); //Read 4 bytes of currentCharacter value and check if Toan, Xiao, etc. Toan = 1680945251, Xiao = 1647587427
-                
+
+                if (Memory.ReadUInt(Addresses.dungeonClear) == 4294967281)
+                {
+                    Memory.WriteUInt(Addresses.dunMessage, 10); //Display dungeon leave message
+                    Memory.WriteUInt(Addresses.dungeonClear, 0); //Change this value so that the message doesn't get written forever
+                }
+
                 TimeSpan ts = stopWatch.Elapsed;
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10); //Format the TimeSpan value.
                 //Console.WriteLine("RunTime " + elapsedTime);
 
-                if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
+                if (Memory.ReadUShort(Addresses.buttonInputs) == 2319)  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
                 {
                     Thread.Sleep(2000); //Wait two seconds
                     if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //Check again
@@ -1797,10 +1803,10 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
-                if ((Memory.ReadUShort(Addresses.buttonInputs) == 4111))  //If L1+L2+R1+R2+DpadUp is pressed, activate godmode
+                if (Memory.ReadUShort(Addresses.buttonInputs) == 4111)  //If L1+L2+R1+R2+DpadUp is pressed, activate godmode
                 {
                     Thread.Sleep(2000); //Wait two seconds
-                    if ((Memory.ReadUShort(Addresses.buttonInputs) == 4111))  //Check again
+                    if (Memory.ReadUShort(Addresses.buttonInputs) == 4111)  //Check again
                     {
                         if (Player.InDungeonFloor() == true)
                         {
