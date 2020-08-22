@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 
@@ -1684,7 +1683,7 @@ namespace Dark_Cloud_Improved_Version
             byte[] outputMessage = new byte[customMessage.Length * 2];
 
             decimal maxNumLines = customMessage.Length / 28;
-            
+
             System.Math.Ceiling(maxNumLines);
 
             Console.WriteLine();
@@ -1766,6 +1765,19 @@ namespace Dark_Cloud_Improved_Version
             return outputMessage;
         }
 
+        public static void CallGameFunction(byte[] function) // functionBGMStop
+        {
+            Console.WriteLine("Function address to write: {0:X}", Addresses.functionEntryPoint);
+            Console.WriteLine("Current Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
+            Console.WriteLine("Function to write: " + BitConverter.ToString(Addresses.functionOverride));
+            Console.WriteLine("Attempting to write function value. ");
+
+            byte[] function2OriginalOpcode = Memory.ReadByteArray(Addresses.functionEntryPoint2, 4);
+
+            Memory.WriteByteArray(Addresses.functionEntryPoint, Addresses.functionOverride);
+            Memory.WriteByteArray(Addresses.functionEntryPoint2, function); 
+        }
+
         public static void Testing()
         {
             if (!elementSwapThread.IsAlive) //If we are not already running
@@ -1795,6 +1807,11 @@ namespace Dark_Cloud_Improved_Version
                 modifiedTexture2 = FileSystem.ReadAllBytes("20429f10.tm2");
                 //modifiedTexture3 = FileSystem.ReadAllBytes("20429f10.tm2");
             }
+
+
+            CallGameFunction(Addresses.functionBGMStop);
+            Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
+
 
             while (1 == 1)
             {

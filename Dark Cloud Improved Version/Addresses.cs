@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dark_Cloud_Improved_Version
+﻿namespace Dark_Cloud_Improved_Version
 {
     class Addresses
     {
@@ -63,6 +57,13 @@ namespace Dark_Cloud_Improved_Version
         public const int LeftAnalogInputY = 0x21CBC54C;
         public const int RightAnalogInputX = 0x21CBC554;
         public const int RightAnalogInputY = 0x21CBC550;
+
+        public const int functionEntryPoint = 0x201F61F4; //jal BattleMenuDraw__Fv
+        public const int functionEntryPoint2 = 0x201FA8BC; //jal DrawWeaponElemTag__FiiP11WEAPON_HAVEiii
+        
+        public static byte[] functionOverride = { 28, 234, 7, 12 }; //jal DrawWeaponElemTag__FiiP11WEAPON_HAVEiii
+        public static byte[] functionBGMPlay = { 204, 102, 5, 12 };
+        public static byte[] functionBGMStop = { 232, 102, 5, 12 };
 
         public const int checkFloor = 0x21CD954E;   //tells the current floor player is on, updates when entering the floor
 
