@@ -71,5 +71,53 @@
         public const int firstChestSize = 0x21DD0268;       //either small or big chest
         public const int backfloorFirstChest = 0x21DE0D70;
         public const int backfloorFirstChestSize = 0x21DE0D78;
+
+        public const int ItemTbl0 = 0x20270C10 + 4;
+        public const int ItemTbl0_1 = 0x20270E18 + 4;
+        public const int ItemTbl0_2 = 0x20271020;
+
+        public const int ItemTbl1 = 0x20271430 + 4;
+        public const int ItemTbl1_1 = 0x20271638 + 4;
+
+        public const int ItemTbl2 = 0x20271A50 + 4;
+        public const int ItemTbl2_1 = 0x20271C58 + 4;
+
+        public const int ItemTbl3 = 0x20272070 + 4;
+        public const int ItemTbl3_1 = 0x20271C58 + 4;
+        public const int ItemTbl3_2 = 0x20272070 + 4;
+        public const int ItemTbl3_3 = 0x20272278 + 4;
+
+        public const int ItemTbl4 = 0x20272690 + 4;
+        public const int ItemTbl4_1 = 0x20272898 + 4;
+
+        public const int ItemTbl5 = 0x20272CB0 + 4;
+        public const int ItemTbl5_1 = 0x20272EB8 + 4;
+
+        public const int ItemTbl6 = 0x202732D0 + 4;
+        public const int ItemTbl6_1 = 0x202734D8 + 4;
+
+        public const int ItemTbl7 = 0x202738F0 + 4;
+        public const int ItemTbl7_1 = 0x20273AF8 + 4;
+
+        public const int ItemTbl8 = 0x20273F10 + 4;
+        public const int ItemTbl8_1 = 0x20274118 + 4;
+
+        public const int ItemTbl9 = 0x20274530 + 4;
+        public const int ItemTbl9_1 = 0x20274738 + 4;
+
+        public const int ItemTbl10 = 0x20274B50 + 4;
+        public const int ItemTbl10_1 = 0x20274D58 + 4;
+
+        public const int ItemTbl11 = 0x20275170 + 4;
+        public const int ItemTbl11_1 = 0x20275378 + 4;
+
+        public const int ItemTbl12 = 0x20275790 + 4;
+        public const int ItemTbl12_1 = 0x20275998 + 4;
+
+        public const int ItemTbl13 = 0x20275DB0 + 4;
+        public const int ItemTbl13_1 = 0x20275FB8 + 4;
+
+        public const int ItemTblPtr = 0x202763D0;
+        public const int ItemTblUnk = 0x20276410;
     }
 }
