@@ -6,90 +6,105 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Linq;
 
 namespace Dark_Cloud_Improved_Version
 {
     class Dayuppy
     {
         private static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
+        private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
         private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 158); //Read 158 bytes of byte array that stores dungeon message 10
 
-        private static byte[] ItemTbl0 = Memory.ReadByteArray(Addresses.ItemTbl0, 260 - 4);
-        private static byte[] ItemTbl0_1 = Memory.ReadByteArray(Addresses.ItemTbl0_1, 260 - 4);
-        private static byte[] ItemTbl0_2 = Memory.ReadByteArray(Addresses.ItemTbl0_2, 308 - 4);
+        private static byte[] MemTexture1_a = Memory.ReadByteArray(0x20388BF0, 0x203BAAC0 - 0x20388BF0);
+        private static byte[] MemTexture2_a = Memory.ReadByteArray(0x203BAAC0, 0x203E46C0 - 0x203BAAC0);
+        private static byte[] MemTexture3_a = Memory.ReadByteArray(0x203E46C0, 0x203E8B00 - 0x203E46C0);
+        private static byte[] MemTexture4_a = Memory.ReadByteArray(0x203E8B00, 0x20429FA0 - 0x203E8B00);
+        private static byte[] MemTexture5_a = Memory.ReadByteArray(0x20429FA0, 0x2042E3E0 - 0x20429FA0);
+        private static byte[] MemTexture6_a = Memory.ReadByteArray(0x2042E3E0, 0x2043E820 - 0x2042E3E0);
+        private static byte[] MemTexture7_a = Memory.ReadByteArray(0x2043E820, 0x2044EC60 - 0x2043E820);
+        private static byte[] MemTexture8_a = Memory.ReadByteArray(0x2044EC60, 0x2045F0A0 - 0x2044EC60);
+        private static byte[] MemTexture9_a = Memory.ReadByteArray(0x2045F0A0, 0x2046F4E0 - 0x2045F0A0);
+        private static byte[] MemTexture10_a = Memory.ReadByteArray(0x2046F4E0, 0x20475920 - 0x2046F4E0);
+        private static byte[] MemTexture11_a = Memory.ReadByteArray(0x20475920, 0x20649200 - 0x20475920);
+        private static byte[] MemTexture12_a = Memory.ReadByteArray(0x20649200, 0x206528C0 - 0x20649200);
+        private static byte[] MemTexture13_a = Memory.ReadByteArray(0x206528C0, 0x2065BC80 - 0x206528C0);
+        private static byte[] MemTexture14_a = Memory.ReadByteArray(0x2065BC80, 0x2066B420 - 0x2065BC80);
+        private static byte[] MemTexture15_a = Memory.ReadByteArray(0x2066B420, 0x2075E410 - 0x2066B420);
+        private static byte[] MemTexture16_a = Memory.ReadByteArray(0x2075E410, 0x20762850 - 0x2075E410);
+        private static byte[] MemTexture17_a = Memory.ReadByteArray(0x20762850, 0x20766C90 - 0x20762850);
+        private static byte[] MemTexture18_a = Memory.ReadByteArray(0x20766C90, 0x2076B0D0 - 0x20766C90);
+        private static byte[] MemTexture19_a = Memory.ReadByteArray(0x2076B0D0, 0x209CF380 - 0x2076B0D0);
+        private static byte[] MemTexture20_a = Memory.ReadByteArray(0x209CF380, 0x20B69600 - 0x209CF380);
+        private static byte[] MemTexture21_a = Memory.ReadByteArray(0x20B69600, 0x20B73280 - 0x20B69600);
+        private static byte[] MemTexture22_a = Memory.ReadByteArray(0x20B73280, 0x20B7CF00 - 0x20B73280);
+        private static byte[] MemTexture23_a = Memory.ReadByteArray(0x20B7CF00, 0x21698E10 - 0x20B7CF00);
+        private static byte[] MemTexture24_a = Memory.ReadByteArray(0x21698E10, 0x216C9250 - 0x21698E10);
+        private static byte[] MemTexture25_a = Memory.ReadByteArray(0x216C9250, 0x216D9690 - 0x216C9250);
+        private static byte[] MemTexture26_a = Memory.ReadByteArray(0x216D9690, 0x2171FAD0 - 0x216D9690);
+        private static byte[] MemTexture27_a = Memory.ReadByteArray(0x2171FAD0, 0x21747F10 - 0x2171FAD0);
+        private static byte[] MemTexture28_a = Memory.ReadByteArray(0x21747F10, 0x217B6C20 - 0x21747F10);
+        private static byte[] MemTexture29_a = Memory.ReadByteArray(0x217B6C20, 0x217D1770 - 0x217B6C20);
+        private static byte[] MemTexture30_a = Memory.ReadByteArray(0x217D1770, 0x217DB470 - 0x217D1770);
+        private static byte[] MemTexture31_a = Memory.ReadByteArray(0x217DB470, 0x217DF8B0 - 0x217DB470);
+        private static byte[] MemTexture32_a = Memory.ReadByteArray(0x217DF8B0, 0x21824790 - 0x217DF8B0);
+        private static byte[] MemTexture33_a = Memory.ReadByteArray(0x21824790, 0x2182C650 - 0x21824790);
+        private static byte[] MemTexture34_a = Memory.ReadByteArray(0x2182C650, 0x21830DF0 - 0x2182C650);
+        private static byte[] MemTexture35_a = Memory.ReadByteArray(0x21830DF0, 0x21FF0100 - 0x21830DF0);
 
-        private static byte[] ItemTbl1 = Memory.ReadByteArray(Addresses.ItemTbl1, 312 - 4);
-        private static byte[] ItemTbl1_1 = Memory.ReadByteArray(Addresses.ItemTbl1_1, 312 - 4);
+        private static byte[] MemModel1_a = Memory.ReadByteArray(0x2190AA50, 625104); //Toan
 
-        private static byte[] ItemTbl2 = Memory.ReadByteArray(Addresses.ItemTbl1, 308 - 4);
-        private static byte[] ItemTbl2_1 = Memory.ReadByteArray(Addresses.ItemTbl2_1, 312 - 4);
+        private static byte[] ItemTbl0 = Memory.ReadByteArray(Addresses.ItemTbl0, 252);         //DBC 1-7
+        private static byte[] ItemTbl0_1 = Memory.ReadByteArray(Addresses.ItemTbl0_1, 252);     //DBC 9,10,12,13,14
+        private static byte[] ItemTbl0_2 = Memory.ReadByteArray(Addresses.ItemTbl0_2, 304);     //DBC 11
 
-        private static byte[] ItemTbl3 = Memory.ReadByteArray(Addresses.ItemTbl3, 320 - 4);
-        private static byte[] ItemTbl3_1 = Memory.ReadByteArray(Addresses.ItemTbl3_1, 340 - 4);
-        private static byte[] ItemTbl3_2 = Memory.ReadByteArray(Addresses.ItemTbl3_2, 340 - 4);
-        private static byte[] ItemTbl3_3 = Memory.ReadByteArray(Addresses.ItemTbl3_3, 356 - 4);
+        private static byte[] ItemTbl1 = Memory.ReadByteArray(Addresses.ItemTbl1, 308);         //Wise Owl 1-8
+        private static byte[] ItemTbl1_1 = Memory.ReadByteArray(Addresses.ItemTbl1_1, 308);     //Wise Owl 10-16
 
-        private static byte[] ItemTbl4 = Memory.ReadByteArray(Addresses.ItemTbl4, 372 - 4);
-        private static byte[] ItemTbl4_1 = Memory.ReadByteArray(Addresses.ItemTbl4_1, 388 - 4);
+        private static byte[] ItemTbl2 = Memory.ReadByteArray(Addresses.ItemTbl2, 304);         //Shipwreck 1-8
+        private static byte[] ItemTbl2_1 = Memory.ReadByteArray(Addresses.ItemTbl2_1, 308);     //Shipwreck 10-17
+            
+        private static byte[] ItemTbl3 = Memory.ReadByteArray(Addresses.ItemTbl3, 316);         //Sun and Moon 1-8
+        private static byte[] ItemTbl3_1 = Memory.ReadByteArray(Addresses.ItemTbl3_1, 336);     //Unknown
+        private static byte[] ItemTbl3_2 = Memory.ReadByteArray(Addresses.ItemTbl3_2, 336);     //Unknown
+        private static byte[] ItemTbl3_3 = Memory.ReadByteArray(Addresses.ItemTbl3_3, 336);     //Unknown
 
-        private static byte[] ItemTbl5 = Memory.ReadByteArray(Addresses.ItemTbl5, 384 - 4);
-        private static byte[] ItemTbl5_1 = Memory.ReadByteArray(Addresses.ItemTbl5_1, 384 - 4);
+        private static byte[] ItemTbl4 = Memory.ReadByteArray(Addresses.ItemTbl4, 368);         //Moon Sea 1-7
+        private static byte[] ItemTbl4_1 = Memory.ReadByteArray(Addresses.ItemTbl4_1, 384);     //Moon Sea 9-14
 
-        private static byte[] ItemTbl6 = Memory.ReadByteArray(Addresses.ItemTbl6, 380 - 4);
-        private static byte[] ItemTbl6_1 = Memory.ReadByteArray(Addresses.ItemTbl6_1, 380 - 4);
+        private static byte[] ItemTbl5 = Memory.ReadByteArray(Addresses.ItemTbl5, 380);         //Gallery of Time 1-24
+        private static byte[] ItemTbl5_1 = Memory.ReadByteArray(Addresses.ItemTbl5_1, 380);     //Gallery of Time 1-24 (Same)
 
-        private static byte[] ItemTbl7 = Memory.ReadByteArray(Addresses.ItemTbl7, 216 - 4);
-        private static byte[] ItemTbl7_1 = Memory.ReadByteArray(Addresses.ItemTbl7_1, 216 - 4);
+        private static byte[] ItemTbl6 = Memory.ReadByteArray(Addresses.ItemTbl6, 376);         //DemonShaft Unknown
+        private static byte[] ItemTbl6_1 = Memory.ReadByteArray(Addresses.ItemTbl6_1, 376);     //DemonShaft Unknown
 
-        private static byte[] ItemTbl8 = Memory.ReadByteArray(Addresses.ItemTbl8, 216 - 4);
-        private static byte[] ItemTbl8_1 = Memory.ReadByteArray(Addresses.ItemTbl8_1, 216 - 4);
+        private static byte[] ItemTbl7 = Memory.ReadByteArray(Addresses.ItemTbl7, 212);         //DBC Backfloors 1-14
+        private static byte[] ItemTbl7_1 = Memory.ReadByteArray(Addresses.ItemTbl7_1, 212);     //WiseOwl Backfloors 1-16
 
-        private static byte[] ItemTbl9 = Memory.ReadByteArray(Addresses.ItemTbl9, 216 - 4);
-        private static byte[] ItemTbl9_1 = Memory.ReadByteArray(Addresses.ItemTbl9_1, 216 - 4);
+        private static byte[] ItemTbl8 = Memory.ReadByteArray(Addresses.ItemTbl8, 212);         //Shipwreck Backfloors 1-17
+        private static byte[] ItemTbl8_1 = Memory.ReadByteArray(Addresses.ItemTbl8_1, 212);     //Sun and Moon Backfloors 1-17
 
-        private static byte[] ItemTbl10 = Memory.ReadByteArray(Addresses.ItemTbl10, 216 - 4);
-        private static byte[] ItemTbl10_1 = Memory.ReadByteArray(Addresses.ItemTbl10_1, 216 - 4);
+        private static byte[] ItemTbl9 = Memory.ReadByteArray(Addresses.ItemTbl9, 212);         //Moon Sea 1-14
+        private static byte[] ItemTbl9_1 = Memory.ReadByteArray(Addresses.ItemTbl9_1, 212);     //Unknown Backfloor
 
-        private static byte[] ItemTbl11 = Memory.ReadByteArray(Addresses.ItemTbl11, 216 - 4);
-        private static byte[] ItemTbl11_1 = Memory.ReadByteArray(Addresses.ItemTbl11_1, 216 - 4);
+        private static byte[] ItemTbl10 = Memory.ReadByteArray(Addresses.ItemTbl10, 212);       //Unknown Backfloor
+        private static byte[] ItemTbl10_1 = Memory.ReadByteArray(Addresses.ItemTbl10_1, 212);   //Unknown Backfloor
 
-        private static byte[] ItemTbl12 = Memory.ReadByteArray(Addresses.ItemTbl12, 396 - 4);
-        private static byte[] ItemTbl12_1 = Memory.ReadByteArray(Addresses.ItemTbl12_1, 396 - 4);
+        private static byte[] ItemTbl11 = Memory.ReadByteArray(Addresses.ItemTbl11, 212);       //Unknown Backfloor
+        private static byte[] ItemTbl11_1 = Memory.ReadByteArray(Addresses.ItemTbl11_1, 212);   //Unknown Backfloor
 
-        private static byte[] ItemTbl13 = Memory.ReadByteArray(Addresses.ItemTbl3, 300 - 4);
-        private static byte[] ItemTbl13_1 = Memory.ReadByteArray(Addresses.ItemTbl13_1, 300 - 4);
+        private static byte[] ItemTbl12 = Memory.ReadByteArray(Addresses.ItemTbl12, 392);       //GOT Backflloor
+        private static byte[] ItemTbl12_1 = Memory.ReadByteArray(Addresses.ItemTbl12_1, 392);   //Unknown Backfloor
 
-        private static byte[] ItemTblPtr = Memory.ReadByteArray(Addresses.ItemTblPtr, 55);
-        private static byte[] ItemTblUnk = Memory.ReadByteArray(Addresses.ItemTblUnk, 84);
+        private static byte[] ItemTbl13 = Memory.ReadByteArray(Addresses.ItemTbl13, 296);       //Unknown Backfloor
+        private static byte[] ItemTbl13_1 = Memory.ReadByteArray(Addresses.ItemTbl13_1, 296);   //Unknown Backfloor
 
-        //these are tables used in Chest Randomizer mod, to be changed later
-        static int[] tieroneitems = { 132, 133, 134, 135, 145, 146, 148, 151, 152, 153, 155, 160, 161, 162, 163, 164, 165, 166, 167, 169, 170, 174, 175, 177, 227, 233, 234, 245, 246, 247 };
-        static int[] tiertwoitems = { 81, 82, 83, 84, 85, 92, 93, 94, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 147, 149, 154, 159, 168, 176, 186, 187, 188, 189, 190, 193, 193, 195, 196, 197, 198, 199, 201, 202, 203, 204, 205, 206, 235 };
-        static int[] tierthreeitems = { 91, 96, 97, 98, 99, 100, 101, 103, 104, 105, 106, 150, 181, 183, 224, 225, 226, 228, 229, 230, 231 };
-        static int[] tierfouritems = { 95, 102, 107, 136, 137, 138, 139, 140, 141, 178 };
-        static int[] tiertrollitems = { 171, 172, 173, 180, 182, 191, 241, 248, };
-        static int[] tieroneweapons = { 257, 258, 259, 260, 262, 265, 290, 299, 300, 301, 304, 314, 315, 316, 321, 328, 331, 332, 333, 335, 347, 348, 363, 364 };
-        static int[] tiertwoweapons = { 261, 264, 270, 283, 284, 286, 291, 302, 303, 305, 319, 320, 327, 334, 349, 350, 359, 365, 374 };
-        static int[] tierthreeweapons = { 263, 266, 269, 272, 278, 282, 287, 288, 293, 306, 307, 311, 317, 318, 336, 337, 339, 343, 344, 351, 352, 353, 360, 368, 375 };
-        static int[] tierfourweapons = { 267, 271, 279, 281, 285, 289, 292, 294, 308, 312, 322, 338, 354, 369, 370 };
-        static int[] tierfiveweapons = { 273, 274, 275, 276, 280, 309, 323, 340, 355, 356, 371, 372 };
-        static int[] tiersixweapons = { 295, 296, 297, 324, 325, 341, 357, 373 };
-        static int tiersevenweapon = 298;
+        private static byte[] ItemTblPtr = Memory.ReadByteArray(Addresses.ItemTblPtr, 55);      //Unknown Pointer? Not a table.
+        private static byte[] ItemTblUnk = Memory.ReadByteArray(Addresses.ItemTblUnk, 84);      //Unknown
 
-        static int currentFloor;
-        static int prevFloor;
-        static int firstChestItem;
-        static int chestSize;
-        static int tierRoll;
-        static int storeItem;
-        static int itemValue;
-        static int currentAddress;
-        static int checkMimic;
+        private static string[] ItemNameTbl = new string[] { "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Peridot", "Peridot", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Peridot", "Peridot", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Peridot", "Peridot", "Fire", "Ice", "Thunder", "Wind", "Holy", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Attack", "Endurance", "Speed", "Magic", "Garnet", "Amethyst", "Aquamarine", "Diamond", "Emerald", "Pearl", "Ruby", "Peridot", "Sapphire", "Opal", "Topaz", "Turquoise", "Sun", "Unknown", "Unknown", "Unknown", "Dinoslayer", "Undead Buster", "Sea Killer", "Stone Breaker", "Plant Buster", "Beast Buster", "Sky Hunter", "Metal Breaker", "Mimic Breaker", "Mage Slayer", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Anti-Freeze Amulet", "Anti-Curse Amulet", "Anti-Goo Amulet", "Antidote Amulet", "Fluffy Doughnut", "Fish Candy", "Grass Cake", "Witch Parfait", "Scorpion Jerky", "Carrot Cookie", "black square 142", "black square 143", "black square 144", "Regular Water", "Tasty Water", "Premium Water", "Bread", "Premium Chicken", "Stamina Drink", "Antidote Drink", "Holy Water", "Soap", "Mighty Healing", "Cheese", "black square 156", "black square 157", "black square 158", "Bomb", "Stone", "Inferno Gem", "Blizzard Gem", "Lightning Gem", "Whirlwind Gem", "Sacred Gem", "Throbbing Cherry", "Gooey Peach", "Bomb Nuts", "Poisonous Apple", "Mellow Banana", "Medusa Powder", "Unknown", "Warp Powder", "Stand-in Powder", "Escape Powder", "Revival Powder", "Repair Powder", "Powerup Powder", "Pocket", "Fruit of Eden", "Treasure Chest Key", "Gourd", "Auto Repair Powder", "black square 184", "Fishing Rod", "Carrot", "Potato cake", "Minon", "Battan", "Petite Fish", "Saving Book", "Gold Bullion", "Evy", "black square 194", "Dran's Crest", "Shiny Stone", "Mimi", "Red Berry", "Prickly", "Candy", "Hook", "King's Slate", "Gun Powder", "Clock Hands", "Pointy Chestnut", "Black Knight Crest", "Horned Key", "Moon Grass Seed", "Music Box Key", "Sun Signet", "Moon Signet", "Admission Ticket", "black square 213", "black square 214", "black square 215", "Bone Key", "Mustache Key", "Shipcabin Key", "Stone Key", "Handle", "Pitchdark Key", "Silver Key", "black square 223", "Tram Oil", "Sun Dew", "Flapping Fish", "Rotten Fish", "Secret Path Key", "Bravery Launch", "Flapping Duster", "Crystal Eyeball", "black square 232", "Map", "Magical Crystal", "Dran's Feather", "Cave Key", "Changing Potion", "World Map", "Bone Pendant", "Odd Tone Flute", "Magical Lamp", "Moon Orb", "Shell Ring", "Search Warrant", "Ice Block", "Small Ice", "Tiny Ice", "Flame Key", "Hunter's Earring", "Ointment Leaf", "Foundation", "Clay Doll", "Manual", "Sun Sphere", "black square 255", "black square 256", "Dagger (broken)", "Dagger", "Baselard", "Gladius", "Wise Owl Sword", "Crystal Knife", "Antique Sword", "Buster Sword", "Kitchen Knife", "Tsukikage", "Sun Sword", "Serpent Sword", "Macho Sword", "Shamshir", "Heaven's Cloud", "Lamb's Sword", "Dark Cloud", "Brave Ark", "Big Bang", "Atlamillia Sword", "glitched weapon", "Mardan Eins", "Mardan Twei", "Arise Mardan", "Aga's Sword", "Evilcise", "Small Sword", "Sand Breaker", "Drain Seeker", "Chopper", "Choora", "Claymore", "Maneater", "Bone Rapier", "Sax", "7 Branch Sword", "Dusack", "Cross Hinder", "7th Heaven", "Sword Of Zeus", "Chronicle Sword", "Chronicle 2", "Wooden Slingshot (broken)", "Wooden Slingshot", "Steel Slingshot", "Bandit Slingshot", "Steve", "Bone Slingshot", "Hardshooter", "Double Impact", "Dragon's Y", "Divine Beast Title", "Angel Shooter", "Flamingo", "Matador", "Super Steve", "Angel Gear", "Mallet (broken)", "Mallet", "Steel Hammer", "Magical Hammer", "Battle Ax", "Turtle Shell", "Big Bucks Hammer", "Frozen Tuna", "Gaia Hammer", "Last Judgement", "Tall Hammer", "Satan's Ax", "glitched weapon", "Plate Hammer", "Trial Hammer", "Inferno", "glitched weapon", "Gold Ring (broken)", "Gold Ring", "Bandit's Ring", "Crystal Ring", "Platinum Ring", "Goddess Ring", "Fairy's Ring", "Destruction Ring", "Satan's Ring", "Athena's Armlet", "Mobius Ring", "glitched weapon", "Pocklekul", "Thorn Armlet", "Secret Armlet", "glitched weapon", "Fighting Stick (broken)", "Fighting Stick", "Javelin", "Halberd", "DeSanga", "Scorpion", "Partisan", "Mirage", "Terra Sword", "Hercules' Wrath", "Babel's Spear", "glitched weapon", "5 Foot Nail", "Cactus", "glitched weapon", "glitched weapon", "Machine Gun (broken)", "Machine Gun", "Jackal", "Launcher [solid green model]", "Launcher V2 [solid red model]", "Blessing Gun", "Skunk", "G Crusher", "Hex aBlaster", "Star Breaker", "Supernova", "Snail", "Swallow", "empty slot" };
 
-        static int loop = 1;
-
-        static Random rnd = new Random();
-        static Random random = new Random();
+        private static Random random = new Random();
 
         private static int GetRandomLoot(int[] lootTable)
         {
@@ -106,6 +121,7 @@ namespace Dark_Cloud_Improved_Version
             for (int i = 0; i < filteredLootTable.Length; i++) //Increment by 4
             {
                 filteredLootTable[i] = BitConverter.ToInt32(lootTable, t); //Parse the byte arrays and store the int values
+                //Console.WriteLine(ItemNameTbl[filteredLootTable[i]]);
                 t += 4;
             }
 
@@ -117,11 +133,103 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine("Day's test chest randomizer is running...");
             int randomItem = 0;
 
-            while (loop == 1)
+            int currentAddress, checkItemID, firstChestItem, chestSize;
+            int currentDungeon = 0;
+            int currentFloor = 0;
+            int prevFloor = 0;
+
+            byte[] itemTable = ItemTbl0;
+            byte[] backfloorItemTable = ItemTbl0_1;
+
+            while (1 == 1)
             {
+                Thread.Sleep(1000);
                 if (Player.InDungeonFloor() == true)
                 {
                     currentFloor = Memory.ReadByte(Addresses.checkFloor);
+                    currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+
+                    switch (currentDungeon)
+                    {
+                        case 0: //Divine Beast Cave
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl0;
+
+                            else if (currentFloor == 9 || currentFloor == 10 || currentFloor == 12 || currentFloor == 13 || currentFloor == 14) //9 - 10 + 12-14
+                                itemTable = ItemTbl0_1;
+
+                            else if (currentFloor == 11)
+                                itemTable = ItemTbl0_2;
+
+                            backfloorItemTable = ItemTbl7;
+
+                            break;
+
+                        case 1: //Wise Owl
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl1;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl1_1;
+
+                            backfloorItemTable = ItemTbl7_1;
+
+                            break;
+
+                        case 2: //Ship Wreck
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl2;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl2_1;
+
+                            backfloorItemTable = ItemTbl8;
+
+                            break;
+
+                        case 3: //Sun and Moon Temple
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl3;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl3_1; //Maybe
+
+                            backfloorItemTable = ItemTbl8_1;
+
+                            break;
+
+                        case 4: //Moon Sea
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl4;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl4_1;
+
+                            backfloorItemTable = ItemTbl9;
+
+                            break;
+
+                        case 5: //Gallery of Time
+
+                            itemTable = ItemTbl5;
+
+                            backfloorItemTable = ItemTbl12;
+
+                            break;
+
+                        case 6: //Demon Shaft
+
+                            itemTable = ItemTbl6;
+
+                            backfloorItemTable = ItemTbl12_1;
+
+                            break;
+                    }  
 
                     if (currentFloor != prevFloor)  //checking if player has entered a new floor
                     {
@@ -131,26 +239,29 @@ namespace Dark_Cloud_Improved_Version
 
                         if (firstChestItem == 233)  //We check if first chest has the dungeon map. This is because if the floor has a locked door, the game would always place the key on first chest. Doing this check avoids player getting softlocked without the door key.
                         {
-                            chestSize = rnd.Next(8);       //This is the chance for regular chest to be a big chest
+                            chestSize = random.Next(8);       //This is the chance for regular chest to be a big chest
 
                             if (chestSize != 0)     //if roll is not 0, give normal item
                             {
                                 Memory.WriteByte(Addresses.firstChestSize, 1);
 
-                                randomItem = GetRandomLoot(FilterLootTable(ItemTbl0));
+                                randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                while (randomItem < 63 || randomItem > 257) //If valid item and not a weapon, else re-roll
-                                {
-                                    randomItem = GetRandomLoot(FilterLootTable(ItemTbl0));
-                                }
-                                
-                                Memory.WriteInt(Addresses.firstChest, randomItem);
-                                Console.WriteLine("Spawned item:" + randomItem);
+                                while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
                             }
                             else    //if rolled for weapon
                             {
                                 Memory.WriteByte(Addresses.firstChestSize, 0);
-                                Memory.WriteInt(Addresses.firstChest, 259);
+
+                                randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                while (randomItem < 258) //If valid item and not a weapon, else re-roll
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
                             }
                         }
 
@@ -158,35 +269,38 @@ namespace Dark_Cloud_Improved_Version
 
                         for (int i = 0; i < 7; i++)     //going through rest of chests using offsets
                         {
-                            checkMimic = Memory.ReadShort(currentAddress);
+                            checkItemID = Memory.ReadShort(currentAddress);
 
-                            if (checkMimic > 40)    //for some reason, when game spawns mimics it gives them really low item ID, and low ID's are only used in JP version. This checks for potential mimic spawns.
+                            if (checkItemID > 40 && checkItemID != 233 && checkItemID != 234)
                             {
-                                chestSize = rnd.Next(8);
+                                chestSize = random.Next(8);
 
                                 if (chestSize != 0)     //if roll is not 0, give normal item
                                 {
-                                    randomItem = GetRandomLoot(FilterLootTable(ItemTbl0));
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                    while (randomItem < 63 || randomItem > 257) //If valid item and not a weapon, else re-roll
-                                    {
-                                        randomItem = GetRandomLoot(FilterLootTable(ItemTbl0));
-                                    }
+                                    while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
+                                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                    Memory.WriteInt(currentAddress, randomItem);
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
                                     currentAddress += 0x00000008;
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned item:" + randomItem);
+                                    Console.WriteLine("Spawned item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
                                 }
-
                                 else    //if rolled for weapon
                                 {
-                                    Memory.WriteInt(currentAddress, 259);
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                    while (randomItem < 258)
+                                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
                                     currentAddress += 0x00000008;
                                     Memory.WriteByte(currentAddress, 0);
                                     currentAddress += 0x00000038;
+
                                 }
                             }
                             else
@@ -197,35 +311,34 @@ namespace Dark_Cloud_Improved_Version
 
                         for (int i = 0; i < 7; i++)
                         {
-                            chestSize = rnd.Next(25);
+                            chestSize = random.Next(25);
 
-                            checkMimic = Memory.ReadShort(currentAddress);
+                            checkItemID = Memory.ReadShort(currentAddress);
 
-                            if (checkMimic > 40)
+                            if (checkItemID > 40)
                             {
                                 if (chestSize != 0)
                                 {
-                                    randomItem = GetRandomLoot(FilterLootTable(ItemTbl0_1));
+                                    randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
 
-                                    while (randomItem < 63 || randomItem > 257) //If valid item and not a weapon, else re-roll
-                                    {
-                                        randomItem = GetRandomLoot(FilterLootTable(ItemTbl0_1));
-                                    }
+                                    while (randomItem < 63 || randomItem > 258)
+                                        randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
 
-                                    Memory.WriteInt(Addresses.firstChest, randomItem);
-                                    Console.WriteLine("Spawned item:" + randomItem);
-
-                                    Memory.Write(currentAddress, BitConverter.GetBytes(itemValue));
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
                                     currentAddress += 0x00000008;
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned backfloor item:" + itemValue);
-
+                                    Console.WriteLine("Spawned backfloor item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
                                 }
                                 else
                                 {
-                                    Memory.WriteInt(currentAddress, 259);
+                                    randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
+
+                                    while (randomItem < 258)
+                                        randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
+
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
                                     currentAddress += 0x00000008;
                                     Memory.WriteByte(currentAddress, 0);
                                     currentAddress += 0x00000038;
@@ -233,12 +346,9 @@ namespace Dark_Cloud_Improved_Version
                             }
                             else
                                 currentAddress += 0x00000040;
-
                         }
                         prevFloor = currentFloor;   //once everything is done, we initialize this so it wont reroll again in same floor
                     }
-
-
                 }
                 else
                     prevFloor = 200;    //used to reset the floor data when going back to dungeon
@@ -2020,8 +2130,17 @@ namespace Dark_Cloud_Improved_Version
 
         public static void Testing()
         {
-            if (!elementSwapThread.IsAlive) //If we are not already running
-                elementSwapThread.Start(); //Start thread
+            elementSwapThread.Start(); //Start thread
+                dayChestThread.Start();
+
+            //File.WriteAllBytes("Toan.mds", MemModel1_a);
+
+            //byte[] Seda = File.ReadAllBytes("c07a.mds");
+
+            //Memory.WriteByteArray(0x219A3420, Seda);
+            
+            //Console.WriteLine(string.Join("\n", FilterLootTable(ItemTbl1)));
+            //FilterLootTable(ItemTblUnk);
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -2036,26 +2155,23 @@ namespace Dark_Cloud_Improved_Version
             byte[] modifiedTexture1 = new byte[] { 0x00 };
             byte[] modifiedTexture2 = new byte[] { 0x00 };
 
-            if (FileSystem.FileExists("20429f10.tm2"))
+            if (File.Exists("test.tm2"))
             {
-                testImage = FileSystem.ReadAllBytes("test.tm2");
+                testImage = File.ReadAllBytes("test.tm2");
             }
 
-            if (FileSystem.FileExists("20429f10.tm2"))
+            if (File.Exists("20429f10.tm2"))
             {
-                modifiedTexture1 = FileSystem.ReadAllBytes("20429f10.tm2");
-                modifiedTexture2 = FileSystem.ReadAllBytes("20429f10.tm2");
-                //modifiedTexture3 = FileSystem.ReadAllBytes("20429f10.tm2");
+                modifiedTexture1 = File.ReadAllBytes("20429f10.tm2");
+                modifiedTexture2 = File.ReadAllBytes("20429f10.tm2");
+                //modifiedTexture3 = File.ReadAllBytes("20429f10.tm2");
             }
 
             CallGameFunction(Addresses.functionBGMStop);
             Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
 
-
             while (1 == 1)
             {
-                DayChestRandomizer();
-
                 int currentCharacter = Memory.ReadInt(Player.currentCharacter); //Read 4 bytes of currentCharacter value and check if Toan, Xiao, etc. Toan = 1680945251, Xiao = 1647587427
 
                 if (Memory.ReadUInt(Addresses.dungeonClear) == 4294967281)

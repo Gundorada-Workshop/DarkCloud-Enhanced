@@ -66,14 +66,15 @@
         public static byte[] functionBGMStop = { 232, 102, 5, 12 };
 
         public const int checkFloor = 0x21CD954E;   //tells the current floor player is on, updates when entering the floor
+        public const int checkDungeon = 0x202A3594; //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
 
         public const int firstChest = 0x21DD0260;   //first chest rolled in the floor
         public const int firstChestSize = 0x21DD0268;       //either small or big chest
         public const int backfloorFirstChest = 0x21DE0D70;
         public const int backfloorFirstChestSize = 0x21DE0D78;
 
-        public const int ItemTbl0 = 0x20270C10 + 4;
-        public const int ItemTbl0_1 = 0x20270E18 + 4;
+        public const int ItemTbl0 = 0x20270C10 + 8;
+        public const int ItemTbl0_1 = 0x20270E18 + 8;
         public const int ItemTbl0_2 = 0x20271020;
 
         public const int ItemTbl1 = 0x20271430 + 4;
