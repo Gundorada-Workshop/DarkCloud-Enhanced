@@ -233,6 +233,7 @@ namespace Dark_Cloud_Improved_Version
 
                     if (currentFloor != prevFloor)  //checking if player has entered a new floor
                     {
+                        Console.Clear();
                         Thread.Sleep(2000); //2 seconds, waiting for game to roll chests first before we change them
 
                         firstChestItem = Memory.ReadByte(Addresses.firstChest); ;
@@ -260,6 +261,8 @@ namespace Dark_Cloud_Improved_Version
 
                                 while (randomItem < 258) //If valid item and not a weapon, else re-roll
                                     randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                Console.WriteLine("Spawned item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
 
                                 Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
                             }
@@ -301,6 +304,7 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 0);
                                     currentAddress += 0x00000038;
 
+                                    Console.WriteLine("Spawned item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
                                 }
                             }
                             else
