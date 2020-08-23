@@ -2131,16 +2131,7 @@ namespace Dark_Cloud_Improved_Version
         public static void Testing()
         {
             elementSwapThread.Start(); //Start thread
-                dayChestThread.Start();
-
-            //File.WriteAllBytes("Toan.mds", MemModel1_a);
-
-            //byte[] Seda = File.ReadAllBytes("c07a.mds");
-
-            //Memory.WriteByteArray(0x219A3420, Seda);
-            
-            //Console.WriteLine(string.Join("\n", FilterLootTable(ItemTbl1)));
-            //FilterLootTable(ItemTblUnk);
+            DayChestRandomizer();
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -2167,8 +2158,8 @@ namespace Dark_Cloud_Improved_Version
                 //modifiedTexture3 = File.ReadAllBytes("20429f10.tm2");
             }
 
-            CallGameFunction(Addresses.functionBGMStop);
-            Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
+            //CallGameFunction(Addresses.functionBGMStop);
+            //Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
 
             while (1 == 1)
             {
