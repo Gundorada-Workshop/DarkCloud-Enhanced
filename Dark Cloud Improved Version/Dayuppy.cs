@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Diagnostics.Contracts;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -14,45 +15,8 @@ namespace Dark_Cloud_Improved_Version
     {
         private static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
-        private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 158); //Read 158 bytes of byte array that stores dungeon message 10
 
-        private static byte[] MemTexture1_a = Memory.ReadByteArray(0x20388BF0, 0x203BAAC0 - 0x20388BF0);
-        private static byte[] MemTexture2_a = Memory.ReadByteArray(0x203BAAC0, 0x203E46C0 - 0x203BAAC0);
-        private static byte[] MemTexture3_a = Memory.ReadByteArray(0x203E46C0, 0x203E8B00 - 0x203E46C0);
-        private static byte[] MemTexture4_a = Memory.ReadByteArray(0x203E8B00, 0x20429FA0 - 0x203E8B00);
-        private static byte[] MemTexture5_a = Memory.ReadByteArray(0x20429FA0, 0x2042E3E0 - 0x20429FA0);
-        private static byte[] MemTexture6_a = Memory.ReadByteArray(0x2042E3E0, 0x2043E820 - 0x2042E3E0);
-        private static byte[] MemTexture7_a = Memory.ReadByteArray(0x2043E820, 0x2044EC60 - 0x2043E820);
-        private static byte[] MemTexture8_a = Memory.ReadByteArray(0x2044EC60, 0x2045F0A0 - 0x2044EC60);
-        private static byte[] MemTexture9_a = Memory.ReadByteArray(0x2045F0A0, 0x2046F4E0 - 0x2045F0A0);
-        private static byte[] MemTexture10_a = Memory.ReadByteArray(0x2046F4E0, 0x20475920 - 0x2046F4E0);
-        private static byte[] MemTexture11_a = Memory.ReadByteArray(0x20475920, 0x20649200 - 0x20475920);
-        private static byte[] MemTexture12_a = Memory.ReadByteArray(0x20649200, 0x206528C0 - 0x20649200);
-        private static byte[] MemTexture13_a = Memory.ReadByteArray(0x206528C0, 0x2065BC80 - 0x206528C0);
-        private static byte[] MemTexture14_a = Memory.ReadByteArray(0x2065BC80, 0x2066B420 - 0x2065BC80);
-        private static byte[] MemTexture15_a = Memory.ReadByteArray(0x2066B420, 0x2075E410 - 0x2066B420);
-        private static byte[] MemTexture16_a = Memory.ReadByteArray(0x2075E410, 0x20762850 - 0x2075E410);
-        private static byte[] MemTexture17_a = Memory.ReadByteArray(0x20762850, 0x20766C90 - 0x20762850);
-        private static byte[] MemTexture18_a = Memory.ReadByteArray(0x20766C90, 0x2076B0D0 - 0x20766C90);
-        private static byte[] MemTexture19_a = Memory.ReadByteArray(0x2076B0D0, 0x209CF380 - 0x2076B0D0);
-        private static byte[] MemTexture20_a = Memory.ReadByteArray(0x209CF380, 0x20B69600 - 0x209CF380);
-        private static byte[] MemTexture21_a = Memory.ReadByteArray(0x20B69600, 0x20B73280 - 0x20B69600);
-        private static byte[] MemTexture22_a = Memory.ReadByteArray(0x20B73280, 0x20B7CF00 - 0x20B73280);
-        private static byte[] MemTexture23_a = Memory.ReadByteArray(0x20B7CF00, 0x21698E10 - 0x20B7CF00);
-        private static byte[] MemTexture24_a = Memory.ReadByteArray(0x21698E10, 0x216C9250 - 0x21698E10);
-        private static byte[] MemTexture25_a = Memory.ReadByteArray(0x216C9250, 0x216D9690 - 0x216C9250);
-        private static byte[] MemTexture26_a = Memory.ReadByteArray(0x216D9690, 0x2171FAD0 - 0x216D9690);
-        private static byte[] MemTexture27_a = Memory.ReadByteArray(0x2171FAD0, 0x21747F10 - 0x2171FAD0);
-        private static byte[] MemTexture28_a = Memory.ReadByteArray(0x21747F10, 0x217B6C20 - 0x21747F10);
-        private static byte[] MemTexture29_a = Memory.ReadByteArray(0x217B6C20, 0x217D1770 - 0x217B6C20);
-        private static byte[] MemTexture30_a = Memory.ReadByteArray(0x217D1770, 0x217DB470 - 0x217D1770);
-        private static byte[] MemTexture31_a = Memory.ReadByteArray(0x217DB470, 0x217DF8B0 - 0x217DB470);
-        private static byte[] MemTexture32_a = Memory.ReadByteArray(0x217DF8B0, 0x21824790 - 0x217DF8B0);
-        private static byte[] MemTexture33_a = Memory.ReadByteArray(0x21824790, 0x2182C650 - 0x21824790);
-        private static byte[] MemTexture34_a = Memory.ReadByteArray(0x2182C650, 0x21830DF0 - 0x2182C650);
-        private static byte[] MemTexture35_a = Memory.ReadByteArray(0x21830DF0, 0x21FF0100 - 0x21830DF0);
-
-        private static byte[] MemModel1_a = Memory.ReadByteArray(0x2190AA50, 625104); //Toan
+        private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210); //Read 210 bytes of byte array that stores dungeon message 10
 
         private static byte[] ItemTbl0 = Memory.ReadByteArray(Addresses.ItemTbl0, 252);         //DBC 1-7
         private static byte[] ItemTbl0_1 = Memory.ReadByteArray(Addresses.ItemTbl0_1, 252);     //DBC 9,10,12,13,14
@@ -233,7 +197,8 @@ namespace Dark_Cloud_Improved_Version
 
                     if (currentFloor != prevFloor)  //checking if player has entered a new floor
                     {
-                        Console.Clear();
+                        //Console.Clear();
+                        Console.WriteLine();
                         Thread.Sleep(2000); //2 seconds, waiting for game to roll chests first before we change them
 
                         firstChestItem = Memory.ReadByte(Addresses.firstChest); ;
@@ -262,7 +227,7 @@ namespace Dark_Cloud_Improved_Version
                                 while (randomItem < 258) //If valid item and not a weapon, else re-roll
                                     randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                Console.WriteLine("Spawned item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
+                                Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
 
                                 Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
                             }
@@ -290,7 +255,7 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
+                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
                                 }
                                 else    //if rolled for weapon
                                 {
@@ -304,7 +269,7 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 0);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
+                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
                                 }
                             }
                             else
@@ -333,7 +298,7 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned backfloor item:" + randomItem + " Name: " + ItemNameTbl[randomItem]);
+                                    Console.WriteLine("Spawned backfloor item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
                                 }
                                 else
                                 {
@@ -2027,23 +1992,20 @@ namespace Dark_Cloud_Improved_Version
 
         private static byte[] displayMessage(string message)
         {
-            //message =
-            //    "Testing ABCDEFGHIJKLMNOPQRSTUVWXYZ\n" +
-            //    "Testing ABCDEFGHIJKLMNOPQRSTUVWXYZ\n" +
-            //    "Testing ABCDEFGHIJKLMNOPQRSTUVW";
+            message =
+                "Colors^GTest ^W\n" +
+                "Colors^BTest ^W\n" +
+                "Colors^RTest ^W\n" +
+                "Colors^YTest ^W\n" +
+                "Colors^OTest ^W";
+
+            message =
+                "Go to the";
+   
 
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
-            
-            decimal maxNumLines = customMessage.Length / 28;
-
+            byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210);
             byte[] outputMessage = new byte[customMessage.Length * 2];
-
-            System.Math.Ceiling(maxNumLines);
-
-            Console.WriteLine();
-            Console.WriteLine("maxNumLines: " + maxNumLines);
-            Console.WriteLine();
-            Console.WriteLine("Custom  Message: " + BitConverter.ToString(customMessage));
 
             byte[] normalCharTable =
             {0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F,
@@ -2052,35 +2014,58 @@ namespace Dark_Cloud_Improved_Version
             0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F,
             0x70, 0x71, 0x72, 0x73, 0x74 ,0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, //a-z
 
-            //SPC
-            0x20,
-            
-            //.    $      ?    !      %     &   \n
-            0x2E, 0x24, 0x3F, 0x21, 0x25, 0x26, 0x0A
+            //1     2     3     4     5     6     7     8     9
+            0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
 
+            //'     =     "     !     ?     #     &     +     -     *     (     )    @     |     ^
+            0x27, 0x3D, 0x22, 0x21, 0x3F, 0x23, 0x26, 0x2B, 0x2D, 0x2A, 0x28, 0x29, 0x40, 0x7C, 0x5E,
+            
+            //<     >     {    }     [     ]
+            0x3C, 0x3E, 0x7B, 0x7D, 0x5B, 0x5D,
+
+            //.    $     \n    SPC
+            0x2E, 0x24,  0x0A, 0x20,
             };
 
             byte[] dcCharTable =
             {0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
             0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, //A-Z
-            
+
             0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49,
             0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x53, 0x54, //a-z
 
-            //SPC
-            0x02,
+            //1     2     3     4     5     6     7     8     9
+            0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
 
-            //.    $    ?     !    %     &        \n
-            0x6D, 0x6E, 0x59, 0x58, 0x60,  0x5B, 0x00
+            //'     =     "     !     ?     #     &     +     -     *     (     )     @    |     ^
+            0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x61, 0x62, 0x63, 0x64, 0xFF, //Just needed for detection, doesn't matter what this is
             
+            //<     >     {    }     [      ]
+            0x65, 0x66, 0x67, 0x68, 0x69, 0x6A,
+
+            //.     $    \n    SPC
+            0x6D, 0x6E, 0x00, 0x02,
             };
 
+            //Initialize outputMessage to 0xFD
             for (int i = 0; i < outputMessage.Length; i++)
             {
-                outputMessage[i] = 0xFD;  //Initialize outputMessage to 0xFD and add new lines where appropriate
+                outputMessage[i] = 0xFD;  
             }
 
-            Console.WriteLine("Output  Message Initialized to: " + BitConverter.ToString(outputMessage));
+            //Initialize current dungeonMessage to nothing
+            for (int i = 0; i < dungeonMessage.Length; i++)
+            {
+                dungeonMessage[i] = 0xFD;
+            }
+
+            for (int i = 0; i < dungeonMessage.Length; i += 27) //Initialize Dungeon message with three lines.
+            {
+                //newLine
+                dungeonMessage[i] = 0x00;
+                dungeonMessage[i + 1] = 0xFF;
+            }
+            Memory.WriteByteArray(Addresses.dunMessage10, dungeonMessage);
 
             for (int i = 0; i < customMessage.Length; i++)
             {
@@ -2091,8 +2076,7 @@ namespace Dark_Cloud_Improved_Version
                         if (normalCharTable[t] == 0x0A) //newLine
                         {
                             outputMessage[i * 2] = 0x00;
-                            outputMessage[i *2 + 1] = 0xFF;
-                            Console.WriteLine("New line detected.");
+                            outputMessage[i * 2 + 1] = 0xFF;
                         }
 
                         else if (normalCharTable[t] == 0x20) //SPC
@@ -2101,12 +2085,60 @@ namespace Dark_Cloud_Improved_Version
                             outputMessage[i * 2 + 1] = 0xFF;
                         }
 
+                        else if (normalCharTable[t] == 0x5E) //^
+                        {
+                            if (customMessage[i + 1] == 0x57) //W
+                            {
+                                i++;  //Skip displaying the W
+                                outputMessage[i * 2] = 0x01; //White
+                                outputMessage[i * 2 + 1] = 0xFC;
+                            }
+
+                            else if (customMessage[i + 1] == 0x59) //Y
+                            {
+                                i++;
+                                outputMessage[i * 2] = 0x02; //Yellow
+                                outputMessage[i * 2 + 1] = 0xFC;
+                            }
+
+                            else if (customMessage[i + 1] == 0x42) //B
+                            {
+                                i++;
+                                outputMessage[i * 2] = 0x03; //Blue
+                                outputMessage[i * 2 + 1] = 0xFC;
+                            }
+
+                            else if (customMessage[i + 1] == 0x47) //G
+                            {
+                                i++;
+                                outputMessage[i * 2] = 0x04; //Green
+                                outputMessage[i * 2 + 1] = 0xFC;
+                            }
+
+                            //0x05 is a nasty brown color
+
+                            else if (customMessage[i + 1] == 0x4F)
+                            {
+                                i++;
+                                outputMessage[i * 2] = 0x06; //Orange
+                                outputMessage[i * 2 + 1] = 0xFC;
+                            }
+
+                            //0x07 is a gray
+
+                            else if (customMessage[i + 1] == 0x52)
+                            {
+                                i++;
+                                outputMessage[i * 2] = 0xFF; //Red
+                                outputMessage[i * 2 + 1] = 0xFC;
+                            }
+                        }
+
                         else
                             outputMessage[i * 2] = dcCharTable[t];
                     }
                 }
             }
-            Console.WriteLine(BitConverter.ToString(outputMessage));
 
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
@@ -2132,10 +2164,54 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByteArray(Addresses.functionEntryPoint2, function); 
         }
 
+        public static void TestElementFunctionStuff()
+        {
+            bool successful;
+
+            Memory.VirtualProtect(Memory.processH, 0x201B6A0C, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+            successful = Memory.VirtualProtectEx(Memory.processH, 0x201B6A0C, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+            
+            if (successful == false) //There was an error
+                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+
+            successful = Memory.VirtualProtectEx(Memory.processH, 0x201B6A14, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
+
+            if (successful == false) //There was an error
+                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+
+            Memory.WriteInt(0x201B6A0C, 0);
+            //Memory.WriteInt(0x201B6A14, 0);
+        }
+
+        public static void printItemTableNames(byte[] table)
+        {
+            int[] filteredLootTable = new int[table.Length / 4]; //Create a new table to store the ints only
+
+            int t = 0;
+            for (int i = 0; i < filteredLootTable.Length; i++) //Increment by 4
+            {
+                filteredLootTable[i] = BitConverter.ToInt32(table, t); //Parse the byte arrays and store the int values
+                Console.WriteLine(ItemNameTbl[filteredLootTable[i]]);
+                t += 4;
+            }
+        }
+
         public static void Testing()
         {
+            bool TestThisOnly = true;
+
+            if (TestThisOnly == true)
+            {
+                Memory.SuspendProcess(Memory.PID);
+                Thread.Sleep(5000);
+                Memory.ResumeProcess(Memory.PID);
+                return;
+            }
+
+            //printItemTableNames(ItemTbl6);      
+
             elementSwapThread.Start(); //Start thread
-            DayChestRandomizer();
+            dayChestThread.Start();
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -2171,8 +2247,8 @@ namespace Dark_Cloud_Improved_Version
 
                 if (Memory.ReadUInt(Addresses.dungeonClear) == 4294967281)
                 {
-                    Memory.WriteUInt(Addresses.dunMessage, 10); //Display dungeon leave message
-                    Memory.WriteUInt(Addresses.dungeonClear, 0); //Change this value so that the message doesn't get written forever
+                    Memory.WriteInt(Addresses.dunMessage, 10); //Display dungeon leave message
+                    Memory.WriteInt(Addresses.dungeonClear, 0); //Change this value so that the message doesn't get written forever
                 }
 
                 TimeSpan ts = stopWatch.Elapsed;

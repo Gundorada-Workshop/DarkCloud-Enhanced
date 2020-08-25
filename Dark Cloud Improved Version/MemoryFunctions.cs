@@ -8,18 +8,19 @@ namespace Dark_Cloud_Improved_Version
     class Memory
     {
         //Define some needed flags
-        private const uint FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
-        private const uint FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
-        private const uint FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
+        public const uint FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
+        public const uint FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
+        public const uint FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
 
-        private const uint PROCESS_VM_READ = 0x0010;
-        private const uint PROCESS_VM_WRITE = 0x0020;
-        private const uint PROCESS_VM_OPERATION = 0x0008;
+        public const uint PROCESS_VM_READ = 0x0010;
+        public const uint PROCESS_VM_WRITE = 0x0020;
+        public const uint PROCESS_VM_OPERATION = 0x0008;
+        public const uint PROCESS_SUSPEND_RESUME = 0x0800;
 
-        private const uint PAGE_EXECUTE_READWRITE = 0x40;
+        public const uint PAGE_EXECUTE_READWRITE = 0x40;
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern uint GetLastError();
+        public static extern uint GetLastError();
 
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern int FormatMessage(uint dwFlags, IntPtr lpSource, uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer, uint nSize, IntPtr Arguments);
@@ -30,8 +31,11 @@ namespace Dark_Cloud_Improved_Version
         [DllImport("kernel32.dll", SetLastError = true)] //Import DLL for reading processes and add the function to our program.
         private static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
+        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.ThisCall)]
+        public static extern bool VirtualProtect(IntPtr processH, int lpAddress, int lpBuffer, uint flNewProtect, out uint lpflOldProtect);
+
         [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool VirtualProtectEx(IntPtr processH, int lpAddress, int lpBuffer, uint flNewProtect, out uint lpflOldProtect);
+        public static extern bool VirtualProtectEx(IntPtr processH, int lpAddress, int lpBuffer, uint flNewProtect, out uint lpflOldProtect);
 
         [DllImport("kernel32.dll", SetLastError = true)] //Import for reading process memory.
         private static extern bool ReadProcessMemory(IntPtr processH, int lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
@@ -41,7 +45,27 @@ namespace Dark_Cloud_Improved_Version
 
         [DllImport("kernel32.dll", SetLastError = true)]  //Import DLL again for Closing Handles to processes and add the function to our program.
         internal static extern bool CloseHandle(IntPtr processH);
-        
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool DebugActiveProcess(int PID);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool DebugSetProcessKillOnExit(bool boolean);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool DebugActiveProcessStop(int PID);
+
+        public static void SuspendProcess(int processId)
+        {
+            DebugActiveProcess(processId);
+            DebugSetProcessKillOnExit(false);
+        }
+
+        public static void ResumeProcess(int processId)
+        {
+            DebugActiveProcessStop(PID);
+        }
+
         internal static string GetSystemMessage(uint errorCode)
         {
             IntPtr lpMsgBuf = IntPtr.Zero;
@@ -64,8 +88,8 @@ namespace Dark_Cloud_Improved_Version
 
                 hWnd = Processes[0].MainWindowHandle; //Grab the window handle
                 GetWindowThreadProcessId(hWnd, out PID); //Retrieve the ProcessID using the handle to the Window we found and output to PID variable
-                Console.WriteLine("WindowHandle:" + hWnd);
-                Console.WriteLine("PID: " + PID);
+                //Console.WriteLine("WindowHandle:" + hWnd);
+                //Console.WriteLine("PID: " + PID);
                 return PID; //Return our process ID
             }
             
@@ -81,7 +105,7 @@ namespace Dark_Cloud_Improved_Version
         internal static readonly int PID = GetProcessID("pcsx2");   //Case sensitive
 
         //Open process with Read and Write permissions
-        internal static readonly IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
+        internal static readonly IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
 
         internal static byte ReadByte(int address)  //Read byte from address
         {

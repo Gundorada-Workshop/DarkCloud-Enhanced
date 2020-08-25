@@ -24,6 +24,7 @@
         public const int dunMessageWidth = 0x21EB6438;
         public const int dunMessageHeight = 0x21EB643C;
         public const int dunMessage10 = 0x20998BB8; //The address pointing to the text of the 10th dungeon message. 157 Byte array
+        public const int dunMessage11 = 0x20998C8E; //The address pointing to the text of the 11th dungeon message. 172 Byte array
 
         //Hide HUD
         public const int hideHud = 0x202A347C;
