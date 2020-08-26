@@ -8,7 +8,7 @@ namespace Dark_Cloud_Improved_Version
     {
         static void PrintInfo()
         {
-            Console.WriteLine("\nDark Cloud Enhancd - Created by Wordofwind, Dayuppy, MikeZorD, and Plgue");
+            Console.WriteLine("\nDark Cloud Enhanced - Created by Wordofwind, Dayuppy, MikeZorD, and Plgue");
             Console.WriteLine("Version 1.0 - Alpha\n");
         }
 

@@ -1901,7 +1901,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot1
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 2;
+                const byte weaponSlotMultiplier = 1;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -1933,7 +1933,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot2
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 3;
+                const byte weaponSlotMultiplier = 2;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -1965,7 +1965,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot3
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 4;
+                const byte weaponSlotMultiplier = 3;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -1997,7 +1997,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot4
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 5;
+                const byte weaponSlotMultiplier = 4;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -2029,7 +2029,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot5
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 6;
+                const byte weaponSlotMultiplier = 5;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -2061,7 +2061,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot6
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 7;
+                const byte weaponSlotMultiplier = 6;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -2093,7 +2093,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot7
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 8;
+                const byte weaponSlotMultiplier = 7;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -2125,7 +2125,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot8
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 9;
+                const byte weaponSlotMultiplier = 8;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
@@ -2157,7 +2157,7 @@ namespace Dark_Cloud_Improved_Version
             internal class WeaponSlot9
             {
                 const int offset = 0xF8;
-                const byte weaponSlotMultiplier = 10;
+                const byte weaponSlotMultiplier = 9;
 
                 public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
