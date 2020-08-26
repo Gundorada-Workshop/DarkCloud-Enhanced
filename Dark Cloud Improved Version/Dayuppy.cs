@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Diagnostics.Contracts;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -90,6 +92,238 @@ namespace Dark_Cloud_Improved_Version
             }
 
             return filteredLootTable;
+        }
+
+        public static void EnemyDropRandomizer()
+        {
+            Console.WriteLine("Day's test monster drop randomizer is running...");
+            int randomItem = 0;
+
+            int currentAddress, checkItemID, firstChestItem, chestSize;
+            int currentDungeon = 0;
+            int currentFloor = 0;
+            int prevFloor = 0;
+
+            byte[] itemTable = ItemTbl0;
+            byte[] backfloorItemTable = ItemTbl0_1;
+
+            while (1 == 1)
+            {
+                Thread.Sleep(1000);
+                if (Player.InDungeonFloor() == true)
+                {
+                    currentFloor = Memory.ReadByte(Addresses.checkFloor);
+                    currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+
+                    switch (currentDungeon)
+                    {
+                        case 0: //Divine Beast Cave
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl0;
+
+                            else if (currentFloor == 9 || currentFloor == 10 || currentFloor == 12 || currentFloor == 13 || currentFloor == 14) //9 - 10 + 12-14
+                                itemTable = ItemTbl0_1;
+
+                            else if (currentFloor == 11)
+                                itemTable = ItemTbl0_2;
+
+                            backfloorItemTable = ItemTbl7;
+
+                            break;
+
+                        case 1: //Wise Owl
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl1;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl1_1;
+
+                            backfloorItemTable = ItemTbl7_1;
+
+                            break;
+
+                        case 2: //Ship Wreck
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl2;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl2_1;
+
+                            backfloorItemTable = ItemTbl8;
+
+                            break;
+
+                        case 3: //Sun and Moon Temple
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl3;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl3_1; //Maybe
+
+                            backfloorItemTable = ItemTbl8_1;
+
+                            break;
+
+                        case 4: //Moon Sea
+
+                            if (currentFloor <= 8)
+                                itemTable = ItemTbl4;
+
+                            else if (currentFloor >= 9)
+                                itemTable = ItemTbl4_1;
+
+                            backfloorItemTable = ItemTbl9;
+
+                            break;
+
+                        case 5: //Gallery of Time
+
+                            itemTable = ItemTbl5;
+
+                            backfloorItemTable = ItemTbl12;
+
+                            break;
+
+                        case 6: //Demon Shaft
+
+                            itemTable = ItemTbl6;
+
+                            backfloorItemTable = ItemTbl12_1;
+
+                            break;
+                    }
+
+                    if (currentFloor != prevFloor)  //checking if player has entered a new floor
+                    {
+                        //Console.Clear();
+                        Console.WriteLine();
+                        Thread.Sleep(2000); //2 seconds, waiting for game to roll chests first before we change them
+
+                        firstChestItem = Memory.ReadByte(Addresses.firstChest); ;
+
+                        if (firstChestItem == 233)  //We check if first chest has the dungeon map. This is because if the floor has a locked door, the game would always place the key on first chest. Doing this check avoids player getting softlocked without the door key.
+                        {
+                            chestSize = random.Next(8);       //This is the chance for regular chest to be a big chest
+
+                            if (chestSize != 0)     //if roll is not 0, give normal item
+                            {
+                                Memory.WriteByte(Addresses.firstChestSize, 1);
+
+                                randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
+                            }
+                            else    //if rolled for weapon
+                            {
+                                Memory.WriteByte(Addresses.firstChestSize, 0);
+
+                                randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                while (randomItem < 258) //If valid item and not a weapon, else re-roll
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+
+                                Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
+                            }
+                        }
+
+                        currentAddress = Addresses.firstChest + 0x00000040;     //using the offset to reach 2nd chest
+
+                        for (int i = 0; i < 7; i++)     //going through rest of chests using offsets
+                        {
+                            checkItemID = Memory.ReadShort(currentAddress);
+
+                            if (checkItemID > 40 && checkItemID != 233 && checkItemID != 234)
+                            {
+                                chestSize = random.Next(8);
+
+                                if (chestSize != 0)     //if roll is not 0, give normal item
+                                {
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                    while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
+                                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
+                                    currentAddress += 0x00000008;
+                                    Memory.WriteByte(currentAddress, 1);
+                                    currentAddress += 0x00000038;
+
+                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+                                }
+                                else    //if rolled for weapon
+                                {
+                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                    while (randomItem < 258)
+                                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
+
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
+                                    currentAddress += 0x00000008;
+                                    Memory.WriteByte(currentAddress, 0);
+                                    currentAddress += 0x00000038;
+
+                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+                                }
+                            }
+                            else
+                                currentAddress += 0x00000040;
+                        }
+
+                        currentAddress = Addresses.backfloorFirstChest;
+
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chestSize = random.Next(25);
+
+                            checkItemID = Memory.ReadShort(currentAddress);
+
+                            if (checkItemID > 40)
+                            {
+                                if (chestSize != 0)
+                                {
+                                    randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
+
+                                    while (randomItem < 63 || randomItem > 258)
+                                        randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
+
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
+                                    currentAddress += 0x00000008;
+                                    Memory.WriteByte(currentAddress, 1);
+                                    currentAddress += 0x00000038;
+
+                                    Console.WriteLine("Spawned backfloor item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+                                }
+                                else
+                                {
+                                    randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
+
+                                    while (randomItem < 258)
+                                        randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
+
+                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
+                                    currentAddress += 0x00000008;
+                                    Memory.WriteByte(currentAddress, 0);
+                                    currentAddress += 0x00000038;
+                                }
+                            }
+                            else
+                                currentAddress += 0x00000040;
+                        }
+                        prevFloor = currentFloor;   //once everything is done, we initialize this so it wont reroll again in same floor
+                    }
+                }
+                else
+                    prevFloor = 200;    //used to reset the floor data when going back to dungeon
+            }
         }
 
         public static void DayChestRandomizer()
@@ -324,7 +558,7 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-    private static void ElementSwapping()
+        private static void ElementSwapping()
         {
             string[] elementName = new string[6];
 
@@ -2196,15 +2430,126 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        [Flags]
+        enum Specials1
+        {
+            None        =   0b_00000000,   // 0
+            Unknown     =   0b_00000001,   // 1
+            BigBucks    =   0b_00000010,   // 2
+            Poor        =   0b_00000100,   // 4
+            Quench      =   0b_00001000,   // 8
+            Thirst      =   0b_00010000,   // 16
+            Poison      =   0b_00100000,   // 32
+            Stop        =   0b_01000000,   // 64
+            Steal       =   0b_10000000,   // 128
+            All         =   0b_11111111,   // 254      
+        }
+
+        [Flags]
+        enum Specials2
+        {
+            None        =   0b_00000000,   // 0
+            Fragile     =   0b_00000001,   // 1
+            Durable     =   0b_00000010,   // 2
+            Drain       =   0b_00000100,   // 4
+            Heal        =   0b_00001000,   // 8
+            Critical    =   0b_00010000,   // 16
+            AbsUp       =   0b_00100000,   // 32
+            All         =   0b_00111111,   // 63 
+        }
+
+        static void CheckSpecials1()
+        {
+            Specials1 special1 = (Specials1)Memory.ReadByte(Player.Toan.WeaponSlot0.special1); //Pull our value from the memory and cast it to our enumerated Specials type
+            
+            if (special1.HasFlag(Specials1.Unknown))
+                Console.WriteLine("Weapon Slot 0 has Unknown Ability");
+
+            if (special1.HasFlag(Specials1.BigBucks))
+                Console.WriteLine("Weapon Slot 0 has BigBucks Ability");
+
+            if (special1.HasFlag(Specials1.Poor))
+                Console.WriteLine("Weapon Slot 0 has Poor Ability");
+
+            if (special1.HasFlag(Specials1.Quench))
+                Console.WriteLine("Weapon Slot 0 has Quench Ability");
+
+            if (special1.HasFlag(Specials1.Thirst))
+                Console.WriteLine("Weapon Slot 0 has Thirst Ability");
+
+            if (special1.HasFlag(Specials1.Poison))
+                Console.WriteLine("Weapon Slot 0 has Poison Ability");
+
+            if (special1.HasFlag(Specials1.Stop))
+                Console.WriteLine("Weapon Slot 0 has Stop Ability");
+
+            if (special1.HasFlag(Specials1.Steal))
+                Console.WriteLine("Weapon Slot 0 has Steal Ability");
+        }
+
+        static void TestBitField(Specials1 special1, Specials2 special2)
+        {
+            Console.WriteLine(special1 + " " + (byte)special1);
+            Console.WriteLine(special2 + " " + (byte)special2);
+        }
+
+        public static void retrieveMemTextures()
+        {
+            byte[] TIM2_Header = new byte[] { 0x54, 0x49, 0x4D, 0x32, 0x03, 0x00, 0x01 };
+            byte[] texture;
+            int size;
+            int resultIndex;
+
+            Console.WriteLine("Retreiving and writing textures from memory to disk. This may take some time...");
+
+            List<int> results = Memory.ByteArraySearch(0x20B69600, 0x2191F530, TIM2_Header);
+
+            if (!Directory.Exists("memtextures"))
+                Directory.CreateDirectory("memtextures");
+
+            for (resultIndex = 0; resultIndex < results.Count - 1; resultIndex++)
+            {
+                size = results[resultIndex + 1] - results[resultIndex]; //This will not be able to determine the size of the last texture
+                texture = Memory.ReadByteArray(results[resultIndex], size);
+
+                File.WriteAllBytes("memtextures\\MemTexture" + resultIndex.ToString() + ".tm2", texture);
+            }
+
+            //Write our last texture
+            size = 8388608; //Pick a big size, the texture file will still open without issue
+            texture = Memory.ReadByteArray(results[resultIndex], size);
+
+            File.WriteAllBytes("memtextures\\MemTexture" + (resultIndex).ToString() + ".tm2", texture);
+
+            Console.WriteLine("Finished writing textures to disk.");
+        } 
+
         public static void Testing()
         {
             bool TestThisOnly = true;
 
             if (TestThisOnly == true)
             {
-                Memory.SuspendProcess(Memory.PID);
-                Thread.Sleep(5000);
-                Memory.ResumeProcess(Memory.PID);
+                //List<int> results = Memory.StringSearch(0x20000000, 0x22000000, "TIM2");
+
+                //for (int i = 0; i < results.Count; i++)
+                //    Console.WriteLine("0x{0:X8}", results[i]);
+
+                //byte[] TIM2_Header = new byte[] { 0x54, 0x49, 0x4D, 0x32, 0x03, 0x00, 0x01};
+
+                //List<int> results = Memory.ByteArraySearch(0x20900000, 0x22000000, TIM2_Header);
+
+                //for (int i = 0; i < results.Count; i++)
+                //    Console.WriteLine("0x{0:X8}", results[i]);
+
+                retrieveMemTextures();
+
+                //Specials1 special1 = Specials1.None;
+                //Specials2 special2 = Specials2.Critical;
+
+                //CheckSpecials1();
+                //TestBitField(special1, special2);
+                //Memory.WriteUShort(Enemies.Enemy13.hp, 1000); 
                 return;
             }
 
@@ -2243,6 +2588,8 @@ namespace Dark_Cloud_Improved_Version
 
             while (1 == 1)
             {
+                Memory.WriteFloat(Player.Ungaga.WeaponSlot4.whp, 5000);
+
                 int currentCharacter = Memory.ReadInt(Player.currentCharacter); //Read 4 bytes of currentCharacter value and check if Toan, Xiao, etc. Toan = 1680945251, Xiao = 1647587427
 
                 if (Memory.ReadUInt(Addresses.dungeonClear) == 4294967281)

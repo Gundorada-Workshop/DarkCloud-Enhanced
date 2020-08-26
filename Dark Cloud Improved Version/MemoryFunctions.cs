@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -116,7 +118,7 @@ namespace Dark_Cloud_Improved_Version
             return dataBuffer[0];
         }
 
-        internal static byte[] ReadByteArray(int address, uint numBytes)  //Read byte from address
+        internal static byte[] ReadByteArray(int address, int numBytes)  //Read byte from address
         {
             byte[] dataBuffer = new byte[numBytes];
 
@@ -170,13 +172,23 @@ namespace Dark_Cloud_Improved_Version
             return BitConverter.ToSingle(dataBuffer, 0);
         }
 
-        internal static Double ReadDouble(int address)
+        internal static double ReadDouble(int address)
         {
             byte[] dataBuffer = new byte[8];
 
-            ReadProcessMemory(processH, address, dataBuffer, 8, out _);
+            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
 
             return BitConverter.ToDouble(dataBuffer, 0); ;
+        }
+
+        internal static string ReadString(int address, int length)
+        {
+            //http://stackoverflow.com/questions/1003275/how-to-convert-byte-to-string
+            byte[] dataBuffer = new byte[length];
+
+            ReadProcessMemory(processH, address, dataBuffer, length, out _);
+     
+            return Encoding.GetEncoding(10000).GetString(dataBuffer);
         }
 
         internal static bool Write(int address, byte[] value)
@@ -184,12 +196,12 @@ namespace Dark_Cloud_Improved_Version
             return WriteProcessMemory(processH, address, value, value.Length, out _);
         }
 
-        internal static bool WriteString(int address, String value) //Untested
+        internal static bool WriteString(int address, string stringToWrite) //Untested
         {
             // http://stackoverflow.com/questions/16072709/converting-string-to-byte-array-in-c-sharp
-            var arr = Encoding.GetEncoding(10000).GetBytes(value); //Western European (Mac) Encoding Table
+            byte[] dataBuffer = Encoding.GetEncoding(10000).GetBytes(stringToWrite); //Western European (Mac) Encoding Table
 
-            return WriteProcessMemory(processH, address, arr, arr.Length, out _);
+            return WriteProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
         }
 
         internal static bool WriteByte(int address, byte value)
@@ -235,6 +247,59 @@ namespace Dark_Cloud_Improved_Version
         internal static bool WriteDouble(int address, double value)
         {
             return Write(address, BitConverter.GetBytes(value));
+        }
+
+        internal static List<int> StringSearch(int startOffset, int stopOffset, string searchString)
+        {
+            byte[] stringBuffer = new byte[searchString.Length];
+            List<int> resultsList = new List<int>();
+
+            VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
+
+            Console.WriteLine("Searching for " + searchString + ". This may take awhile.");
+
+            for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
+            {
+                if (ReadString(currentOffset, stringBuffer.Length) == searchString) //If we found a match
+                    resultsList.Add(currentOffset); //Add it to the list
+
+                ReadString(currentOffset, stringBuffer.Length); //Search for our string at the current offset
+            }
+            return resultsList;
+        }
+
+        internal static List<int> IntSearch(int startOffset, int stopOffset, int searchValue)
+        {
+            List<int> resultsList = new List<int>();
+
+            VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
+
+            Console.WriteLine("Searching for " + searchValue + ". This may take awhile.");
+
+            for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
+            {
+                if (ReadInt(currentOffset) == searchValue)
+                    resultsList.Add(currentOffset);
+
+                ReadInt(currentOffset);
+            }
+            return resultsList;
+        }
+
+        internal static List<int> ByteArraySearch(int startOffset, int stopOffset, byte[] byteArray)
+        {
+            List<int> resultsList = new List<int>();
+
+            VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _);
+
+            for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
+            {
+                if (ReadByteArray(currentOffset, byteArray.Length).SequenceEqual(byteArray))
+                    resultsList.Add(currentOffset);
+
+                ReadInt(currentOffset);
+            }
+            return resultsList;
         }
     }
 }

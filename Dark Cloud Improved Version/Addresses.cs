@@ -74,50 +74,50 @@
         public const int backfloorFirstChest = 0x21DE0D70;
         public const int backfloorFirstChestSize = 0x21DE0D78;
 
-        public const int ItemTbl0 = 0x20270C10 + 8;
-        public const int ItemTbl0_1 = 0x20270E18 + 8;
+        public const int ItemTbl0 = 0x20270C18;
+        public const int ItemTbl0_1 = 0x20270E20;
         public const int ItemTbl0_2 = 0x20271020;
 
-        public const int ItemTbl1 = 0x20271430 + 4;
-        public const int ItemTbl1_1 = 0x20271638 + 4;
+        public const int ItemTbl1 = 0x20271434;
+        public const int ItemTbl1_1 = 0x2027163C;
 
-        public const int ItemTbl2 = 0x20271A50 + 4;
-        public const int ItemTbl2_1 = 0x20271C58 + 4;
+        public const int ItemTbl2 = 0x20271A54;
+        public const int ItemTbl2_1 = 0x20271C5C;
 
-        public const int ItemTbl3 = 0x20272070 + 4;
-        public const int ItemTbl3_1 = 0x20271C58 + 4;
-        public const int ItemTbl3_2 = 0x20272070 + 4;
-        public const int ItemTbl3_3 = 0x20272278 + 4;
+        public const int ItemTbl3 = 0x20272074;
+        public const int ItemTbl3_1 = 0x20271C5C;
+        public const int ItemTbl3_2 = 0x20272074;
+        public const int ItemTbl3_3 = 0x2027227C;
 
-        public const int ItemTbl4 = 0x20272690 + 4;
-        public const int ItemTbl4_1 = 0x20272898 + 4;
+        public const int ItemTbl4 = 0x20272694;
+        public const int ItemTbl4_1 = 0x2027289C;
 
-        public const int ItemTbl5 = 0x20272CB0 + 4;
-        public const int ItemTbl5_1 = 0x20272EB8 + 4;
+        public const int ItemTbl5 = 0x20272CB4;
+        public const int ItemTbl5_1 = 0x20272EBC;
 
-        public const int ItemTbl6 = 0x202732D0 + 4;
-        public const int ItemTbl6_1 = 0x202734D8 + 4;
+        public const int ItemTbl6 = 0x202732D4;
+        public const int ItemTbl6_1 = 0x202734DC;
 
-        public const int ItemTbl7 = 0x202738F0 + 4;
-        public const int ItemTbl7_1 = 0x20273AF8 + 4;
+        public const int ItemTbl7 = 0x202738F4;
+        public const int ItemTbl7_1 = 0x20273AFC;
 
-        public const int ItemTbl8 = 0x20273F10 + 4;
-        public const int ItemTbl8_1 = 0x20274118 + 4;
+        public const int ItemTbl8 = 0x20273F14;
+        public const int ItemTbl8_1 = 0x2027411C;
 
-        public const int ItemTbl9 = 0x20274530 + 4;
-        public const int ItemTbl9_1 = 0x20274738 + 4;
+        public const int ItemTbl9 = 0x20274534;
+        public const int ItemTbl9_1 = 0x2027473C;
 
-        public const int ItemTbl10 = 0x20274B50 + 4;
-        public const int ItemTbl10_1 = 0x20274D58 + 4;
+        public const int ItemTbl10 = 0x20274B54;
+        public const int ItemTbl10_1 = 0x20274D5C;
 
-        public const int ItemTbl11 = 0x20275170 + 4;
-        public const int ItemTbl11_1 = 0x20275378 + 4;
+        public const int ItemTbl11 = 0x20275174;
+        public const int ItemTbl11_1 = 0x2027537C;
 
-        public const int ItemTbl12 = 0x20275790 + 4;
-        public const int ItemTbl12_1 = 0x20275998 + 4;
+        public const int ItemTbl12 = 0x20275794;
+        public const int ItemTbl12_1 = 0x2027599C;
 
-        public const int ItemTbl13 = 0x20275DB0 + 4;
-        public const int ItemTbl13_1 = 0x20275FB8 + 4;
+        public const int ItemTbl13 = 0x20275DB4;
+        public const int ItemTbl13_1 = 0x20275FBC;
 
         public const int ItemTblPtr = 0x202763D0;
         public const int ItemTblUnk = 0x20276410;

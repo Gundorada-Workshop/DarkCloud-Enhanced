@@ -44,7 +44,7 @@ namespace Dark_Cloud_Improved_Version
    
             else
             {
-                Console.WriteLine("Failed to copy " + path + ". Does the file exist?");
+                Console.WriteLine("Failed to copy " + path + ". Does the file exist in the same directory?");
                 return false;
             }
         }

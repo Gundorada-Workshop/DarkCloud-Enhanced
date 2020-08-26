@@ -53,6 +53,7 @@
     <Compile Include="Addresses.cs" />
     <Compile Include="CustomChests.cs" />
     <Compile Include="Dayuppy.cs" />
+    <Compile Include="Enemies.cs" />
     <Compile Include="MenuShortcuts.cs" />
     <Compile Include="Dungeon.cs" />
     <Compile Include="MathFunctions.cs" />
