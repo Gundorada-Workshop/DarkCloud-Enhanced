@@ -121,5 +121,7 @@
 
         public const int ItemTblPtr = 0x202763D0;
         public const int ItemTblUnk = 0x20276410;
+
+        public const int ItemPriceTable = 0x20291B80;
     }
 }

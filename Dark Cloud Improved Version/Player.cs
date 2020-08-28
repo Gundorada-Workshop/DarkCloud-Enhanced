@@ -5,6 +5,8 @@ namespace Dark_Cloud_Improved_Version
     internal class Player
     {
         public const int gilda = 0x21CDD892;
+
+
         public const int magicCrystal = 0x202A35A0;
         public const int map = 0x202A359C;
         public const int miniMap = 0x202A35B0;

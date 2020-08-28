@@ -10,6 +10,7 @@ namespace Dark_Cloud_Improved_Version
         public static int HexStringToInt(string stringToParse)
         {
             int.TryParse(stringToParse, System.Globalization.NumberStyles.HexNumber, null, out int result);
+
             return result;
         }
 

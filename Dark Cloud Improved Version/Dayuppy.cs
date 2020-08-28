@@ -1,14 +1,8 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using System;
+﻿using System;
 using System.IO;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
-using System.Security.Cryptography;
-using System.Linq;
-using System.Diagnostics.Contracts;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
@@ -16,6 +10,7 @@ namespace Dark_Cloud_Improved_Version
     class Dayuppy
     {
         private static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
+        private static Thread dayEnemyThread = new Thread(new ThreadStart(EnemyDropRandomizer)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
 
         private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210); //Read 210 bytes of byte array that stores dungeon message 10
@@ -68,15 +63,24 @@ namespace Dark_Cloud_Improved_Version
         private static byte[] ItemTblPtr = Memory.ReadByteArray(Addresses.ItemTblPtr, 55);      //Unknown Pointer? Not a table.
         private static byte[] ItemTblUnk = Memory.ReadByteArray(Addresses.ItemTblUnk, 84);      //Unknown
 
-        private static string[] ItemNameTbl = new string[] { "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Peridot", "Peridot", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Peridot", "Peridot", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Peridot", "Peridot", "Fire", "Ice", "Thunder", "Wind", "Holy", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Attack", "Endurance", "Speed", "Magic", "Garnet", "Amethyst", "Aquamarine", "Diamond", "Emerald", "Pearl", "Ruby", "Peridot", "Sapphire", "Opal", "Topaz", "Turquoise", "Sun", "Unknown", "Unknown", "Unknown", "Dinoslayer", "Undead Buster", "Sea Killer", "Stone Breaker", "Plant Buster", "Beast Buster", "Sky Hunter", "Metal Breaker", "Mimic Breaker", "Mage Slayer", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Anti-Freeze Amulet", "Anti-Curse Amulet", "Anti-Goo Amulet", "Antidote Amulet", "Fluffy Doughnut", "Fish Candy", "Grass Cake", "Witch Parfait", "Scorpion Jerky", "Carrot Cookie", "black square 142", "black square 143", "black square 144", "Regular Water", "Tasty Water", "Premium Water", "Bread", "Premium Chicken", "Stamina Drink", "Antidote Drink", "Holy Water", "Soap", "Mighty Healing", "Cheese", "black square 156", "black square 157", "black square 158", "Bomb", "Stone", "Inferno Gem", "Blizzard Gem", "Lightning Gem", "Whirlwind Gem", "Sacred Gem", "Throbbing Cherry", "Gooey Peach", "Bomb Nuts", "Poisonous Apple", "Mellow Banana", "Medusa Powder", "Unknown", "Warp Powder", "Stand-in Powder", "Escape Powder", "Revival Powder", "Repair Powder", "Powerup Powder", "Pocket", "Fruit of Eden", "Treasure Chest Key", "Gourd", "Auto Repair Powder", "black square 184", "Fishing Rod", "Carrot", "Potato cake", "Minon", "Battan", "Petite Fish", "Saving Book", "Gold Bullion", "Evy", "black square 194", "Dran's Crest", "Shiny Stone", "Mimi", "Red Berry", "Prickly", "Candy", "Hook", "King's Slate", "Gun Powder", "Clock Hands", "Pointy Chestnut", "Black Knight Crest", "Horned Key", "Moon Grass Seed", "Music Box Key", "Sun Signet", "Moon Signet", "Admission Ticket", "black square 213", "black square 214", "black square 215", "Bone Key", "Mustache Key", "Shipcabin Key", "Stone Key", "Handle", "Pitchdark Key", "Silver Key", "black square 223", "Tram Oil", "Sun Dew", "Flapping Fish", "Rotten Fish", "Secret Path Key", "Bravery Launch", "Flapping Duster", "Crystal Eyeball", "black square 232", "Map", "Magical Crystal", "Dran's Feather", "Cave Key", "Changing Potion", "World Map", "Bone Pendant", "Odd Tone Flute", "Magical Lamp", "Moon Orb", "Shell Ring", "Search Warrant", "Ice Block", "Small Ice", "Tiny Ice", "Flame Key", "Hunter's Earring", "Ointment Leaf", "Foundation", "Clay Doll", "Manual", "Sun Sphere", "black square 255", "black square 256", "Dagger (broken)", "Dagger", "Baselard", "Gladius", "Wise Owl Sword", "Crystal Knife", "Antique Sword", "Buster Sword", "Kitchen Knife", "Tsukikage", "Sun Sword", "Serpent Sword", "Macho Sword", "Shamshir", "Heaven's Cloud", "Lamb's Sword", "Dark Cloud", "Brave Ark", "Big Bang", "Atlamillia Sword", "glitched weapon", "Mardan Eins", "Mardan Twei", "Arise Mardan", "Aga's Sword", "Evilcise", "Small Sword", "Sand Breaker", "Drain Seeker", "Chopper", "Choora", "Claymore", "Maneater", "Bone Rapier", "Sax", "7 Branch Sword", "Dusack", "Cross Hinder", "7th Heaven", "Sword Of Zeus", "Chronicle Sword", "Chronicle 2", "Wooden Slingshot (broken)", "Wooden Slingshot", "Steel Slingshot", "Bandit Slingshot", "Steve", "Bone Slingshot", "Hardshooter", "Double Impact", "Dragon's Y", "Divine Beast Title", "Angel Shooter", "Flamingo", "Matador", "Super Steve", "Angel Gear", "Mallet (broken)", "Mallet", "Steel Hammer", "Magical Hammer", "Battle Ax", "Turtle Shell", "Big Bucks Hammer", "Frozen Tuna", "Gaia Hammer", "Last Judgement", "Tall Hammer", "Satan's Ax", "glitched weapon", "Plate Hammer", "Trial Hammer", "Inferno", "glitched weapon", "Gold Ring (broken)", "Gold Ring", "Bandit's Ring", "Crystal Ring", "Platinum Ring", "Goddess Ring", "Fairy's Ring", "Destruction Ring", "Satan's Ring", "Athena's Armlet", "Mobius Ring", "glitched weapon", "Pocklekul", "Thorn Armlet", "Secret Armlet", "glitched weapon", "Fighting Stick (broken)", "Fighting Stick", "Javelin", "Halberd", "DeSanga", "Scorpion", "Partisan", "Mirage", "Terra Sword", "Hercules' Wrath", "Babel's Spear", "glitched weapon", "5 Foot Nail", "Cactus", "glitched weapon", "glitched weapon", "Machine Gun (broken)", "Machine Gun", "Jackal", "Launcher [solid green model]", "Launcher V2 [solid red model]", "Blessing Gun", "Skunk", "G Crusher", "Hex aBlaster", "Star Breaker", "Supernova", "Snail", "Swallow", "empty slot" };
-
         private static Random random = new Random();
 
         private static int GetRandomLoot(int[] lootTable)
         {
             int randomItem = random.Next(lootTable.Length);
 
-            return lootTable[randomItem];
+            if (Items.ItemRateTbl[lootTable[randomItem]] == 0) //Make sure we don't divide by zero
+                return GetRandomLoot(lootTable); //If 0, re-roll
+
+            int dropRate = 100 / Items.ItemRateTbl[lootTable[randomItem]];
+
+            int roll2 = random.Next(dropRate); //Re-roll based on the drop rate of the item
+
+            if (roll2 == dropRate - 1) //Random will never reach the max value, so decrement by one
+                return lootTable[randomItem]; 
+
+            else
+                return GetRandomLoot(lootTable); //Re-run the function
         }
 
         private static int[] FilterLootTable(byte[] lootTable)
@@ -84,10 +88,10 @@ namespace Dark_Cloud_Improved_Version
             int[] filteredLootTable = new int[lootTable.Length / 4]; //Create a new table to store the ints only
 
             int t = 0;
-            for (int i = 0; i < filteredLootTable.Length; i++) //Increment by 4
+            for (int i = 0; i < filteredLootTable.Length; i++)
             {
                 filteredLootTable[i] = BitConverter.ToInt32(lootTable, t); //Parse the byte arrays and store the int values
-                //Console.WriteLine(ItemNameTbl[filteredLootTable[i]]);
+                //Console.WriteLine(Items.ItemNameTbl[filteredLootTable[i]]);
                 t += 4;
             }
 
@@ -99,7 +103,7 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine("Day's test monster drop randomizer is running...");
             int randomItem = 0;
 
-            int currentAddress, checkItemID, firstChestItem, chestSize;
+            int currentAddress;
             int currentDungeon = 0;
             int currentFloor = 0;
             int prevFloor = 0;
@@ -197,126 +201,34 @@ namespace Dark_Cloud_Improved_Version
                             break;
                     }
 
-                    if (currentFloor != prevFloor)  //checking if player has entered a new floor
+                    if (currentFloor != prevFloor)
                     {
-                        //Console.Clear();
-                        Console.WriteLine();
-                        Thread.Sleep(2000); //2 seconds, waiting for game to roll chests first before we change them
+                        Thread.Sleep(2000);
 
-                        firstChestItem = Memory.ReadByte(Addresses.firstChest); ;
+                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                        if (firstChestItem == 233)  //We check if first chest has the dungeon map. This is because if the floor has a locked door, the game would always place the key on first chest. Doing this check avoids player getting softlocked without the door key.
+                        Memory.Write(Enemies.Enemy0.drop, BitConverter.GetBytes(randomItem));
+
+                        currentAddress = Enemies.Enemy0.drop;
+
+                        for (int i = 0; i < 16; i++)
                         {
-                            chestSize = random.Next(8);       //This is the chance for regular chest to be a big chest
+                            int checkItemID = Memory.ReadShort(currentAddress);
 
-                            if (chestSize != 0)     //if roll is not 0, give normal item
+                            if (checkItemID != 0xFFFF)
                             {
-                                Memory.WriteByte(Addresses.firstChestSize, 1);
-
                                 randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
+                                while (randomItem < 81) //If not a valid item, re-roll
                                     randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
-                            }
-                            else    //if rolled for weapon
-                            {
-                                Memory.WriteByte(Addresses.firstChestSize, 0);
+                                Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
+                                currentAddress += 0x190;
 
-                                randomItem = GetRandomLoot(FilterLootTable(itemTable));
-
-                                while (randomItem < 258) //If valid item and not a weapon, else re-roll
-                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
-
-                                Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
-
-                                Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
-                            }
-                        }
-
-                        currentAddress = Addresses.firstChest + 0x00000040;     //using the offset to reach 2nd chest
-
-                        for (int i = 0; i < 7; i++)     //going through rest of chests using offsets
-                        {
-                            checkItemID = Memory.ReadShort(currentAddress);
-
-                            if (checkItemID > 40 && checkItemID != 233 && checkItemID != 234)
-                            {
-                                chestSize = random.Next(8);
-
-                                if (chestSize != 0)     //if roll is not 0, give normal item
-                                {
-                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
-
-                                    while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
-                                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
-
-                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
-                                    currentAddress += 0x00000008;
-                                    Memory.WriteByte(currentAddress, 1);
-                                    currentAddress += 0x00000038;
-
-                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
-                                }
-                                else    //if rolled for weapon
-                                {
-                                    randomItem = GetRandomLoot(FilterLootTable(itemTable));
-
-                                    while (randomItem < 258)
-                                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
-
-                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
-                                    currentAddress += 0x00000008;
-                                    Memory.WriteByte(currentAddress, 0);
-                                    currentAddress += 0x00000038;
-
-                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
-                                }
+                                Console.WriteLine("Gave monster " + i + " item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                             }
                             else
-                                currentAddress += 0x00000040;
-                        }
-
-                        currentAddress = Addresses.backfloorFirstChest;
-
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chestSize = random.Next(25);
-
-                            checkItemID = Memory.ReadShort(currentAddress);
-
-                            if (checkItemID > 40)
-                            {
-                                if (chestSize != 0)
-                                {
-                                    randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
-
-                                    while (randomItem < 63 || randomItem > 258)
-                                        randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
-
-                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
-                                    currentAddress += 0x00000008;
-                                    Memory.WriteByte(currentAddress, 1);
-                                    currentAddress += 0x00000038;
-
-                                    Console.WriteLine("Spawned backfloor item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
-                                }
-                                else
-                                {
-                                    randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
-
-                                    while (randomItem < 258)
-                                        randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
-
-                                    Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
-                                    currentAddress += 0x00000008;
-                                    Memory.WriteByte(currentAddress, 0);
-                                    currentAddress += 0x00000038;
-                                }
-                            }
-                            else
-                                currentAddress += 0x00000040;
+                                currentAddress += 0x190;
                         }
                         prevFloor = currentFloor;   //once everything is done, we initialize this so it wont reroll again in same floor
                     }
@@ -341,7 +253,7 @@ namespace Dark_Cloud_Improved_Version
 
             while (1 == 1)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(750);
                 if (Player.InDungeonFloor() == true)
                 {
                     currentFloor = Memory.ReadByte(Addresses.checkFloor);
@@ -431,7 +343,6 @@ namespace Dark_Cloud_Improved_Version
 
                     if (currentFloor != prevFloor)  //checking if player has entered a new floor
                     {
-                        //Console.Clear();
                         Console.WriteLine();
                         Thread.Sleep(2000); //2 seconds, waiting for game to roll chests first before we change them
 
@@ -447,7 +358,7 @@ namespace Dark_Cloud_Improved_Version
 
                                 randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
+                                while (randomItem < 81 || randomItem > 257) //If outside of the range of valid items, re-roll
                                     randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
                                 Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
@@ -458,10 +369,14 @@ namespace Dark_Cloud_Improved_Version
 
                                 randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                while (randomItem < 258) //If valid item and not a weapon, else re-roll
+                                int attempts = 0; //Add this in case we don't have any weapons in the table to even pick from so we don't loop forever
+                                while (randomItem < 257 && attempts != 10) //If item is not a weapon, re-roll
+                                {
                                     randomItem = GetRandomLoot(FilterLootTable(itemTable));
+                                    attempts++;
+                                }
 
-                                Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+                                Console.WriteLine("Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
 
                                 Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
                             }
@@ -481,7 +396,7 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                    while (randomItem < 63 || randomItem > 258) //If valid item and not a weapon, else re-roll
+                                    while (randomItem < 81 || randomItem > 257)
                                         randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
                                     Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
@@ -489,21 +404,25 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                                 }
                                 else    //if rolled for weapon
                                 {
                                     randomItem = GetRandomLoot(FilterLootTable(itemTable));
 
-                                    while (randomItem < 258)
+                                    int attempts = 0; //Add this in case we don't have any weapons in the table to even pick from so we don't loop forever
+                                    while (randomItem < 257 && attempts != 10)
+                                    {
                                         randomItem = GetRandomLoot(FilterLootTable(itemTable));
+                                        attempts++;
+                                    }
 
                                     Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
                                     currentAddress += 0x00000008;
                                     Memory.WriteByte(currentAddress, 0);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                                 }
                             }
                             else
@@ -514,17 +433,17 @@ namespace Dark_Cloud_Improved_Version
 
                         for (int i = 0; i < 7; i++)
                         {
-                            chestSize = random.Next(25);
-
                             checkItemID = Memory.ReadShort(currentAddress);
 
                             if (checkItemID > 40)
                             {
+                                chestSize = random.Next(25);
+                                
                                 if (chestSize != 0)
                                 {
                                     randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
 
-                                    while (randomItem < 63 || randomItem > 258)
+                                    while (randomItem < 81 || randomItem > 257)
                                         randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
 
                                     Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
@@ -532,14 +451,18 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned backfloor item:" + randomItem + "\tName: " + ItemNameTbl[randomItem]);
+                                    Console.WriteLine("Spawned backfloor item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                                 }
                                 else
                                 {
                                     randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
 
-                                    while (randomItem < 258)
-                                        randomItem = GetRandomLoot(FilterLootTable(backfloorItemTable));
+                                    int attempts = 0; //Add this in case we don't have any weapons in the table to even pick from so we don't loop forever
+                                    while (randomItem < 257 && attempts != 10)
+                                    {
+                                        randomItem = GetRandomLoot(FilterLootTable(itemTable));
+                                        attempts++;
+                                    }
 
                                     Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
                                     currentAddress += 0x00000008;
@@ -2425,7 +2348,7 @@ namespace Dark_Cloud_Improved_Version
             for (int i = 0; i < filteredLootTable.Length; i++) //Increment by 4
             {
                 filteredLootTable[i] = BitConverter.ToInt32(table, t); //Parse the byte arrays and store the int values
-                Console.WriteLine(ItemNameTbl[filteredLootTable[i]]);
+                Console.WriteLine(Items.ItemNameTbl[filteredLootTable[i]]);
                 t += 4;
             }
         }
@@ -2526,7 +2449,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void Testing()
         {
-            bool TestThisOnly = true;
+            bool TestThisOnly = false;
 
             if (TestThisOnly == true)
             {
@@ -2542,7 +2465,18 @@ namespace Dark_Cloud_Improved_Version
                 //for (int i = 0; i < results.Count; i++)
                 //    Console.WriteLine("0x{0:X8}", results[i]);
 
-                retrieveMemTextures();
+                while (true)
+                {
+                    Console.WriteLine(GetRandomLoot(FilterLootTable(ItemTbl0)));
+                    Thread.Sleep(1000);
+                    //Console.WriteLine(i);
+                    //Console.WriteLine(Shop.ItemSlot0.item);
+                    //Console.WriteLine(Shop.ItemSlot0.price);
+                    //Thread.Sleep(1000);
+                    //Console.WriteLine();
+                    //Shop.ItemSlot0.item++;
+                    //i++;
+                }
 
                 //Specials1 special1 = Specials1.None;
                 //Specials2 special2 = Specials2.Critical;
@@ -2557,6 +2491,7 @@ namespace Dark_Cloud_Improved_Version
 
             elementSwapThread.Start(); //Start thread
             dayChestThread.Start();
+            dayEnemyThread.Start();  
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
