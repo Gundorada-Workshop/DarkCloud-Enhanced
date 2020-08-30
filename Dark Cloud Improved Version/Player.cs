@@ -19,6 +19,8 @@ namespace Dark_Cloud_Improved_Version
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
 
+        public const int Ultraman = 0x21D564B0;
+
         public const int currentCharacter = 0x20429E80;   //tells the current player selected, string 4bytes long
 
         public static bool InDungeonFloor()

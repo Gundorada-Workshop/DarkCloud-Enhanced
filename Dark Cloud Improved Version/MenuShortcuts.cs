@@ -10,10 +10,10 @@ namespace Dark_Cloud_Improved_Version
     {
         public void AttributeShortcut()
         {
-            if (Memory.ReadByte(Addresses.buttonInputs) == 16)
-            {
-                Console.WriteLine("DPad up");
-            }
+            /// (Memory.ReadByte(Addresses.buttonInputs) == 16)
+            //{
+            //    Console.WriteLine("DPad up");
+            //}
         }
     }
 }

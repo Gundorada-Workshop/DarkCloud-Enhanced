@@ -47,7 +47,8 @@
         public const int townSoftReset = 0x202A287C; //This allows resetting to main menu in town with a value of 1
 
         //Inputs
-        public const int buttonInputs = 0x21CBC544; //UShort
+        public const int buttonInputs1 = 0x21CBC544; //Bitfield
+        public const int buttonInputs2 = 0x21CBC545; //Bitfield
 
         //Square = 128        Cross = 64      Circle = 32       Triangle = 16
         //DPadLeft = 32768        DPadDown = 16384      DPadRight = 8192       DPadUP = 4096
@@ -66,6 +67,7 @@
         public static byte[] functionBGMPlay = { 204, 102, 5, 12 };
         public static byte[] functionBGMStop = { 232, 102, 5, 12 };
 
+        public const int mode = 0x202A2534; //Values: 0=Main title, 1=Intro, 2=Town, 3=Dungeon, 4=? (doesnt crash in dungeon), 5=Opening cutscene(dark shrine), 6=?, 7=Debug menu
         public const int checkFloor = 0x21CD954E;   //tells the current floor player is on, updates when entering the floor
         public const int checkDungeon = 0x202A3594; //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
 

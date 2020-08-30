@@ -4,11 +4,14 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Dark_Cloud_Improved_Version
 {
     class Dayuppy
     {
+        private static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor)); //Create a new thread to run monitorElementSwapping()
         private static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayEnemyThread = new Thread(new ThreadStart(EnemyDropRandomizer)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
@@ -499,7 +502,9 @@ namespace Dark_Cloud_Improved_Version
                 int currentCharacter = Player.CurrentCharacterNum();
                 byte currentWeaponSlot;
 
-                if (Memory.ReadUShort(Addresses.buttonInputs) == 4096 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0)  //If DPadUp and in dungeon, go to previous element
+                bool disabledfornow = true;
+                if (disabledfornow == false)
+                //if (Memory.ReadUShort(Addresses.buttonInputs) == 4096 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0)  //If DPadUp and in dungeon, go to previous element
                 {
                     switch (currentCharacter)
                     {
@@ -516,7 +521,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -529,7 +534,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -542,7 +547,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -555,7 +560,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -568,7 +573,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -581,7 +586,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -594,7 +599,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -607,7 +612,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -620,7 +625,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -633,7 +638,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Toan.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -652,7 +657,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -665,7 +670,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -678,7 +683,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -691,7 +696,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -704,7 +709,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -717,7 +722,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -730,7 +735,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -743,7 +748,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -756,7 +761,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -769,7 +774,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -788,7 +793,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -801,7 +806,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -814,7 +819,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -827,7 +832,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -840,7 +845,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -853,7 +858,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -866,7 +871,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -879,7 +884,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -892,7 +897,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -905,7 +910,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Goro.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -924,7 +929,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -937,7 +942,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -950,7 +955,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -963,7 +968,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -976,7 +981,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -989,7 +994,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1002,7 +1007,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1015,7 +1020,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1028,7 +1033,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1041,7 +1046,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1060,7 +1065,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1073,7 +1078,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1086,7 +1091,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1099,7 +1104,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1112,7 +1117,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1125,7 +1130,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1138,7 +1143,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1151,7 +1156,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1164,7 +1169,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1177,7 +1182,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1196,7 +1201,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1209,7 +1214,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1222,7 +1227,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1235,7 +1240,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1248,7 +1253,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1261,7 +1266,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1274,7 +1279,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1287,7 +1292,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1300,7 +1305,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1313,7 +1318,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1322,7 +1327,8 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
-                if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0))  //If DPadDOWN, go to next element
+                if(disabledfornow == false)
+                //if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0))  //If DPadDOWN, go to next element
                 {
                     switch (currentCharacter)
                     {
@@ -1339,7 +1345,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1352,7 +1358,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1365,7 +1371,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1378,7 +1384,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1391,7 +1397,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1404,7 +1410,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1417,7 +1423,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1430,7 +1436,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1443,7 +1449,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1456,7 +1462,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Toan.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1475,7 +1481,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1488,7 +1494,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1501,7 +1507,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1514,7 +1520,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1527,7 +1533,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1540,7 +1546,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1553,7 +1559,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1566,7 +1572,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1579,7 +1585,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1592,7 +1598,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Xiao.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1611,7 +1617,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1624,7 +1630,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1637,7 +1643,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1650,7 +1656,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1663,7 +1669,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1676,7 +1682,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1689,7 +1695,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1702,7 +1708,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1715,7 +1721,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1728,7 +1734,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Goro.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1747,7 +1753,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1760,7 +1766,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1773,7 +1779,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1786,7 +1792,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1799,7 +1805,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1812,7 +1818,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1825,7 +1831,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1838,7 +1844,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1851,7 +1857,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1864,7 +1870,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ruby.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1883,7 +1889,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1896,7 +1902,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1909,7 +1915,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1922,7 +1928,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1935,7 +1941,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1948,7 +1954,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1961,7 +1967,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1974,7 +1980,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -1987,7 +1993,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2000,7 +2006,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Ungaga.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2019,7 +2025,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot0.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2032,7 +2038,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot1.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2045,7 +2051,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot2.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2058,7 +2064,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot3.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2071,7 +2077,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot4.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2084,7 +2090,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot5.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2097,7 +2103,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot6.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2110,7 +2116,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot7.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2123,7 +2129,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected++;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot8.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2136,7 +2142,7 @@ namespace Dark_Cloud_Improved_Version
                                         elementSelected--;
                                         Memory.WriteByte(Player.Osmond.WeaponSlot9.elementHUD, elementSelected); //Set element in HUD for weapon
                                         Memory.WriteUShort(Player.elementActual, elementSelected); //Set element 
-                                        displayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
+                                        DisplayMessage("Changed current active weapon attribute to   \n" + elementName[elementSelected] + "                         \n                          ");
                                     }
 
                                     break;
@@ -2147,7 +2153,7 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        private static byte[] displayMessage(string message)
+        public static byte[] DisplayMessage(string message)
         {
             message =
                 "Colors^GTest ^W\n" +
@@ -2449,10 +2455,16 @@ namespace Dark_Cloud_Improved_Version
 
         public static void Testing()
         {
-            bool TestThisOnly = false;
+            bool TestThisOnly = true;
 
             if (TestThisOnly == true)
             {
+                //cheatCodeThread.Start();
+                CheatCodes.InputBuffer.Monitor();
+
+
+
+
                 //List<int> results = Memory.StringSearch(0x20000000, 0x22000000, "TIM2");
 
                 //for (int i = 0; i < results.Count; i++)
@@ -2467,8 +2479,15 @@ namespace Dark_Cloud_Improved_Version
 
                 while (true)
                 {
-                    Console.WriteLine(GetRandomLoot(FilterLootTable(ItemTbl0)));
-                    Thread.Sleep(1000);
+
+
+                    //Console.Clear();
+                    //Console.WriteLine(Memory.ReadUShort(Addresses.buttonInputs1));
+                    //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs1));
+                    //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs2));
+                    //Thread.Sleep(15);
+                    //Console.WriteLine(GetRandomLoot(FilterLootTable(ItemTbl0)));
+                    //Thread.Sleep(1000);
                     //Console.WriteLine(i);
                     //Console.WriteLine(Shop.ItemSlot0.item);
                     //Console.WriteLine(Shop.ItemSlot0.price);
@@ -2537,39 +2556,39 @@ namespace Dark_Cloud_Improved_Version
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10); //Format the TimeSpan value.
                 //Console.WriteLine("RunTime " + elapsedTime);
 
-                if (Memory.ReadUShort(Addresses.buttonInputs) == 2319)  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
-                {
-                    Thread.Sleep(2000); //Wait two seconds
-                    if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //Check again
-                    {
-                        if (Player.InDungeonFloor() == true)
-                            Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
-                        else
-                            Memory.WriteInt(Addresses.townSoftReset, 1); //If we are in town, this will take us to the main menu
-                    }
-                }
+                //if (Memory.ReadUShort(Addresses.buttonInputs) == 2319)  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
+                //{
+                //    Thread.Sleep(2000); //Wait two seconds
+                //    if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //Check again
+                //    {
+                //        if (Player.InDungeonFloor() == true)
+                //            Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
+                //        else
+                //            Memory.WriteByte(Addresses.mode, 1);
+                //    }
+                //}
 
-                if (Memory.ReadUShort(Addresses.buttonInputs) == 4111)  //If L1+L2+R1+R2+DpadUp is pressed, activate godmode
-                {
-                    Thread.Sleep(2000); //Wait two seconds
-                    if (Memory.ReadUShort(Addresses.buttonInputs) == 4111)  //Check again
-                    {
-                        if (Player.InDungeonFloor() == true)
-                        {
-                            if (godMode == true)
-                            {
-                                godMode = false;
-                                Memory.WriteByteArray(Addresses.dunMessage10, displayMessage("God Mode deactivated.             \n                    \nYou are no longer invincible to enemy damage."));
-                            }
+                //if (Memory.ReadUShort(Addresses.buttonInputs) == 4111)  //If L1+L2+R1+R2+DpadUp is pressed, activate godmode
+                //{
+                //    Thread.Sleep(2000); //Wait two seconds
+                //    if (Memory.ReadUShort(Addresses.buttonInputs) == 4111)  //Check again
+                //    {
+                //        if (Player.InDungeonFloor() == true)
+                //        {
+                //            if (godMode == true)
+                //            {
+                //                godMode = false;
+                //                Memory.WriteByteArray(Addresses.dunMessage10, DisplayMessage("God Mode deactivated.             \n                    \nYou are no longer invincible to enemy damage."));
+                //            }
 
-                            else if (godMode == false)
-                            {
-                                godMode = true;
-                                displayMessage("God Mode activated.             \n                          \nYou are now invincible to enemy damage.      ");
-                            }           
-                        }
-                    }
-                }
+                //            else if (godMode == false)
+                //            {
+                //                godMode = true;
+                //                DisplayMessage("God Mode activated.             \n                          \nYou are now invincible to enemy damage.      ");
+                //            }           
+                //        }
+                //    }
+                //}
 
                 if (godMode == true)
                 {
