@@ -35,39 +35,9 @@ namespace Dark_Cloud_Improved_Version
                 All         = 0b_1111111111111111
             }
 
-            [Flags]
-            enum Buttons1
-            {
-                None = 0b_00000000,   // 0
-                Select = 0b_00000001,
-                L3 = 0b_00000010,
-                R3 = 0b_00000100,
-                Start = 0b_00001000,
-                DPad_Up = 0b_00010000,
-                DPad_Right = 0b_00100000,
-                DPad_Down = 0b_01000000,
-                DPad_Left = 0b_10000000,
-                All = 0b_11111111
-            }
-
-            [Flags]
-            enum Buttons2
-            {
-                None = 0b_00000000,
-                L2 = 0b_00000001,
-                R2 = 0b_00000010,
-                L1 = 0b_00000100,
-                R1 = 0b_00001000,
-                Triangle = 0b_00010000,
-                Circle = 0b_00100000,
-                Cross = 0b_01000000,
-                Square = 0b_10000000,
-                All = 0b_11111111
-            }
-
             public static int index = 0;
             public static Button[] inputBuffer = new Button[10];
-            public static Button[] empty = new Button[] {Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None};
+            public readonly Button[] empty = new Button[] {Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None, Button.None};
             public static Button[] cheatGodmode = new Button[] { Button.DPad_Up, Button.DPad_Up, Button.DPad_Down, Button.DPad_Down, Button.DPad_Left, Button.DPad_Right, Button.DPad_Left, Button.DPad_Right, Button.Square, Button.Cross };
 
             internal static void Monitor()
@@ -76,12 +46,26 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Thread.Sleep(250);
 
-                    if (Memory.ReadUShort(Addresses.buttonInputs1) != 0) //If button input detected
-                        Add((Button)Memory.ReadUShort(Addresses.buttonInputs1)); //Add our button to the buffer
+                    if (Memory.ReadUShort(Addresses.buttonInputs) != 0) //If button input detected
+                        Add((Button)Memory.ReadUShort(Addresses.buttonInputs)); //Add our button to the buffer
 
                     if(CheckSequence(cheatGodmode))
                     {
                         toggleGodMode(true);
+                    }
+
+                    Button softResetList = Button.L1 | Button.L2 | Button.R1 | Button.R2 | Button.Select | Button.Start; //All at once
+
+                    if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)softResetList)  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
+                    {
+                        Thread.Sleep(2000); //Wait two seconds
+                        if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)softResetList)  //Check again
+                        {
+                            if (Player.InDungeonFloor() == true)
+                                Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
+                            else
+                                Memory.WriteByte(Addresses.mode, 1);
+                        }
                     }
                 }
             }
@@ -105,16 +89,19 @@ namespace Dark_Cloud_Improved_Version
 
             public static bool CheckSequence(Button[] cheatCodeArray)
             {
-                Button[] tmp;
+                Button[] tmp = { };
 
                 for (int i = 0; i < cheatCodeArray.Length - 1; i++)
                 {
-                    tmp = ShiftElements(cheatCodeArray, i);
-                    if (inputBuffer.SequenceEqual(tmp))
+                    if (inputBuffer.SequenceEqual(tmp)) //Matched sequence
                     {
-                        inputBuffer = empty;
+                        for (int bufferIndex = 0; bufferIndex < inputBuffer.Length; bufferIndex++) //Loop through our buffer
+                        {
+                            inputBuffer[i] = Button.None; //Clear it
+                        }
                         return true;
                     }
+                    tmp = ShiftElements(cheatCodeArray, i);
                 }
 
                 return false;
@@ -148,7 +135,6 @@ namespace Dark_Cloud_Improved_Version
 
                 return tmp;
             }
-
         }
     }
 }

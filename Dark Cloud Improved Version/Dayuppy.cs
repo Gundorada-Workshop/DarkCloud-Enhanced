@@ -502,9 +502,7 @@ namespace Dark_Cloud_Improved_Version
                 int currentCharacter = Player.CurrentCharacterNum();
                 byte currentWeaponSlot;
 
-                bool disabledfornow = true;
-                if (disabledfornow == false)
-                //if (Memory.ReadUShort(Addresses.buttonInputs) == 4096 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0)  //If DPadUp and in dungeon, go to previous element
+                if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Up && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0)  //If DPadUp and in dungeon, go to previous element
                 {
                     switch (currentCharacter)
                     {
@@ -1327,8 +1325,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
-                if(disabledfornow == false)
-                //if ((Memory.ReadUShort(Addresses.buttonInputs) == 16384 && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0))  //If DPadDOWN, go to next element
+                if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Down && Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0)  //If DPadDOWN, go to next element
                 {
                     switch (currentCharacter)
                     {
@@ -2155,17 +2152,6 @@ namespace Dark_Cloud_Improved_Version
 
         public static byte[] DisplayMessage(string message)
         {
-            message =
-                "Colors^GTest ^W\n" +
-                "Colors^BTest ^W\n" +
-                "Colors^RTest ^W\n" +
-                "Colors^YTest ^W\n" +
-                "Colors^OTest ^W";
-
-            message =
-                "Go to the";
-   
-
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
             byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210);
             byte[] outputMessage = new byte[customMessage.Length * 2];
@@ -2455,60 +2441,46 @@ namespace Dark_Cloud_Improved_Version
 
         public static void Testing()
         {
-            bool TestThisOnly = true;
+            //CheatCodes.InputBuffer.Monitor();
 
-            if (TestThisOnly == true)
-            {
-                //cheatCodeThread.Start();
-                CheatCodes.InputBuffer.Monitor();
+            //List<int> results = Memory.StringSearch(0x20000000, 0x22000000, "TIM2");
 
+            //for (int i = 0; i < results.Count; i++)
+            //    Console.WriteLine("0x{0:X8}", results[i]);
 
+            //byte[] TIM2_Header = new byte[] { 0x54, 0x49, 0x4D, 0x32, 0x03, 0x00, 0x01};
 
+            //List<int> results = Memory.ByteArraySearch(0x20900000, 0x22000000, TIM2_Header);
 
-                //List<int> results = Memory.StringSearch(0x20000000, 0x22000000, "TIM2");
+            //for (int i = 0; i < results.Count; i++)
+            //    Console.WriteLine("0x{0:X8}", results[i]);
 
-                //for (int i = 0; i < results.Count; i++)
-                //    Console.WriteLine("0x{0:X8}", results[i]);
+            //Console.Clear();
+            //Console.WriteLine(Memory.ReadUShort(Addresses.buttonInputs1));
+            //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs1));
+            //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs2));
+            //Thread.Sleep(15);
+            //Console.WriteLine(GetRandomLoot(FilterLootTable(ItemTbl0)));
+            //Thread.Sleep(1000);
+            //Console.WriteLine(i);
+            //Console.WriteLine(Shop.ItemSlot0.item);
+            //Console.WriteLine(Shop.ItemSlot0.price);
+            //Thread.Sleep(1000);
+            //Console.WriteLine();
+            //Shop.ItemSlot0.item++;
+            //i++;
 
-                //byte[] TIM2_Header = new byte[] { 0x54, 0x49, 0x4D, 0x32, 0x03, 0x00, 0x01};
+            //Specials1 special1 = Specials1.None;
+            //Specials2 special2 = Specials2.Critical;
 
-                //List<int> results = Memory.ByteArraySearch(0x20900000, 0x22000000, TIM2_Header);
-
-                //for (int i = 0; i < results.Count; i++)
-                //    Console.WriteLine("0x{0:X8}", results[i]);
-
-                while (true)
-                {
-
-
-                    //Console.Clear();
-                    //Console.WriteLine(Memory.ReadUShort(Addresses.buttonInputs1));
-                    //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs1));
-                    //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs2));
-                    //Thread.Sleep(15);
-                    //Console.WriteLine(GetRandomLoot(FilterLootTable(ItemTbl0)));
-                    //Thread.Sleep(1000);
-                    //Console.WriteLine(i);
-                    //Console.WriteLine(Shop.ItemSlot0.item);
-                    //Console.WriteLine(Shop.ItemSlot0.price);
-                    //Thread.Sleep(1000);
-                    //Console.WriteLine();
-                    //Shop.ItemSlot0.item++;
-                    //i++;
-                }
-
-                //Specials1 special1 = Specials1.None;
-                //Specials2 special2 = Specials2.Critical;
-
-                //CheckSpecials1();
-                //TestBitField(special1, special2);
-                //Memory.WriteUShort(Enemies.Enemy13.hp, 1000); 
-                return;
-            }
+            //CheckSpecials1();
+            //TestBitField(special1, special2);
+            //Memory.WriteUShort(Enemies.Enemy13.hp, 1000); 
 
             //printItemTableNames(ItemTbl6);      
 
             elementSwapThread.Start(); //Start thread
+            cheatCodeThread.Start();
             dayChestThread.Start();
             dayEnemyThread.Start();  
 
@@ -2556,17 +2528,7 @@ namespace Dark_Cloud_Improved_Version
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10); //Format the TimeSpan value.
                 //Console.WriteLine("RunTime " + elapsedTime);
 
-                //if (Memory.ReadUShort(Addresses.buttonInputs) == 2319)  //If L1+L2+R1+R2+Select+Start is pressed, return to main menu
-                //{
-                //    Thread.Sleep(2000); //Wait two seconds
-                //    if ((Memory.ReadUShort(Addresses.buttonInputs) == 2319))  //Check again
-                //    {
-                //        if (Player.InDungeonFloor() == true)
-                //            Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
-                //        else
-                //            Memory.WriteByte(Addresses.mode, 1);
-                //    }
-                //}
+
 
                 //if (Memory.ReadUShort(Addresses.buttonInputs) == 4111)  //If L1+L2+R1+R2+DpadUp is pressed, activate godmode
                 //{

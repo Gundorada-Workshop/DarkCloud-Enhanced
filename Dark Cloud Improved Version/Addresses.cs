@@ -47,8 +47,7 @@
         public const int townSoftReset = 0x202A287C; //This allows resetting to main menu in town with a value of 1
 
         //Inputs
-        public const int buttonInputs1 = 0x21CBC544; //Bitfield
-        public const int buttonInputs2 = 0x21CBC545; //Bitfield
+        public const int buttonInputs = 0x21CBC544; //Two-byte Bitfield
 
         //Square = 128        Cross = 64      Circle = 32       Triangle = 16
         //DPadLeft = 32768        DPadDown = 16384      DPadRight = 8192       DPadUP = 4096

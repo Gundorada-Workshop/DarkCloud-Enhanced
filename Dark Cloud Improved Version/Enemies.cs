@@ -254,5 +254,11 @@
             public const int drop = Enemy0.drop + (offset * EnemyMultiplier);
             public const int nameTag = Enemy0.nameTag + (offset * EnemyMultiplier);
         }
+
+        internal class Digger
+        {
+            public const int maxJumpDistance = 0x213F3D70;
+
+        }
     }
 }
