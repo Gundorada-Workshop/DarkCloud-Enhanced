@@ -20,6 +20,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static Thread dayThread = new Thread(new ThreadStart(Dayuppy.Testing)); //Create a new thread to run Testing() from within Dayuppy.cs
         public static Thread chestThread = new Thread(new ThreadStart(CustomChests.ChestRandomizer));
+        public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
 
         private void button1_Click(object sender, EventArgs e)      //Dayuppy
         {
@@ -39,7 +40,8 @@ namespace Dark_Cloud_Improved_Version
 
         private void button4_Click(object sender, EventArgs e)      //wordofwind
         {
-            if (!chestThread.IsAlive) chestThread.Start();
+            //if (!chestThread.IsAlive) chestThread.Start();
+            if (!townThread.IsAlive) townThread.Start();
         }
     }
 }
