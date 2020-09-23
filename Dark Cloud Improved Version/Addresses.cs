@@ -124,5 +124,20 @@
         public const int ItemTblUnk = 0x20276410;
 
         public const int ItemPriceTable = 0x20291B80;
+
+        //TownCharacter addresses
+
+        public const int chrConfigFileLocation = 0x2029A9F0; //this is where we place the character's .cfg file which the game starts reading
+        public const int chrFileLocation = 0x2029AA08; //here we write the path to the character file which we want to use (for example "chara/c01d.chr" for Toan)
+
+        public const int chrConfigFileOffset = 0x201790D8; //this address has the offset value to know where to read the cfg file, this needs to be matched with "chrConfigFileLocation"
+        public const int chrFileOffset = 0x201790D0; //same as previous, offset value for the character path file
+
+        public const int selectedMenu = 0x202A2010; //used for checking menu screen, 3 = chara select
+
+        public const int activateCharacter = 0x21D90473; //while in char select screen, assigning this to value 4 will attempt to switch character
+
+        public const int assignEditInit = 0x201F74B4; //when character is being selected, the game jumps to a function located in this address. We change this function to jal EditInit to reload map
+
     }
 }
