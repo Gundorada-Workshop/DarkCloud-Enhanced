@@ -28,11 +28,11 @@ namespace Dark_Cloud_Improved_Version
         public const int abs = 0x2027A73C; //Base weapon absorption points; (ALSO RUNTIME)
         public const int absadd = 0x2027A73E; //How much abs to be added per weapon level; (ALSO RUNTIME)
         public const int attack = 0x2027A70E; //Base weapon Attack stat;
-        public const int maxattack = 0x2027A750; //Base weapon Max Attack stat;
+        public const int maxattack = 0x2027A750; //Base weapon Max Attack stat; (ALSO RUNTIME)
         public const int endurance = 0x2027A710; //Base weapon Endurance stat;
         public const int speed = 0x2027A712; //Base weapon Speed stat;
         public const int magic = 0x2027A714; //Base weapon Magic stat;
-        public const int maxmagic = 0x2027A752; //Base weapon Max Magic stat;
+        public const int maxmagic = 0x2027A752; //Base weapon Max Magic stat; (ALSO RUNTIME)
         public const int fire = 0x2027A71E; //Base weapon Fire stat;
         public const int ice = 0x2027A720; //Base weapon Ice stat;
         public const int thunder = 0x2027A722; //Base weapon Thunder stat;
@@ -247,8 +247,9 @@ namespace Dark_Cloud_Improved_Version
 
             //Bandit's Ring, id = 333
             Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (333 - goldringid)))), 30); //Attack set to 30
+            Memory.WriteUShort((maxattack + (rubyoffset + (weaponoffset * (333 - goldringid)))), 50); //Max Attack set to 50
             Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (333 - goldringid)))), 20); //Magic set to 20
-            //Memory.WriteUShort((maxmagic + (rubyoffset + (weaponoffset * (333 - goldringid)))), 65); //Max Magic set to 65
+            Memory.WriteInt((buildup + (rubyoffset + (weaponoffset * (333 - goldringid)))), 8200); //Sets build-up branches to both Crystal Ring and Thorn Armlet
 
             //Platinum Ring, id = 335
             Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (335 - goldringid)))), 23); //Attack set to 23
