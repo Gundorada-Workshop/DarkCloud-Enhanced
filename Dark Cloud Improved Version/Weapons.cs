@@ -56,8 +56,11 @@ namespace Dark_Cloud_Improved_Version
         public const int weaponoffset = 0x4C;
 
         //Character offsets
-        public const int xiaooffset = 0xC78;
-        //public const int gorooffset = 0x???;
+        public const int xiaooffset = 0xC78; //Xiao
+        public const int gorooffset = 0x10EC; //Goro
+        public const int rubyoffset = 0x15F8; //Ruby
+        public const int ungagaoffset = 0x2BF0; //Ungaga
+        public const int osmondoffset = 0x419C; //Osmond
 
         public static void WeaponsBalanceChanges()
         {
@@ -85,6 +88,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort((ice + (weaponoffset * (265 - daggerid))), 0); //Ice set to 0
             Memory.WriteUShort((thunder + (weaponoffset * (265 - daggerid))), 8); //Thunder set to 0
             Memory.WriteUShort((sea + (weaponoffset * (265 - daggerid))), 90); //Sea Killer set to 90
+            Memory.WriteUShort((buildup + 5 + (weaponoffset * (265 - daggerid))), 0); //Set build-up branches to none (The 5 was just to offset to the correct address since I wasn't finding a way to write 8 bytes)
 
             //Tsukikage, id = 266
             Memory.WriteUShort((endurance + (weaponoffset * (266 - daggerid))), 33); //Endurance set to 33
@@ -192,7 +196,10 @@ namespace Dark_Cloud_Improved_Version
             //Wooden Slingshot, id = 300
             Memory.WriteUShort((attack + (xiaooffset + (weaponoffset * (300 - woodenid)))), 6); //Attack set to 6
             Memory.WriteUShort((magic + (xiaooffset + (weaponoffset * (300 - woodenid)))), 2); //Magic set to 2
-            Memory.WriteUShort((fire + (xiaooffset + (weaponoffset * (300 - woodenid)))), 4); //Magic set to 4
+            Memory.WriteUShort((fire + (xiaooffset + (weaponoffset * (300 - woodenid)))), 4); //Fire set to 4
+
+            //Bone Slingshot, id = 302
+            Memory.WriteUInt((buildup + (xiaooffset + (weaponoffset * (302 - woodenid)))), 128); //Sets build-up to Double Impact only
 
             //Bone Slingshot, id = 304
             Memory.WriteUShort((attack + (xiaooffset + (weaponoffset * (304 - woodenid)))), 11); //Attack set to 11
@@ -211,7 +218,50 @@ namespace Dark_Cloud_Improved_Version
              *               Goro                   *
              ****************************************/
 
+            //Turtle Shell, id = 319
+            Memory.WriteUShort((magic + (gorooffset + (weaponoffset * (319 - malletid)))), 10); //Magic set to 10
 
+            //Big Bucks Hammer, id = 320
+            Memory.WriteUInt((buildup + (gorooffset + (weaponoffset * (320 - malletid)))), 8); //Sets build-up branch to Magical Hammer only
+
+            //Frozen Tuna, id = 321
+            Memory.WriteUShort((whp + (gorooffset + (weaponoffset * (321 - malletid)))), 65); //Whp set to 65
+
+            //Gaia Hammer, id = 322
+            Memory.WriteUShort((endurance + (gorooffset + (weaponoffset * (322 - malletid)))), 25); //Endurance set to 25
+
+            //Trial Hammer, id = 328
+            Memory.WriteUShort((attack + (gorooffset + (weaponoffset * (328 - malletid)))), 30); //Attack set to 30
+            Memory.WriteUShort((endurance + (gorooffset + (weaponoffset * (328 - malletid)))), 25); //Endurance set to 25
+
+
+
+
+            /****************************************
+             *               Ruby                   *
+             ****************************************/
+
+            //Gold Ring, id = 332
+            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (332 - goldringid)))), 15); //Attack set to 15
+            Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (332 - goldringid)))), 30); //Magic set to 30
+
+            //Bandit's Ring, id = 333
+            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (333 - goldringid)))), 30); //Attack set to 30
+            Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (333 - goldringid)))), 20); //Magic set to 20
+            //Memory.WriteUShort((maxmagic + (rubyoffset + (weaponoffset * (333 - goldringid)))), 65); //Max Magic set to 65
+
+            //Platinum Ring, id = 335
+            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (335 - goldringid)))), 23); //Attack set to 23
+
+            //Pocklekul, id = 343
+            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (343 - goldringid)))), 28); //Attack set to 28
+            Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (343 - goldringid)))), 28); //Magic set to 28
+            Memory.WriteUShort((holy + (rubyoffset + (weaponoffset * (343 - goldringid)))), 0); //Holy set to 0
+            Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (343 - goldringid)))), 8256); //Sets build-up branches to both Fairy Ring and Thorn Armlet
+
+            //Thorn Armlet, id = 344
+            Memory.WriteUShort((maxmagic + (rubyoffset + (weaponoffset * (344 - goldringid)))), 65); //Max Magic set to 65
+            Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (344 - goldringid)))), 128); //Sets build-up branches to Destruction Ring
         }
     }
 }
