@@ -59,8 +59,8 @@ namespace Dark_Cloud_Improved_Version
         public const int xiaooffset = 0xC78; //Xiao
         public const int gorooffset = 0x10EC; //Goro
         public const int rubyoffset = 0x15F8; //Ruby
-        public const int ungagaoffset = 0x2BF0; //Ungaga
-        public const int osmondoffset = 0x419C; //Osmond
+        public const int ungagaoffset = 0x1AB8; //Ungaga
+        public const int osmondoffset = 0x1F78; //Osmond
 
         public static void WeaponsBalanceChanges()
         {
@@ -263,6 +263,49 @@ namespace Dark_Cloud_Improved_Version
             //Thorn Armlet, id = 344
             Memory.WriteUShort((maxmagic + (rubyoffset + (weaponoffset * (344 - goldringid)))), 65); //Max Magic set to 65
             Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (344 - goldringid)))), 128); //Sets build-up branches to Destruction Ring
+
+
+
+
+            /****************************************
+             *               Ungaga                 *
+             ****************************************/
+
+            for (int ungagaweaponid = 348; ungagaweaponid <= 360; ungagaweaponid++)
+            {
+                if(ungagaweaponid != 357)
+                {
+                    int CurrWeaponAttack = Memory.ReadUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid))))); //Reads the current weapon Attack value
+                    int CurrWeaponMaxAttack = Memory.ReadUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid))))); //Reads the current weapon Max Attack value
+                    int CurrWeaponMagic = Memory.ReadUShort((magic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid))))); //Reads the current weapon Magic value
+                    int CurrWeaponMaxMagic = Memory.ReadUShort((maxmagic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid))))); //Reads the current weapon Max Magic value
+
+                    Memory.WriteUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponAttack + 10)); //Adds +10 Attack to the current weapon being looped through
+                    Memory.WriteUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMaxAttack + 10)); //Adds +10 Max Attack to the current weapon being looped through
+                    Memory.WriteUShort((magic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMagic + 15)); //Adds +15 Magic to the current weapon being looped through
+                    Memory.WriteUShort((maxmagic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMaxMagic + 15)); //Adds +15 Max Magic to the current weapon being looped through
+
+                }
+            }
+
+            //Babel Spear, id = 357
+            Memory.WriteUShort((synth4 + (ungagaoffset + (weaponoffset * (357 - stickid)))), 1); //Adds a 4th regular attackment slot
+
+
+
+
+            /****************************************
+             *               Osmond                 *
+             ****************************************/
+
+            for (int osmondweaponid = 364; osmondweaponid <= 375; osmondweaponid++)
+            {
+                int CurrWeaponAttack = Memory.ReadUShort((attack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid))))); //Reads the current weapon Attack value
+                int CurrWeaponMaxAttack = Memory.ReadUShort((maxattack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid))))); //Reads the current weapon Max Attack value
+
+                Memory.WriteUShort((attack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))), (ushort)(CurrWeaponAttack + 15)); //Adds +15 Attack to the current weapon being looped through
+                Memory.WriteUShort((maxattack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))), (ushort)(CurrWeaponMaxAttack + 15)); //Adds +15 Max Attack to the current weapon being looped through
+            }
         }
     }
 }
