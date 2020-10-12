@@ -64,11 +64,8 @@ namespace Dark_Cloud_Improved_Version
 
         public static void WeaponsBalanceChanges()
         {
-            /* THIS WAS FOR TESTING
-            int value = Memory.ReadInt(0x21CDDA62);
-            Console.WriteLine("Player's Weapon Magic was set to: " + value);
-            Memory.WriteInt(0x21CDDA62, value + 1);
-            */
+            Console.WriteLine("MikeZorD weapon changes have been applied...");
+
 
             /****************************************
              *               TOAN                   *

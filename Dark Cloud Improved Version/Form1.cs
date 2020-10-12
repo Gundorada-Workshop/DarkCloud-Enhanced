@@ -21,7 +21,10 @@ namespace Dark_Cloud_Improved_Version
         public static Thread dayThread = new Thread(new ThreadStart(Dayuppy.Testing)); //Create a new thread to run Testing() from within Dayuppy.cs
         public static Thread chestThread = new Thread(new ThreadStart(CustomChests.ChestRandomizer));
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets)); 
-        public static Thread weaponsThread = new Thread(new ThreadStart(Weapons.WeaponsBalanceChanges)); 
+        public static Thread weaponsThread = new Thread(new ThreadStart(Weapons.WeaponsBalanceChanges));
+
+        public static Thread customEffectsThread = new Thread(new ThreadStart(CustomEffects.BabelSpearEffect));
+
 
         private void button1_Click(object sender, EventArgs e)      //Dayuppy
         {
@@ -34,6 +37,9 @@ namespace Dark_Cloud_Improved_Version
             //place here the function you want to use from your .cs file
             if (!weaponsThread.IsAlive) //If we are not already running
                 weaponsThread.Start(); //Start thread
+
+            if (!customEffectsThread.IsAlive) //If we are not already running
+                customEffectsThread.Start(); //Start thread
         }
 
         private void button3_Click(object sender, EventArgs e)      //plgue

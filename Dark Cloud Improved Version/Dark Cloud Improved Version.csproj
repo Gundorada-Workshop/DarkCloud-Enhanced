@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Addresses.cs" />
     <Compile Include="CheatCodes.cs" />
+    <Compile Include="CustomEffects.cs" />
     <Compile Include="TownCharacter.cs" />
     <Compile Include="CustomChests.cs" />
     <Compile Include="Dayuppy.cs" />
