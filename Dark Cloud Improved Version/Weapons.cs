@@ -48,8 +48,8 @@ namespace Dark_Cloud_Improved_Version
         public const int metal = 0x2027A736; //Base weapon Metal Breaker stat;
         public const int mimic = 0x2027A738; //Base weapon Mimic Breaker stat;
         public const int mage = 0x2027A73A; //Base weapon Mage Slayer stat;
-        public const int effect = 0x2027A744; //Base weapon special effects (Set 1);
-        public const int effect2 = 0x2027A745; //Base weapon special effects (Set 2);
+        public const int effect = 0x2027A744; //Base weapon special effects (Set 1); (ALSO RUNTIME)
+        public const int effect2 = 0x2027A745; //Base weapon special effects (Set 2); (ALSO RUNTIME)
         public const int buildup = 0x2027A748; //Base weapon build-up branches;
 
         //Offset between each weapon

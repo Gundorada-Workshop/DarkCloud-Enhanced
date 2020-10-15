@@ -23,7 +23,8 @@ namespace Dark_Cloud_Improved_Version
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets)); 
         public static Thread weaponsThread = new Thread(new ThreadStart(Weapons.WeaponsBalanceChanges));
 
-        public static Thread customEffectsThread = new Thread(new ThreadStart(CustomEffects.BabelSpearEffect));
+        public static Thread customEffectsThread1 = new Thread(new ThreadStart(CustomEffects.BabelSpearEffect));
+        public static Thread customEffectsThread2 = new Thread(new ThreadStart(CustomEffects.DragonsYEffect));
 
 
         private void button1_Click(object sender, EventArgs e)      //Dayuppy
@@ -38,8 +39,11 @@ namespace Dark_Cloud_Improved_Version
             if (!weaponsThread.IsAlive) //If we are not already running
                 weaponsThread.Start(); //Start thread
 
-            if (!customEffectsThread.IsAlive) //If we are not already running
-                customEffectsThread.Start(); //Start thread
+            if (!customEffectsThread1.IsAlive) //If we are not already running
+                customEffectsThread1.Start(); //Start thread
+
+            if (!customEffectsThread2.IsAlive) //If we are not already running
+                customEffectsThread2.Start(); //Start thread
         }
 
         private void button3_Click(object sender, EventArgs e)      //plgue
