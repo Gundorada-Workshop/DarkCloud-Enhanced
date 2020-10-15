@@ -20,14 +20,23 @@ namespace Dark_Cloud_Improved_Version
 
         static string cfgFile;
         static string chrFilePath;
+        static string currentCharacter = "chara/c01d.chr";
 
         static bool successful;
         static bool charSelected;
         static bool indungeon;
         static bool charaSwitchFunctionsRestored = false;
+        static bool changingLocation;
+        static bool menuExited = true;
 
         static int[] originalFunctions1 = { 201865816, 0, 201653168, 0, 201653040, 0, 604241921, 201865772 };
         static int[] originalFunctions2 = { 604241921, 201865856, 0, 209125176, 0, 604241921, 201840320 };
+        static int charNumber;
+        static int prevCharNumber = 255;
+        static int allyCount;
+        static int currentHouseID;
+        static int checkCompletion;
+        static int partsCollected = 0;
 
         public static void InitializeChrOffsets()
         {
@@ -104,10 +113,18 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress += 0x00000001;
 
             }
+            /*
+            Memory.VirtualProtect(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
+            successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
 
-            
+            if (successful == false) //There was an error
+                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
-            
+            Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));     //whenever X is pressed while on allies menu and in town, this will reload the town instead of playing a single sound
+            */
+
+
+
 
             while (1 == 1)
             {
@@ -124,67 +141,12 @@ namespace Dark_Cloud_Improved_Version
 
                 if (indungeon == true && charaSwitchFunctionsRestored == false)     //check if player is on DUNGEON, change/restore ingame functions
                 {
-                    currentAddress = 0x201F74B4;
-                    for (int i = 0; i < originalFunctions1.Length; i++)
-                    {
-                        Memory.VirtualProtect(Memory.processH, currentAddress, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-                        successful = Memory.VirtualProtectEx(Memory.processH, currentAddress, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-                        if (successful == false) //There was an error
-                            Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
-
-                        Memory.WriteInt(currentAddress, originalFunctions1[i]);
-
-                        currentAddress += 0x00000004;
-                    }
-
-                    currentAddress = 0x201F7524;
-                    for (int i = 0; i < originalFunctions2.Length; i++)
-                    {
-                        Memory.VirtualProtect(Memory.processH, currentAddress, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-                        successful = Memory.VirtualProtectEx(Memory.processH, currentAddress, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-                        if (successful == false) //There was an error
-                            Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
-
-                        Memory.WriteInt(currentAddress, originalFunctions2[i]);
-
-                        currentAddress += 0x00000004;
-                    }
+                    
 
                     charaSwitchFunctionsRestored = true;
                 }
                 else if (indungeon == false && charaSwitchFunctionsRestored == true)        //check if player is on TOWN, change ingame functions
                 {
-
-                    Memory.VirtualProtect(Memory.processH, Addresses.assignEditInit, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-                    successful = Memory.VirtualProtectEx(Memory.processH, Addresses.assignEditInit, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-                    if (successful == false) //There was an error
-                        Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
-
-                    Memory.Write(Addresses.assignEditInit, BitConverter.GetBytes(201711840));
-
-
-                    currentAddress = 0x201F74BC;
-
-                    for (int i = 0; i < 24; i++)    //Clear the previous functions when switching chara so the game doesnt crash/freeze
-                    {
-                        Memory.WriteByte(currentAddress, 0);
-                        currentAddress += 0x00000001;
-                    }
-
-
-                    currentAddress = 0x201F7524;    //Clear the previous functions when switching chara so the game doesnt crash/freeze
-
-                    for (int i = 0; i < 28; i++)
-                    {
-                        Memory.WriteByte(currentAddress, 0);
-                        currentAddress += 0x00000001;
-                    }
-
-
-
 
                     charaSwitchFunctionsRestored = false;
                 }
@@ -193,11 +155,9 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Cross)
                     {
-                        if (charSelected == false)
+                        if (charSelected == true)
                         {
                             Console.WriteLine("Chara selected");
-
-                            chrFilePath = "chara/f01a.chr"; //the path to the character file that should be loaded
 
                             currentAddress = Addresses.chrFileLocation;
 
@@ -226,7 +186,257 @@ namespace Dark_Cloud_Improved_Version
                             charSelected = true;
                         }
                     }
+
+                    if (Memory.ReadInt(0x202A28F4) == 0)
+                    {
+                        currentCharacter = chrFilePath;
+                    }
+
+                    charNumber = Memory.ReadByte(0x21D90470);
+
+                    if (prevCharNumber != charNumber)
+                    {
+                        allyCount = Memory.ReadByte(0x21CD9551);
+                        Console.WriteLine("different char");
+                        currentAddress = Addresses.chrFileLocation;
+
+                        for (int i = 0; i < 30; i++)
+                        {
+                            Memory.WriteByte(currentAddress, 0);
+                            currentAddress += 0x00000001;
+                        }
+
+                        /*
+                        Memory.VirtualProtect(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
+                        successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
+
+                        if (successful == false) //There was an error
+                            Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
+                            */
+
+                        if (charNumber == 0)
+                        {
+                            chrFilePath = "chara/c01d.chr";
+                        }
+                        else if (charNumber == 1)
+                        {
+                            /*
+                            if (allyCount > 1)
+                            {
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                            }
+                            else
+                            {
+                                Console.WriteLine("not enough allies");
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                            }
+                            */
+                            chrFilePath = "gedit/e01/chara/c04pcat.chr";
+                        }
+                        else if (charNumber == 2)
+                        {
+                            /*
+                            if (allyCount > 2)
+                            {
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                            }
+                            else
+                            {
+                                Console.WriteLine("not enough allies");
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                            }
+                            */
+                            chrFilePath = "gedit/s01/chara/c06p.chr";
+
+                        }
+                        else if (charNumber == 3)
+                        {
+                            /*
+                            if (allyCount > 3)
+                            {
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                            }
+                            else
+                            {
+                                Console.WriteLine("not enough allies");
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                            }
+                            */
+                            chrFilePath = "gedit/e03/chara/c05a.chr";
+                        }
+                        else if (charNumber == 4)
+                        {
+                            /*
+                            if (allyCount > 4)
+                            {
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                            }
+                            else
+                            {
+                                Console.WriteLine("not enough allies");
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                            }*/
+
+                            chrFilePath = "gedit/s79/chara/c10a.chr";
+                        }
+                        else if (charNumber == 5)
+                        {
+                            /*
+                            if (allyCount > 5)
+                            {
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                            }
+                            else
+                            {
+                                Console.WriteLine("not enough allies");
+                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                            }*/
+                            chrFilePath = "gedit/e05/chara/c18p.chr";
+                        }
+                        else
+                        {
+                            chrFilePath = "chara/c01d.chr";
+                        }
+
+                        currentAddress = Addresses.chrFileLocation;
+
+                        for (int i = 0; i < chrFilePath.Length; i++)
+                        {
+                            char character = chrFilePath[i];
+
+                            for (int a = 0; a < characters.Length; a++)
+                            {
+                                if (character.Equals(characters[a]))
+                                {
+                                    value1 = BitConverter.GetBytes(a + 32);
+                                }
+                            }
+
+                            /*Memory.VirtualProtect(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+                            successful = Memory.VirtualProtectEx(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+
+                            if (successful == false) //There was an error
+                                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
+                                */
+
+                            Memory.WriteByte(currentAddress, value1[0]);
+
+
+                            currentAddress += 0x00000001;
+
+                        }
+
+                        prevCharNumber = charNumber;
+                        menuExited = false;
+                    }
                 }
+                else if (menuExited == false)   //if player exits allies menu without switching character, write the current character back
+                {
+                    chrFilePath = currentCharacter;
+
+                    currentAddress = Addresses.chrFileLocation;
+
+                    for (int i = 0; i < chrFilePath.Length; i++)
+                    {
+                        char character = chrFilePath[i];
+
+                        for (int a = 0; a < characters.Length; a++)
+                        {
+                            if (character.Equals(characters[a]))
+                            {
+                                value1 = BitConverter.GetBytes(a + 32);
+                            }
+                        }
+
+
+                        Memory.WriteByte(currentAddress, value1[0]);
+
+
+                        currentAddress += 0x00000001;
+
+                    }
+                    menuExited = true;
+                    prevCharNumber = 99;
+                }
+
+                if (Memory.ReadByte(0x21D33E28) == 9)
+                {
+                    Memory.WriteByte(0x21D33E30, 3);
+                }
+
+                if (Memory.ReadInt(0x2029AA0E) != 1680945251)   //If not using Toan, force any house event to be cancelled
+                {
+                    currentHouseID = Memory.ReadByte(0x202A2820);
+
+                    if (currentHouseID != 255)  //check if its actual georama house
+                    {
+                        checkCompletion = 0xE8 * currentHouseID + 0x21D19C58;
+
+                        if (Memory.ReadByte(checkCompletion) == 0)  //checks if house has been completed when opening the door
+                        {
+                            checkCompletion = 0xE8 * currentHouseID + 0x21D19C80;
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                partsCollected += Memory.ReadByte(checkCompletion);
+                                checkCompletion += 0x20;
+                            }
+
+                            if (partsCollected == 4)
+                            {
+                                Memory.WriteByte(0x202A282C, 0);
+                            }
+                            else
+                            {
+                                Memory.WriteByte(0x202A282C, 128);
+                            }
+                            partsCollected = 0;
+                        }
+                        else
+                        {
+                            Memory.WriteByte(0x202A282C, 128);
+                        }
+                    }
+                    else
+                    {
+                        Memory.WriteByte(0x202A282C, 128);
+                    }
+                }
+
+                if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
+                {
+                    changingLocation = true;
+
+                    chrFilePath = "chara/c01d.chr";
+
+                    currentAddress = Addresses.chrFileLocation;
+
+                    for (int i = 0; i < chrFilePath.Length; i++)
+                    {
+                        char character = chrFilePath[i];
+
+                        for (int a = 0; a < characters.Length; a++)
+                        {
+                            if (character.Equals(characters[a]))
+                            {
+                                value1 = BitConverter.GetBytes(a + 32);
+                            }
+                        }
+
+
+                        Memory.WriteByte(currentAddress, value1[0]);
+
+
+                        currentAddress += 0x00000001;
+
+                    }
+                }
+
+                if (Memory.ReadByte(0x202A1E90) == 255)
+                {
+                    changingLocation = false;
+                }
+
             }
 
         }
