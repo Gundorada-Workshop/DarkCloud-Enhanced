@@ -6,7 +6,6 @@ namespace Dark_Cloud_Improved_Version
     {
         public const int gilda = 0x21CDD892;
 
-
         public const int magicCrystal = 0x202A35A0;
         public const int map = 0x202A359C;
         public const int miniMap = 0x202A35B0;
@@ -19,13 +18,19 @@ namespace Dark_Cloud_Improved_Version
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
 
+        public const int townState = 0x202A1F50;            //Check Addresses.cs for value description
+        public const int townFirstPerson = 0x202A26E0;      //0 = 3rd Person, 1 = 1st Person
+        public const int dunCameraPerspective = 0x202A1E94; //0 = Normal
+                                                            //10 = FPS
+                                                            //155 = Static
+
         public const int Ultraman = 0x21D564B0;
 
-        public const int currentCharacter = 0x20429E80;   //tells the current player selected, string 4bytes long
+        public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
 
         public static bool InDungeonFloor()
         {
-            if (Memory.ReadByte(0x21CD954F) != 255)  //Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
+            if (Memory.ReadByte(0x21CD954F) != 255)         //Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
                 return true;
 
             else
@@ -50,6 +55,11 @@ namespace Dark_Cloud_Improved_Version
             else return 255;
         }
 
+        public static int GetCurrentWeaponId() //Returns the current equipped weapon ID
+        {
+            return Memory.ReadUShort(0x21EA7590);
+        }
+
         public static ushort GetGilda() //These are example functions that we could make more of if we want. It will mean more code but better readability and function.
         {
             ushort value = Memory.ReadUShort(gilda);
@@ -61,6 +71,77 @@ namespace Dark_Cloud_Improved_Version
         {
             Console.WriteLine("Player's Gilda was set to: " + value);
             Memory.WriteUShort(gilda, value);
+        }
+
+        public static bool CheckTownFirstPersonMode()
+        {
+            if (Memory.ReadUShort(townFirstPerson) == 1)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public static bool CheckDunFirstPersonMode()
+        {
+            if (Memory.ReadUShort(dunCameraPerspective) == 10)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public static bool CheckTownIsPaused()
+        {
+            if (Memory.ReadUShort(townState) == 9)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public static bool CheckDunIsPaused()
+        {
+            int dunPauseTitle = 0x202A35C4;
+            int dunPausePlayerState = 0x202A3564;
+            int dunPauseEnemyState = 0x202A34DC;
+
+            if (Memory.ReadUShort(dunPausePlayerState) == 1
+                && Memory.ReadUShort(dunPauseEnemyState) == 1
+                && Memory.ReadUShort(dunPauseTitle) == 1
+                && Memory.ReadUShort(dunCameraPerspective) == 155)
+            {
+                return true;
+            }
+
+            else return false;
+        }
+
+        public static bool CheckIsOnMenu()
+        {
+            if (Memory.ReadUShort(townState) == 8)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public static bool CheckIsOnGeoramaMode()
+        {
+            if (Memory.ReadUShort(townState) == 4)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public static bool CheckIsFishingMode()
+        {
+            if (Memory.ReadUShort(townState) == 16)
+            {
+                return true;
+            }
+            else return false;
         }
 
         public const int elementActual = 0x21EA75A6;

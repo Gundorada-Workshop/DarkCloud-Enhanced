@@ -8,6 +8,27 @@
         public const int miniMap = 0x202A35B0;
         public const int visibility = 0x202A359C;
 
+        public const int townFirstPerson = 0x202A26E0; //0 = 3rd Person, 1 = 1st Person
+        public const int townState = 0x202A1F50; //0 = No NPCS/Player
+                                                 //1 = Walking Mode
+                                                 //2 = Returns to the last NPC spoken to (Crashes if no NPC has been interected with before a load)
+                                                 //3 = Fade in transition (Reloads state to 1)
+                                                 //4 = Georama Mode
+                                                 //5 = Last Menu accessed
+                                                 //6 = Georama Menu
+                                                 //7 = Transitioning to a menu
+                                                 //8 = Is on a menu (If forcing it while on a menu, goes to state 1, if on state 1 already it just gives a blank screen)
+                                                 //9 = Pause
+                                                 //10 = Pause without character models on the background
+                                                 //11 = Transition to Interior Mode (If used in Walking Mode: Freezes the game except some audio [CANNOT UNDO]))
+                                                 //12 = Interior Mode (if used in Walking Mode: Same as 11 excepts BGM still plays [CANNOT UNDO])
+                                                 //14 = Time Transition (Cannot Set)
+                                                 //16 = Fishing Mode
+
+        public const int pauseTitle = 0x202A35C4;
+        public const int dunPausePlayer = 0x202A3564;
+        public const int dunPauseEnemy = 0x202A34DC;
+
         public const int positionX = 0x21D331D8;
         public const int positionY = 0x21D331D0;
         public const int positionZ = 0x21D331D4;
