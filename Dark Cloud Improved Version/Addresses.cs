@@ -8,52 +8,96 @@
         public const int miniMap = 0x202A35B0;
         public const int visibility = 0x202A359C;
 
-        public const int townFirstPerson = 0x202A26E0; //0 = 3rd Person, 1 = 1st Person
-        public const int townState = 0x202A1F50; //0 = No NPCS/Player
-                                                 //1 = Walking Mode
-                                                 //2 = Returns to the last NPC spoken to (Crashes if no NPC has been interected with before a load)
-                                                 //3 = Fade in transition (Reloads state to 1)
-                                                 //4 = Georama Mode
-                                                 //5 = Last Menu accessed
-                                                 //6 = Georama Menu
-                                                 //7 = Transitioning to a menu
-                                                 //8 = Is on a menu (If forcing it while on a menu, goes to state 1, if on state 1 already it just gives a blank screen)
-                                                 //9 = Pause
-                                                 //10 = Pause without character models on the background
-                                                 //11 = Transition to Interior Mode (If used in Walking Mode: Freezes the game except some audio [CANNOT UNDO]))
-                                                 //12 = Interior Mode (if used in Walking Mode: Same as 11 excepts BGM still plays [CANNOT UNDO])
-                                                 //14 = Time Transition (Cannot Set)
-                                                 //16 = Fishing Mode
+        public const int ingameTimer = 0x21CD4314; //4 Bytes address that counts the time ingame
 
-        public const int pauseTitle = 0x202A35C4;
-        public const int dunPausePlayer = 0x202A3564;
-        public const int dunPauseEnemy = 0x202A34DC;
-
+        //Coordinates
         public const int positionX = 0x21D331D8;
         public const int positionY = 0x21D331D0;
         public const int positionZ = 0x21D331D4;
         public const int dunPositionX = 0x21EA1D30;
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
-        
+
+        //Town Stuff
+        public const int townSoftReset = 0x202A287C;    //This allows resetting to main menu in town with a value of 1
+        public const int townFirstPerson = 0x202A26E0;  //0 = 3rd Person, 1 = 1st Person
         public const int townMessageWidth = 0x21EB6438;
         public const int townMessageHeight = 0x21EB643C;
+        public const int townMode = 0x202A1F50; //0 = No NPCS/Player
+                                                //1 = Walking Mode
+                                                //2 = Returns to the last NPC spoken to (Crashes if no NPC has been interected with before a load)
+                                                //3 = Fade in transition (Reloads state to 1)
+                                                //4 = Georama Mode
+                                                //5 = Last Menu accessed
+                                                //6 = Georama Menu
+                                                //7 = Transitioning to a menu
+                                                //8 = Is on a menu (If forcing it while on a menu, goes to state 1, if on state 1 already it just gives a blank screen)
+                                                //9 = Pause
+                                                //10 = Pause without character models on the background
+                                                //11 = Transition to Interior Mode (If used in Walking Mode: Freezes the game except some audio [CANNOT UNDO]))
+                                                //12 = Interior Mode (if used in Walking Mode: Same as 11 excepts BGM still plays [CANNOT UNDO])
+                                                //14 = Time Transition (Cannot Set)
+                                                //16 = Fishing Mode
 
-        public const int dungeonClear = 0x21DF881C; //If this int = 4294967281, the dungeon is likely cleared. No idea why.
-
-        public const int dunMessage = 0x21EA76B4; //Message box to display while in dungeon - 4294967295 shows nothing
+        //Dungeon Stuff
+        public const int dungeonClear = 0x21DF881C;     //If this int = 4294967281, the dungeon is likely cleared. No idea why.
+        public const int dunPauseTitle = 0x202A35C4;    //Show the "PAUSE" title on screen (0 = OFF/1 = ON)
+        public const int dunPausePlayer = 0x202A3564;   //Is the player model in the pause state (0 = OFF/1 = ON)
+        public const int dunPauseEnemy = 0x202A34DC;    //Are the enemy models in the pause state (0 = OFF/1 = ON)
+        public const int dunMessage = 0x21EA76B4;       //Message box to display while in dungeon - 4294967295 shows nothing
         public const int dunMessageWidth = 0x21EB6438;
         public const int dunMessageHeight = 0x21EB643C;
-        public const int dunMessage10 = 0x20998BB8; //The address pointing to the text of the 10th dungeon message. 157 Byte array
-        public const int dunMessage11 = 0x20998C8E; //The address pointing to the text of the 11th dungeon message. 172 Byte array
+        public const int dunMessage10 = 0x20998BB8;     //The address pointing to the text of the 10th dungeon message. 157 Byte array
+        public const int dunMessage11 = 0x20998C8E;     //The address pointing to the text of the 11th dungeon message. 172 Byte array
+        public const int healingSpeed = 0x202A2B88;     //Counts every 10 frames when the player is inside a fountain
+
+        //Menu Stuff
+        public const int menuWMIconHover = 0x202A2D4C;  //The walking mode menu icon the cursor is hovering
+        public const int menuWMLastVisited = 0x202A2D48;//The last walking mode menu the player last accessed
+        public const int menuGMIconHover = 0x21D9EF58;  //The georama mode menu the cursor is hovering
+
+        //2 byte addresses that have specific values depending on which map location the cursor is hovering
+        public const int MapLocationHover1 = 0x202A2DBC; //Norune Village = 13760
+                                                         //Divine Beast Case = 13776
+                                                         //Matataki Village = 13792
+                                                         //Wise Owl Forest = 13808
+                                                         //Brownboo Village = 13824
+                                                         //Queens = 13840
+                                                         //Shipwreck = 13856
+                                                         //Muska Lacka = 13872
+                                                         //Sun & Moon Temple = 13888
+                                                         //Sun & Moon Temple (Inside) = 13904
+                                                         //Yellow Drops = 13920
+                                                         //Moon Factory = 13936
+                                                         //Moon Sea = 13952
+                                                         //Dark Heaven Castle = 13968
+                                                         //Gallery of Time = 13984
+                                                         //Demon Shaft = 14000
+
+        public const int MapLocationHover2 = 0x202A2DC0; //Norune Village = 18064
+                                                         //Divine Beast Case = 18688
+                                                         //Matataki Village = 17440
+                                                         //Wise Owl Forest = 16816
+                                                         //Brownboo Village = 16192
+                                                         //Queens = 15568
+                                                         //Shipwreck = 14944
+                                                         //Muska Lacka = 14320
+                                                         //Sun & Moon Temple = 20560
+                                                         //Sun & Moon Temple (Inside) = 13696
+                                                         //Yellow Drops = 19312
+                                                         //Moon Factory = 13072
+                                                         //Moon Sea = 12448
+                                                         //Dark Heaven Castle = 19936
+                                                         //Gallery of Time = 11824
+                                                         //Demon Shaft = 21184
 
         //Hide HUD
         public const int hideHud = 0x202A347C;
         public const int hideClock = 0x202A2894;
         public const int showNPCArrows = 0x202A28A4;
 
-        public const int timeofDayRead = 0x202A28F4; //Same as Time of Day value but does not clear when leaving town. Only for reading
-        public const int timeofDayWrite = 0x21CD4310; //Time of Day in town 
+        public const int timeofDayRead = 0x202A28F4;    //Same as Time of Day value but does not clear when leaving town. Only for reading
+        public const int timeofDayWrite = 0x21CD4310;   //Time of Day in town 
 
         //The percent of damage poison does to you based on max hp, default is "0.04"
         public const int poisonDamagePercent = 0x202A1860;
@@ -64,8 +108,6 @@
         //Debug Menus
         public const int itemDebugMenu = 0x21D9EC08;
         public const int dungeonDebugMenu = 0x202A35EC;
-
-        public const int townSoftReset = 0x202A287C; //This allows resetting to main menu in town with a value of 1
 
         //Inputs
         public const int buttonInputs = 0x21CBC544; //Two-byte Bitfield
