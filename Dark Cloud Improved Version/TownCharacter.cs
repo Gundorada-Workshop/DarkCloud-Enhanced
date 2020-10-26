@@ -28,6 +28,7 @@ namespace Dark_Cloud_Improved_Version
         static bool charaSwitchFunctionsRestored = false;
         static bool changingLocation;
         static bool menuExited = true;
+        static bool jokerHouse = false;
 
         static int[] originalFunctions1 = { 201865816, 0, 201653168, 0, 201653040, 0, 604241921, 201865772 };
         static int[] originalFunctions2 = { 604241921, 201865856, 0, 209125176, 0, 604241921, 201840320 };
@@ -37,6 +38,7 @@ namespace Dark_Cloud_Improved_Version
         static int currentHouseID;
         static int checkCompletion;
         static int partsCollected = 0;
+        static int currentArea;
 
         public static void InitializeChrOffsets()
         {
@@ -187,7 +189,7 @@ namespace Dark_Cloud_Improved_Version
                         }
                     }
 
-                    if (Memory.ReadInt(0x202A28F4) == 0)
+                    if (Memory.ReadInt(0x202A28F4) == 0)    //set currentCharacter after switching ally
                     {
                         currentCharacter = chrFilePath;
                     }
@@ -197,6 +199,7 @@ namespace Dark_Cloud_Improved_Version
                     if (prevCharNumber != charNumber)
                     {
                         allyCount = Memory.ReadByte(0x21CD9551);
+                        Console.WriteLine(charNumber);
                         Console.WriteLine("different char");
                         currentAddress = Addresses.chrFileLocation;
 
@@ -326,13 +329,15 @@ namespace Dark_Cloud_Improved_Version
 
                         }
 
+                        
                         prevCharNumber = charNumber;
                         menuExited = false;
                     }
                 }
-                else if (menuExited == false)   //if player exits allies menu without switching character, write the current character back
+                else if (menuExited == false && Memory.ReadByte(0x202A1E90) == 255)   //if player exits allies menu without switching character, write the current character back
                 {
                     chrFilePath = currentCharacter;
+                    Console.WriteLine("hello");
 
                     currentAddress = Addresses.chrFileLocation;
 
@@ -359,7 +364,7 @@ namespace Dark_Cloud_Improved_Version
                     prevCharNumber = 99;
                 }
 
-                if (Memory.ReadByte(0x21D33E28) == 9)
+                if (Memory.ReadByte(0x21D33E28) == 9)   //cancel landing animation to avoid being stuck
                 {
                     Memory.WriteByte(0x21D33E30, 3);
                 }
@@ -374,15 +379,32 @@ namespace Dark_Cloud_Improved_Version
 
                         if (Memory.ReadByte(checkCompletion) == 0)  //checks if house has been completed when opening the door
                         {
+                            int parts = 4;
                             checkCompletion = 0xE8 * currentHouseID + 0x21D19C80;
 
-                            for (int i = 0; i < 4; i++)
+                            if (Memory.ReadByte(0x202A2518) == 0) //check if claude's house
+                            {
+                                if (currentHouseID == 4)
+                                {
+                                    parts = 5;
+                                }
+                            }
+                            else if (Memory.ReadByte(0x202A2518) == 1) //check if cacaos house
+                            {
+                                if (currentHouseID == 1)
+                                {
+                                    parts = 5;
+                                }
+                            }                           
+
+
+                            for (int i = 0; i < parts; i++)
                             {
                                 partsCollected += Memory.ReadByte(checkCompletion);
                                 checkCompletion += 0x20;
                             }
 
-                            if (partsCollected == 4)
+                            if ((parts == 4 && partsCollected == 4) || (parts == 5 && partsCollected == 5))
                             {
                                 Memory.WriteByte(0x202A282C, 0);
                             }
@@ -396,18 +418,65 @@ namespace Dark_Cloud_Improved_Version
                         {
                             Memory.WriteByte(0x202A282C, 128);
                         }
+
+                        if (Memory.ReadByte(0x202A2518) == 2)
+                        {
+                            if (Memory.ReadByte(0x21D196A4) == 4)
+                            {
+                                if (Memory.ReadByte(0x21D19FF8) != 1)
+                                {
+                                    if (Memory.ReadByte(0x21D19710) == 1 && jokerHouse == false) //check if at joker's house door
+                                    {
+                                        Console.WriteLine("entered jokerssss");
+                                        Memory.WriteByte(0x202A2A08, 0);
+                                        jokerHouse = true;
+                                    }
+                                    else if (Memory.ReadByte(0x21D19710) == 0 && jokerHouse == true)
+                                    {
+                                        Console.WriteLine("left jokerss");
+                                        Memory.WriteByte(0x202A2A08, 1);
+                                        jokerHouse = false;
+                                    }
+                                }
+                            }
+                        }
+                
                     }
                     else
                     {
                         Memory.WriteByte(0x202A282C, 128);
                     }
+
+                    if (Memory.ReadByte(0x202A2518) == 23)
+                    {
+                        Memory.WriteByte(0x21D2849C, 0); //despawn trade quest bunny
+                    }
+                    currentArea = Memory.ReadByte(0x202A2518);
+                    if (currentArea == 11 || currentArea == 13 || currentArea == 19 || currentArea == 33 || currentArea == 35 || currentArea == 37 || currentArea == 14)
+                    {
+                        Memory.WriteByte(0x21F10000, 1); //disable eventpoints/triggers, pnach does rest
+                    }
+                    else
+                    {
+                        Memory.WriteByte(0x21F10000, 0);
+                    }
+
+                    if (Memory.ReadByte(0x21CDD80D) != 255)
+                    {
+                        Memory.WriteByte(0x21F10004, 1); //enable yaya
+                    }
+                }
+                else
+                {
+                    Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
                 }
 
                 if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
                 {
                     changingLocation = true;
-
+                    Console.WriteLine("changing location");
                     chrFilePath = "chara/c01d.chr";
+                    Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled
 
                     currentAddress = Addresses.chrFileLocation;
 
