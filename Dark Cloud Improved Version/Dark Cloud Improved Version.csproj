@@ -61,6 +61,7 @@
     <Compile Include="Dialogues.cs" />
     <Compile Include="CustomEffects.cs" />
     <Compile Include="ReusableFunctions.cs" />
+    <Compile Include="RubyOrbs.cs" />
     <Compile Include="TownCharacter.cs" />
     <Compile Include="CustomChests.cs" />
     <Compile Include="Dayuppy.cs" />

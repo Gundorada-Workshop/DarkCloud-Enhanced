@@ -2150,7 +2150,7 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static byte[] DisplayMessage(string message)
+        public static byte[] DisplayMessage(string message, int height = 4, int width = 27)
         {
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
             byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210);
@@ -2293,6 +2293,9 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
             Thread.Sleep(50);
             Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
+            Thread.Sleep(10);
+            Memory.WriteInt(0x21EB643C, height);
+            Memory.WriteInt(0x21EB6438, width);
             Thread.Sleep(2000); //Wait two seconds
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default

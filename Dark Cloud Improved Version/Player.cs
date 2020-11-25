@@ -27,6 +27,10 @@ namespace Dark_Cloud_Improved_Version
         public const int Ultraman = 0x21D564B0;
 
         public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
+        public const int currentWeaponID = 0x21EA7590;      //The current equipped weapon ID
+        public const int currentWeaponAttack = 0x21EA7594;  //The current equipped weapon Attack
+        public const int currentWeaponMagic = 0x21EA759A;   //The current equipped weapon Magic
+        public const int elementActual = 0x21EA75A6;
 
         public static bool InDungeonFloor()
         {
@@ -57,7 +61,17 @@ namespace Dark_Cloud_Improved_Version
 
         public static int GetCurrentWeaponId() //Returns the current equipped weapon ID
         {
-            return Memory.ReadUShort(0x21EA7590);
+            return Memory.ReadUShort(currentWeaponID);
+        }
+
+        public static int GetCurrentWeaponAttack() //Returns the current equipped weapon Attack
+        {
+            return Memory.ReadUShort(currentWeaponAttack);
+        }
+
+        public static int GetCurrentWeaponMagic() //Returns the current equipped weapon Magic
+        {
+            return Memory.ReadUShort(currentWeaponMagic);
         }
 
         public static ushort GetGilda() //These are example functions that we could make more of if we want. It will mean more code but better readability and function.
@@ -164,7 +178,6 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
-        public const int elementActual = 0x21EA75A6;
 
         internal class Toan
         {
@@ -177,6 +190,7 @@ namespace Dark_Cloud_Improved_Version
             public const int status = 0x21CDD814; //04 Freeze, 08 Stamina, 16 Poison, 32 Curse, 64 Goo.
             public const int statusTimer = 0x21CDD824;
             public const int currentWeaponSlot = 0x21CDD88C;
+            
 
             public static int GetHp()
             {

@@ -7,8 +7,8 @@
             public const int visible = 0x21E16BA0;
             public const int freezeTimer = 0x21E16BA8;
             public const int poisonPeriod = 0x21E16BAC;
-            public const int unknownPeriod = 0x21E16BB0;
-            public const int gooeyState = 0x21E16BB0;
+            public const int staminaTimer = 0x21E16BB0;
+            public const int gooeyState = 0x21E16BB4;
             public const int maxHp = 0x21E16BC0;
             public const int hp = 0x21E16BC4;
             public const int drop = 0x21E16C40;
@@ -23,7 +23,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -39,7 +39,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -55,7 +55,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -71,7 +71,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -87,7 +87,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -103,7 +103,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -119,7 +119,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -135,7 +135,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -151,7 +151,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -167,7 +167,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -183,7 +183,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -199,7 +199,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -215,7 +215,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -231,7 +231,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);
@@ -247,7 +247,7 @@
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
             public const int freezeTimer = Enemy0.freezeTimer + (offset * EnemyMultiplier);
             public const int poisonPeriod = Enemy0.poisonPeriod + (offset * EnemyMultiplier);
-            public const int unknownPeriod = Enemy0.unknownPeriod + (offset * EnemyMultiplier);
+            public const int staminaTimer = Enemy0.staminaTimer + (offset * EnemyMultiplier);
             public const int gooeyState = Enemy0.gooeyState + (offset * EnemyMultiplier);
             public const int maxHp = Enemy0.maxHp + (offset * EnemyMultiplier);
             public const int hp = Enemy0.hp + (offset * EnemyMultiplier);

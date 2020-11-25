@@ -122,6 +122,8 @@
         public const int RightAnalogInputX = 0x21CBC554;
         public const int RightAnalogInputY = 0x21CBC550;
 
+        public const int RestoreControl = 0x21D4A464; //Restore control to player if value is 1 in things like cutscenes
+
         public const int functionEntryPoint = 0x201F61F4; //jal BattleMenuDraw__Fv
         public const int functionEntryPoint2 = 0x201FA8BC; //jal DrawWeaponElemTag__FiiP11WEAPON_HAVEiii
         

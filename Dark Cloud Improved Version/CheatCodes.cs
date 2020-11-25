@@ -136,5 +136,16 @@ namespace Dark_Cloud_Improved_Version
                 return tmp;
             }
         }
+        public static void DebugOptions()
+        {
+            while (true)
+            {
+                if (Memory.ReadUShort(Addresses.buttonInputs) == 512)
+                    Memory.WriteUShort(Addresses.itemDebugMenu, 5);
+
+                if (Memory.ReadUShort(Addresses.buttonInputs) == 1024)
+                    Memory.WriteUShort(Addresses.dungeonDebugMenu, 220);
+            }
+        }
     }
 }

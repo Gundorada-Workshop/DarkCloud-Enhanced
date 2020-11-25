@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Linq;
-
+using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -38,7 +38,7 @@ namespace Dark_Cloud_Improved_Version
                                                     //Select = 256     L3 = 512      R3 = 1024      Start = 2048
                                                     //L1 = 4        L2 = 1      R1 = 8      R2 = 2
 
-        public static void Xiao() //Change on hit to apply stop on all enemies for the current dungeon floor.
+        public static void Xiao()
         {
             const int dunPositionZ = 0x21EA1D34;
             const int dunPositionX = 0x21EA1D30;
@@ -75,19 +75,139 @@ namespace Dark_Cloud_Improved_Version
                         else upperLimit = 25;*/
 
                         while (Memory.ReadUShort(buttonInputs) == 65        // X + L2 being pressed?
-                            && Memory.ReadFloat(dunPositionZ) < 30          // Height below 25 units?
+                            && Memory.ReadFloat(dunPositionZ) < 30   /*       // Height below 25 units?
                             && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
                             && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
                             && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
                             && Player.CheckDunIsPaused() == false           // Is paused?
                             && Player.CheckDunFirstPersonMode() == false    // Is in first person?
                             && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
-                            && Player.CheckDunIsInteracting() == false)     // Is interacting with an element? (Doors, backfloor gates...))     
+                            && Player.CheckDunIsInteracting() == false*/)     // Is interacting with an element? (Doors, backfloor gates...))     
                         {
                             Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(0.000001 * i))); //Initial speed times acceleration
                             i++;
+                        }
+                    }
+                }
+            }
+        }
 
-                            Thread.Sleep(8);
+        public static void Ruby()
+        {
+            while (true)
+            {
+                if (Player.CurrentCharacterNum() == 3)
+                {
+                    /****************************************
+                    *             MOBIUS RING               * 
+                    ****************************************/
+
+                    //Keeps increasing the damage while charging an attack
+                    if (Player.GetCurrentWeaponId() == 341)
+                    {
+                        if(Memory.ReadUShort(0x21DC4484) == 14 && Memory.ReadUShort(0x21DC4488) == 14 /*&& Memory.ReadUShort(0x21DC448C) == 14*/)
+                        {
+                            //Thread.Sleep(1000);
+                            List<int> OrbIds = RubyOrbs.GetRubyActiveOrbs();
+
+                            var damage = Player.GetCurrentWeaponAttack() + Player.GetCurrentWeaponMagic();
+                            string message;
+
+                            //Reset the charge glow
+                            if (Memory.ReadUShort(0x21DC449E) == 17008) Memory.WriteUShort(0x21DC449E, 0);
+
+                            while (Memory.ReadUShort(0x21DC4494) != 16 && Player.CheckDunIsPaused() == false)
+                            {
+                                damage += damage / 2;
+                                //Thread.Sleep(1000);
+                                if (damage > 9000) message = "Total damage is over 9000"; else message = "Total damage " + damage;
+                                Dayuppy.DisplayMessage(message, 1, 19);
+                                                                
+                                Thread.Sleep(1000);
+                                Memory.WriteUShort(0x21DC449E, 0);
+                            }
+
+                            foreach (int id in OrbIds)
+                            {
+                                switch (id)
+                                {
+                                    case 0:
+                                        /*while (Memory.ReadUShort(0x21DC4494) != 16) //Animation ID for the charge attack release
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb0.damage, Memory.ReadUShort(RubyOrbs.Orb0.damage) + (Memory.ReadUShort(RubyOrbs.Orb0.damage)/2)); //Add in the damage
+                                            Memory.WriteUShort(0x21DC449E, 0);                              //Reset the charge glow
+                                            finaldamage = Memory.ReadInt(RubyOrbs.Orb0.damage);             //Store the damage acumulated
+                                            Thread.Sleep(1000);
+                                        }*/
+
+                                        //Check for the charge attack release animation
+                                        while (Memory.ReadByte(RubyOrbs.Orb0.id) == 1) 
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb0.damage, damage); //Set the damage
+                                        }
+                                        break;
+                                    case 1:
+                                        
+
+                                        while (Memory.ReadByte(RubyOrbs.Orb1.id) == 1) 
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb1.damage, damage);
+                                        }
+                                        break;
+                                    /*case 2:
+                                        while (Memory.ReadUShort(0x21DC4494) != 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb2.damage, Memory.ReadUShort(RubyOrbs.Orb2.damage) + (Memory.ReadUShort(RubyOrbs.Orb2.damage) / 2));
+                                            Memory.WriteUShort(0x21DC449E, 0);
+                                            finaldamage = Memory.ReadInt(RubyOrbs.Orb2.damage);
+                                            Thread.Sleep(1500);
+                                        }
+                                        while (Memory.ReadUShort(0x21DC4484) == 16 && Memory.ReadUShort(0x21DC4488) == 16 && Memory.ReadUShort(0x21DC448C) == 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb2.damage, finaldamage);
+                                        }
+                                        break;
+                                    case 3:
+                                        while (Memory.ReadUShort(0x21DC4494) != 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb3.damage, Memory.ReadUShort(RubyOrbs.Orb3.damage) + (Memory.ReadUShort(RubyOrbs.Orb3.damage) / 2));
+                                            Memory.WriteUShort(0x21DC449E, 0);
+                                            finaldamage = Memory.ReadInt(RubyOrbs.Orb3.damage);
+                                            Thread.Sleep(1500);
+                                        }
+                                        while (Memory.ReadUShort(0x21DC4484) == 16 && Memory.ReadUShort(0x21DC4488) == 16 && Memory.ReadUShort(0x21DC448C) == 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb3.damage, finaldamage);
+                                        }
+                                        break;
+                                    case 4:
+                                        while (Memory.ReadUShort(0x21DC4494) != 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb4.damage, Memory.ReadUShort(RubyOrbs.Orb4.damage) + (Memory.ReadUShort(RubyOrbs.Orb4.damage) / 2));
+                                            Memory.WriteUShort(0x21DC449E, 0);
+                                            finaldamage = Memory.ReadInt(RubyOrbs.Orb4.damage);
+                                            Thread.Sleep(1500);
+                                        }
+                                        while (Memory.ReadUShort(0x21DC4484) == 16 && Memory.ReadUShort(0x21DC4488) == 16 && Memory.ReadUShort(0x21DC448C) == 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb4.damage, finaldamage);
+                                        }
+                                        break;
+                                    case 5:
+                                        while (Memory.ReadUShort(0x21DC4494) != 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb5.damage, Memory.ReadUShort(RubyOrbs.Orb5.damage) + (Memory.ReadUShort(RubyOrbs.Orb5.damage) / 2));
+                                            Memory.WriteUShort(0x21DC449E, 0);
+                                            finaldamage = Memory.ReadInt(RubyOrbs.Orb5.damage);
+                                            Thread.Sleep(1500);
+                                        }
+                                        while (Memory.ReadUShort(0x21DC4484) == 16 && Memory.ReadUShort(0x21DC4488) == 16 && Memory.ReadUShort(0x21DC448C) == 16)
+                                        {
+                                            Memory.WriteInt(RubyOrbs.Orb5.damage, finaldamage);
+                                        }
+                                        break;*/
+                                }
+                            }
                         }
                     }
                 }
@@ -288,20 +408,20 @@ namespace Dark_Cloud_Improved_Version
                         //Console.WriteLine("Whp: " + (currentWhp < formerWhp) +"\n" + "HP: " + (currentEnemyHpList.Average() < formerEnemyHpList.Average()));
 
                         //Check if any enemy got hit/damaged
-                        if (currentWhp < formerWhp && currentEnemyHpList.Average() < formerEnemyHpList.Average())
+                        if (/*currentWhp < formerWhp && */currentEnemyHpList.Average() < formerEnemyHpList.Average())
                         {
-                            Console.WriteLine("I entered the IF");
-                            //Store the damaged enemies ID onto an array
-                            int[] enemyIds = ReusableFunctions.GetEnemiesHit(formerEnemyHpList, currentEnemyHpList);
-                            //Console.WriteLine(enemyIds);
+                            //Console.WriteLine("I entered the IF");
+                            //Store the damaged enemies ID onto a list
+                            List<int> enemyIds = ReusableFunctions.GetEnemiesHit(formerEnemyHpList, currentEnemyHpList);
 
                             //Go through the enemies IDs
                             foreach (int id in enemyIds)
                             {
-                                int procChance = random.Next(0);    //Roll for chance to proc effect
+                                Console.WriteLine(id);              //Prints the damaged enemy IDs
+                                int procChance = random.Next(100);    //Roll for chance to proc effect
                                 int effect = random.Next(4);        //Roll for which effect to apply
 
-                                if (procChance == 0)
+                                if (procChance == 8)
                                 {
                                     switch (id)
                                     {

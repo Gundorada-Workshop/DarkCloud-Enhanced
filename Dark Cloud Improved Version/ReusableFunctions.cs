@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -142,14 +143,21 @@ namespace Dark_Cloud_Improved_Version
             return EnemiesHP;
         }
 
-        public static int[] GetEnemiesHit(int[] formerEnemiesHp, int[] currentEnemiesHp)
+        public static List<int> GetEnemiesHit(int[] formerEnemiesHp, int[] currentEnemiesHp)
         {
-            int[] enemyIds = { };
+            //Create a list to store the IDs
+            List<int> enemyIds = new List<int>();
 
+            //Cycle through enemies HP array
             for (int i = 0; i < formerEnemiesHp.Length; i++)
             {
+                //Check for which enemies were damaged
                 if (currentEnemiesHp[i] < formerEnemiesHp[i])
-                    enemyIds.Append(i);
+                {
+                    //Add the iterator to the list we created early as an ID for the damaged enemy
+                    enemyIds.Add(i);
+                }
+                    
             }
 
             return enemyIds;
