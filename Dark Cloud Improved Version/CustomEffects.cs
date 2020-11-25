@@ -112,6 +112,8 @@ namespace Dark_Cloud_Improved_Version
 
                             var damage = Player.GetCurrentWeaponAttack() + Player.GetCurrentWeaponMagic();
                             string message;
+                            int height;
+                            int width;
 
                             //Reset the charge glow
                             if (Memory.ReadUShort(0x21DC449E) == 17008) Memory.WriteUShort(0x21DC449E, 0);
@@ -119,12 +121,23 @@ namespace Dark_Cloud_Improved_Version
                             while (Memory.ReadUShort(0x21DC4494) != 16 && Player.CheckDunIsPaused() == false)
                             {
                                 damage += damage / 2;
-                                //Thread.Sleep(1000);
-                                if (damage > 9000) message = "Total damage is over 9000"; else message = "Total damage " + damage;
-                                Dayuppy.DisplayMessage(message, 1, 19);
-                                                                
-                                Thread.Sleep(1000);
-                                Memory.WriteUShort(0x21DC449E, 0);
+                                
+                                if (damage > 9000)
+                                {
+                                    message = "Total damage is over 9000";
+                                    height = 1;
+                                    width = 26;
+                                }
+                                else
+                                {
+                                    message = "Total damage " + damage;
+                                    height = 1;
+                                    width = 17;
+                                }
+                                //Display Message
+                                Dayuppy.DisplayMessage(message, height, width);
+                                //Clear Message
+                                //Memory.WriteUShort(0x21DC449E, 0);
                             }
 
                             foreach (int id in OrbIds)
