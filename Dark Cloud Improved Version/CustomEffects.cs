@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using System.Linq;
-using System.Drawing.Printing;
+
 
 namespace Dark_Cloud_Improved_Version
 {
     public class CustomEffects
     {
+        int[] currentEnemyHp = ReusableFunctions.GetEnemiesHp();
+
         //The current weapon equipped ID by the current loaded character
         public const int currentWeapon = 0x21EA7590;
 
@@ -38,14 +38,6 @@ namespace Dark_Cloud_Improved_Version
                                                     //Select = 256     L3 = 512      R3 = 1024      Start = 2048
                                                     //L1 = 4        L2 = 1      R1 = 8      R2 = 2
 
-
-        /****************************************
-        *                 Toan                  *
-        ****************************************/
-
-        /****************************************
-        *                 Xiao                  *
-        ****************************************/
         public static void Xiao() //Change on hit to apply stop on all enemies for the current dungeon floor.
         {
             const int dunPositionZ = 0x21EA1D34;
@@ -54,9 +46,14 @@ namespace Dark_Cloud_Improved_Version
 
             while (true)
             {
-                if(Player.CurrentCharacterNum() == 1)
+                if (Player.CurrentCharacterNum() == 1)
                 {
-                    if (Player.GetCurrentWeaponId() == 307) //Dragon's Y ID
+
+                    /****************************************
+                    *               Dragon's Y              * // DO FINAL REVISION
+                    ****************************************/
+
+                    if (Player.GetCurrentWeaponId() == 307)
                     {
                         float posX = Memory.ReadFloat(dunPositionX);
                         float posY = Memory.ReadFloat(dunPositionY);
@@ -79,33 +76,24 @@ namespace Dark_Cloud_Improved_Version
 
                         while (Memory.ReadUShort(buttonInputs) == 65        // X + L2 being pressed?
                             && Memory.ReadFloat(dunPositionZ) < 30          // Height below 25 units?
-                            && Memory.ReadFloat(dunPositionX) == posX       // Is moving on the X axis?
-                            && Memory.ReadFloat(dunPositionY) == posY       // Is moving on the Y axis?
+                            && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
+                            && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
+                            && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
                             && Player.CheckDunIsPaused() == false           // Is paused?
                             && Player.CheckDunFirstPersonMode() == false    // Is in first person?
-                            && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
                             && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
-                            && Player.CheckDunIsInteracting() == false)     // Is interacting with an element? (Doors, backfloor gates...)
+                            && Player.CheckDunIsInteracting() == false)     // Is interacting with an element? (Doors, backfloor gates...))     
                         {
-                            Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(0.000001 * i))); //Inittial speed times acceleration
+                            Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(0.000001 * i))); //Initial speed times acceleration
                             i++;
+
+                            Thread.Sleep(8);
                         }
                     }
                 }
             }
         }
 
-        /****************************************
-        *                 Goro                  *
-        ****************************************/
-
-        /****************************************
-        *                 Ruby                  *
-        ****************************************/
-
-        /****************************************
-        *                Ungaga                 *
-        ****************************************/
         public static void Ungaga()
         {
             float formerWhp = 0;
@@ -122,25 +110,25 @@ namespace Dark_Cloud_Improved_Version
                     switch (Memory.ReadByte(UngagaCurrentWeaponSlot))
                     {
                         case 0:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot0.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot0.whp); break;
                         case 1:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot1.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot1.whp); break;
                         case 2:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot2.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot2.whp); break;
                         case 3:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot3.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot3.whp); break;
                         case 4:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot4.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot4.whp); break;
                         case 5:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot5.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot5.whp); break;
                         case 6:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot6.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot6.whp); break;
                         case 7:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot7.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot7.whp); break;
                         case 8:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot8.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot8.whp); break;
                         case 9:
-                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot9.whp);    break;
+                            formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot9.whp); break;
                     }
 
                     //Save every enemy's HP on the current floor
@@ -170,25 +158,25 @@ namespace Dark_Cloud_Improved_Version
                     switch (Memory.ReadUShort(UngagaCurrentWeaponSlot))
                     {
                         case 0:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot0.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot0.whp); break;
                         case 1:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot1.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot1.whp); break;
                         case 2:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot2.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot2.whp); break;
                         case 3:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot3.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot3.whp); break;
                         case 4:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot4.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot4.whp); break;
                         case 5:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot5.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot5.whp); break;
                         case 6:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot6.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot6.whp); break;
                         case 7:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot7.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot7.whp); break;
                         case 8:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot8.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot8.whp); break;
                         case 9:
-                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot9.whp);   break;
+                            currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot9.whp); break;
                     }
 
                     //Re-save every enemy's HP on the current floor
@@ -215,16 +203,17 @@ namespace Dark_Cloud_Improved_Version
                     /****************************************
                     *             HERCULES WRATH            *
                     ****************************************/
-                    //Chance to gain stamina on getting it
+
+                    //Chance on getting hit to gain stamina
                     if (Player.GetCurrentWeaponId() == 356)
                     {
                         if (currentHP < formerHP)
                         {
-                            int procChance = random.Next(0); //Chance to apply stamina (7 = 14.28...%)
+                            int procChance = random.Next(100);
 
-                            if(procChance == 0)
+                            if (procChance < 15)
                             {
-                                Player.Ungaga.SetStatus("stamina",1800); //Give the Stamina effect for 30 seconds
+                                Player.Ungaga.SetStatus("stamina", 1800); //Give the Stamina effect for 30 seconds
                             }
                         }
                     }
@@ -236,7 +225,9 @@ namespace Dark_Cloud_Improved_Version
                     *              BABEL SPEAL              *
                     ****************************************/
 
-                    if (Player.GetCurrentWeaponId() == 357) { 
+                    //Chance on hit to apply stop to all enemies
+                    if (Player.GetCurrentWeaponId() == 357)
+                    {
                         //Compare the 2nd Whp save with the 1st Whp to check and also the average on all the enemies HP for a difference, this will tell us if the player has hit something
                         if (currentWhp < formerWhp && currentEnemiesHP.Average() < formerEnemiesHP.Average())
                         {
@@ -260,6 +251,206 @@ namespace Dark_Cloud_Improved_Version
                                 Memory.WriteUShort(Enemies.Enemy13.freezeTimer, 300);
                                 Memory.WriteUShort(Enemies.Enemy14.freezeTimer, 300);
                                 Memory.WriteUShort(Enemies.Enemy15.freezeTimer, 300);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void Osmond()
+        {
+            while (true)
+            {
+                if (Player.CurrentCharacterNum() == 5)
+                {
+
+                    /****************************************
+                    *               Supernova               *
+                    ****************************************/
+
+                    //Chance of hit to apply a random effect to the enemy
+                    if (Player.GetCurrentWeaponId() == 373)
+                    {
+                        //Get a read on all the enemies hp on the current floor
+                        float formerWhp = ReusableFunctions.GetCurrentEquippedWhp(5, Memory.ReadByte(OsmondCurrentWeaponSlot));
+                        int[] formerEnemyHpList = ReusableFunctions.GetEnemiesHp();
+
+                        Thread.Sleep(100);
+
+                        //Get a second read on all the enemies hp on the current floor
+                        float currentWhp = ReusableFunctions.GetCurrentEquippedWhp(5, Memory.ReadByte(OsmondCurrentWeaponSlot));
+                        int[] currentEnemyHpList = ReusableFunctions.GetEnemiesHp();
+
+                        //Console.WriteLine(formerWhp);
+                        //Console.WriteLine("New: " + currentWhp);
+                        //Console.WriteLine(Memory.ReadByte(OsmondCurrentWeaponSlot));
+                        //Console.WriteLine("Whp: " + (currentWhp < formerWhp) +"\n" + "HP: " + (currentEnemyHpList.Average() < formerEnemyHpList.Average()));
+
+                        //Check if any enemy got hit/damaged
+                        if (currentWhp < formerWhp && currentEnemyHpList.Average() < formerEnemyHpList.Average())
+                        {
+                            Console.WriteLine("I entered the IF");
+                            //Store the damaged enemies ID onto an array
+                            int[] enemyIds = ReusableFunctions.GetEnemiesHit(formerEnemyHpList, currentEnemyHpList);
+                            //Console.WriteLine(enemyIds);
+
+                            //Go through the enemies IDs
+                            foreach (int id in enemyIds)
+                            {
+                                int procChance = random.Next(0);    //Roll for chance to proc effect
+                                int effect = random.Next(4);        //Roll for which effect to apply
+
+                                if (procChance == 0)
+                                {
+                                    switch (id)
+                                    {
+                                        case 0:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy0.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy0.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy0.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy0.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 1:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy1.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy1.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy1.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy1.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 2:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy2.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy2.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy2.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy2.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 3:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy3.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy3.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy3.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy3.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 4:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy4.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy4.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy4.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy4.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 5:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy5.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy5.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy5.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy5.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 6:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy6.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy6.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy6.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy6.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 7:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy7.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy7.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy7.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy7.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 8:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy8.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy8.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy8.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy8.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 9:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy9.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy9.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy9.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy9.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 10:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy10.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy10.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy10.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy10.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 11:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy11.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy11.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy11.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy11.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 12:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy12.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy12.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy12.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy12.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 13:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy13.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy13.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy13.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy13.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 14:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy14.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy14.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy14.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy14.gooeyState, 1); break;
+                                            }
+                                            break;
+                                        case 15:
+                                            switch (effect)
+                                            {
+                                                case 0: Memory.WriteUShort(Enemies.Enemy15.freezeTimer, 300); break;
+                                                case 1: Memory.WriteUShort(Enemies.Enemy15.poisonPeriod, 1); break;
+                                                case 2: Memory.WriteUShort(Enemies.Enemy15.staminaTimer, 300); break;
+                                                case 3: Memory.WriteUShort(Enemies.Enemy15.gooeyState, 1); break;
+                                            }
+                                            break;
+                                    }
+                                }
                             }
                         }
                     }
