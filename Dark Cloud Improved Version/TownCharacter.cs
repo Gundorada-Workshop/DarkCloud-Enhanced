@@ -12,6 +12,13 @@ namespace Dark_Cloud_Improved_Version
         static char[] characters = { ' ', '!', '"', '#', '$', '%', '&', '`', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@',
                               'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '§', ']', '^', '_', '`',
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~' };
+
+        static char[] gameCharacters = { '^', '@', '_', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§',
+                              'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                              'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                              '´', '=', '"', '!', '?', '#', '&', '+', '-', '*', '/', '%', '(', ')', '@', '|', '<', '>', '{', '}', '[', ']', ':', ',', '.', '$',
+                              '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
         static int currentAddress;
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
@@ -29,7 +36,13 @@ namespace Dark_Cloud_Improved_Version
         static bool changingLocation;
         static bool menuExited = true;
         static bool jokerHouse = false;
+        static bool dialogueWritten = false;
+        static bool nearNPC = false;
 
+        public static bool talkableNPC = true;
+        public static bool shopkeeper = false;
+        
+        public static int onDialogueFlag = 0;
         static int[] originalFunctions1 = { 201865816, 0, 201653168, 0, 201653040, 0, 604241921, 201865772 };
         static int[] originalFunctions2 = { 604241921, 201865856, 0, 209125176, 0, 604241921, 201840320 };
         static int charNumber;
@@ -39,11 +52,14 @@ namespace Dark_Cloud_Improved_Version
         static int checkCompletion;
         static int partsCollected = 0;
         static int currentArea;
+        //used bool checks in addresses: 21F10000,21F10004,21F10008, 21F1000C
 
         public static void InitializeChrOffsets()
         {
 
             Console.WriteLine("Towncharacter running");
+
+            Dialogues.InitializeDialogues();
 
             Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             successful = Memory.VirtualProtectEx(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
@@ -465,10 +481,77 @@ namespace Dark_Cloud_Improved_Version
                     {
                         Memory.WriteByte(0x21F10004, 1); //enable yaya
                     }
+
+                    int checkNearNPC = 0;
+
+                    for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
+                    {
+                        currentAddress = i * 0x14A0 + 0x21D26FF8;
+                        if (Memory.ReadByte(currentAddress) == 1)
+                        {
+                            if (nearNPC == false || onDialogueFlag == 1)
+                            {
+                                Dialogues.SetDialogue(i);
+                                if (talkableNPC == false) //check if NPC is not llama
+                                {
+                                    Memory.WriteByte(0x21F10008, 1); //nearNPC flag for PNACH to use
+                                }
+                                talkableNPC = true;
+                                nearNPC = true;
+                                if (onDialogueFlag == 1) onDialogueFlag = 2;    //if player was already on a dialogue, the next one was written ready
+                            }
+                            checkNearNPC++;
+                        }
+                    }
+                    if (checkNearNPC == 0)
+                    {
+                        nearNPC = false;
+                        Memory.WriteByte(0x21F10008, 0); //nearNPC flag for PNACH to use
+                        onDialogueFlag = 0;
+                    }
+
+                    if (Memory.ReadByte(0x21D1CC0C) == 102 && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
+                    {
+                        onDialogueFlag = 1;
+                    }
+                    else if (Memory.ReadByte(0x21D1CC0C) == 102 && onDialogueFlag == 3) //check if current dialogue is our custom dialogue, set a flag
+                    {
+                        onDialogueFlag = 0;
+                    }
+
+                    if (onDialogueFlag == 2)  
+                    {
+                        if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
+                        {
+                            onDialogueFlag = 3;
+                        }
+                    }
+
+                    if (Memory.ReadInt(0x2029AA18) == 1882468451)   //if using Xiao, change talk camera
+                    {
+                        Memory.WriteByte(0x202A2A6C, 0);
+                        Memory.WriteByte(0x202A2A6E, 9);
+                        Memory.WriteByte(0x21F1000C, 1); //xiaoFlag for PNACH
+                    }
+                    else
+                    {
+                        Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
+                    }
+
+                    if (shopkeeper == true)     //check shopkeeper and change dialogue ID
+                    {
+                        Memory.WriteByte(0x21D3D438, 102);
+                    }
+                    else     
+                    {
+                        Memory.WriteByte(0x21D3D434, 102);
+                    }
+
                 }
                 else
                 {
                     Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
+                    Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
                 }
 
                 if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
@@ -505,6 +588,63 @@ namespace Dark_Cloud_Improved_Version
                 {
                     changingLocation = false;
                 }
+
+                
+                
+                /*
+                if (dialogueWritten == false)
+                {
+                    currentAddress = 0x21D3D434; //Dialogue ID for the first chat option
+
+                    for (int s = 0; s < 4; s++)
+                    {
+                        Memory.WriteByte(currentAddress, 46);
+                        currentAddress += 0x4;
+                    }
+
+                    string circletext = "I´ll have two number 9s, a number 9 large,^a number 6 with extra dip,^a number 7, two number 45s,^one with cheese, and a large soda.";
+
+                    currentAddress = 0x206498A0;
+
+                    for (int i = 0; i < circletext.Length; i++)
+                    {
+                        char character = circletext[i];
+
+                        for (int a = 0; a < gameCharacters.Length; a++)
+                        {
+                            if (character.Equals(gameCharacters[a]))
+                            {
+                                value1 = BitConverter.GetBytes(a);
+                            }
+                        }
+
+
+                        Memory.WriteByte(currentAddress, value1[0]);
+
+                        currentAddress += 0x00000001;
+
+                        if (value1[0] == 0 || value1[0] == 2)
+                        {
+                            value1 = BitConverter.GetBytes(255);
+                            Memory.WriteByte(currentAddress, value1[0]);
+                        }
+                        else
+                        {
+                            value1 = BitConverter.GetBytes(253);
+                            Memory.WriteByte(currentAddress, value1[0]);
+                        }
+
+                        currentAddress += 0x00000001;
+                    }
+
+                    Memory.WriteByte(currentAddress, 1);
+                    currentAddress += 0x00000001;
+                    Memory.WriteByte(currentAddress, 255);
+                    dialogueWritten = true;
+                }
+                */
+
+                Thread.Sleep(1);
 
             }
 
