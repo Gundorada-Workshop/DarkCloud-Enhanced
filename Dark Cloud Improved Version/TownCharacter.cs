@@ -589,8 +589,8 @@ namespace Dark_Cloud_Improved_Version
                     changingLocation = false;
                 }
 
-                
-                
+
+
                 /*
                 if (dialogueWritten == false)
                 {
