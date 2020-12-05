@@ -32,6 +32,9 @@ namespace Dark_Cloud_Improved_Version
         static int[] customDialoguesCheck = new int[15];
         static int[] noruneXiaoCheck = new int[15];
         static int[] noruneGoroCheck = new int[15];
+        static int[] noruneRubyCheck = new int[15];
+        static int[] noruneUngagaCheck = new int[15];
+        static int[] noruneOsmondCheck = new int[15];
 
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
@@ -74,17 +77,23 @@ namespace Dark_Cloud_Improved_Version
 
                 else if (Memory.ReadInt(currentAddress) == 811937652)  //Ruby
                 {
-
+                    customDialogues = noruneRuby;
+                    customDialogues2 = noruneRuby2;
+                    customDialoguesCheck = noruneRubyCheck;
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 930295668)  //Ungaga
                 {
-
+                    customDialogues = noruneUngaga;
+                    customDialogues2 = noruneUngaga2;
+                    customDialoguesCheck = noruneUngagaCheck;
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 811937652)  //Osmond
                 {
-
+                    customDialogues = noruneOsmond;
+                    customDialogues2 = noruneOsmond2;
+                    customDialoguesCheck = noruneOsmondCheck;
                 }
 
                 currentChar = Memory.ReadInt(currentAddress);
