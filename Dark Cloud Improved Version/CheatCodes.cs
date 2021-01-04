@@ -145,7 +145,9 @@ namespace Dark_Cloud_Improved_Version
 
                 if (Memory.ReadUShort(Addresses.buttonInputs) == 1024)
                     Memory.WriteUShort(Addresses.dungeonDebugMenu, 220);
-            }
+
+                Thread.Sleep(1);
+            }         
         }
     }
 }

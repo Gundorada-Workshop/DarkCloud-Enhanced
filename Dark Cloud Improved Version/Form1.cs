@@ -48,8 +48,8 @@ namespace Dark_Cloud_Improved_Version
             /*if (!customEffectsThread1.IsAlive) //If we are not already running
                 customEffectsThread1.Start(); //Start thread*/
 
-            if (!customEffectsThread3.IsAlive) //If we are not already running
-                customEffectsThread3.Start(); //Start thread
+            /*if (!customEffectsThread3.IsAlive) //If we are not already running
+                customEffectsThread3.Start(); //Start thread*/
 
             /*if (!customEffectsThread4.IsAlive) //If we are not already running
                 customEffectsThread4.Start(); //Start thread*/
