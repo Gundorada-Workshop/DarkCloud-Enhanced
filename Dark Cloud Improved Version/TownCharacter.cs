@@ -513,6 +513,7 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadByte(0x21D1CC0C) == 102 && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
                     {
                         onDialogueFlag = 1;
+                        Dialogues.ChangeDialogue(); //when we detect that player activates a dialogue, change the flag
                     }
                     else if (Memory.ReadByte(0x21D1CC0C) == 102 && onDialogueFlag == 3) //check if current dialogue is our custom dialogue, set a flag
                     {

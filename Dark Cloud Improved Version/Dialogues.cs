@@ -27,6 +27,7 @@ namespace Dark_Cloud_Improved_Version
         static int currentArea = 255;
         static int currentChar;
         static int characterIdData;
+        static int savedDialogueCheck;
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
 
         static int[] customDialoguesCheck = new int[15];
@@ -56,6 +57,11 @@ namespace Dark_Cloud_Improved_Version
                 else if (Memory.ReadByte(0x202A2518) == 2) currentArea = 2;
                 else if (Memory.ReadByte(0x202A2518) == 3) currentArea = 3;
                 SetDefaultDialogue(currentArea);
+
+                for (int i = 0; i < customDialoguesCheck.Length; i++)   //reset NPC dialogue progress if changed area
+                {
+                    customDialoguesCheck[i] = 0;
+                }
             }
 
             currentAddress = Addresses.chrFileLocation + 0x6;
@@ -97,6 +103,11 @@ namespace Dark_Cloud_Improved_Version
                 }
 
                 currentChar = Memory.ReadInt(currentAddress);
+
+                for (int i = 0; i < customDialoguesCheck.Length; i++)   //reset NPC dialogue progress if changed ally
+                {
+                    customDialoguesCheck[i] = 0;
+                }
             }
 
 
@@ -110,12 +121,12 @@ namespace Dark_Cloud_Improved_Version
                     if (customDialoguesCheck[i] != 1)
                     {
                         currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
-                        customDialoguesCheck[i] = 1;                      
+                        savedDialogueCheck = i;                      
                     }
                     else
                     {
                         currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
-                        customDialoguesCheck[i] = 0;
+                        savedDialogueCheck = i;
                     }
 
                     if (i == 1 || i == 11)  //check for shopkeeper
@@ -260,6 +271,18 @@ namespace Dark_Cloud_Improved_Version
 
             Console.WriteLine("nearNPC+SetDefaultDialogue");
 
+        }
+
+        public static void ChangeDialogue()
+        {
+            if (customDialoguesCheck[savedDialogueCheck] != 1)  //change dialogue flag between 1st and 2nd dialogue
+            {
+                customDialoguesCheck[savedDialogueCheck] = 1;
+            }
+            else
+            {
+                customDialoguesCheck[savedDialogueCheck] = 0;
+            }
         }
 
         //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
