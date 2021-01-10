@@ -138,12 +138,10 @@ namespace Dark_Cloud_Improved_Version
                                 Memory.ReadUShort(Enemies.Enemy14.hp),
                                 Memory.ReadUShort(Enemies.Enemy15.hp)};
 
-            //double average = formerEnemiesHP.Average();
-
             return EnemiesHP;
         }
 
-        public static List<int> GetEnemiesHit(int[] formerEnemiesHp, int[] currentEnemiesHp)
+        public static List<int> GetEnemiesHitIds(int[] formerEnemiesHp, int[] currentEnemiesHp)
         {
             //Create a list to store the IDs
             List<int> enemyIds = new List<int>();
@@ -157,7 +155,6 @@ namespace Dark_Cloud_Improved_Version
                     //Add the iterator to the list we created early as an ID for the damaged enemy
                     enemyIds.Add(i);
                 }
-                    
             }
 
             return enemyIds;

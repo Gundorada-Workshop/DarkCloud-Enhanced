@@ -275,6 +275,11 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
 
+            public static int GetWeaponSlot()
+            {
+                return Memory.ReadUShort(currentWeaponSlot);
+            }
+
             //Addresses taken from https://deconstruction.fandom.com/wiki/Dark_Cloud
             internal class WeaponSlot0
             {
@@ -711,6 +716,10 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(statusTimer, timer);
                         break;
                 }
+            }
+            public static int GetWeaponSlot()
+            {
+                return Memory.ReadUShort(currentWeaponSlot);
             }
 
             internal class WeaponSlot0
@@ -1152,6 +1161,10 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
             }
+            public static int GetWeaponSlot()
+            {
+                return Memory.ReadUShort(currentWeaponSlot);
+            }
 
             internal class WeaponSlot0
             {
@@ -1592,6 +1605,10 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
             }
+            public static int GetWeaponSlot()
+            {
+                return Memory.ReadUShort(currentWeaponSlot);
+            }
 
             internal class WeaponSlot0
             {
@@ -2030,6 +2047,10 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(statusTimer, timer);
                         break;
                 }
+            }
+            public static int GetWeaponSlot()
+            {
+                return Memory.ReadUShort(currentWeaponSlot);
             }
 
             internal class WeaponSlot0
@@ -2470,6 +2491,10 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(statusTimer, timer);
                         break;
                 }
+            }
+            public static int GetWeaponSlot()
+            {
+                return Memory.ReadUShort(currentWeaponSlot);
             }
 
             internal class WeaponSlot0 //Move to Player class instead of Ungaga
