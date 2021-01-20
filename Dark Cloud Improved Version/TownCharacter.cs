@@ -23,7 +23,8 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
-        static byte checkByte;
+        static byte checkByte; 
+        static byte[] townDialogueIDs = { 247, 167, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         static string cfgFile;
         static string chrFilePath;
@@ -52,6 +53,7 @@ namespace Dark_Cloud_Improved_Version
         static int checkCompletion;
         static int partsCollected = 0;
         static int currentArea;
+        
         //used bool checks in addresses: 21F10000,21F10004,21F10008, 21F1000C
 
         public static void InitializeChrOffsets()
@@ -510,12 +512,12 @@ namespace Dark_Cloud_Improved_Version
                         onDialogueFlag = 0;
                     }
 
-                    if (Memory.ReadByte(0x21D1CC0C) == 102 && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
+                    if (Memory.ReadByte(0x21D1CC0C) == townDialogueIDs[currentArea] && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
                     {
                         onDialogueFlag = 1;
                         Dialogues.ChangeDialogue(); //when we detect that player activates a dialogue, change the flag
                     }
-                    else if (Memory.ReadByte(0x21D1CC0C) == 102 && onDialogueFlag == 3) //check if current dialogue is our custom dialogue, set a flag
+                    else if (Memory.ReadByte(0x21D1CC0C) == townDialogueIDs[currentArea] && onDialogueFlag == 3) //check if current dialogue is our custom dialogue, set a flag
                     {
                         onDialogueFlag = 0;
                     }
@@ -541,11 +543,11 @@ namespace Dark_Cloud_Improved_Version
 
                     if (shopkeeper == true)     //check shopkeeper and change dialogue ID
                     {
-                        Memory.WriteByte(0x21D3D438, 102);
+                        Memory.WriteByte(0x21D3D438, townDialogueIDs[currentArea]);
                     }
                     else     
                     {
-                        Memory.WriteByte(0x21D3D434, 102);
+                        Memory.WriteByte(0x21D3D434, townDialogueIDs[currentArea]);
                     }
 
                 }

@@ -20,6 +20,16 @@ namespace Dark_Cloud_Improved_Version
         static string[] noruneUngaga2 = new string[15];
         static string[] noruneOsmond = new string[15];
         static string[] noruneOsmond2 = new string[15];
+        static string[] matatakiXiao = new string[15];
+        static string[] matatakiXiao2 = new string[15];
+        static string[] matatakiGoro = new string[15];
+        static string[] matatakiGoro2 = new string[15];
+        static string[] matatakiRuby = new string[15];
+        static string[] matatakiRuby2 = new string[15];
+        static string[] matatakiUngaga = new string[15];
+        static string[] matatakiUngaga2 = new string[15];
+        static string[] matatakiOsmond = new string[15];
+        static string[] matatakiOsmond2 = new string[15];
         static string currentDialogue;
         static string prevDialogue;
 
@@ -29,6 +39,7 @@ namespace Dark_Cloud_Improved_Version
         static int characterIdData;
         static int savedDialogueCheck;
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
+        static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
 
         static int[] customDialoguesCheck = new int[15];
         static int[] noruneXiaoCheck = new int[15];
@@ -36,6 +47,11 @@ namespace Dark_Cloud_Improved_Version
         static int[] noruneRubyCheck = new int[15];
         static int[] noruneUngagaCheck = new int[15];
         static int[] noruneOsmondCheck = new int[15];
+        static int[] matatakiXiaoCheck = new int[15];
+        static int[] matatakiGoroCheck = new int[15];
+        static int[] matatakiRubyCheck = new int[15];
+        static int[] matatakiUngagaCheck = new int[15];
+        static int[] matatakiOsmondCheck = new int[15];
 
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
@@ -62,6 +78,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     customDialoguesCheck[i] = 0;
                 }
+                currentChar = 0;
             }
 
             currentAddress = Addresses.chrFileLocation + 0x6;
@@ -70,36 +87,81 @@ namespace Dark_Cloud_Improved_Version
             {
                 if (Memory.ReadInt(currentAddress) == 791752805) //Xiao
                 {
-                    customDialogues = noruneXiao;
-                    customDialogues2 = noruneXiao2;
-                    customDialoguesCheck = noruneXiaoCheck;
+                    if (currentArea == 0)
+                    {
+                        customDialogues = noruneXiao;
+                        customDialogues2 = noruneXiao2;
+                        customDialoguesCheck = noruneXiaoCheck;
+                    }
+                    else if (currentArea == 1)
+                    {
+                        customDialogues = matatakiXiao;
+                        customDialogues2 = matatakiXiao2;
+                        customDialoguesCheck = matatakiXiaoCheck;
+                    }
                 }
                 else if (Memory.ReadInt(currentAddress) == 791752819)  //Goro
                 {
-                    customDialogues = noruneGoro;
-                    customDialogues2 = noruneGoro2;
-                    customDialoguesCheck = noruneGoroCheck;
+                    if (currentArea == 0)
+                    {
+                        customDialogues = noruneGoro;
+                        customDialogues2 = noruneGoro2;
+                        customDialoguesCheck = noruneGoroCheck;
+                    }
+                    else if (currentArea == 1)
+                    {
+                        customDialogues = matatakiGoro;
+                        customDialogues2 = matatakiGoro2;
+                        customDialoguesCheck = matatakiGoroCheck;
+                    }
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 791883877)  //Ruby
                 {
-                    customDialogues = noruneRuby;
-                    customDialogues2 = noruneRuby2;
-                    customDialoguesCheck = noruneRubyCheck;
+                    if (currentArea == 0)
+                    {
+                        customDialogues = noruneRuby;
+                        customDialogues2 = noruneRuby2;
+                        customDialoguesCheck = noruneRubyCheck;
+                    }
+                    else if (currentArea == 1)
+                    {
+                        customDialogues = matatakiRuby;
+                        customDialogues2 = matatakiRuby2;
+                        customDialoguesCheck = matatakiRubyCheck;
+                    }
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 792278899)  //Ungaga
                 {
-                    customDialogues = noruneUngaga;
-                    customDialogues2 = noruneUngaga2;
-                    customDialoguesCheck = noruneUngagaCheck;
+                    if (currentArea == 0)
+                    {
+                        customDialogues = noruneUngaga;
+                        customDialogues2 = noruneUngaga2;
+                        customDialoguesCheck = noruneUngagaCheck;
+                    }
+                    else if (currentArea == 1)
+                    {
+                        customDialogues = matatakiUngaga;
+                        customDialogues2 = matatakiUngaga2;
+                        customDialoguesCheck = matatakiUngagaCheck;
+                    }
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 792014949)  //Osmond
                 {
-                    customDialogues = noruneOsmond;
-                    customDialogues2 = noruneOsmond2;
-                    customDialoguesCheck = noruneOsmondCheck;
+                    if (currentArea == 0)
+                    {
+                        customDialogues = noruneOsmond;
+                        customDialogues2 = noruneOsmond2;
+                        customDialoguesCheck = noruneOsmondCheck;
+                    }
+                    else if (currentArea == 1)
+                    {
+                        customDialogues = matatakiOsmond;
+                        customDialogues2 = matatakiOsmond2;
+                        customDialoguesCheck = matatakiOsmondCheck;
+                    }
                 }
 
                 currentChar = Memory.ReadInt(currentAddress);
@@ -113,29 +175,59 @@ namespace Dark_Cloud_Improved_Version
 
             currentAddress = offset * 0x14A0 + 0x21D26FD9;
             characterIdData = Memory.ReadShort(currentAddress);     //store the ID value of nearby character
-
-            for (int i = 0; i < noruneCharacters.Length; i++)   //search through array to find character match
+            if (currentArea == 0)
             {
-                if (characterIdData == noruneCharacters[i])
+                for (int i = 0; i < noruneCharacters.Length; i++)   //search through array to find character match
                 {
-                    if (customDialoguesCheck[i] != 1)
+                    if (characterIdData == noruneCharacters[i])
                     {
-                        currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
-                        savedDialogueCheck = i;                      
-                    }
-                    else
-                    {
-                        currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
-                        savedDialogueCheck = i;
-                    }
+                        if (customDialoguesCheck[i] != 1)
+                        {
+                            currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
+                        else
+                        {
+                            currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
 
-                    if (i == 1 || i == 11)  //check for shopkeeper
-                    {
-                        TownCharacter.shopkeeper = true;
+                        if (i == 1 || i == 11)  //check for shopkeeper
+                        {
+                            TownCharacter.shopkeeper = true;
+                        }
+                        else
+                        {
+                            TownCharacter.shopkeeper = false;
+                        }
                     }
-                    else
+                }
+            }
+            else if (currentArea == 1)
+            {
+                for (int i = 0; i < matatakiCharacters.Length; i++)   //search through array to find character match
+                {
+                    if (characterIdData == matatakiCharacters[i])
                     {
-                        TownCharacter.shopkeeper = false;
+                        if (customDialoguesCheck[i] != 1)
+                        {
+                            currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
+                        else
+                        {
+                            currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
+
+                        if (i == 10 || i == 11)  //check for shopkeeper
+                        {
+                            TownCharacter.shopkeeper = true;
+                        }
+                        else
+                        {
+                            TownCharacter.shopkeeper = false;
+                        }
                     }
                 }
             }
@@ -144,8 +236,14 @@ namespace Dark_Cloud_Improved_Version
             {
                 TownCharacter.talkableNPC = false;
             }
-
-            currentAddress = 0x2064BA60; //hag's longest line
+            if (currentArea == 0)
+            {
+                currentAddress = 0x206507BE; //gaffers first normal "hello" dialogue
+            }
+            else if (currentArea == 1)
+            {
+                currentAddress = 0x2064ECBC; //pao's first normal "hello" dialogue
+            }
 
             for (int i = 0; i < currentDialogue.Length; i++)
             {
@@ -328,10 +426,10 @@ namespace Dark_Cloud_Improved_Version
             noruneGoro[3] = "Oh so you are from Matataki Village?^My husband works as a travelling^merchant there!";
             noruneGoro[4] = "My goodness you look just like Claude,^were you two separated at birth?";
             noruneGoro[5] = "Look at you, a hunter!^You´re talking to a true blue fisherman^so I guess I´m a bit of a hunter myself.";
-            noruneGoro[6] = "So you´re a hunter from Matataki?^Do you think your so tough?^Let me tell you something, I'm strong.¤I bet you that I´m stronger than your^best hunter at Matataki mwahaha!";
+            noruneGoro[6] = "So you´re a hunter from Matataki?^Do you think your so tough?^Let me tell you something, I´m strong.¤I bet you that I´m stronger than your^best hunter at Matataki mwahaha!";
             noruneGoro[7] = "Hmm, I wonder what Alnet would say^if I brought home a mallet like that.";
             noruneGoro[8] = "I heard you are from Matataki Village,^I´ve never been there but I know Auntie^Laura´s husband has traveled there¤in the past for work.^I wonder if you know him?";
-            noruneGoro[9] = "Hello there, you´re another one of^Toan’s friends! Do you ever get tired^from always carrying that mallet around?";
+            noruneGoro[9] = "Hello there, you´re another one of^Toan´s friends! Do you ever get tired^from always carrying that mallet around?";
             noruneGoro[10] = "Everyone in the village says I look^just like you, you should give me^your bearskin hood¤and we can play a prank on all of Norune!";
             noruneGoro[11] = "I´ve heard that Matataki Village has^magical fairies called Laughapockle,^these seven fairies can be quite^mischievous!";
             noruneGoro[12] = "I´ve heard you can find a monster named^King Prickly around Matataki Village,¤I´ve been having an issue with Pricklies^coming in my home so I can´t imagine^a King Prickley!";
@@ -445,7 +543,158 @@ namespace Dark_Cloud_Improved_Version
             noruneOsmond2[10] = "Ť should take me to the Moon^one day, I bet I could live^like a king on the Moon!";
             noruneOsmond2[11] = "There was something I always wanted^to ask a Moon Person, perhaps^you may have the answer.¤I heard whispers of a legendary tower^that floats in the sky by the name of^the Demon Shaft, who created that^and for what purpose?";
             noruneOsmond2[12] = "What, you are from the Moon?! I see,^perhaps Dran knows something about the^people of the Moon. Norune Village^hopes that you feel welcome and at home!";
-        }
+
+
+
+            //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            matatakiXiao[0] = "Hello there, you must be a^traveler since we don´t see many^cats around here.";
+            matatakiXiao[1] = "";
+            matatakiXiao[2] = "";
+            matatakiXiao[3] = "";
+            matatakiXiao[4] = "";
+            matatakiXiao[5] = "";
+            matatakiXiao[6] = "";
+            matatakiXiao[7] = "";
+            matatakiXiao[8] = "";
+            matatakiXiao[9] = "";
+            matatakiXiao[10] = "";
+            matatakiXiao[11] = "";
+
+            matatakiXiao2[0] = "Be careful around this village, the^hunters here are vigilant. I´ll be sure^to dismantle any traps around our house^for now, you are welcome here.";
+            matatakiXiao2[1] = "";
+            matatakiXiao2[2] = "";
+            matatakiXiao2[3] = "";
+            matatakiXiao2[4] = "";
+            matatakiXiao2[5] = "";
+            matatakiXiao2[6] = "";
+            matatakiXiao2[7] = "";
+            matatakiXiao2[8] = "";
+            matatakiXiao2[9] = "";
+            matatakiXiao2[10] = "";
+            matatakiXiao2[11] = "";
+
+
+            //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            matatakiGoro[0] = "";
+            matatakiGoro[1] = "";
+            matatakiGoro[2] = "";
+            matatakiGoro[3] = "";
+            matatakiGoro[4] = "";
+            matatakiGoro[5] = "";
+            matatakiGoro[6] = "";
+            matatakiGoro[7] = "";
+            matatakiGoro[8] = "";
+            matatakiGoro[9] = "";
+            matatakiGoro[10] = "";
+            matatakiGoro[11] = "";
+
+            matatakiGoro2[0] = "";
+            matatakiGoro2[1] = "";
+            matatakiGoro2[2] = "";
+            matatakiGoro2[3] = "";
+            matatakiGoro2[4] = "";
+            matatakiGoro2[5] = "";
+            matatakiGoro2[6] = "";
+            matatakiGoro2[7] = "";
+            matatakiGoro2[8] = "";
+            matatakiGoro2[9] = "";
+            matatakiGoro2[10] = "";
+            matatakiGoro2[11] = "";
+
+
+            //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            matatakiRuby[0] = "";
+            matatakiRuby[1] = "";
+            matatakiRuby[2] = "";
+            matatakiRuby[3] = "";
+            matatakiRuby[4] = "";
+            matatakiRuby[5] = "";
+            matatakiRuby[6] = "";
+            matatakiRuby[7] = "";
+            matatakiRuby[8] = "";
+            matatakiRuby[9] = "";
+            matatakiRuby[10] = "";
+            matatakiRuby[11] = "";
+
+            matatakiRuby2[0] = "";
+            matatakiRuby2[1] = "";
+            matatakiRuby2[2] = "";
+            matatakiRuby2[3] = "";
+            matatakiRuby2[4] = "";
+            matatakiRuby2[5] = "";
+            matatakiRuby2[6] = "";
+            matatakiRuby2[7] = "";
+            matatakiRuby2[8] = "";
+            matatakiRuby2[9] = "";
+            matatakiRuby2[10] = "";
+            matatakiRuby2[11] = "";
+
+
+            //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            matatakiUngaga[0] = "";
+            matatakiUngaga[1] = "";
+            matatakiUngaga[2] = "";
+            matatakiUngaga[3] = "";
+            matatakiUngaga[4] = "";
+            matatakiUngaga[5] = "";
+            matatakiUngaga[6] = "";
+            matatakiUngaga[7] = "";
+            matatakiUngaga[8] = "";
+            matatakiUngaga[9] = "";
+            matatakiUngaga[10] = "";
+            matatakiUngaga[11] = "";
+
+            matatakiUngaga2[0] = "";
+            matatakiUngaga2[1] = "";
+            matatakiUngaga2[2] = "";
+            matatakiUngaga2[3] = "";
+            matatakiUngaga2[4] = "";
+            matatakiUngaga2[5] = "";
+            matatakiUngaga2[6] = "";
+            matatakiUngaga2[7] = "";
+            matatakiUngaga2[8] = "";
+            matatakiUngaga2[9] = "";
+            matatakiUngaga2[10] = "";
+            matatakiUngaga2[11] = "";
+
+
+            //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            matatakiOsmond[0] = "";
+            matatakiOsmond[1] = "";
+            matatakiOsmond[2] = "";
+            matatakiOsmond[3] = "";
+            matatakiOsmond[4] = "";
+            matatakiOsmond[5] = "";
+            matatakiOsmond[6] = "";
+            matatakiOsmond[7] = "";
+            matatakiOsmond[8] = "";
+            matatakiOsmond[9] = "";
+            matatakiOsmond[10] = "";
+            matatakiOsmond[11] = "";
+
+            matatakiOsmond2[0] = "";
+            matatakiOsmond2[1] = "";
+            matatakiOsmond2[2] = "";
+            matatakiOsmond2[3] = "";
+            matatakiOsmond2[4] = "";
+            matatakiOsmond2[5] = "";
+            matatakiOsmond2[6] = "";
+            matatakiOsmond2[7] = "";
+            matatakiOsmond2[8] = "";
+            matatakiOsmond2[9] = "";
+            matatakiOsmond2[10] = "";
+            matatakiOsmond2[11] = "";
+        }           
 
     }
 }
