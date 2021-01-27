@@ -639,12 +639,12 @@ namespace Dark_Cloud_Improved_Version
             //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            matatakiUngaga[0] = "";
-            matatakiUngaga[1] = "";
-            matatakiUngaga[2] = "";
-            matatakiUngaga[3] = "";
-            matatakiUngaga[4] = "";
-            matatakiUngaga[5] = "";
+            matatakiUngaga[0] = "As the years go by, I find myself^thinking about my youth. The problems^we faced and the challenges we overcame^together.¤Annie was always with me through thick^and thin, I´m very thankful for that.¤Family and loved ones are important,^never forget that young man.";
+            matatakiUngaga[1] = "These days Ro has been very^introspective, this situation with the^Dark Genie must have really got to him. I^wish life can return to how it once was.¤At my age I´ve seen a lot of life, but^I´ve seen a lot of death as well,^Fudo is proof of that.¤These are feelings that I wish no one^else has to go through. I know that^things will get better in time,^thank you for the help.";
+            matatakiUngaga[2] = "I never seen you in this village,^what brings you here?¤Oh you're assisting Ť and^Ʊ on their quest,^that´s amazing!";
+            matatakiUngaga[3] = "Welcome to Matataki Village, I heard^the other villagers talking about a tall^warrior who is aiding Ť^on his quest.¤I can tell you are strong,^they need all the help they can get.";
+            matatakiUngaga[4] = "Woah brother, you look tough!";
+            matatakiUngaga[5] = "When I was walking by the Waterfall^my friend Mardan Garayan told me that^he was going to move to Muska Racka,^I wonder where that is?";
             matatakiUngaga[6] = "";
             matatakiUngaga[7] = "";
             matatakiUngaga[8] = "";
@@ -652,12 +652,12 @@ namespace Dark_Cloud_Improved_Version
             matatakiUngaga[10] = "";
             matatakiUngaga[11] = "";
 
-            matatakiUngaga2[0] = "";
-            matatakiUngaga2[1] = "";
-            matatakiUngaga2[2] = "";
-            matatakiUngaga2[3] = "";
-            matatakiUngaga2[4] = "";
-            matatakiUngaga2[5] = "";
+            matatakiUngaga2[0] = "Defeat the evil Ų, there will^always be brighter days ahead,^that alone is worth fighting for.";
+            matatakiUngaga2[1] = "Times are uncertain but that won´t^stop me from being positive,¤maybe when this is all over we´ll^travel north to visit our^neighbors in Norune Village!";
+            matatakiUngaga2[2] = "I don´t think I´ve ever seen anyone^fight with a large staff like that,^let alone be able to control^the wind either!";
+            matatakiUngaga2[3] = "I wonder what kind of beasts the^warriors of Muska Racka hunt?";
+            matatakiUngaga2[4] = "I wonder what kind of culinary^delights can be found in your village^of Muska Racka?¤I´m proud of my manly cooking but there^is always room to improve and^implement new styles!";
+            matatakiUngaga2[5] = "I always wondered, is it Muska Lacka^or Muska Racka? It´s hard to believe^a village like that would have^such a confusing name!";
             matatakiUngaga2[6] = "";
             matatakiUngaga2[7] = "";
             matatakiUngaga2[8] = "";

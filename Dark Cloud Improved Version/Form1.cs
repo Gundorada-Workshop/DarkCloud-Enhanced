@@ -22,6 +22,8 @@ namespace Dark_Cloud_Improved_Version
         public static Thread chestThread = new Thread(new ThreadStart(CustomChests.ChestRandomizer));
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
         public static Thread weaponsThread = new Thread(new ThreadStart(Weapons.WeaponsBalanceChanges));
+        public static Thread TASSThread = new Thread(new ThreadStart(TASThread.RunTAS));
+        public static Thread TASSThread2 = new Thread(new ThreadStart(TASThread.RecordTAS));
 
         private void button1_Click(object sender, EventArgs e)      //Dayuppy
         {
@@ -44,13 +46,14 @@ namespace Dark_Cloud_Improved_Version
 
         private void button3_Click(object sender, EventArgs e)      //plgue
         {
-            //place here the function you want to use from your .cs file
+            //place here the function you want to use from your .cs file            
         }
 
         private void button4_Click(object sender, EventArgs e)      //wordofwind
         {
             //if (!chestThread.IsAlive) chestThread.Start();
-            if (!townThread.IsAlive) townThread.Start();
+            if (!TASSThread.IsAlive) TASSThread.Start();
+            //if (!TASSThread2.IsAlive) TASSThread2.Start();
         }
     }
 }
