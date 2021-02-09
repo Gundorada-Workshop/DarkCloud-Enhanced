@@ -63,13 +63,12 @@ namespace Dark_Cloud_Improved_Version
             {
                 Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(0.000001 * i))); //Initial speed times acceleration
                 i++;
-
             }
         }
 
         public static void TallHammer()
         {
-            
+            //Offset between the enemy's dimension addresses
             int scaleOffset = MiniBoss.scaleOffset;
 
             //Save weapon Whp
@@ -86,27 +85,30 @@ namespace Dark_Cloud_Improved_Version
             //Re-save every enemy's HP on the current floor
             int[] currentEnemyHpList = ReusableFunctions.GetEnemiesHp();
 
-            Console.WriteLine("Former WHP: " + formerWhp);
-            Console.WriteLine("Current WHP: " + currentWhp);
-
             //Compare the 2nd Whp save with the 1st Whp to check for a difference and also the average on all the enemies HP for a difference, this will tell us if the player has hit something
             if (currentWhp < formerWhp && currentEnemyHpList.Average() < formerEnemyHpList.Average())
             {
                 //Store the damaged enemies ID onto a list
                 List<int> enemyIds = ReusableFunctions.GetEnemiesHitIds(formerEnemyHpList, currentEnemyHpList);
 
+                //Run through the enemies hit
                 foreach (int id in enemyIds)
                 {
-                    Console.WriteLine("Enemies hit: " + id);
-
+                    //Declare the enemy dimensions based on the enemy that got hit
                     float enemyZeroWidth = Memory.ReadFloat(0x21E18530 + (scaleOffset * id));
                     float enemyZeroHeight = Memory.ReadFloat(0x21E18534 + (scaleOffset * id));
                     float enemyZeroDepth = Memory.ReadFloat(0x21E18538 + (scaleOffset * id));
 
+                    //Set an initial acceleration value
                     float i = 0.15f;
+
+                    //Set a counter for how many times to change the enemy's dimensions (this acts as a duration variable)
                     int counter = 0;
+
+                    //Instructions will run for 1000 times (arbitrary number) and only while the enemy's dimensions are between 30% - 100% of their original size 
                     while ( counter < 1000 && ((enemyZeroWidth >= 0.3f && enemyZeroWidth <= 1f) || (enemyZeroHeight >= 0.3f && enemyZeroHeight <= 1f) || (enemyZeroDepth >= 0.3f && enemyZeroDepth <= 1f)))
                     {
+                        //Change the each of the enemy axis dimensions (X,Y and Z) based on the offset from the original Enemy 0 address
                         Memory.WriteFloat(MiniBoss.enemyZeroWidth + (scaleOffset * id), enemyZeroWidth - (i * 0.0001f));
                         Memory.WriteFloat(MiniBoss.enemyZeroHight + (scaleOffset * id), enemyZeroHeight - (i * 0.0001f));
                         Memory.WriteFloat(MiniBoss.enemyZeroDepth + (scaleOffset * id), enemyZeroDepth - (i * 0.0001f));
@@ -204,94 +206,6 @@ namespace Dark_Cloud_Improved_Version
         }
 
 
-            /*//Check on which slot is the weapon equipped on and save its Whp
-            switch (Memory.ReadByte(UngagaCurrentWeaponSlot))
-            {
-                case 0:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot0.whp); break;
-                case 1:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot1.whp); break;
-                case 2:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot2.whp); break;
-                case 3:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot3.whp); break;
-                case 4:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot4.whp); break;
-                case 5:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot5.whp); break;
-                case 6:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot6.whp); break;
-                case 7:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot7.whp); break;
-                case 8:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot8.whp); break;
-                case 9:
-                    formerWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot9.whp); break;
-            }
-
-            //Save every enemy's HP on the current floor
-            int[] formerEnemiesHP = {   Memory.ReadUShort(Enemies.Enemy0.hp),
-                                            Memory.ReadUShort(Enemies.Enemy1.hp),
-                                            Memory.ReadUShort(Enemies.Enemy2.hp),
-                                            Memory.ReadUShort(Enemies.Enemy3.hp),
-                                            Memory.ReadUShort(Enemies.Enemy4.hp),
-                                            Memory.ReadUShort(Enemies.Enemy5.hp),
-                                            Memory.ReadUShort(Enemies.Enemy6.hp),
-                                            Memory.ReadUShort(Enemies.Enemy7.hp),
-                                            Memory.ReadUShort(Enemies.Enemy8.hp),
-                                            Memory.ReadUShort(Enemies.Enemy9.hp),
-                                            Memory.ReadUShort(Enemies.Enemy10.hp),
-                                            Memory.ReadUShort(Enemies.Enemy11.hp),
-                                            Memory.ReadUShort(Enemies.Enemy12.hp),
-                                            Memory.ReadUShort(Enemies.Enemy13.hp),
-                                            Memory.ReadUShort(Enemies.Enemy14.hp),
-                                            Memory.ReadUShort(Enemies.Enemy15.hp)};*/
-
-            
-
-            /*//Re-check the slot to which the current weapon is equipped on and save its Whp again
-            switch (Memory.ReadUShort(UngagaCurrentWeaponSlot))
-            {
-                case 0:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot0.whp); break;
-                case 1:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot1.whp); break;
-                case 2:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot2.whp); break;
-                case 3:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot3.whp); break;
-                case 4:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot4.whp); break;
-                case 5:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot5.whp); break;
-                case 6:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot6.whp); break;
-                case 7:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot7.whp); break;
-                case 8:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot8.whp); break;
-                case 9:
-                    currentWhp = Memory.ReadFloat(Player.Ungaga.WeaponSlot9.whp); break;
-            }
-
-            //Re-save every enemy's HP on the current floor
-            int[] currentEnemiesHP = {  Memory.ReadUShort(Enemies.Enemy0.hp),
-                                            Memory.ReadUShort(Enemies.Enemy1.hp),
-                                            Memory.ReadUShort(Enemies.Enemy2.hp),
-                                            Memory.ReadUShort(Enemies.Enemy3.hp),
-                                            Memory.ReadUShort(Enemies.Enemy4.hp),
-                                            Memory.ReadUShort(Enemies.Enemy5.hp),
-                                            Memory.ReadUShort(Enemies.Enemy6.hp),
-                                            Memory.ReadUShort(Enemies.Enemy7.hp),
-                                            Memory.ReadUShort(Enemies.Enemy8.hp),
-                                            Memory.ReadUShort(Enemies.Enemy9.hp),
-                                            Memory.ReadUShort(Enemies.Enemy10.hp),
-                                            Memory.ReadUShort(Enemies.Enemy11.hp),
-                                            Memory.ReadUShort(Enemies.Enemy12.hp),
-                                            Memory.ReadUShort(Enemies.Enemy13.hp),
-                                            Memory.ReadUShort(Enemies.Enemy14.hp),
-                                            Memory.ReadUShort(Enemies.Enemy15.hp)};*/
-
         public static void HerculesWrath()
         //Chance on getting hit to gain Stamina
         {
@@ -305,11 +219,14 @@ namespace Dark_Cloud_Improved_Version
 
             if (currentHP < formerHP)
             {
+                //Declare the scale for the chance to base on (0 - 100)
                 int procChance = random.Next(100);
 
+                //Check for the chance to take effect (15 = 15%)
                 if (procChance < 15)
                 {
-                    Player.Ungaga.SetStatus("stamina", 1800); //Give the Stamina effect for 30 seconds
+                    //Give the Stamina effect for 30 seconds (1800 = 30 seg)
+                    Player.Ungaga.SetStatus("stamina", 1800); 
                 }
             }
         }
