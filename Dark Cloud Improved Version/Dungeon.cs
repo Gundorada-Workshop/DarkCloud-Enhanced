@@ -39,6 +39,10 @@ namespace Dark_Cloud_Improved_Version
 
                         //Goro
                         case 2:
+                            if (Player.GetCurrentWeaponId() == 324) //Tall Hammer ID
+                            {
+                                CustomEffects.TallHammer();
+                            }
                             break;
 
                         //Ruby

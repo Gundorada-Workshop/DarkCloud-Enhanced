@@ -67,6 +67,56 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        public static void TallHammer()
+        {
+            
+            int scaleOffset = MiniBoss.scaleOffset;
+
+            //Save weapon Whp
+            float formerWhp = ReusableFunctions.GetCurrentEquippedWhp(Player.CurrentCharacterNum(), Player.Goro.GetWeaponSlot());
+
+            //Save every enemy's HP on the current floor
+            int[] formerEnemyHpList = ReusableFunctions.GetEnemiesHp();
+
+            Thread.Sleep(250);
+
+            //Re-save every enemy's HP on the current floor
+            float currentWhp = ReusableFunctions.GetCurrentEquippedWhp(Player.CurrentCharacterNum(), Player.Goro.GetWeaponSlot());
+
+            //Re-save every enemy's HP on the current floor
+            int[] currentEnemyHpList = ReusableFunctions.GetEnemiesHp();
+
+            Console.WriteLine("Former WHP: " + formerWhp);
+            Console.WriteLine("Current WHP: " + currentWhp);
+
+            //Compare the 2nd Whp save with the 1st Whp to check for a difference and also the average on all the enemies HP for a difference, this will tell us if the player has hit something
+            if (currentWhp < formerWhp && currentEnemyHpList.Average() < formerEnemyHpList.Average())
+            {
+                //Store the damaged enemies ID onto a list
+                List<int> enemyIds = ReusableFunctions.GetEnemiesHitIds(formerEnemyHpList, currentEnemyHpList);
+
+                foreach (int id in enemyIds)
+                {
+                    Console.WriteLine("Enemies hit: " + id);
+
+                    float enemyZeroWidth = Memory.ReadFloat(0x21E18530 + (scaleOffset * id));
+                    float enemyZeroHeight = Memory.ReadFloat(0x21E18534 + (scaleOffset * id));
+                    float enemyZeroDepth = Memory.ReadFloat(0x21E18538 + (scaleOffset * id));
+
+                    float i = 0.15f;
+                    int counter = 0;
+                    while ( counter < 1000 && ((enemyZeroWidth >= 0.3f && enemyZeroWidth <= 1f) || (enemyZeroHeight >= 0.3f && enemyZeroHeight <= 1f) || (enemyZeroDepth >= 0.3f && enemyZeroDepth <= 1f)))
+                    {
+                        Memory.WriteFloat(MiniBoss.enemyZeroWidth + (scaleOffset * id), enemyZeroWidth - (i * 0.0001f));
+                        Memory.WriteFloat(MiniBoss.enemyZeroHight + (scaleOffset * id), enemyZeroHeight - (i * 0.0001f));
+                        Memory.WriteFloat(MiniBoss.enemyZeroDepth + (scaleOffset * id), enemyZeroDepth - (i * 0.0001f));
+                        i++;
+                        counter++;
+                    }
+                }
+            }
+        }
+
         public static void MobiusRing()
         {
             
@@ -283,7 +333,7 @@ namespace Dark_Cloud_Improved_Version
             int[] currentEnemiesHP = ReusableFunctions.GetEnemiesHp();
 
             //Compare the 2nd Whp save with the 1st Whp to check for a difference and also the average on all the enemies HP for a difference, this will tell us if the player has hit something
-            if (currentWhp < formerWhp && currentEnemiesHP.Average() < formerEnemiesHP.Average())
+            if (currentWhp < formerWhp && currentEnemiesHP.Average() != formerEnemiesHP.Average())
             {
                 int procChance = random.Next(100); //Chance to apply stop (4%)
 
@@ -322,7 +372,7 @@ namespace Dark_Cloud_Improved_Version
             int[] currentEnemyHpList = ReusableFunctions.GetEnemiesHp();
 
             //Check if any enemy got hit/damaged
-            if (currentEnemyHpList.Average() < formerEnemyHpList.Average())
+            if (currentEnemyHpList.Average() != formerEnemyHpList.Average())
             {
                 //Store the damaged enemies ID onto a list
                 List<int> enemyIds = ReusableFunctions.GetEnemiesHitIds(formerEnemyHpList, currentEnemyHpList);
