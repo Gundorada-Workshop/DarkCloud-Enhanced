@@ -532,8 +532,16 @@ namespace Dark_Cloud_Improved_Version
 
                     if (Memory.ReadInt(0x2029AA18) == 1882468451)   //if using Xiao, change talk camera
                     {
-                        Memory.WriteByte(0x202A2A6C, 0);
-                        Memory.WriteByte(0x202A2A6E, 9);
+                        if (currentArea == 0)
+                        {
+                            Memory.WriteByte(0x202A2A6C, 0);
+                            Memory.WriteByte(0x202A2A6E, 9);
+                        }
+                        else if (currentArea == 1)
+                        {
+                            Memory.WriteUShort(0x202A2A6C, 2544);
+                            Memory.WriteByte(0x202A2A6E, 9);
+                        }
                         Memory.WriteByte(0x21F1000C, 1); //xiaoFlag for PNACH
                     }
                     else

@@ -52,7 +52,8 @@ namespace Dark_Cloud_Improved_Version
         private void button4_Click(object sender, EventArgs e)      //wordofwind
         {
             //if (!chestThread.IsAlive) chestThread.Start();
-            if (!TASSThread.IsAlive) TASSThread.Start();
+            if (!townThread.IsAlive) townThread.Start();
+            //if (!TASSThread.IsAlive) TASSThread.Start();
             //if (!TASSThread2.IsAlive) TASSThread2.Start();
         }
     }

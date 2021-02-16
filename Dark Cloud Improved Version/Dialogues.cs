@@ -550,90 +550,90 @@ namespace Dark_Cloud_Improved_Version
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             matatakiXiao[0] = "Hello there, you must be a^traveler since we don´t see many^cats around here.";
-            matatakiXiao[1] = "";
-            matatakiXiao[2] = "";
-            matatakiXiao[3] = "";
-            matatakiXiao[4] = "";
-            matatakiXiao[5] = "";
-            matatakiXiao[6] = "";
-            matatakiXiao[7] = "";
-            matatakiXiao[8] = "";
-            matatakiXiao[9] = "";
-            matatakiXiao[10] = "";
-            matatakiXiao[11] = "";
+            matatakiXiao[1] = "Ohohoh aren´t you a cute one!";
+            matatakiXiao[2] = "Oh my, what is a small cat like you^doing here?¤You better be careful in this village,^we hunt ferocious beasts but you seem^like a gentle kitty.";
+            matatakiXiao[3] = "Hey there don´t mind my scarf I´m a^friendly guy, I swear!";
+            matatakiXiao[4] = "Here kitty, I have a proposition for^you! If you could keep an eye on Momo^for me I´ll cook for you my specialty^manly cooking kitty cat miracle dish!";
+            matatakiXiao[5] = "If it isn´t a little itty bitty kitty^cat... Your cute appearance can´t^fool me, for I know your secret!¤You are actually the legendary white^tiger coming back to hunt us one by^one!";
+            matatakiXiao[6] = "Haha, seeing you brings back many^memories of my youth! After a long^fought battle, I conquered this lion^that I´m wearing but I´m sure you´re¤more tough than any king of the jungle^little one!";
+            matatakiXiao[7] = "Interesting, it´s rare seeing a cat^like you here. The last time we had a^feline come into the village was when¤the legendary white tiger came to^challenge Fudo.¤I don´t believe in wearing any beast^skins, you can feel at ease when you´re^with me.";
+            matatakiXiao[8] = ".......Cute.......";
+            matatakiXiao[9] = "Oh wow, I can´t believe that there´s a^cat in the village, wait until Kululu^hears about this!";
+            matatakiXiao[10] = "Oh hello there kitty, I´m very happy to^see you I don´t always have visitors.^It´s very nice to meet you Ӿ!";
+            matatakiXiao[11] = "Hooo! You better not get any ideas cat,^I´m not going to be an easy meal!";
 
             matatakiXiao2[0] = "Be careful around this village, the^hunters here are vigilant. I´ll be sure^to dismantle any traps around our house^for now, you are welcome here.";
-            matatakiXiao2[1] = "";
-            matatakiXiao2[2] = "";
-            matatakiXiao2[3] = "";
-            matatakiXiao2[4] = "";
-            matatakiXiao2[5] = "";
-            matatakiXiao2[6] = "";
-            matatakiXiao2[7] = "";
-            matatakiXiao2[8] = "";
-            matatakiXiao2[9] = "";
-            matatakiXiao2[10] = "";
-            matatakiXiao2[11] = "";
+            matatakiXiao2[1] = "Poor little kitty do you have a home?^You shouldn´t be living in the forest.¤It could be dangerous here, if you need^anything feel free to come back, our^house is hard to miss!";
+            matatakiXiao2[2] = "Wow that´s such a pretty little bell,^I´d love to have that as a necklace!";
+            matatakiXiao2[3] = "It must be a bizarre feeling being in a^village like this... The villagers of^Matataki take pride in wearing the^skins and fur of the beasts they¤defeated in battle, each one was a^challenge we overcame. For us, these^skins and what they represent are a way^of life.";
+            matatakiXiao2[4] = "I wonder if cats like you can even^digest my manly cooking,¤hmm maybe you shouldn´t have it after^all!";
+            matatakiXiao2[5] = "Wait, perhaps I can use your power!¤Join me white tiger and together^we can rule the world.";
+            matatakiXiao2[6] = "Say I remember hearing that small cats^like you are common in our neighbouring^village of Norune just north of our^Matataki.¤I wonder what brings you to these parts?";
+            matatakiXiao2[7] = "The story of Fudo and his heroism is so^inspiring. Sometimes I get upset that^he is not here with us.¤I know that although he may not be here,^he will always be in our hearts.¤I´ve never been much of a hunter but^Fudo continues to inspire me to be a^stronger person and to overcome my^challenges and make Fudo proud.¤Perhaps one day, we will both be strong^little kitty.";
+            matatakiXiao2[8] = "......Here Kitty Kitty......";
+            matatakiXiao2[9] = "Beasts rarely come to the village^because they know that strong hunters^live here, like me!";
+            matatakiXiao2[10] = "Sometimes I wish I could leave this^house and see the outside world, only^sometimes though.¤Ӿ it would be nice if you could^visit from time to time and tell me^all about your adventures with your^friends, I would appreciate that.¤We could enjoy some fish candy^and share stories!!";
+            matatakiXiao2[11] = "If your hungry for some fish, I´m sure^I can give you a great deal!";
 
 
             //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            matatakiGoro[0] = "";
-            matatakiGoro[1] = "";
-            matatakiGoro[2] = "";
-            matatakiGoro[3] = "";
-            matatakiGoro[4] = "";
-            matatakiGoro[5] = "";
-            matatakiGoro[6] = "";
-            matatakiGoro[7] = "";
-            matatakiGoro[8] = "";
-            matatakiGoro[9] = "";
-            matatakiGoro[10] = "";
-            matatakiGoro[11] = "";
+            matatakiGoro[0] = "Why if it isn´t young Ʊ I´m^happy to see that you´ve come to join^the other villagers.";
+            matatakiGoro[1] = "My oh my, if it isn´t little Ʊ!^You´ve grown up but you still have those^chubby cheeks, come here and let your¤granny Annie give you a pinch for old^times´ sake!";
+            matatakiGoro[2] = "Hey there, who would have thought the^son of the legendary hunter would be so^handsome!"; //Suppose to end with heart <3
+            matatakiGoro[3] = "It´s a surprise seeing you come outside^Ʊ we were worried about you.¤We wanted to reach out but at the same^time we knew that you needed your space.¤Know that you will always have a place^in this village, we are all family.";
+            matatakiGoro[4] = "Grrrr, I have reason to believe that^Momo has her eyes on you! What does she^see in you that I don´t have.¤I bet you don´t even know how to cook!";
+            matatakiGoro[5] = "You, you´re the boy who lives in the^tree house! Oh I heard a lot about you^yes!¤The Spirits said you would come, they^said you would save us all they did!";
+            matatakiGoro[6] = "Do my eyes deceive me?! What a surprise^but a welcome one to be sure! You´ve^become a man since I last saw you^Ʊ.";
+            matatakiGoro[7] = "Hello there Ʊ, you´ve grown^since I last saw you. I understand^how difficult things may be for you.¤Remember to hold your head up high and^always take pride in the life that was^given you.¤What happened to Fudo was a tragedy but^that suffering shouldn´t define you,^you´ll always be your father´s son and^you already made him proud.¤I can´t wait to start writing songs^about the Legendary Hunter Ʊ,^Son of Fudo.";
+            matatakiGoro[8] = "......You grew......";
+            matatakiGoro[9] = "Woaah, you´re that weird kid who never^comes out of his house!¤I remember when we were younger we would^play in the forest all the time!¤Haha do you remember when we would chase^after those Laughapockle? Good Times!";
+            matatakiGoro[10] = "The Spirits told me all about you^Ʊ¤I know the loneliness that comes with^being all alone.¤I´m happy that you found your purpose^and overcame that challenge.";
+            matatakiGoro[11] = "Look whooo decided to come out of^hiding! It´s about time, buy something^will ya!";
 
-            matatakiGoro2[0] = "";
-            matatakiGoro2[1] = "";
-            matatakiGoro2[2] = "";
-            matatakiGoro2[3] = "";
-            matatakiGoro2[4] = "";
-            matatakiGoro2[5] = "";
-            matatakiGoro2[6] = "";
-            matatakiGoro2[7] = "";
-            matatakiGoro2[8] = "";
-            matatakiGoro2[9] = "";
-            matatakiGoro2[10] = "";
-            matatakiGoro2[11] = "";
+            matatakiGoro2[0] = "I remember seeing your father Fudo^teaching you how to hunt when you were^young, you were a natural.¤You definitely take after your old man^but you are a little chubby haha!";
+            matatakiGoro2[1] = "No matter how much you´ve grown you´ll^always be little Ʊ to me!";
+            matatakiGoro2[2] = "Once you and your friends are done^saving the world, we should go shopping^sometime!";
+            matatakiGoro2[3] = "I could tell that you´ve been training,^you´ve grown!¤Be careful when you are in the forest,^I heard there is a monster named King^Prickly that jumps out at you when you^least expect it!";
+            matatakiGoro2[4] = "Regardless of how I feel, men must put^their feelings aside. Best of luck on^your journey my friend.¤When you defeat that Dark Genie, I´ll^make a manly cooking feast in your^honor!";
+            matatakiGoro2[5] = "Ʊ I had a great respect for^your father Fudo but he did leave one^thing undone...¤That man still owes me five Gilda, how^uncivilized leaving this world without^paying me!¤Feel free to pay your fathers debt at^your convenience son.";
+            matatakiGoro2[6] = "Grow strong Ʊ and rid this^world of the evil that plagues it.¤My time in this world is limited, this^village will require a new chief...¤Grow strong and make Fudo proud, he will^always watch over you. May you watch^over us Legendary Hunter Ʊ.";
+            matatakiGoro2[7] = "Stay strong Ʊ all of^Matataki is cheering you on! One day you^will surpass even your father Fudo,^always believe in yourself and never¤give up.^Let your might trample the eternal^forest beasts in your way brave hunter.";
+            matatakiGoro2[8] = "......I miss Fudo, thank you for saving^us Ʊ......";
+            matatakiGoro2[9] = "Say, can I borrow that mallet you got^there?¤It would be handy for squashing those^pesky Earth Diggers!";
+            matatakiGoro2[10] = "Remember, if you ever need somewhere to^store your mallet collection come to me.";
+            matatakiGoro2[11] = "I wonder how much you would sell that^bear fur, it would make a nice rug.";
 
 
             //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            matatakiRuby[0] = "";
-            matatakiRuby[1] = "";
-            matatakiRuby[2] = "";
-            matatakiRuby[3] = "";
-            matatakiRuby[4] = "";
-            matatakiRuby[5] = "";
-            matatakiRuby[6] = "";
-            matatakiRuby[7] = "";
-            matatakiRuby[8] = "";
-            matatakiRuby[9] = "";
-            matatakiRuby[10] = "";
-            matatakiRuby[11] = "";
+            matatakiRuby[0] = "Greetings young lady and welcome to the^village of Matataki!";
+            matatakiRuby[1] = "Oh hello there young lady, I´ve seen you^helping Ʊ and Ť on^their quest!";
+            matatakiRuby[2] = "I love your outfit, it´s so glamorous!^I get tired of wearing the same beast^skins.¤Maybe we should go shopping together and^you could help me put together a cute^outfit!";
+            matatakiRuby[3] = "I don´t think I´ve ever seen you here,^it seems like Ť is gathering^allies from all over Terra!¤We are a proud village of hunters,^if you need any assistance with anything^let us know.";
+            matatakiRuby[4] = "I heard from some of the other villagers^that you´re from the port town of Queens,^how did you travel all the way over^here!?";
+            matatakiRuby[5] = "Ah if it isn´t my lovely granddaughter^Momo. My goodness, what did you do to^your hair!";
+            matatakiRuby[6] = "Hello there young lady, on behalf of all^of the Matataki villagers I wanted to^thank you for your assistance on^Ť and Ʊ´s quest.¤I guess not all magic is bad after all.";
+            matatakiRuby[7] = "You must be the friendly genie everyone^is talking about.¤This village is home to some of the best^hunters on Terra. To be honest, I have^never been one for fighting but magic^sounds interesting.";
+            matatakiRuby[8] = "...I can feel your magical energy...";
+            matatakiRuby[9] = "I never saw someone with purple hair^before!¤You say you´re from Queens, does^everyone from Queens have purple hair^and dress weird?";
+            matatakiRuby[10] = "I can feel the magical power emanating^from you, you must be one powerful^genie! I´m happy you´re on our side.";
+            matatakiRuby[11] = "Remember to buy more items to help you^on your quest. Genie or not you´ll need^all the help you can get!";
 
-            matatakiRuby2[0] = "";
-            matatakiRuby2[1] = "";
-            matatakiRuby2[2] = "";
-            matatakiRuby2[3] = "";
-            matatakiRuby2[4] = "";
-            matatakiRuby2[5] = "";
-            matatakiRuby2[6] = "";
-            matatakiRuby2[7] = "";
-            matatakiRuby2[8] = "";
-            matatakiRuby2[9] = "";
-            matatakiRuby2[10] = "";
-            matatakiRuby2[11] = "";
+            matatakiRuby2[0] = "Seeing you reminds me of Annie when she^was your age, oh she was the most^beautiful lady in the  village.¤I remember getting into arguments with^Kye and Baron over her.¤In the end it was me who won her over^with my dashing good looks and smart wit^haha!";
+            matatakiRuby2[1] = "The other villagers say that your trying^to prove that your Terra´s greatest^genie.¤I think that is very admirable that^you´re also helping us along your way,^it´s like hitting two Fli Fli´s with one^stone!";
+            matatakiRuby2[2] = "Matataki´s way of life focuses on^hunting and comradery, although Queens^does sounds exciting!¤I´d love to visit a port town with lots^of shops!";
+            matatakiRuby2[3] = "The word in the village is that you´re a^powerful genie, I guess that explains^your odd clothes!";
+            matatakiRuby2[4] = "If you ever feel even the slightest bit^hungry feel free to enjoy my manly^cooking.¤Wait do genies get hungry like humans?";
+            matatakiRuby2[5] = "Momo, I know I may be a handful, I know^I may be silly but I wanted thank you^for taking care of me.";
+            matatakiRuby2[6] = "The magic and wonder of going on an^adventure, oh to be young again!";
+            matatakiRuby2[7] = "If you don´t mind me asking, do you know^of any spells to enhance one´s musical^ability?";
+            matatakiRuby2[8] = "......I like your hair......";
+            matatakiRuby2[9] = "Using magic sounds like it would make^hunting a breeze!¤Do you think you could teach me one day?";
+            matatakiRuby2[10] = "I´ve been trying to practice magic at^home to the best of my ability.¤I was able to turn my candy into Gilda!¤I made sure to transform it back because^Gilda doesn´t taste as good as delicious^candy.";
+            matatakiRuby2[11] = "I know you may be the best genie in the^world but that doesn´t change anything,^you have to pay like everyone else!";
 
 
             //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
@@ -641,16 +641,16 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             matatakiUngaga[0] = "As the years go by, I find myself^thinking about my youth. The problems^we faced and the challenges we overcame^together.¤Annie was always with me through thick^and thin, I´m very thankful for that.¤Family and loved ones are important,^never forget that young man.";
             matatakiUngaga[1] = "These days Ro has been very^introspective, this situation with the^Dark Genie must have really got to him. I^wish life can return to how it once was.¤At my age I´ve seen a lot of life, but^I´ve seen a lot of death as well,^Fudo is proof of that.¤These are feelings that I wish no one^else has to go through. I know that^things will get better in time,^thank you for the help.";
-            matatakiUngaga[2] = "I never seen you in this village,^what brings you here?¤Oh you're assisting Ť and^Ʊ on their quest,^that´s amazing!";
+            matatakiUngaga[2] = "I never seen you in this village,^what brings you here?¤Oh you´re assisting Ť and^Ʊ on their quest,^that´s amazing!";
             matatakiUngaga[3] = "Welcome to Matataki Village, I heard^the other villagers talking about a tall^warrior who is aiding Ť^on his quest.¤I can tell you are strong,^they need all the help they can get.";
             matatakiUngaga[4] = "Woah brother, you look tough!";
             matatakiUngaga[5] = "When I was walking by the Waterfall^my friend Mardan Garayan told me that^he was going to move to Muska Racka,^I wonder where that is?";
-            matatakiUngaga[6] = "";
-            matatakiUngaga[7] = "";
-            matatakiUngaga[8] = "";
-            matatakiUngaga[9] = "";
-            matatakiUngaga[10] = "";
-            matatakiUngaga[11] = "";
+            matatakiUngaga[6] = "If it isn´t another one of Ť^and Ʊ´s traveling companions!^Make yourself at home fellow hunter.¤Perhaps you could teach me how^to use that fighting stick!";
+            matatakiUngaga[7] = "I heard from some of the other villagers^that you are from the far off desert^village of Muska Racka, a village^renowned for their powerful warriors.¤I remember reading that the desert is a^harsh climate full of competing tribes.^If only we can all live in harmony...";
+            matatakiUngaga[8] = "...You´re so tall...";
+            matatakiUngaga[9] = "You´re huge giant man,^how did you get so tall!";
+            matatakiUngaga[10] = "Hello tall man, you are almost as tall as me!^Keep on growing tall man and maybe one^day we could both be giants!";
+            matatakiUngaga[11] = "Such exotic clothes, how much gilda^would you like for your hat sir?";
 
             matatakiUngaga2[0] = "Defeat the evil Ų, there will^always be brighter days ahead,^that alone is worth fighting for.";
             matatakiUngaga2[1] = "Times are uncertain but that won´t^stop me from being positive,¤maybe when this is all over we´ll^travel north to visit our^neighbors in Norune Village!";
@@ -658,42 +658,42 @@ namespace Dark_Cloud_Improved_Version
             matatakiUngaga2[3] = "I wonder what kind of beasts the^warriors of Muska Racka hunt?";
             matatakiUngaga2[4] = "I wonder what kind of culinary^delights can be found in your village^of Muska Racka?¤I´m proud of my manly cooking but there^is always room to improve and^implement new styles!";
             matatakiUngaga2[5] = "I always wondered, is it Muska Lacka^or Muska Racka? It´s hard to believe^a village like that would have^such a confusing name!";
-            matatakiUngaga2[6] = "";
-            matatakiUngaga2[7] = "";
-            matatakiUngaga2[8] = "";
-            matatakiUngaga2[9] = "";
-            matatakiUngaga2[10] = "";
-            matatakiUngaga2[11] = "";
+            matatakiUngaga2[6] = "I wanted to extended my^gratitude Ų. Although Matataki^and Muska Racka are two villages very^far away from one another, we´re still¤helping each other. Both villages^take pride in their strength and the^warriors that call these two areas home.¤Know that if we all come together,^we can defeat this great evil.";
+            matatakiUngaga2[7] = "Brave warrior of the scorpion tribe,^seeing you has reminded me of a fairy^tale I heard when I was younger.¤It told the tale of someone who lived^in a harsh environment much like^us hunters. They overcame the many^challenges life threw their way and¤even went on to help the^underprivileged as well as the weak.¤This was a story of an ordinary man^growing old, he was just a common^man with a big heart. That in itself^is a rarity in our harsh reality.";
+            matatakiUngaga2[8] = "...Nice hat...";
+            matatakiUngaga2[9] = "Seriously that fighting stick is^almost as tall as I am!";
+            matatakiUngaga2[10] = "Do you like eating candy, wait what^is scorpion jerky? I don´t want to be a^meanie but that sounds gross, have a^lollypop instead!¤Didn´t you almost die from a^scorpion sting anyways?";
+            matatakiUngaga2[11] = "Hooo, that fighting stick would make for an^excellent stick for me to perch on,^care to part with it?";
 
 
             //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            matatakiOsmond[0] = "";
-            matatakiOsmond[1] = "";
-            matatakiOsmond[2] = "";
-            matatakiOsmond[3] = "";
-            matatakiOsmond[4] = "";
-            matatakiOsmond[5] = "";
-            matatakiOsmond[6] = "";
-            matatakiOsmond[7] = "";
-            matatakiOsmond[8] = "";
-            matatakiOsmond[9] = "";
-            matatakiOsmond[10] = "";
-            matatakiOsmond[11] = "";
+            matatakiOsmond[0] = "Woah watch out my friend, this^house is rigged with traps!";
+            matatakiOsmond[1] = "Ohhh seeing you brings back a flood of^memories, my parents would tell me^bedtime stories about bunnies^who lived on the moon.";
+            matatakiOsmond[2] = "Oh you´re so cute!";
+            matatakiOsmond[3] = "Oh giant bunny, welcome to our humble^village of Matataki. We hereby swear^to not harm a hair on your fuzzy head!";
+            matatakiOsmond[4] = "You look strong for such a little guy!";
+            matatakiOsmond[5] = "I know it may be hard to believe but^every night my moon bunny friends^come by and take me to the moon!!¤Come take me away bunnie boys old Kye^is ready: lucky, cookie, zucchini!";
+            matatakiOsmond[6] = "It brings me great pride to know that^the noble moon people are assisting us.¤The Dark Genie will regret the day^he awoke from his dark urn!";
+            matatakiOsmond[7] = "I heard that there was a bunny helping^Ť and his friends. As a village^that hunts beasts this may sound^preposterous but thank you my friend.";
+            matatakiOsmond[8] = "...Interesting...";
+            matatakiOsmond[9] = "What´s up with your weird clothes,^how come you don´t^wear any animal skins?";
+            matatakiOsmond[10] = "Wowie, I heard you came from the moon,^do you think one day you^could take me with you?¤Imagine the space adventures of^Couscous and Ō, that would^make for a great story!";
+            matatakiOsmond[11] = "Hmm, what kind of currency^do you use on the Moon?";
 
-            matatakiOsmond2[0] = "";
-            matatakiOsmond2[1] = "";
-            matatakiOsmond2[2] = "";
-            matatakiOsmond2[3] = "";
-            matatakiOsmond2[4] = "";
-            matatakiOsmond2[5] = "";
-            matatakiOsmond2[6] = "";
-            matatakiOsmond2[7] = "";
-            matatakiOsmond2[8] = "";
-            matatakiOsmond2[9] = "";
-            matatakiOsmond2[10] = "";
-            matatakiOsmond2[11] = "";
+            matatakiOsmond2[0] = "I wonder why the Dark Genie wants to^destroy Terra? Little is known about^Flagg Gilgister. Either it really makes^you think about their motivations...";
+            matatakiOsmond2[1] = "It brings me pride knowing that^Ʊ and his companions reached^the moon, that boy is a lot^like his father.";
+            matatakiOsmond2[2] = "Hey big bunny, do you want a carrot?";
+            matatakiOsmond2[3] = "You must be some sort of^divine beast, I´ve never seen^a bunny as large as you!";
+            matatakiOsmond2[4] = "When we were children we would always^hear stories about the moon being made^of cheese or bunnies living on the moon.¤I´m happy that one of those things^turned out to be real!";
+            matatakiOsmond2[5] = "Ahhhh stay away from me, I caught^the rare moon disease^known as space prebbles!";
+            matatakiOsmond2[6] = "Throughout all my years, I never^thought I would encounter a moon^person, I am honoured my friend.";
+            matatakiOsmond2[7] = "To a beast, this village may seem^menacing, but to me, it´s home.¤I never was one for hunting since my^body cannot handle it but I have^a great respect for you fighters.";
+            matatakiOsmond2[8] = "...Big bunny!...";
+            matatakiOsmond2[9] = "Wait, your ears... They´re^kind of like rabbit ears!^You aren´t a rabbit are you?!";
+            matatakiOsmond2[10] = "Is the Moon really made^of delicious cheese?";
+            matatakiOsmond2[11] = "I hear the Moon Sea is home to many^dangerous monsters, it seems like a bad^investment to set up a business there!";
         }           
 
     }
