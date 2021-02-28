@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Dark_Cloud_Improved_Version
 {
-    class MiniBossThread
+    public class MiniBossThread
     {
 
         static int currentFloor, prevFloor, bossEnemy;
@@ -24,34 +24,14 @@ namespace Dark_Cloud_Improved_Version
 
         public static void MiniBossTrait()
         {
-            while (true)
-            {
-                if (Player.InDungeonFloor() == true)
-                {
-                    currentFloor = Memory.ReadByte(Addresses.checkFloor);
-                    //Console.WriteLine("In Dungeon");
-
-                    if (currentFloor != prevFloor)  //checking if player has entered a new floor
-                    {
-                        //Console.WriteLine("Floor Changed");
-                        Thread.Sleep(2000);          
-                        bossEnemy = rnd.Next(15);
-                        int startBossHP = Memory.ReadByte(Enemies.Enemy0.hp + (varOffset * bossEnemy));
-                        Memory.WriteFloat(enemyZeroWidth + (scaleOffset * bossEnemy), scaleSize); //Scales chosen enemy
-                        Memory.WriteFloat(enemyZeroHight + (scaleOffset * bossEnemy), scaleSize);
-                        Memory.WriteFloat(enemyZeroDepth + (scaleOffset * bossEnemy), scaleSize);
-                        Memory.WriteByte(Enemies.Enemy0.hp + (varOffset * bossEnemy), Convert.ToByte((startBossHP * enemyHPMult))); //Changes Enemy HP and MaxHP to scaled number
-                        Memory.WriteByte(Enemies.Enemy0.maxHp + (varOffset * bossEnemy), Convert.ToByte((startBossHP * enemyHPMult)));
-                        prevFloor = currentFloor;
-                    }
-                }
-                else
-                {
-                    prevFloor = 200;    //used to reset the floor data when going back to dungeon
-                }
-            }
-
-
+           //Console.WriteLine("Floor Changed");      
+           bossEnemy = rnd.Next(15);
+           int startBossHP = Memory.ReadByte(Enemies.Enemy0.hp + (varOffset * bossEnemy));
+           Memory.WriteFloat(enemyZeroWidth + (scaleOffset * bossEnemy), scaleSize); //Scales chosen enemy
+           Memory.WriteFloat(enemyZeroHight + (scaleOffset * bossEnemy), scaleSize);
+           Memory.WriteInt(Enemies.Enemy0.maxHp + (varOffset * bossEnemy), (startBossHP * enemyHPMult));
+           Memory.WriteFloat(enemyZeroDepth + (scaleOffset * bossEnemy), scaleSize);
+           Memory.WriteInt(Enemies.Enemy0.hp + (varOffset * bossEnemy), (startBossHP * enemyHPMult)); //Changes Enemy HP and MaxHP to scaled number                   
         }
     }
 }

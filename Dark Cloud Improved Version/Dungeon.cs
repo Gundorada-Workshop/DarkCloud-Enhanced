@@ -16,7 +16,13 @@ namespace Dark_Cloud_Improved_Version
 
     public class DungeonThread
     {
-        public static void WeaponsCustomEffects()
+        static int currentFloor;
+        static int currentDungeon;
+        static int prevFloor = 200;
+        static bool clownOnScreen = false;
+        static bool chronicle2 = false;
+
+        public static void InsideDungeonThread()
         {
 
             while (true)
@@ -74,6 +80,39 @@ namespace Dark_Cloud_Improved_Version
                             }
                             break;
                     }
+
+                    currentFloor = Memory.ReadByte(Addresses.checkFloor);
+
+                    if (currentFloor != prevFloor)  //checking if player has entered a new floor
+                    {
+                        Console.WriteLine("new floor");
+                        currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+                        Thread.Sleep(4000);
+                        chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
+                        CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
+                        MiniBossThread.MiniBossTrait();
+                        prevFloor = currentFloor;   //once everything is done, we initialize this so it wont reroll again in same floor
+                    }
+
+                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false) //check if clown is triggered, then change loot table
+                    {
+                        CustomChests.ClownRandomizer(chronicle2);
+                        clownOnScreen = true;
+                    }
+                    else
+                    {
+                        if (clownOnScreen)
+                        {
+                            if (Memory.ReadByte(Addresses.clownCheck) == 0)
+                            {
+                                clownOnScreen = false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    prevFloor = 200;    //used to reset the floor data when going back to dungeon
                 }
                 Thread.Sleep(10);
             }

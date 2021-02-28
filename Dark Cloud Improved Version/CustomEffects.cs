@@ -11,6 +11,7 @@ namespace Dark_Cloud_Improved_Version
 
         //The current weapon equipped ID by the current loaded character
         public const int currentWeapon = 0x21EA7590;
+        static int currentAddress;
 
         //The weapon slot on which the current equipped weapon is (0-9)
         public const int ToanCurrentWeaponSlot = 0x21CDD88C;
@@ -452,6 +453,38 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+        }
+
+        public static bool CheckChronicle2(bool acquired)
+        {
+            if (Memory.ReadInt(Player.Toan.WeaponSlot0.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.type) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot3.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot4.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot5.type) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot6.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.type) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot9.type) == 298)
+            {
+                Console.WriteLine("Player has Chronicle 2");
+                acquired = true;
+            }
+            else
+            {
+                currentAddress = 0x21CE22D8;
+                for (int i = 0; i < 30; i++)
+                {
+                    if (Memory.ReadInt(currentAddress) == 298)
+                    {
+                        acquired = true;
+                        Console.WriteLine("Player has Chronicle 2 in storage");
+                    }
+                    currentAddress += 0x000000F8;
+                }
+
+                if (acquired != true)
+                {
+                    Console.WriteLine("Player does not have Chronicle 2");
+                    acquired = false;
+                }
+            }
+            return acquired;
         }
     }
 }
