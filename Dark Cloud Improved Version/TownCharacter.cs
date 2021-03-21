@@ -24,7 +24,7 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
         static byte checkByte; 
-        static byte[] townDialogueIDs = { 247, 167, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        static byte[] townDialogueIDs = { 247, 167, 87, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         static string cfgFile;
         static string chrFilePath;
@@ -556,6 +556,7 @@ namespace Dark_Cloud_Improved_Version
                     else     
                     {
                         Memory.WriteByte(0x21D3D434, townDialogueIDs[currentArea]);
+                        Memory.WriteInt(0x21D3D440, townDialogueIDs[currentArea]);
                     }
 
                 }
