@@ -866,63 +866,63 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             queensXiao[0] = "Ahh! I´m glad that you´re here.^My name is King and I´m the mayor^of this humble seaside town.¤We could use some pest control,^these rats are becoming more common.";
             queensXiao[1] = "Hey there, stay out of trouble now!";
-            queensXiao[2] = "";
-            queensXiao[3] = "";
-            queensXiao[4] = "";
-            queensXiao[5] = "";
-            queensXiao[6] = "";
-            queensXiao[7] = "";
-            queensXiao[8] = "";
-            queensXiao[9] = "";
-            queensXiao[10] = "";
-            queensXiao[11] = "";
-            queensXiao[12] = "";
+            queensXiao[2] = "I noticed that you have your eye on our^world famous flapping fish, would you^like to try some?";
+            queensXiao[3] = "You remind me of a cat I had when I was^young, it hated taking baths!¤That was the inspiration for the name^Fighting Watery.";
+            queensXiao[4] = "Aren´t you the cutest little cat I´ve^ever seen!¤Have you come to Queens in search of^fish?";
+            queensXiao[5] = "Stay cats like you used to be found all^over Queens as the ocean smell would^brings cats from around the world.¤Not many animals can be seen after the^Genie attacked...";
+            queensXiao[6] = "Sheriff Wilder is always giving us^trouble but we´re just trying to make^Queens a better place for everyone.¤I mean maybe we´re also looking out for^ourselves but a man´s gotta stay ahead^right!";
+            queensXiao[7] = "The King Mimic carries many treasures,^defeating one is a challenge worthy only^for the strongest warrior.";
+            queensXiao[8] = "This is a holy place and a refuge for^all.¤These recent events only underscore that^we are stronger together.^The Dark Genie will not defeat our^indelible spirit!";
+            queensXiao[9] = "I love cats but you better stay out of^King´s property!";
+            queensXiao[10] = "Hey there little buddy, let me know if^you see any trouble okay?";
+            queensXiao[11] = "Oh have you come to get your fortune^told?¤Sorry, I don´t do pets, ohohohoho!¤I hear the villagers in Matataki share a^bond with animals, perhaps they can^help.";
+            queensXiao[12] = "Beat it cat, I have allergies!¤Wait, having you around might be good^for business!";
 
             queensXiao2[0] = "This town is so ungrateful, you work^tirelessly and do your best for the^people and what do you get for it?¤Here´s some advice, it´s best if^you look out for yourself.";
             queensXiao2[1] = "*Whew* Taking care of Queens is big job,^I don´t know how the Sheriff does it!";
-            queensXiao2[2] = "";
-            queensXiao2[3] = "";
-            queensXiao2[4] = "";
-            queensXiao2[5] = "";
-            queensXiao2[6] = "";
-            queensXiao2[7] = "";
-            queensXiao2[8] = "";
-            queensXiao2[9] = "";
-            queensXiao2[10] = "";
-            queensXiao2[11] = "";
-            queensXiao2[12] = "";
+            queensXiao2[2] = "I heard from some of the other merchants^that there are many large warrior fish^by the name of Goyone who inhabit the^Shipwreck.¤They carry large spears, take caution if^you try to gobble up that fish!";
+            queensXiao2[3] = "To think that the queen and a commoner^once fell in love right here in Queens!¤How romantic!";
+            queensXiao2[4] = "When Stu was young he used to take care^of all the stray cats.¤There was King Speed and Plugal but Hot^Sauce was his favourite.¤Oh, children grow up so fast…";
+            queensXiao2[5] = "Dark Genie or not, It´s important that^we take care of our physical health.";
+            queensXiao2[6] = "I heard that the Sheriff has been^suspicious of Joker for a while now.¤We´re all relieved as it gives us a^break from dealing with him and his^dim-witted partner.";
+            queensXiao2[7] = "I hear everyone was brought back by the^power of Ť´s Atlamillia, a^powerful gem indeed...¤It makes one think about what would^happen if a gem like that would fall^into the wrong hands...";
+            queensXiao2[8] = "As long as this cathedral stands, the^story of La Saia will never leave our^hearts.";
+            queensXiao2[9] = "I´m not a fan of people but animals are^a different story.";
+            queensXiao2[10] = "Would you like to join Sam and I with^fighting crime and keeping Queens safe?";
+            queensXiao2[11] = "Hmm, there´s something special about^you, are you sure your just a cat?";
+            queensXiao2[12] = "You better be careful, there´s weapons^and bombs all over the place.¤Last thing we need is an accident; let^alone one involving a cat!";
 
 
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            queensGoro[0] = "";
-            queensGoro[1] = "";
-            queensGoro[2] = "";
-            queensGoro[3] = "";
-            queensGoro[4] = "";
-            queensGoro[5] = "";
-            queensGoro[6] = "";
-            queensGoro[7] = "";
-            queensGoro[8] = "";
-            queensGoro[9] = "";
-            queensGoro[10] = "";
-            queensGoro[11] = "";
-            queensGoro[12] = "";
+            queensGoro[0] = "Here he comes, the hammer boy that is^the talk of the town.¤Hey can you do me a favour?¤If you do defeat the Dark Genie can you^tell everyone it´s because I told you^to, it would help with my re-election^campaign.";
+            queensGoro[1] = "Woah you look strong Ʊ¤Do you think if I wore an animal skin^the other villagers would take me more^seriously when it comes to stopping^crime?";
+            queensGoro[2] = "Hey I know you!¤You´re the hunter that carries around^that huge Frozen Tuna!¤That must be exhausting for such a small^guy.¤You Matataki Hunters are something else!";
+            queensGoro[3] = "Oh you look pretty heavy, are you sure^it´s not all water weight?";
+            queensGoro[4] = "Oh look at those chubby cheeks, you look^just like Stew when he was a baby!";
+            queensGoro[5] = "Oh you say you are from the distant^village of Matataki?¤I hear the forests around the village^are home to many lethal monsters which^are poisonous such as the hornets or^Cannibal plants.";
+            queensGoro[6] = "Hey there bear skin, King is the person^who runs this town and don´t you forget^it!";
+            queensGoro[7] = "Everyone is talking about that chubby^kid from Matataki and how he uses a^Frozen Tuna to pummel his enemies.¤Here´s a tip, if you can find a sundew^that will lead to finding many precious^gems.";
+            queensGoro[8] = "A band of warriors consisting of people^from all over the Earth, what an^inspiring sight.¤Strong people are those who are pure of^heart and put the needs of others before^themselves.¤Thank you for everything Ʊ.";
+            queensGoro[9] = "You must be strong if you defeated a^bear, why don´t you join us?";
+            queensGoro[10] = "I see you´re wearing a bear skin on your^head, did you defeat that bear in^combat?¤You must be a very strong warrior indeed!¤Seeing you reminds me of family that I^have in far off village who also value^physical strength hahaha!";
+            queensGoro[11] = "What brings you here, oh you wish to^have your fortune told? Which one first,^the bear or the boy?";
+            queensGoro[12] = "You look like the kind of guy who would^really benefit from purchasing my^Big Bucks Hammer.¤You´d get so much money that you could^even ditch those old animal skins and^finally make yourself look presentable.¤Everyone in Queens will call you^Big Money Ʊ, all you have to do^is grab that hammer.";
 
-            queensGoro2[0] = "";
-            queensGoro2[1] = "";
-            queensGoro2[2] = "";
-            queensGoro2[3] = "";
-            queensGoro2[4] = "";
-            queensGoro2[5] = "";
-            queensGoro2[6] = "";
-            queensGoro2[7] = "";
-            queensGoro2[8] = "";
-            queensGoro2[9] = "";
-            queensGoro2[10] = "";
-            queensGoro2[11] = "";
-            queensGoro2[12] = "";
+            queensGoro2[0] = "Woah someone as plump as you must be^living the good life!";
+            queensGoro2[1] = "It must be nice to be able to pick up^that huge hammer, Sheriff Wilder says^that he´s going to help me train.¤Maybe one day I´ll be as big as he is!";
+            queensGoro2[2] = "Hunters and fisherman really are not too^different from each other.¤It´s no Frozen Tuna but your always^welcome to my flapping fish!";
+            queensGoro2[3] = "I heard that the village of Matataki has^a pond in the shape of a peanut.¤That´s pretty interesting!";
+            queensGoro2[4] = "It´s good to see you again young man.^Thank you for helping fix our seaside^town, we´re very thankful.¤Maybe as a reward I can sew you some^clothes that don´t look so raggedy.";
+            queensGoro2[5] = "I know you are a hunter but don´t get^ahead of yourself.¤Always remember to pack antidotes and^mighty healing when going on your^adventures.";
+            queensGoro2[6] = "Hahaha I know this may sound weird but^you look like Auntie Medu!";
+            queensGoro2[7] = "The Shipwreck is not only home to the^treasures and but also many lethal^monsters, each one more challenging then^the next.¤Now it´s as if all of the treasure^hunters of Queens are profiting of their^Queen´s misfortunate demise.¤A tragedy to be sure but it´s not like^she needs those treasures anymore.";
+            queensGoro2[8] = "When meeting travellers who come to^Queens I always love telling them about^the story of La Saia.¤I feel like it´s one that many could^relate to as we all have someone that^left us whom we miss...";
+            queensGoro2[9] = "Everyone says that your from Matataki^village but I never heard of that place.¤For all I know maybe you made that name^up.";
+            queensGoro2[10] = "Anyone who could defeat a bear is worthy^enough to call themselves a warrior!";
+            queensGoro2[11] = "I sense a lot of regret in your heart^young man.¤As if you lost something or someone^without properly saying goodbye.^However, it´s as if there is a spiritual^presence that´s watching you.¤I feel peace and a sense of pride^emanating from this presence.";
+            queensGoro2[12] = "I wonder, out of all the weapons, why^did you choose to use a mallet?¤Oh, you use axes too?¤I hear only the most accomplished^Matataki hunters can use an axe^effectively.¤Whoever taught the ways of a hunter must^be proud.";
 
 
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
