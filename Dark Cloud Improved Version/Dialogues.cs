@@ -869,7 +869,7 @@ namespace Dark_Cloud_Improved_Version
             queensXiao[2] = "I noticed that you have your eye on our^world famous flapping fish, would you^like to try some?";
             queensXiao[3] = "You remind me of a cat I had when I was^young, it hated taking baths!¤That was the inspiration for the name^Fighting Watery.";
             queensXiao[4] = "Aren´t you the cutest little cat I´ve^ever seen!¤Have you come to Queens in search of^fish?";
-            queensXiao[5] = "Stay cats like you used to be found all^over Queens as the ocean smell would^brings cats from around the world.¤Not many animals can be seen after the^Genie attacked...";
+            queensXiao[5] = "Stay cats like you used to be found all^over Queens as the ocean smell would^brings cats from around the world.¤Not many animals can be seen after the^Genie attacked..."; //CANNOT REACH THE NPC
             queensXiao[6] = "Sheriff Wilder is always giving us^trouble but we´re just trying to make^Queens a better place for everyone.¤I mean maybe we´re also looking out for^ourselves but a man´s gotta stay ahead^right!";
             queensXiao[7] = "The King Mimic carries many treasures,^defeating one is a challenge worthy only^for the strongest warrior.";
             queensXiao[8] = "This is a holy place and a refuge for^all.¤These recent events only underscore that^we are stronger together.^The Dark Genie will not defeat our^indelible spirit!";
@@ -879,18 +879,18 @@ namespace Dark_Cloud_Improved_Version
             queensXiao[12] = "Beat it cat, I have allergies!¤Wait, having you around might be good^for business!";
 
             queensXiao2[0] = "This town is so ungrateful, you work^tirelessly and do your best for the^people and what do you get for it?¤Here´s some advice, it´s best if^you look out for yourself.";
-            queensXiao2[1] = "*Whew* Taking care of Queens is big job,^I don´t know how the Sheriff does it!";
-            queensXiao2[2] = "I heard from some of the other merchants^that there are many large warrior fish^by the name of Goyone who inhabit the^Shipwreck.¤They carry large spears, take caution if^you try to gobble up that fish!";
+            queensXiao2[1] = "*Whew* Taking care of Queens is a big^job, I don´t know how the Sheriff does^it!";
+            queensXiao2[2] = "I heard from some of the other merchants^that there are many large warrior fish^by the name of Gyon who inhabit the^Shipwreck.¤They carry large spears, take caution if^you try to gobble up that fish!";
             queensXiao2[3] = "To think that the queen and a commoner^once fell in love right here in Queens!¤How romantic!";
-            queensXiao2[4] = "When Stu was young he used to take care^of all the stray cats.¤There was King Speed and Plugal but Hot^Sauce was his favourite.¤Oh, children grow up so fast…";
-            queensXiao2[5] = "Dark Genie or not, It´s important that^we take care of our physical health.";
+            queensXiao2[4] = "When Stu was young he used to take care^of all the stray cats.¤There was King Speed and Plugal but Hot^Sauce was his favourite.¤Oh, children grow up so fast...";
+            queensXiao2[5] = "Dark Genie or not, It´s important that^we take care of our physical health."; //CANNOT REACH THE NPC
             queensXiao2[6] = "I heard that the Sheriff has been^suspicious of Joker for a while now.¤We´re all relieved as it gives us a^break from dealing with him and his^dim-witted partner.";
             queensXiao2[7] = "I hear everyone was brought back by the^power of Ť´s Atlamillia, a^powerful gem indeed...¤It makes one think about what would^happen if a gem like that would fall^into the wrong hands...";
             queensXiao2[8] = "As long as this cathedral stands, the^story of La Saia will never leave our^hearts.";
             queensXiao2[9] = "I´m not a fan of people but animals are^a different story.";
             queensXiao2[10] = "Would you like to join Sam and I with^fighting crime and keeping Queens safe?";
             queensXiao2[11] = "Hmm, there´s something special about^you, are you sure your just a cat?";
-            queensXiao2[12] = "You better be careful, there´s weapons^and bombs all over the place.¤Last thing we need is an accident; let^alone one involving a cat!";
+            queensXiao2[12] = "You better be careful, there´re weapons^and bombs all over the place.¤Last thing we need is an accident, let^alone one involving a cat!";
 
 
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
@@ -901,7 +901,7 @@ namespace Dark_Cloud_Improved_Version
             queensGoro[2] = "Hey I know you!¤You´re the hunter that carries around^that huge Frozen Tuna!¤That must be exhausting for such a small^guy.¤You Matataki Hunters are something else!";
             queensGoro[3] = "Oh you look pretty heavy, are you sure^it´s not all water weight?";
             queensGoro[4] = "Oh look at those chubby cheeks, you look^just like Stew when he was a baby!";
-            queensGoro[5] = "Oh you say you are from the distant^village of Matataki?¤I hear the forests around the village^are home to many lethal monsters which^are poisonous such as the hornets or^Cannibal plants.";
+            queensGoro[5] = "Oh you say you are from the distant^village of Matataki?¤I hear the forests around the village^are home to many lethal monsters which^are poisonous such as the hornets or^Cannibal plants."; //CANNOT TALK TO THE NPC
             queensGoro[6] = "Hey there bear skin, King is the person^who runs this town and don´t you forget^it!";
             queensGoro[7] = "Everyone is talking about that chubby^kid from Matataki and how he uses a^Frozen Tuna to pummel his enemies.¤Here´s a tip, if you can find a sundew^that will lead to finding many precious^gems.";
             queensGoro[8] = "A band of warriors consisting of people^from all over the Earth, what an^inspiring sight.¤Strong people are those who are pure of^heart and put the needs of others before^themselves.¤Thank you for everything Ʊ.";
@@ -912,10 +912,10 @@ namespace Dark_Cloud_Improved_Version
 
             queensGoro2[0] = "Woah someone as plump as you must be^living the good life!";
             queensGoro2[1] = "It must be nice to be able to pick up^that huge hammer, Sheriff Wilder says^that he´s going to help me train.¤Maybe one day I´ll be as big as he is!";
-            queensGoro2[2] = "Hunters and fisherman really are not too^different from each other.¤It´s no Frozen Tuna but your always^welcome to my flapping fish!";
+            queensGoro2[2] = "Hunters and fisherman really are not too^different from each other.¤It´s no Frozen Tuna but you´re always^welcome to my flapping fish!";
             queensGoro2[3] = "I heard that the village of Matataki has^a pond in the shape of a peanut.¤That´s pretty interesting!";
             queensGoro2[4] = "It´s good to see you again young man.^Thank you for helping fix our seaside^town, we´re very thankful.¤Maybe as a reward I can sew you some^clothes that don´t look so raggedy.";
-            queensGoro2[5] = "I know you are a hunter but don´t get^ahead of yourself.¤Always remember to pack antidotes and^mighty healing when going on your^adventures.";
+            queensGoro2[5] = "I know you are a hunter but don´t get^ahead of yourself.¤Always remember to pack antidotes and^mighty healing when going on your^adventures."; //CANNOT TALK TO THE NPC
             queensGoro2[6] = "Hahaha I know this may sound weird but^you look like Auntie Medu!";
             queensGoro2[7] = "The Shipwreck is not only home to the^treasures and but also many lethal^monsters, each one more challenging then^the next.¤Now it´s as if all of the treasure^hunters of Queens are profiting of their^Queen´s misfortunate demise.¤A tragedy to be sure but it´s not like^she needs those treasures anymore.";
             queensGoro2[8] = "When meeting travellers who come to^Queens I always love telling them about^the story of La Saia.¤I feel like it´s one that many could^relate to as we all have someone that^left us whom we miss...";
@@ -928,97 +928,97 @@ namespace Dark_Cloud_Improved_Version
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            queensRuby[0] = "";
-            queensRuby[1] = "";
-            queensRuby[2] = "";
-            queensRuby[3] = "";
-            queensRuby[4] = "";
-            queensRuby[5] = "";
-            queensRuby[6] = "";
-            queensRuby[7] = "";
-            queensRuby[8] = "";
-            queensRuby[9] = "";
-            queensRuby[10] = "";
-            queensRuby[11] = "";
-            queensRuby[12] = "";
+            queensRuby[0] = "Does this Dark Genie guy think he´s^tougher than me?¤He´s got another thing coming.¤Now I don´t want anything to do with you^Ʀ but having one of my old^associates defeat the Dark Genie would^help my chances at re-election.";
+            queensRuby[1] = "I´m glad that you´ve turned a new leaf^Ʀ.";
+            queensRuby[2] = "I´m glad you are using your magical^powers for good!¤There´s nothing better than finding^your purpose.";
+            queensRuby[3] = "I always appreciated you Ʀ,^well at least when you weren´t getting^into mischief.¤Thank you for helping Ť and^his group with fighting off the^Dark Genie.";
+            queensRuby[4] = "Back in my day proper ladies wouldn´t^dress like that.";
+            queensRuby[5] = "I´m curious about your hair color^Ʀ, was it always like this?¤It´s a rare color indeed, perhaps it´s^connected to your magic!"; //CANNOT TALK TO THE NPC
+            queensRuby[6] = "Hey there Ruby, how´s it going?¤The last time you got Jake and I in^trouble we couldn´t come into work with^King for a while!¤I´m going to be honest, it was nice^having that vacation!";
+            queensRuby[7] = "The Mask of Prajna is one of the undead^doomed to haunt the once hallowed halls^La Saia´s Shipwreck.";
+            queensRuby[8] = "It would only make sense that a native^of Queens would try to free La Saia from^her curse.¤What happened between her and her lover^was tragic."; //THIS IS SPOILERS BEFORE THE BOSS FIGHT
+            queensRuby[9] = "Don´t think that just because you´re^helping everyone that King owes you any^favours.";
+            queensRuby[10] = "I´m very proud of how far you´ve come^Ʀ.¤I remember when you would cause all^sorts of issues for the people of Queens^with King and his hoodlums.¤Continue to make us proud Ʀ.";
+            queensRuby[11] = "*Humph* Everyone in Queens is talking^about the magical powers of the great^genie Ʀ as well as her good^looks.¤How come no one compliments me,^the great fortune teller Yaya, for my^beauty?";
+            queensRuby[12] = "Hey you´re not here to take more^merchandise are you?¤Come on Ʀ I can´t keep giving^you discounts like this.¤One of these days you´ll send me to the^poor house!";
 
-            queensRuby2[0] = "";
-            queensRuby2[1] = "";
-            queensRuby2[2] = "";
-            queensRuby2[3] = "";
-            queensRuby2[4] = "";
-            queensRuby2[5] = "";
-            queensRuby2[6] = "";
-            queensRuby2[7] = "";
-            queensRuby2[8] = "";
-            queensRuby2[9] = "";
-            queensRuby2[10] = "";
-            queensRuby2[11] = "";
-            queensRuby2[12] = "";
-
-
-            //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
-            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
-            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            queensUngaga[0] = "";
-            queensUngaga[1] = "";
-            queensUngaga[2] = "";
-            queensUngaga[3] = "";
-            queensUngaga[4] = "";
-            queensUngaga[5] = "";
-            queensUngaga[6] = "";
-            queensUngaga[7] = "";
-            queensUngaga[8] = "";
-            queensUngaga[9] = "";
-            queensUngaga[10] = "";
-            queensUngaga[11] = "";
-            queensUngaga[12] = "";
-
-            queensUngaga2[0] = "";
-            queensUngaga2[1] = "";
-            queensUngaga2[2] = "";
-            queensUngaga2[3] = "";
-            queensUngaga2[4] = "";
-            queensUngaga2[5] = "";
-            queensUngaga2[6] = "";
-            queensUngaga2[7] = "";
-            queensUngaga2[8] = "";
-            queensUngaga2[9] = "";
-            queensUngaga2[10] = "";
-            queensUngaga2[11] = "";
-            queensUngaga2[12] = "";
+            queensRuby2[0] = "Remember that one time when Stew tried^teasing me by calling me King Ploogal¤I made sure to punch him right in the^face.";
+            queensRuby2[1] = "That King is always up to no good!";
+            queensRuby2[2] = "The fish were barely biting, it doesn´t^help that the sea is so blue that you^can´t see them either!¤Say, you´re trying to prove that you´re^the most powerful genie, do you know of^any spells that can help?"; //POTENTIAL EASTER EGG
+            queensRuby2[3] = "Even a genie like you needs to stay^hydrated, feel free to come by if you^ever need something healthy to drink!";
+            queensRuby2[4] = "I wish my son would get married and give^me a grandchild.¤Would you like to meet my son, he´s such^a nice boy!";
+            queensRuby2[5] = "As a doctor I often have to administer^mighty healing to people who fall ill.¤King´s tough bodyguards Stew and Jake^cried when I had to do them haha!"; //CANNOT TALK TO THE NPC
+            queensRuby2[6] = "Do you want to help us procure some rare^gems from Joker again?";
+            queensRuby2[7] = "I´ve been collecting gems for quite some^time but I´ve never seen a Sun Stone.¤If only I had one in my collection.¤The legend goes that the Sun Stone only^shows itself to those who are pure of^heart.¤Heh like that´s going to happen.";
+            queensRuby2[8] = "Seeing merchants from all over come by^and pillage La Saia´s resting place,^the Shipwreck is a disgrace.¤I never thought people could be so^heartless.";
+            queensRuby2[9] = "Don´t talk with me, I don´t want^anything to do with you after the^mischief you made last time.¤King wouldn´t speak to us for weeks^even!";
+            queensRuby2[10] = "Sam and I are going to keep a close eye^on King and Joker.¤It seems like more and more people want^to work for that bad King.";
+            queensRuby2[11] = "One must wonder, once the people of^Earth defeat the Dark Genie, will they^turn their attention to you next?¤Humans fear what they don´t^understand...¤Perhaps that´s why the Moon People chose^to seclude themselves in Brownboo^Village.";
+            queensRuby2[12] = "You should encourage Ʊ to use^that Big Bucks Hammer to make some^extra Gilda!";
 
 
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            queensOsmond[0] = "";
-            queensOsmond[1] = "";
-            queensOsmond[2] = "";
-            queensOsmond[3] = "";
-            queensOsmond[4] = "";
-            queensOsmond[5] = "";
-            queensOsmond[6] = "";
-            queensOsmond[7] = "";
-            queensOsmond[8] = "";
-            queensOsmond[9] = "";
-            queensOsmond[10] = "";
-            queensOsmond[11] = "";
-            queensOsmond[12] = "";
+            queensUngaga[0] = "It´s comforting to know that Gilda can^solve problems in society.¤How much do you think it would cost to^get the Dark Genie to leave and never^show his ugly face here again?¤Hey, everyone has a price.";
+            queensUngaga[1] = "I hope that one day I´ll be as tall as^you Ų.";
+            queensUngaga[2] = "Interesting, I heard your from the^desert village of Muska Laka.¤I know that there´s some rare fish that^can be found in the desert by using^potato cakes as bait.";
+            queensUngaga[3] = "It hasn´t been easy running a business^since King was elected as mayor.¤I feel like he slowly wants to buy every^business in Queens.¤I´d love to give him a piece of my mind!";
+            queensUngaga[4] = "The good thing about living in Queens is^we get people from all around the world^coming to visit!";
+            queensUngaga[5] = "I had the luxury of travelling all^around the Earth but not once have I^been to Muska Laka.";
+            queensUngaga[6] = "Your dressed funny, you must be from out^of town.";
+            queensUngaga[7] = "I don´t think you or any of your friends^are going to be able to defeat the^Dark Genie.¤The power of hate is too strong, it lies^in the heart of everyone.¤Something tells me that Genie draws from^that hate to fuel itself.";
+            queensUngaga[8] = "The story of La Saia underscores the^importance of upholding the promises you^make with loved ones.";
+            queensUngaga[9] = "You think you´re so tough?¤We should see which one of us is^stronger.";
+            queensUngaga[10] = "Ahh, a brave warrior from the Muska Laka^Desert.¤Thank you for all the help young man,^the people of Queens appreciate your^service.¤We´ll make that Dark Genie pay for what^he did!";
+            queensUngaga[11] = "You, I sense a that you hold a great^responsibility; is there someone who you^wish to protect?";
+            queensUngaga[12] = "I don´t believe in using a staff, a good^weapon should be sharp and to the point."; //WAITING CONFIRMATION ON THIS LINE
 
-            queensOsmond2[0] = "";
-            queensOsmond2[1] = "";
-            queensOsmond2[2] = "";
-            queensOsmond2[3] = "";
-            queensOsmond2[4] = "";
-            queensOsmond2[5] = "";
-            queensOsmond2[6] = "";
-            queensOsmond2[7] = "";
-            queensOsmond2[8] = "";
-            queensOsmond2[9] = "";
-            queensOsmond2[10] = "";
-            queensOsmond2[11] = "";
-            queensOsmond2[12] = "";
+            queensUngaga2[0] = "I should take you out on a spin in my^new car as a way of saying thanks for^freeing me.";
+            queensUngaga2[1] = "My primary goal in life is to keep^people safe, who knows maybe one day^I´ll be the Sheriff!";
+            queensUngaga2[2] = "That´s a cool looking turban you´ve got^there, Rando has one just like it!¤I guess it goes to show that even^Muska Laka and Queens share some^similarities!";
+            queensUngaga2[3] = "Being trapped in Atla wasn´t so bad,^at the very least I was able to have^some alone time!";
+            queensUngaga2[4] = "Say, now that I think about it Rando^hasn´t aged a day!¤I wonder what kind of moisturizer he is^using and if he´d be willing to share^some with me ohhohoho!";
+            queensUngaga2[5] = "Be safe when you enter the Shipwreck,^there are many strange monsters which^call La Saia´s underwater grave home.";
+            queensUngaga2[6] = "I heard that there was some merchants^who went down to the Shipwreck and^didn´t return.¤I know King is the Mayor but why is this^his problem?";
+            queensUngaga2[7] = "The Moon Orb is said to give eternal^life to the one who owns it.¤Wouldn´t you want to live forever?";
+            queensUngaga2[8] = "This church was built hundreds of years^ago, since it has become a landmark^bringing many lovers together in unity.";
+            queensUngaga2[9] = "Sheriff Wilder is always running around^and ruining our plans.¤One of these days his assistant Sam is^going to disappear.¤Hehehehe.";
+            queensUngaga2[10] = "Haha you have admirers, Sam was talking^about how he wants to be as tall as you^one day!";
+            queensUngaga2[11] = "I also can see that you have a fear of^scorpions, perhaps you were hurt by one?¤That makes no sense as I saw you eating^scorpion jerky the other day!";
+            queensUngaga2[12] = "Come to think of it, I used to know a^guy from Muska Laka, we used to trade^merchandise every so often.¤His name was Brooke, he was one tough^guy!";
+
+
+            //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            queensOsmond[0] = "Everyone says that you´re from the Moon,^I find it hard to believe.¤I bet your just a short person in a^bunny suit trying to find their claim to^fame by defeating the Genie.";
+            queensOsmond[1] = "Your heli-pac is so cool can I try it^one day?";
+            queensOsmond[2] = "Wow, it´s the first time I´ve seen^someone from the Moon!¤Did you fly down to the Earth with your^heli-pack?";
+            queensOsmond[3] = "What a surprise, is outer space filled^with cute little bunnies just like you?";
+            queensOsmond[4] = "I´m surprised that I had the Moon Orb^all along!¤If Joker had known he would have^certainly given me trouble.";
+            queensOsmond[5] = "Well I can´t guarantee that I can help^you medically if you get hurt, I could^still sell you many useful items.";
+            queensOsmond[6] = "Hey you better be careful where you fly^bunny boy, this is our town.";
+            queensOsmond[7] = "People give me a lot of trouble, maybe^I should move away to the Moon with you.";
+            queensOsmond[8] = "It makes me happy to know^that Ť has your experience and^leadership, together we´ll defeat that^genie.";
+            queensOsmond[9] = "Haha you´re a bunny, why are you flying?¤You should be hopping around everywhere^not flying!";
+            queensOsmond[10] = "I still have a hard time believing that^the Dark Genie´s evil has even^influenced the Moon and its inhabitants.¤His power really is astounding...";
+            queensOsmond[11] = "You, I don´t know what it is but your^different from your allies.¤I sense that fate has a much greater^role for you.¤I see many Chronicles unfolding with a^blinding White light.¤What could this all mean?";
+            queensOsmond[12] = "I can´t  believe it, you use guns on^the Moon?!¤I have so many questions!¤Can I get one please!";
+
+            queensOsmond2[0] = "That Suzy is going around and telling^people that I want to buy up all the^shops in town.¤Now why would I want to buy a puny shop^like hers?¤I aughta buy it just to shut it down.";
+            queensOsmond2[1] = "Everyone in town is very grateful for^all the work that you and your allies^have been doing!";
+            queensOsmond2[2] = "Space Gyon is a fish monster that can^be found in the Moon Sea.¤I wonder how Gyon managed to get to^outer space...¤Perhaps it was through the help of the^Dark Genie.";
+            queensOsmond2[3] = "I´m proud to say that I have the best^watery in Queens but now you tell me^that there´s a Moon Sea?¤I wonder what Moon water tastes like?";
+            queensOsmond2[4] = "Stew is still embarrassed about this^when he was young he would play pretend^hero!¤He would call himself King Speed but^then one day he found a strange feather^that made him faster then everyone.";
+            queensOsmond2[5] = "The Genie caught us all by surprise but^now we´re ready.";
+            queensOsmond2[6] = "What brings you down here anyways?^The Dark Genie isn´t the business of the^Moon People, we can solve our own^problems.";
+            queensOsmond2[7] = "Is there any rare gems to be found on^the Moon?";
+            queensOsmond2[8] = "Through the flurry of changes one must^ensure that they stay true to^themselves.¤I can tell that you’re a good^person Ō and that goes for the^rest of your allies.";
+            queensOsmond2[9] = "I´ve never seen a bunny in Queens^before, what are you doing here?";
+            queensOsmond2[10] = "I do what I can to keep our sea side^town safe but if you ever need anything^Ō let me know.";
+            queensOsmond2[11] = "You´re a strong leader, I can tell you^have many who look up to you; even if^you´re a cute little bunny.";
+            queensOsmond2[12] = "How did you get that heli-pac?¤I have to admit the first time that I^saw you flying with that thing it blew^my mind!";
 
         }
 
