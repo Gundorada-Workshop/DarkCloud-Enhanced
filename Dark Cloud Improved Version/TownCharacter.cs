@@ -23,8 +23,8 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
-        static byte checkByte; 
-        static byte[] townDialogueIDs = { 247, 167, 87, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        static byte checkByte;
+        static byte[] townDialogueIDs = { 247, 167, 87, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         static string cfgFile;
         static string chrFilePath;
@@ -54,7 +54,7 @@ namespace Dark_Cloud_Improved_Version
         static int partsCollected = 0;
         static int currentArea;
         
-        //used bool checks in addresses: 21F10000,21F10004,21F10008, 21F1000C
+        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo)
 
         public static void InitializeChrOffsets()
         {
@@ -413,7 +413,7 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     parts = 5;
                                 }
-                            }                           
+                            }
 
 
                             for (int i = 0; i < parts; i++)
@@ -458,7 +458,7 @@ namespace Dark_Cloud_Improved_Version
                                 }
                             }
                         }
-                
+
                     }
                     else
                     {
@@ -493,8 +493,8 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (nearNPC == false || onDialogueFlag == 1)
                             {
-                                Dialogues.SetDialogue(i);
-                                if (talkableNPC == false) //check if NPC is not llama
+                                Dialogues.SetDialogue(i, true);
+                                if (talkableNPC != false) //check if NPC is not llama
                                 {
                                     Memory.WriteByte(0x21F10008, 1); //nearNPC flag for PNACH to use
                                 }
@@ -522,7 +522,7 @@ namespace Dark_Cloud_Improved_Version
                         onDialogueFlag = 0;
                     }
 
-                    if (onDialogueFlag == 2)  
+                    if (onDialogueFlag == 2)
                     {
                         if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
                         {
@@ -558,10 +558,10 @@ namespace Dark_Cloud_Improved_Version
                     {
                         Memory.WriteByte(0x21D3D438, townDialogueIDs[currentArea]);
                     }
-                    else     
+                    else
                     {
                         Memory.WriteByte(0x21D3D434, townDialogueIDs[currentArea]);
-                        Memory.WriteInt(0x21D3D440, townDialogueIDs[currentArea]);
+                        //Memory.WriteInt(0x21D3D440, townDialogueIDs[currentArea]); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
                     }
 
                 }
@@ -569,6 +569,53 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
                     Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
+
+                    currentArea = Memory.ReadByte(0x202A2518);
+                    if (currentArea == 14)
+                    {
+                        int checkNearNPC = 0;
+                        for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
+                        {
+                            currentAddress = i * 0x14A0 + 0x21D26FF8;
+                            if (Memory.ReadByte(currentAddress) == 1)
+                            {
+                                if (nearNPC == false || onDialogueFlag == 1)
+                                {
+
+                                    Dialogues.SetDialogue(i, false);
+                                    Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
+                                    nearNPC = true;
+                                    if (onDialogueFlag == 1) onDialogueFlag = 2;
+                                }
+                                checkNearNPC++;
+                                currentAddress = currentAddress - 0x00000024;
+                                if (Memory.ReadByte(currentAddress) == 9)
+                                {
+                                    Memory.WriteByte(0x21D3D434, 200);
+                                }
+                            }
+                        }
+
+                        if (checkNearNPC == 0)
+                        {
+                            nearNPC = false;
+                            Memory.WriteByte(0x21F10010, 0); //nearNPC flag for PNACH to use
+                            onDialogueFlag = 0;
+                        }
+
+                        if (Memory.ReadByte(0x21D1CC0C) == 200 && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
+                        {
+                            onDialogueFlag = 1;
+                        }
+
+                        if (onDialogueFlag == 2)
+                        {
+                            if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
+                            {
+                                onDialogueFlag = 0;
+                            }
+                        }
+                    }
                 }
 
                 if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
@@ -662,6 +709,7 @@ namespace Dark_Cloud_Improved_Version
                 */
 
                 Thread.Sleep(1);
+
 
             }
 

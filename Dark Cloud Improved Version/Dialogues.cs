@@ -11,6 +11,9 @@ namespace Dark_Cloud_Improved_Version
         static string[] customDialogues = new string[15];
         static string[] customDialogues2 = new string[15];
         static string[] sideQuestDialogueOption = new string[15];
+        static string brownbooPickle;
+        static string brownbooPickleData;
+        static string brownbooPickleExtraDialogue;
         static string[] noruneXiao = new string[15];
         static string[] noruneXiao2 = new string[15];
         static string[] noruneGoro = new string[15];
@@ -45,6 +48,8 @@ namespace Dark_Cloud_Improved_Version
         static string currentDialogueOptions;
         static string prevDialogue;
 
+        static bool isUsingAlly;
+
         static int currentAddress;
         static int currentArea = 255;
         static int currentChar;
@@ -70,6 +75,16 @@ namespace Dark_Cloud_Improved_Version
         static int[] queensUngagaCheck = new int[15];
         static int[] queensOsmondCheck = new int[15];
 
+        static bool[] itemIDCheckList = new bool[380];
+        static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
+        static int[] obtainableItemsList = { 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 185, 186, 187, 188, 189, 190, 192, 193, 197, 199, 224, 225, 226, 227, 228, 229, 230, 231, 235, 245, 246, 247, 253 };
+        static int[] obtainableUltWeapons = { 280, 295, 296, 297, 298, 312, 313, 324, 329, 341, 345, 356, 357, 372, 373 };
+        static int[] obtainableSecretItems = { 171, 172, 173, 191, 241, 243, 248 };
+        static int obtainedItems = 0;
+        static int obtainedAttachments = 0;
+        static int obtainedUltWeapons = 0;
+        static int obtainedSecretItems = 0;
+
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
@@ -81,14 +96,18 @@ namespace Dark_Cloud_Improved_Version
                               '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Ť', 'Ӿ', 'Ʊ', 'Ʀ', 'Ų', 'Ō', ' ' };
         
 
-        public static void SetDialogue(int offset)
+        public static void SetDialogue(int offset, bool isAlly)
         {
+            isUsingAlly = isAlly;
+            currentAddress = Addresses.chrFileLocation + 0x6;
             if (Memory.ReadByte(0x202A2518) != currentArea)     //DOESNT UPDATE when switching ally, fix later!!
             {
-                if (Memory.ReadByte(0x202A2518) == 0) currentArea = 0;
+                /*if (Memory.ReadByte(0x202A2518) == 0) currentArea = 0;
                 else if (Memory.ReadByte(0x202A2518) == 1) currentArea = 1;
                 else if (Memory.ReadByte(0x202A2518) == 2) currentArea = 2;
                 else if (Memory.ReadByte(0x202A2518) == 3) currentArea = 3;
+                else if (Memory.ReadByte(0x202A2518) == 14) currentArea = 14; */
+                currentArea = Memory.ReadByte(0x202A2518);
                 SetDefaultDialogue(currentArea);
 
                 for (int i = 0; i < customDialoguesCheck.Length; i++)   //reset NPC dialogue progress if changed area
@@ -100,8 +119,9 @@ namespace Dark_Cloud_Improved_Version
 
             currentAddress = Addresses.chrFileLocation + 0x6;
 
-            if (currentChar != Memory.ReadInt(currentAddress))  //if using different ally, switch dialogue data
-            {
+            if (currentChar != Memory.ReadInt(currentAddress) && isAlly == true)  //if using different ally, switch dialogue data
+            {              
+
                 if (Memory.ReadInt(currentAddress) == 791752805) //Xiao
                 {
                     if (currentArea == 0)
@@ -218,10 +238,18 @@ namespace Dark_Cloud_Improved_Version
 
                 currentChar = Memory.ReadInt(currentAddress);
 
+                currentArea = Memory.ReadByte(0x202A2518);
+                SetDefaultDialogue(currentArea);
+
                 for (int i = 0; i < customDialoguesCheck.Length; i++)   //reset NPC dialogue progress if changed ally
                 {
                     customDialoguesCheck[i] = 0;
                 }
+            }
+            else if (currentChar != Memory.ReadInt(currentAddress) && isAlly == false)
+            {
+                currentArea = Memory.ReadByte(0x202A2518);
+                SetDefaultDialogue(currentArea);
             }
             //SetDialogueOptions(currentDialogueOptions); //TESTING EXTRA DIALOGUE OPTIONS: adds sidequest option after finishing house event
 
@@ -311,6 +339,43 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+            else if (currentArea == 14)
+            {
+                currentAddress = currentAddress - 0x00000005;
+                if (Memory.ReadShort(currentAddress) == 9)
+                {
+                    if (Memory.ReadByte(0x21CE4400) == 0)
+                    {
+                        currentDialogue = brownbooPickle;
+                    }
+                    else
+                    {
+                        CheckItems();
+                        int allitems = obtainableItemsList.Length + obtainableAttachmentsList.Length;
+                        if (obtainedItems == allitems && obtainedUltWeapons == obtainableUltWeapons.Length && obtainedSecretItems == obtainableSecretItems.Length)
+                        {
+                            brownbooPickleExtraDialogue = "WOW! You´ve done it!^You collected everything!^Amazing, I have my highest^respect for you.";
+                        }
+                        else
+                        {
+                            brownbooPickleExtraDialogue = "Hmm, seems like you don´t have^100% collection yet. Don´t worry,^it´s a massive achievement to have!^Good luck!";
+                        }
+                        
+                        currentDialogue = "You have collected:^" + obtainedItems + " / " + allitems + " obtainable items and attachments^" + obtainedUltWeapons + " / " + obtainableUltWeapons.Length +" obtainable ultimate weapons^" + obtainedSecretItems + " / " + obtainableSecretItems.Length +" secret items¤" + brownbooPickleExtraDialogue;
+                        obtainedItems = 0;
+                        obtainedUltWeapons = 0;
+                        obtainedSecretItems = 0;
+                        for (int i = 0; i < itemIDCheckList.Length; i++)
+                        {
+                            itemIDCheckList[i] = false;
+                        }
+                    }
+                }
+                else
+                {
+                    currentDialogue = "Sup buddy. I don´t have a dialogue yet.";
+                }
+            }
 
             if (characterIdData == 13361)
             {
@@ -327,6 +392,10 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 2)
             {
                 currentAddress = 0x2064BED8; //suzy's first normal "hello" dialogue
+            }
+            else if (currentArea == 14)
+            {
+                currentAddress = 0x2064ADCA; //pickle's 1st message                   
             }
 
             for (int i = 0; i < currentDialogue.Length; i++)
@@ -415,6 +484,31 @@ namespace Dark_Cloud_Improved_Version
             {
                 currentAddress = 0x206494C4;
             }
+            else if (area == 1)
+            {
+                currentAddress = 0x20649B88;
+            }
+            else if (area == 2)
+            {
+                currentAddress = 0x20649B8A;
+            }
+            else if (area == 14)
+            {
+                if (isUsingAlly == true)
+                {
+                    currentAddress = 0x20649004; //brownboo first dialogue option
+                    defDialogue = "Hey chill, don´t come talking so fast!";
+                }
+
+                else
+                {
+                    currentAddress = 0x20649004; //brownboo first dialogue option
+                     if (Memory.ReadByte(0x21CE4400) == 0)
+                        defDialogue = "Wait a second please,^I was doing something.";
+                     else
+                        defDialogue = "Checking your data... Please wait.";
+                }
+            }
 
             for (int i = 0; i < defDialogue.Length; i++)
             {
@@ -424,7 +518,14 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (character.Equals(gameCharacters[a]))
                     {
-                        value1 = BitConverter.GetBytes(a);
+                        if (a == 127)
+                        {
+                            value1 = BitConverter.GetBytes(2);
+                        }
+                        else
+                        {
+                            value1 = BitConverter.GetBytes(a);
+                        }
                     }
                 }
 
@@ -545,12 +646,130 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        public static void CheckItems()
+        {
+            int itemid;
+
+            currentAddress = 0x21CDD8AE; //first active item slot
+            for (int i = 0; i < 3; i++) //check which items player has active slots
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid < 380)
+                {
+                    itemIDCheckList[Memory.ReadUShort(currentAddress)] = true;
+                }
+                currentAddress += 0x00000002;
+            }
+
+            currentAddress = 0x21CDD8BA; //first inventory slot
+            for (int i = 0; i < 100; i++) //check which items player has in bag
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid < 380)
+                {
+                    itemIDCheckList[Memory.ReadUShort(currentAddress)] = true;
+                }
+                currentAddress += 0x00000002;
+            }
+            currentAddress = 0x21CE21E8; //first storage slot
+            for (int i = 0; i < 60; i++) //check which items player has in storage
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid < 380)
+                {
+                    itemIDCheckList[Memory.ReadUShort(currentAddress)] = true;
+                }
+                currentAddress += 0x00000002;
+            }
+
+            for (int i = 0; i < obtainableItemsList.Length; i++) //increase counter for each unique item
+            {
+                if (itemIDCheckList[obtainableItemsList[i]] == true)
+                {
+                    obtainedItems++;
+                }
+            }
+
+            currentAddress = 0x21CE1A48; //first attachment slot
+            for (int i = 0; i < 40; i++) //check which attachments player has in bag
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid < 380)
+                {
+                    itemIDCheckList[Memory.ReadUShort(currentAddress)] = true;
+                }
+                currentAddress += 0x00000020;
+            }
+
+            currentAddress = 0x21CE3FE8; //first storage attachment slot
+            for (int i = 0; i < 30; i++) //check which attachments player has in storage
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid < 380)
+                {
+                    itemIDCheckList[Memory.ReadUShort(currentAddress)] = true;
+                }
+                currentAddress += 0x00000020;
+            }
+
+            for (int i = 0; i < obtainableAttachmentsList.Length; i++) //increase counter for each unique item
+            {
+                if (itemIDCheckList[obtainableAttachmentsList[i]] == true)
+                {
+                    obtainedItems++;
+                }
+            }
+
+            currentAddress = 0x21CDDA58; //first weapon ID in bag
+            for (int i = 0; i < 65; i++) //check which weapons player is carrying
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid < 380)
+                {
+                    itemIDCheckList[Memory.ReadUShort(currentAddress)] = true;
+                }
+                currentAddress += 0x000000F8;
+            }
+
+            currentAddress = 0x21CE22D8; //first weapon slot in storage
+            for (int i = 0; i < 30; i++) //check which weapons player has in storage
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid < 380)
+                {
+                    itemIDCheckList[Memory.ReadUShort(currentAddress)] = true;
+                }
+                currentAddress += 0x000000F8;
+            }
+
+            for (int i = 0; i < obtainableUltWeapons.Length; i++) //increase counter for each unique item
+            {
+                if (itemIDCheckList[obtainableUltWeapons[i]] == true)
+                {
+                    obtainedUltWeapons++;
+                }
+            }
+
+            for (int i = 0; i < obtainableSecretItems.Length; i++) //increase counter for each unique item
+            {
+                if (itemIDCheckList[obtainableSecretItems[i]] == true)
+                {
+                    obtainedSecretItems++;
+                }
+            }
+        }
+
+
+
         //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
         // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
 
         public static void InitializeDialogues()
         {
             sideQuestDialogueOption[0] = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
+
+            brownbooPickle = "Hey there, wanderer! Would you like^to know your collection progress?^Whenever you talk to me, I´ll check^your obtained items and weapons.¤You need to be either carrying them^or have them in your storage.¤Can you make it to the 100% collection?^It won´t be easy, but if you commit^to it, you can achieve anything!^Good luck!";
+            brownbooPickleData = "You have collected:^X / Y obtainable items^X / Y obtainable weapons";
 
             //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
             noruneXiao[0] = "El Gato, how are you doing little buddy?^Need any food or water?";
@@ -867,9 +1086,9 @@ namespace Dark_Cloud_Improved_Version
             queensXiao[0] = "Ahh! I´m glad that you´re here.^My name is King and I´m the mayor^of this humble seaside town.¤We could use some pest control,^these rats are becoming more common.";
             queensXiao[1] = "Hey there, stay out of trouble now!";
             queensXiao[2] = "I noticed that you have your eye on our^world famous flapping fish, would you^like to try some?";
-            queensXiao[3] = "You remind me of a cat I had when I was^young, it hated taking baths!¤That was the inspiration for the name^Fighting Watery.";
+            queensXiao[3] = "The importance of having a^Watery goes a long way back.¤The water from Queens is considered^to be some of the best, most premium^water in all of the Earth.¤Many merchant families made their name^by selling our desirable water to^other villages and towns.¤I hope my humble store^can continue that legacy.";
             queensXiao[4] = "Aren´t you the cutest little cat I´ve^ever seen!¤Have you come to Queens in search of^fish?";
-            queensXiao[5] = "Stay cats like you used to be found all^over Queens as the ocean smell would^brings cats from around the world.¤Not many animals can be seen after the^Genie attacked..."; //CANNOT REACH THE NPC
+            queensXiao[5] = "Stray cats like you used to be found all^over Queens as the ocean smell would^brings cats from around the world.¤Not many animals can be seen after the^Genie attacked..."; //CANNOT REACH THE NPC
             queensXiao[6] = "Sheriff Wilder is always giving us^trouble but we´re just trying to make^Queens a better place for everyone.¤I mean maybe we´re also looking out for^ourselves but a man´s gotta stay ahead^right!";
             queensXiao[7] = "The King Mimic carries many treasures,^defeating one is a challenge worthy only^for the strongest warrior.";
             queensXiao[8] = "This is a holy place and a refuge for^all.¤These recent events only underscore that^we are stronger together.^The Dark Genie will not defeat our^indelible spirit!";
