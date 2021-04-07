@@ -119,6 +119,7 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
         }
+        //Reduces enemies size on hit
 
         public static void MobiusRing()
         {
@@ -205,7 +206,7 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
         }
-
+        //Increases damage output the longer you charge an attack
 
         public static void HerculesWrath()
         //Chance on getting hit to gain Stamina
@@ -231,7 +232,6 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
         }
-
 
         public static void BabelSpear()
         //Chance on hit to apply stop to all enemies

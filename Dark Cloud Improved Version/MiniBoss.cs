@@ -39,8 +39,6 @@ namespace Dark_Cloud_Improved_Version
                     prevFloor = 200;    //used to reset the floor data when going back to dungeon
                 }
             }
-
-
         }
     }
 }

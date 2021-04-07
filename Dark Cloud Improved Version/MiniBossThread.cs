@@ -20,18 +20,23 @@ namespace Dark_Cloud_Improved_Version
         const int varOffset = 0x190; //Offset for attributes
         public const int enemyNewHP = 100; //Changes HP and also changes max HP
         public const float scaleSize = 1.5F; //Sets the total size of the miniboss
-        public const int enemyHPMult= 5; //Changes miniboss hp multiplier
+        public const int enemyHPMult = 5; //Changes miniboss hp multiplier
 
-        public static void MiniBossTrait()
+        public static bool MiniBossSpawn() //Rolls for a 30% chance to spawn the miniboss
         {
-           //Console.WriteLine("Floor Changed");      
-           bossEnemy = rnd.Next(15);
-           int startBossHP = Memory.ReadByte(Enemies.Enemy0.hp + (varOffset * bossEnemy));
-           Memory.WriteFloat(enemyZeroWidth + (scaleOffset * bossEnemy), scaleSize); //Scales chosen enemy
-           Memory.WriteFloat(enemyZeroHight + (scaleOffset * bossEnemy), scaleSize);
-           Memory.WriteInt(Enemies.Enemy0.maxHp + (varOffset * bossEnemy), (startBossHP * enemyHPMult));
-           Memory.WriteFloat(enemyZeroDepth + (scaleOffset * bossEnemy), scaleSize);
-           Memory.WriteInt(Enemies.Enemy0.hp + (varOffset * bossEnemy), (startBossHP * enemyHPMult)); //Changes Enemy HP and MaxHP to scaled number                   
+            if (rnd.Next(100) <= 100)
+            {
+                //Console.WriteLine("Floor Changed");      
+                bossEnemy = rnd.Next(15);
+                int startBossHP = Memory.ReadByte(Enemies.Enemy0.hp + (varOffset * bossEnemy));
+                Memory.WriteFloat(enemyZeroWidth + (scaleOffset * bossEnemy), scaleSize); //Scales chosen enemy
+                Memory.WriteFloat(enemyZeroHight + (scaleOffset * bossEnemy), scaleSize);
+                Memory.WriteInt(Enemies.Enemy0.maxHp + (varOffset * bossEnemy), (startBossHP * enemyHPMult));
+                Memory.WriteFloat(enemyZeroDepth + (scaleOffset * bossEnemy), scaleSize);
+                Memory.WriteInt(Enemies.Enemy0.hp + (varOffset * bossEnemy), (startBossHP * enemyHPMult)); //Changes Enemy HP and MaxHP to scaled number                   
+                return true;
+            }
+            else return false;
         }
     }
 }

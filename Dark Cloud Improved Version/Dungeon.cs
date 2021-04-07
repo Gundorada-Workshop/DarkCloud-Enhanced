@@ -85,12 +85,28 @@ namespace Dark_Cloud_Improved_Version
 
                     if (currentFloor != prevFloor)  //checking if player has entered a new floor
                     {
+                        
                         Console.WriteLine("new floor");
-                        currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+                        currentDungeon = Memory.ReadUShort(Addresses.checkDungeon);
                         Thread.Sleep(4000);
                         chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
                         CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
-                        MiniBossThread.MiniBossTrait();
+
+                        bool HasMiniBoss = MiniBossThread.MiniBossSpawn();
+                        Thread.Sleep(3500); //Wait an addition 3.5 seconds to check if a limited floor message is present
+                        int DungeonMessage = Memory.ReadInt(0x21EA76B4);
+                        Console.WriteLine(DungeonMessage);
+
+                        if (HasMiniBoss && DungeonMessage == -1)
+                        {
+                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
+                        }
+                        if (HasMiniBoss && DungeonMessage != -1)
+                        {
+                            Thread.Sleep(4100);
+                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
+                        }
+
                         prevFloor = currentFloor;   //once everything is done, we initialize this so it wont reroll again in same floor
                     }
 
