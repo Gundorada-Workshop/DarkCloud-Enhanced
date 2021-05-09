@@ -50,7 +50,8 @@ namespace Dark_Cloud_Improved_Version
             //float posZ = Memory.ReadFloat(dunPositionZ);
             ushort healspeed1 = Memory.ReadUShort(0x202A2B88);
 
-            var i = 0.15; // Set/reset the acceleration variable
+            var i = 0.15; // Acceleration modifier
+            var a = 0.000001; // Base acceleration value
 
             while (Memory.ReadUShort(Addresses.buttonInputs) == 65        // X + L2 being pressed?
                 && Memory.ReadFloat(dunPositionZ) < 30   /*       // Height below 25 units?
@@ -62,7 +63,7 @@ namespace Dark_Cloud_Improved_Version
                 && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
                 && Player.CheckDunIsInteracting() == false*/)     // Is interacting with an element? (Doors, backfloor gates...))     
             {
-                Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(0.000001 * i))); //Initial speed times acceleration
+                Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(a * i)));
                 i++;
             }
         }
