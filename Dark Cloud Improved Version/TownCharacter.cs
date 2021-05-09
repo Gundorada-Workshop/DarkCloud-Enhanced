@@ -39,11 +39,17 @@ namespace Dark_Cloud_Improved_Version
         static bool jokerHouse = false;
         static bool dialogueWritten = false;
         static bool nearNPC = false;
+        static bool nearNPCSD = false;
+        static bool checkBuildingFlag = false;
+        static bool areaChanged = false;
+        static bool sidequestOptionFlag = false;
+        static bool isSideQuestDialogueActive = false;
 
         public static bool talkableNPC = true;
         public static bool shopkeeper = false;
         
         public static int onDialogueFlag = 0;
+        public static int sidequestonDialogueFlag = 0;
         static int[] originalFunctions1 = { 201865816, 0, 201653168, 0, 201653040, 0, 604241921, 201865772 };
         static int[] originalFunctions2 = { 604241921, 201865856, 0, 209125176, 0, 604241921, 201840320 };
         static int charNumber;
@@ -53,6 +59,8 @@ namespace Dark_Cloud_Improved_Version
         static int checkCompletion;
         static int partsCollected = 0;
         static int currentArea;
+        static int buildingCheck;
+        public static int sidequestDialogueID = 0;
         
         //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo)
 
@@ -493,7 +501,7 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (nearNPC == false || onDialogueFlag == 1)
                             {
-                                Dialogues.SetDialogue(i, true);
+                                Dialogues.SetDialogue(i, true, false);
                                 if (talkableNPC != false) //check if NPC is not llama
                                 {
                                     Memory.WriteByte(0x21F10008, 1); //nearNPC flag for PNACH to use
@@ -561,7 +569,34 @@ namespace Dark_Cloud_Improved_Version
                     else
                     {
                         Memory.WriteByte(0x21D3D434, townDialogueIDs[currentArea]);
-                        //Memory.WriteInt(0x21D3D440, townDialogueIDs[currentArea]); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                        if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
+                        {
+                            sidequestOptionFlag = true;
+                        }
+                        else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                        {
+                            sidequestOptionFlag = false;
+                        }
+
+                        if (sidequestOptionFlag == true)
+                        {
+                            Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                            SetSideQuestDialogue();
+
+                            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
+                            {
+                                CheckSideQuestDialogue();
+                                isSideQuestDialogueActive = true;
+                            }
+                            else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
+                            {
+                                isSideQuestDialogueActive = false;
+                            }
+                        }
+                        else
+                        {
+                            sidequestonDialogueFlag = 0;
+                        }
                     }
 
                 }
@@ -570,8 +605,40 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
                     Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
 
+                    //if (Memory.ReadByte(0x21D1CC0C) == 12)
+
                     currentArea = Memory.ReadByte(0x202A2518);
-                    if (currentArea == 14)
+                    if (currentArea == 0)
+                    {
+                        if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
+                        {
+                            sidequestOptionFlag = true;
+                        }
+                        else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                        {
+                            sidequestOptionFlag = false;
+                        }
+                        if (sidequestOptionFlag == true)
+                        {
+                            Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                            SetSideQuestDialogue();
+
+                            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
+                            {
+                                CheckSideQuestDialogue();
+                                isSideQuestDialogueActive = true;
+                            }
+                            else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
+                            {
+                                isSideQuestDialogueActive = false;
+                            }
+                        }
+                        else
+                        {
+                            sidequestonDialogueFlag = 0;
+                        }
+                    }
+                    else if (currentArea == 14)
                     {
                         int checkNearNPC = 0;
                         for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
@@ -582,7 +649,7 @@ namespace Dark_Cloud_Improved_Version
                                 if (nearNPC == false || onDialogueFlag == 1)
                                 {
 
-                                    Dialogues.SetDialogue(i, false);
+                                    Dialogues.SetDialogue(i, false, false);
                                     Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
                                     nearNPC = true;
                                     if (onDialogueFlag == 1) onDialogueFlag = 2;
@@ -616,6 +683,34 @@ namespace Dark_Cloud_Improved_Version
                             }
                         }
                     }
+                }
+
+                buildingCheck = Memory.ReadByte(0x202A281C); //is player inside house
+
+                if (Memory.ReadInt(0x202A2880) < 80) //check player duration in new area (to check if its a new/changed area)
+                {
+                    if (Memory.ReadInt(0x202A2880) > 40)
+                    {
+                        areaChanged = true;
+                    }
+                }
+                else
+                {
+                    areaChanged = false;
+                }
+
+                if ((buildingCheck == 0 && checkBuildingFlag == true) || areaChanged == true) //check if player is not inside a house
+                {
+                    Console.WriteLine("Currently in outside area");
+                    Dialogues.SetDialogueOptions(currentArea, false);
+                    checkBuildingFlag = false;
+
+                }
+                else if (buildingCheck == 1 && checkBuildingFlag == false)
+                {
+                    Console.WriteLine("Currently inside building");
+                    Dialogues.SetDialogueOptions(currentArea, true);
+                    checkBuildingFlag = true;
                 }
 
                 if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
@@ -713,6 +808,72 @@ namespace Dark_Cloud_Improved_Version
 
             }
 
+        }
+
+
+        public static void SetSideQuestDialogue()
+        {
+            int checkNearNPC = 0;
+            for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
+            {
+                currentAddress = i * 0x14A0 + 0x21D26FF8;
+                if (Memory.ReadByte(currentAddress) == 1)
+                {
+                    if (sidequestonDialogueFlag == 0)
+                    {
+
+                        Dialogues.SetDialogue(i, false, true);
+                        Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
+                        nearNPCSD = true;
+                        Console.WriteLine("sidequestdialogue set");
+                        sidequestonDialogueFlag = 1;
+                    }
+                    checkNearNPC++;
+                }
+            }
+
+            /*if (checkNearNPC == 0)
+            {
+                nearNPCSD = false;
+                Memory.WriteByte(0x21F10010, 0); //nearNPC flag for PNACH to use
+                sidequestonDialogueFlag = 0;
+            } 
+
+            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && sidequestonDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
+            {
+                sidequestonDialogueFlag = 1;
+            }
+
+            if (sidequestonDialogueFlag == 2)
+            {
+                if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
+                {
+                    sidequestonDialogueFlag = 0;
+                }
+            }
+            */
+        }
+
+        public static void CheckSideQuestDialogue()
+        {
+            sidequestOptionFlag = false;
+            
+            if (Memory.ReadUShort(0x21D1CC0C) == 267) //renee sidequest
+            {
+                if (Memory.ReadByte(0x21CE4402) == 0)
+                {
+                    Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(1));
+                }
+                else if (Memory.ReadByte(0x21CE4402) == 1)
+                {
+                    Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                }
+
+                else if (Memory.ReadByte(0x21CE4402) == 2)
+                {
+                    Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(0));
+                }
+            }
         }
     }
 }
