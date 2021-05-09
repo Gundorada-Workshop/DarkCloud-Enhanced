@@ -196,6 +196,11 @@ namespace Dark_Cloud_Improved_Version
             return WriteProcessMemory(processH, address, value, value.Length, out _);
         }
 
+        internal static bool WriteOneByte(int address, byte[] value)
+        {
+            return WriteProcessMemory(processH, address, value, 1, out _);
+        }
+
         internal static bool WriteString(int address, string stringToWrite) //Untested
         {
             // http://stackoverflow.com/questions/16072709/converting-string-to-byte-array-in-c-sharp
@@ -206,7 +211,8 @@ namespace Dark_Cloud_Improved_Version
 
         internal static bool WriteByte(int address, byte value)
         {
-            return Write(address, BitConverter.GetBytes(value));
+            //return Write(address, BitConverter.GetBytes(value));
+            return WriteOneByte(address, BitConverter.GetBytes(value));
         }
 
         internal static void WriteByteArray(int address, byte[] byteArray)  //Write byte array at address

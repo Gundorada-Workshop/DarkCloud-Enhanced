@@ -47,15 +47,18 @@ namespace Dark_Cloud_Improved_Version
         static string currentDialogue;
         static string currentDialogueOptions;
         static string prevDialogue;
+        static string dialogueOptions;
 
         static bool isUsingAlly;
 
         static int currentAddress;
+        static int currentsidequestAddress;
         static int currentArea = 255;
         static int currentChar;
         static int characterIdData;
         static int savedDialogueCheck;
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
+        static int[] norunesidequestCharacters = { 12337 };
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
         static int[] customDialoguesCheck = new int[15];      
@@ -85,6 +88,9 @@ namespace Dark_Cloud_Improved_Version
         static int obtainedUltWeapons = 0;
         static int obtainedSecretItems = 0;
 
+        static int[] noruneSidequestIDs = { 87, 247, 207, 227, 187, 127, 67, 167, 147, 267, 47, 107, 0};
+        static int[] noruneSidequestDialogueAddresses = { 0x2064B36C, 0x206507BE, 0x2064F350, 0x2064FC66, 0x2064EAC2, 0x2064CB04, 0x2064A36A, 0x2064DFB0, 0x2064D6C2, 0x206519EE, 0x20649916, 0x2064C088, 0 };
+
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
@@ -96,7 +102,7 @@ namespace Dark_Cloud_Improved_Version
                               '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Ť', 'Ӿ', 'Ʊ', 'Ʀ', 'Ų', 'Ō', ' ' };
         
 
-        public static void SetDialogue(int offset, bool isAlly)
+        public static void SetDialogue(int offset, bool isAlly, bool isSidequest)
         {
             isUsingAlly = isAlly;
             currentAddress = Addresses.chrFileLocation + 0x6;
@@ -263,13 +269,41 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (customDialoguesCheck[i] != 1)
                         {
-                            currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
-                            savedDialogueCheck = i;
+                            if (isSidequest)
+                            {
+                                if (norunesidequestCharacters.Contains(characterIdData))
+                                {
+                                    currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else
+                                {
+                                    currentDialogue = "Sorry, I don´t have any quests currently.";
+                                }
+                            }
+                            else
+                            {
+                                currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                                savedDialogueCheck = i;
+                            }
                         }
                         else
                         {
-                            currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
-                            savedDialogueCheck = i;
+                            if (isSidequest)
+                            {
+                                if (norunesidequestCharacters.Contains(characterIdData))
+                                {
+                                    currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else
+                                {
+                                    currentDialogue = "Sorry, I don´t have any quests currently.";
+                                }
+                            }
+                            else
+                            {
+                                currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
+                                savedDialogueCheck = i;
+                            }
                         }
 
                         if (i == 1 || i == 11)  //check for shopkeeper
@@ -280,6 +314,9 @@ namespace Dark_Cloud_Improved_Version
                         {
                             TownCharacter.shopkeeper = false;
                         }
+
+                        TownCharacter.sidequestDialogueID = noruneSidequestIDs[i];
+                        currentsidequestAddress = noruneSidequestDialogueAddresses[i];
                     }
                 }
             }
@@ -377,13 +414,17 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
 
-            if (characterIdData == 13361)
+            if (characterIdData == 14132)
             {
                 TownCharacter.talkableNPC = false;
             }
             if (currentArea == 0)
             {
                 currentAddress = 0x206507BE; //gaffers first normal "hello" dialogue
+                if (isSidequest)
+                {
+                    currentAddress = currentsidequestAddress;
+                }
             }
             else if (currentArea == 1)
             {
@@ -441,6 +482,8 @@ namespace Dark_Cloud_Improved_Version
                         {
                             value1 = BitConverter.GetBytes(a);
                         }
+
+                        break;
                     }
                 }
 
@@ -526,39 +569,59 @@ namespace Dark_Cloud_Improved_Version
                         {
                             value1 = BitConverter.GetBytes(a);
                         }
+
+                        break;
                     }
                 }
 
 
-                Memory.WriteByte(currentAddress, value1[0]);
+                Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
 
                 currentAddress += 0x00000001;
 
                 if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
                 {
-                    value1 = BitConverter.GetBytes(255);
-                    Memory.WriteByte(currentAddress, value1[0]);
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(255));
                 }
                 else
-                {
-                    value1 = BitConverter.GetBytes(253);
-                    Memory.WriteByte(currentAddress, value1[0]);
+                {                 
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(253));
                 }
 
                 currentAddress += 0x00000001;
             }
 
-            Memory.WriteByte(currentAddress, 1);
+            Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(1));
             currentAddress += 0x00000001;
-            Memory.WriteByte(currentAddress, 255);
+            Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(255));
 
             Console.WriteLine("nearNPC+SetDefaultDialogue");
 
         }
 
-        public static void SetDialogueOptions(string dialogueOptions)
+        public static void SetDialogueOptions(int currentArea, bool buildingCheck)
         {
-            currentAddress = 0x206492F6; //norune dialogueoptions after event finish
+            if (currentArea == 0)
+            {
+                if (buildingCheck == false) //if player is not inside (storage) house
+                {
+                    currentAddress = 0x206492F6; //norune dialogueoptions after event finish
+                    dialogueOptions = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
+                }
+                else
+                {
+                    if (Memory.ReadByte(0x202A2820) == 5) //check for hag
+                    {
+                        currentAddress = 0x20649364; //can I check for items? dialogue
+                        dialogueOptions = "   Can I check in some items?^  Hello.^  How should I rebuild Norune?^  It´s finished!";
+                    }
+                    else
+                    {
+                        currentAddress = 0x206492F6; //norune dialogueoptions after event finish
+                        dialogueOptions = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
+                    }
+                }
+            }
             for (int i = 0; i < dialogueOptions.Length; i++)
             {
                 char character = dialogueOptions[i];
@@ -602,6 +665,8 @@ namespace Dark_Cloud_Improved_Version
                         {
                             value1 = BitConverter.GetBytes(a);
                         }
+
+                        break;
                     }
                 }
 
@@ -632,6 +697,8 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(currentAddress, 1);
             currentAddress += 0x00000001;
             Memory.WriteByte(currentAddress, 255);
+
+            Console.WriteLine("Custom dialogue options set!");
         }
 
         public static void ChangeDialogue()
