@@ -24,7 +24,7 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
         static byte checkByte;
-        static byte[] townDialogueIDs = { 247, 167, 87, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        static byte[] townDialogueIDs = { 247, 167, 87, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         static string cfgFile;
         static string chrFilePath;
@@ -60,6 +60,7 @@ namespace Dark_Cloud_Improved_Version
         static int partsCollected = 0;
         static int currentArea;
         static int buildingCheck;
+        public static int characterIDData;
         public static int sidequestDialogueID = 0;
         
         //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo)
@@ -363,7 +364,7 @@ namespace Dark_Cloud_Improved_Version
                 else if (menuExited == false && Memory.ReadByte(0x202A1E90) == 255)   //if player exits allies menu without switching character, write the current character back
                 {
                     chrFilePath = currentCharacter;
-                    Console.WriteLine("hello");
+                    Console.WriteLine("re-writing current character back...");
 
                     currentAddress = Addresses.chrFileLocation;
 
@@ -564,11 +565,11 @@ namespace Dark_Cloud_Improved_Version
 
                     if (shopkeeper == true)     //check shopkeeper and change dialogue ID
                     {
-                        Memory.WriteByte(0x21D3D438, townDialogueIDs[currentArea]);
+                        Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
                     }
                     else
                     {
-                        Memory.WriteByte(0x21D3D434, townDialogueIDs[currentArea]);
+                        Memory.WriteUShort(0x21D3D434, townDialogueIDs[currentArea]);
                         if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
                         {
                             sidequestOptionFlag = true;
@@ -658,7 +659,7 @@ namespace Dark_Cloud_Improved_Version
                                 currentAddress = currentAddress - 0x00000024;
                                 if (Memory.ReadByte(currentAddress) == 9)
                                 {
-                                    Memory.WriteByte(0x21D3D434, 200);
+                                    Memory.WriteUShort(0x21D3D434, 200);
                                 }
                             }
                         }
@@ -703,6 +704,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Console.WriteLine("Currently in outside area");
                     Dialogues.SetDialogueOptions(currentArea, false);
+                    Dialogues.SetStorageDialogue(currentArea, false);
                     checkBuildingFlag = false;
 
                 }
@@ -710,6 +712,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Console.WriteLine("Currently inside building");
                     Dialogues.SetDialogueOptions(currentArea, true);
+                    Dialogues.SetStorageDialogue(currentArea, true);
                     checkBuildingFlag = true;
                 }
 
@@ -719,6 +722,14 @@ namespace Dark_Cloud_Improved_Version
                     Console.WriteLine("changing location");
                     chrFilePath = "chara/c01d.chr";
                     Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled
+
+                    currentAddress = Addresses.chrFileLocation;
+
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Memory.WriteByte(currentAddress, 0);
+                        currentAddress += 0x00000001;
+                    }
 
                     currentAddress = Addresses.chrFileLocation;
 
@@ -858,7 +869,7 @@ namespace Dark_Cloud_Improved_Version
         {
             sidequestOptionFlag = false;
             
-            if (Memory.ReadUShort(0x21D1CC0C) == 267) //renee sidequest
+            if (characterIDData == 12592) //macho sidequest
             {
                 if (Memory.ReadByte(0x21CE4402) == 0)
                 {
@@ -866,11 +877,12 @@ namespace Dark_Cloud_Improved_Version
                 }
                 else if (Memory.ReadByte(0x21CE4402) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
                 }
 
                 else if (Memory.ReadByte(0x21CE4402) == 2)
                 {
+                    SideQuestManager.MonsterQuestReward();
                     Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(0));
                 }
             }

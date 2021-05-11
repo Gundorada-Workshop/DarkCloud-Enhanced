@@ -44,6 +44,16 @@ namespace Dark_Cloud_Improved_Version
         static string[] queensUngaga2 = new string[15];
         static string[] queensOsmond = new string[15];
         static string[] queensOsmond2 = new string[15];
+        static string[] muskarackaXiao = new string[15];
+        static string[] muskarackaXiao2 = new string[15];
+        static string[] muskarackaGoro = new string[15];
+        static string[] muskarackaGoro2 = new string[15];
+        static string[] muskarackaRuby = new string[15];
+        static string[] muskarackaRuby2 = new string[15];
+        static string[] muskarackaUngaga = new string[15];
+        static string[] muskarackaUngaga2 = new string[15];
+        static string[] muskarackaOsmond = new string[15];
+        static string[] muskarackaOsmond2 = new string[15];
         static string currentDialogue;
         static string currentDialogueOptions;
         static string prevDialogue;
@@ -58,9 +68,10 @@ namespace Dark_Cloud_Improved_Version
         static int characterIdData;
         static int savedDialogueCheck;
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
-        static int[] norunesidequestCharacters = { 12337 };
+        static int[] norunesidequestCharacters = { 12592 };
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
+        static int[] muskarackaCharacters = { 13876, 14388, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389 }; //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
         static int[] customDialoguesCheck = new int[15];      
         static int[] noruneXiaoCheck = new int[15];
         static int[] noruneGoroCheck = new int[15];
@@ -77,6 +88,11 @@ namespace Dark_Cloud_Improved_Version
         static int[] queensRubyCheck = new int[15];
         static int[] queensUngagaCheck = new int[15];
         static int[] queensOsmondCheck = new int[15];
+        static int[] muskarackaXiaoCheck = new int[15];
+        static int[] muskarackaGoroCheck = new int[15];
+        static int[] muskarackaRubyCheck = new int[15];
+        static int[] muskarackaUngagaCheck = new int[15];
+        static int[] muskarackaOsmondCheck = new int[15];
 
         static bool[] itemIDCheckList = new bool[380];
         static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
@@ -87,6 +103,8 @@ namespace Dark_Cloud_Improved_Version
         static int obtainedAttachments = 0;
         static int obtainedUltWeapons = 0;
         static int obtainedSecretItems = 0;
+
+        static byte[] storageOriginalDialogue;
 
         static int[] noruneSidequestIDs = { 87, 247, 207, 227, 187, 127, 67, 167, 147, 267, 47, 107, 0};
         static int[] noruneSidequestDialogueAddresses = { 0x2064B36C, 0x206507BE, 0x2064F350, 0x2064FC66, 0x2064EAC2, 0x2064CB04, 0x2064A36A, 0x2064DFB0, 0x2064D6C2, 0x206519EE, 0x20649916, 0x2064C088, 0 };
@@ -100,7 +118,11 @@ namespace Dark_Cloud_Improved_Version
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
                               '´', '=', '"', '!', '?', '#', '&', '+', '-', '*', '/', '%', '(', ')', '@', '|', '<', '>', '{', '}', '[', ']', ':', ',', '.', '$',
                               '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Ť', 'Ӿ', 'Ʊ', 'Ʀ', 'Ų', 'Ō', ' ' };
-        
+
+        static byte[] gameCharacters2 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 88, 87, 90, 110, 96, 91, 85, 97, 98, 94, 92, 108, 93, 109, 95,
+                                            111, 112, 113, 114, 115, 117, 118, 119, 120, 121, 107, 0, 101, 86, 102, 89, 99, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
+                                            105, 0, 106, 0, 2, 0, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 103, 100, 104, 2 };
+
 
         public static void SetDialogue(int offset, bool isAlly, bool isSidequest)
         {
@@ -149,6 +171,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = queensXiao2;
                         customDialoguesCheck = queensXiaoCheck;
                     }
+                    else if (currentArea == 3)
+                    {
+                        customDialogues = muskarackaXiao;
+                        customDialogues2 = muskarackaXiao2;
+                        customDialoguesCheck = muskarackaXiaoCheck;
+                    }
                 }
                 else if (Memory.ReadInt(currentAddress) == 791752819)  //Goro
                 {
@@ -170,6 +198,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = queensGoro;
                         customDialogues2 = queensGoro2;
                         customDialoguesCheck = queensGoroCheck;
+                    }
+                    else if (currentArea == 3)
+                    {
+                        customDialogues = muskarackaGoro;
+                        customDialogues2 = muskarackaGoro2;
+                        customDialoguesCheck = muskarackaGoroCheck;
                     }
                 }
 
@@ -194,6 +228,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = queensRuby2;
                         customDialoguesCheck = queensRubyCheck;
                     }
+                    else if (currentArea == 3)
+                    {
+                        customDialogues = muskarackaRuby;
+                        customDialogues2 = muskarackaRuby2;
+                        customDialoguesCheck = muskarackaRubyCheck;
+                    }
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 792278899)  //Ungaga
@@ -217,6 +257,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = queensUngaga2;
                         customDialoguesCheck = queensUngagaCheck;
                     }
+                    else if (currentArea == 3)
+                    {
+                        customDialogues = muskarackaUngaga;
+                        customDialogues2 = muskarackaUngaga2;
+                        customDialoguesCheck = muskarackaUngagaCheck;
+                    }
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 792014949)  //Osmond
@@ -239,6 +285,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = queensOsmond;
                         customDialogues2 = queensOsmond2;
                         customDialoguesCheck = queensOsmondCheck;
+                    }
+                    else if (currentArea == 3)
+                    {
+                        customDialogues = muskarackaOsmond;
+                        customDialogues2 = muskarackaOsmond2;
+                        customDialoguesCheck = muskarackaOsmondCheck;
                     }
                 }
 
@@ -315,8 +367,8 @@ namespace Dark_Cloud_Improved_Version
                             TownCharacter.shopkeeper = false;
                         }
 
-                        TownCharacter.sidequestDialogueID = noruneSidequestIDs[i];
-                        currentsidequestAddress = noruneSidequestDialogueAddresses[i];
+                        TownCharacter.sidequestDialogueID = 107;
+                        currentsidequestAddress = 0x2064C088; //hag's first hello normal dialogue
                     }
                 }
             }
@@ -366,6 +418,34 @@ namespace Dark_Cloud_Improved_Version
                         }
 
                         if (i == 2 || i == 3 || i == 4 || i == 5 || i == 7 || i == 12)  //check for shopkeeper
+                        {
+                            TownCharacter.shopkeeper = true;
+                        }
+                        else
+                        {
+                            TownCharacter.shopkeeper = false;
+                        }
+                    }
+                }
+            }
+            else if (currentArea == 3)
+            {
+                for (int i = 0; i < muskarackaCharacters.Length; i++)   //search through array to find character match
+                {
+                    if (characterIdData == muskarackaCharacters[i])
+                    {
+                        if (customDialoguesCheck[i] != 1)
+                        {
+                            currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
+                        else
+                        {
+                            currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
+
+                        if (i == 6 || i == 7)  //check for shopkeeper
                         {
                             TownCharacter.shopkeeper = true;
                         }
@@ -433,6 +513,10 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 2)
             {
                 currentAddress = 0x2064BED8; //suzy's first normal "hello" dialogue
+            }
+            else if (currentArea == 3)
+            {
+                currentAddress = 0x20649A56; //bonka's first normal hello dialogue
             }
             else if (currentArea == 14)
             {
@@ -514,7 +598,6 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(currentAddress, 1);
             currentAddress += 0x00000001;
             Memory.WriteByte(currentAddress, 255);
-            
 
             Console.WriteLine("nearNPC");
         }
@@ -534,6 +617,10 @@ namespace Dark_Cloud_Improved_Version
             else if (area == 2)
             {
                 currentAddress = 0x20649B8A;
+            }
+            else if (area == 3)
+            {
+                currentAddress = 0x2065207C;
             }
             else if (area == 14)
             {
@@ -601,12 +688,14 @@ namespace Dark_Cloud_Improved_Version
 
         public static void SetDialogueOptions(int currentArea, bool buildingCheck)
         {
+            bool dialogueSet = false;
             if (currentArea == 0)
             {
                 if (buildingCheck == false) //if player is not inside (storage) house
                 {
                     currentAddress = 0x206492F6; //norune dialogueoptions after event finish
                     dialogueOptions = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
+                    dialogueSet = true;
                 }
                 else
                 {
@@ -614,91 +703,125 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentAddress = 0x20649364; //can I check for items? dialogue
                         dialogueOptions = "   Can I check in some items?^  Hello.^  How should I rebuild Norune?^  It´s finished!";
+                        Console.WriteLine("Entered hag's");
+                        dialogueSet = true;
                     }
                     else
                     {
                         currentAddress = 0x206492F6; //norune dialogueoptions after event finish
                         dialogueOptions = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
+                        Console.WriteLine("Entered building (not hag's)");
+                        dialogueSet = true;
                     }
                 }
             }
-            for (int i = 0; i < dialogueOptions.Length; i++)
+            if (dialogueSet)
             {
-                char character = dialogueOptions[i];
-
-                for (int a = 0; a < gameCharacters.Length; a++)
+                for (int i = 0; i < dialogueOptions.Length; i++)
                 {
-                    if (character.Equals(gameCharacters[a]))
-                    {
-                        if (a > 120)
-                        {
-                            if (a == 121)
-                            {
-                                value1 = BitConverter.GetBytes(250);
-                            }
-                            else if (a == 122)
-                            {
-                                value1 = BitConverter.GetBytes(251);
-                            }
-                            else if (a == 123)
-                            {
-                                value1 = BitConverter.GetBytes(252);
-                            }
-                            else if (a == 124)
-                            {
-                                value1 = BitConverter.GetBytes(253);
-                            }
-                            else if (a == 125)
-                            {
-                                value1 = BitConverter.GetBytes(254);
-                            }
-                            else if (a == 126)
-                            {
-                                value1 = BitConverter.GetBytes(255);
-                            }
-                            else if (a == 127)
-                            {
-                                value1 = BitConverter.GetBytes(2);
-                            }
-                        }
-                        else
-                        {
-                            value1 = BitConverter.GetBytes(a);
-                        }
+                    char character = dialogueOptions[i];
 
-                        break;
+                    for (int a = 0; a < gameCharacters.Length; a++)
+                    {
+                        if (character.Equals(gameCharacters[a]))
+                        {
+                            if (a > 120)
+                            {
+                                if (a == 121)
+                                {
+                                    value1 = BitConverter.GetBytes(250);
+                                }
+                                else if (a == 122)
+                                {
+                                    value1 = BitConverter.GetBytes(251);
+                                }
+                                else if (a == 123)
+                                {
+                                    value1 = BitConverter.GetBytes(252);
+                                }
+                                else if (a == 124)
+                                {
+                                    value1 = BitConverter.GetBytes(253);
+                                }
+                                else if (a == 125)
+                                {
+                                    value1 = BitConverter.GetBytes(254);
+                                }
+                                else if (a == 126)
+                                {
+                                    value1 = BitConverter.GetBytes(255);
+                                }
+                                else if (a == 127)
+                                {
+                                    value1 = BitConverter.GetBytes(2);
+                                }
+                            }
+                            else
+                            {
+                                value1 = BitConverter.GetBytes(a);
+                            }
+
+                            break;
+                        }
+                    }
+
+
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+
+                    currentAddress += 0x00000001;
+
+                    if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
+                    {
+                        value1 = BitConverter.GetBytes(255);
+                        Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                    }
+                    else if (value1[0] == 250 || value1[0] == 251 || value1[0] == 252 || value1[0] == 253 || value1[0] == 254 || value1[0] == 255)
+                    {
+                        value1 = BitConverter.GetBytes(250);
+                        Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                    }
+                    else
+                    {
+                        value1 = BitConverter.GetBytes(253);
+                        Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                    }
+
+                    currentAddress += 0x00000001;
+                }
+
+                Memory.WriteByte(currentAddress, 1);
+                currentAddress += 0x00000001;
+                Memory.WriteByte(currentAddress, 255);
+
+                Console.WriteLine("Custom dialogue options set!");
+            }
+            else
+            {
+                Console.WriteLine("!!! Custom dialogue options were not set!");
+            }
+        }
+
+        public static void SetStorageDialogue(int currentArea, bool inStorage)
+        {
+            if (inStorage)
+            {
+                if (currentArea == 0)
+                {
+                    if (storageOriginalDialogue != null)
+                    {
+                        Memory.WriteByteArray(0x2064C088, storageOriginalDialogue);
+                        Console.WriteLine("Storage dialogue written");
                     }
                 }
-
-
-                Memory.WriteByte(currentAddress, value1[0]);
-
-                currentAddress += 0x00000001;
-
-                if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
-                {
-                    value1 = BitConverter.GetBytes(255);
-                    Memory.WriteByte(currentAddress, value1[0]);
-                }
-                else if (value1[0] == 250 || value1[0] == 251 || value1[0] == 252 || value1[0] == 253 || value1[0] == 254 || value1[0] == 255)
-                {
-                    value1 = BitConverter.GetBytes(250);
-                    Memory.WriteByte(currentAddress, value1[0]);
-                }
-                else
-                {
-                    value1 = BitConverter.GetBytes(253);
-                    Memory.WriteByte(currentAddress, value1[0]);
-                }
-
-                currentAddress += 0x00000001;
             }
-
-            Memory.WriteByte(currentAddress, 1);
-            currentAddress += 0x00000001;
-            Memory.WriteByte(currentAddress, 255);
-
-            Console.WriteLine("Custom dialogue options set!");
+            else
+            {
+                if (currentArea == 0)
+                {
+                    storageOriginalDialogue = Memory.ReadByteArray(0x2064C088, 1000);
+                    Console.WriteLine("Storage dialogue stored");
+                }
+            }
         }
 
         public static void ChangeDialogue()
@@ -1305,6 +1428,147 @@ namespace Dark_Cloud_Improved_Version
             queensOsmond2[10] = "I do what I can to keep our sea side^town safe but if you ever need anything^Ō let me know.";
             queensOsmond2[11] = "You´re a strong leader, I can tell you^have many who look up to you even if^you´re a cute little bunny.";
             queensOsmond2[12] = "How did you get that heli-pack?¤I have to admit the first time that I^saw you flying with that thing it blew^my mind!";
+
+
+
+            //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            muskarackaXiao[0] = "Filthy beasts like you can learn^a thing or two from my beauty!¤You probably think you´re so cute but^you´ll never be anything when^compared to the great Jibubu!";
+            muskarackaXiao[1] = "";
+            muskarackaXiao[2] = "";
+            muskarackaXiao[3] = "";
+            muskarackaXiao[4] = "";
+            muskarackaXiao[5] = "";
+            muskarackaXiao[6] = "";
+            muskarackaXiao[7] = "";
+            muskarackaXiao[8] = "";
+            muskarackaXiao[9] = "";
+            muskarackaXiao[10] = "";
+
+            muskarackaXiao2[0] = "Everyone thinks that Ų is^the most handsome looking man^in the village!¤Keep this between you and me but^everyone here has low standards!¤Here I am talking to^a wild animal, shoo!";
+            muskarackaXiao2[1] = "";
+            muskarackaXiao2[2] = "";
+            muskarackaXiao2[3] = "";
+            muskarackaXiao2[4] = "";
+            muskarackaXiao2[5] = "";
+            muskarackaXiao2[6] = "";
+            muskarackaXiao2[7] = "";
+            muskarackaXiao2[8] = "";
+            muskarackaXiao2[9] = "";
+            muskarackaXiao2[10] = "";
+
+
+            //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            muskarackaGoro[0] = "";
+            muskarackaGoro[1] = "";
+            muskarackaGoro[2] = "";
+            muskarackaGoro[3] = "";
+            muskarackaGoro[4] = "";
+            muskarackaGoro[5] = "";
+            muskarackaGoro[6] = "";
+            muskarackaGoro[7] = "";
+            muskarackaGoro[8] = "";
+            muskarackaGoro[9] = "";
+            muskarackaGoro[10] = "";
+
+            muskarackaGoro2[0] = "";
+            muskarackaGoro2[1] = "";
+            muskarackaGoro2[2] = "";
+            muskarackaGoro2[3] = "";
+            muskarackaGoro2[4] = "";
+            muskarackaGoro2[5] = "";
+            muskarackaGoro2[6] = "";
+            muskarackaGoro2[7] = "";
+            muskarackaGoro2[8] = "";
+            muskarackaGoro2[9] = "";
+            muskarackaGoro2[10] = "";
+
+
+            //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            muskarackaRuby[0] = "";
+            muskarackaRuby[1] = "";
+            muskarackaRuby[2] = "";
+            muskarackaRuby[3] = "";
+            muskarackaRuby[4] = "";
+            muskarackaRuby[5] = "";
+            muskarackaRuby[6] = "";
+            muskarackaRuby[7] = "";
+            muskarackaRuby[8] = "";
+            muskarackaRuby[9] = "";
+            muskarackaRuby[10] = "";
+
+            muskarackaRuby2[0] = "";
+            muskarackaRuby2[1] = "";
+            muskarackaRuby2[2] = "";
+            muskarackaRuby2[3] = "";
+            muskarackaRuby2[4] = "";
+            muskarackaRuby2[5] = "";
+            muskarackaRuby2[6] = "";
+            muskarackaRuby2[7] = "";
+            muskarackaRuby2[8] = "";
+            muskarackaRuby2[9] = "";
+            muskarackaRuby2[10] = "";
+
+
+            //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            muskarackaUngaga[0] = "";
+            muskarackaUngaga[1] = "";
+            muskarackaUngaga[2] = "";
+            muskarackaUngaga[3] = "";
+            muskarackaUngaga[4] = "";
+            muskarackaUngaga[5] = "";
+            muskarackaUngaga[6] = "";
+            muskarackaUngaga[7] = "";
+            muskarackaUngaga[8] = "";
+            muskarackaUngaga[9] = "";
+            muskarackaUngaga[10] = "";
+
+            muskarackaUngaga2[0] = "";
+            muskarackaUngaga2[1] = "";
+            muskarackaUngaga2[2] = "";
+            muskarackaUngaga2[3] = "";
+            muskarackaUngaga2[4] = "";
+            muskarackaUngaga2[5] = "";
+            muskarackaUngaga2[6] = "";
+            muskarackaUngaga2[7] = "";
+            muskarackaUngaga2[8] = "";
+            muskarackaUngaga2[9] = "";
+            muskarackaUngaga2[10] = "";
+
+
+            //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            muskarackaOsmond[0] = "";
+            muskarackaOsmond[1] = "";
+            muskarackaOsmond[2] = "";
+            muskarackaOsmond[3] = "";
+            muskarackaOsmond[4] = "";
+            muskarackaOsmond[5] = "";
+            muskarackaOsmond[6] = "";
+            muskarackaOsmond[7] = "";
+            muskarackaOsmond[8] = "";
+            muskarackaOsmond[9] = "";
+            muskarackaOsmond[10] = "";
+
+            muskarackaOsmond2[0] = "";
+            muskarackaOsmond2[1] = "";
+            muskarackaOsmond2[2] = "";
+            muskarackaOsmond2[3] = "";
+            muskarackaOsmond2[4] = "";
+            muskarackaOsmond2[5] = "";
+            muskarackaOsmond2[6] = "";
+            muskarackaOsmond2[7] = "";
+            muskarackaOsmond2[8] = "";
+            muskarackaOsmond2[9] = "";
+            muskarackaOsmond2[10] = "";
 
         }
 

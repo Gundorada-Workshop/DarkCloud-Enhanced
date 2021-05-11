@@ -16,11 +16,15 @@ namespace Dark_Cloud_Improved_Version
 
     public class DungeonThread
     {
+        static int currentAddress;
         static int currentFloor;
         static int currentDungeon;
         static int prevFloor = 200;
         static bool clownOnScreen = false;
         static bool chronicle2 = false;
+        static bool[] monstersDead = new bool[15];
+        static bool monsterQuestActive = false;
+        public static bool monsterQuestMachoActive = false;
 
         public static void InsideDungeonThread()
         {
@@ -107,6 +111,12 @@ namespace Dark_Cloud_Improved_Version
                             Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
                         }
 
+                        monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
+                        for (int i = 0; i < monstersDead.Length; i++)
+                        {
+                            monstersDead[i] = false;
+                        }
+
                         prevFloor = currentFloor;   //once everything is done, we initialize this so it wont reroll again in same floor
                     }
 
@@ -125,12 +135,60 @@ namespace Dark_Cloud_Improved_Version
                             }
                         }
                     }
+
+                    if (monsterQuestActive)
+                    {
+                        for (int i = 0; i < monstersDead.Length; i++)
+                        {
+
+                            currentAddress = 0x21E16BC4 + (i * 0x190);
+
+                            if (Memory.ReadUShort(currentAddress) > 0)
+                            {
+                                monstersDead[i] = false;
+                            }
+                            else
+                            {
+                                if (monstersDead[i] == false)
+                                {
+                                    CheckEnemyKill(currentAddress);
+                                }
+
+                                monstersDead[i] = true;
+                            }                         
+                        }
+                    }
                 }
                 else
                 {
                     prevFloor = 200;    //used to reset the floor data when going back to dungeon
                 }
                 Thread.Sleep(10);
+            }
+        }
+
+        public static void CheckEnemyKill(int currentEnemyAddress)
+        {
+            Console.WriteLine("checking quest...");
+            if (monsterQuestMachoActive)
+            {
+                Console.WriteLine("Macho quest active");
+                currentEnemyAddress += 0x0000001E;
+                if (Memory.ReadByte(currentEnemyAddress) == Memory.ReadByte(0x21CE4406))
+                {
+                    Console.WriteLine("Quest progress +1!");
+                    byte killsleft = Memory.ReadByte(0x21CE4405);
+                    killsleft--;
+                    Memory.WriteByte(0x21CE4405, killsleft);
+
+                    if (killsleft == 0)
+                    {
+                        Console.WriteLine("Quest complete!!");
+                        Dayuppy.DisplayMessage("You completed Macho's quest!\nWell done!", 2, 30, 4000);
+                        Memory.WriteByte(0x21CE4402, 2);
+                        monsterQuestMachoActive = false;
+                    }
+                }
             }
         }
     }

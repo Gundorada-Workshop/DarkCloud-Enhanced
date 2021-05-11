@@ -15,6 +15,7 @@ namespace Dark_Cloud_Improved_Version
         private static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayEnemyThread = new Thread(new ThreadStart(EnemyDropRandomizer)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
+        public static Thread messageThread;
 
         private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210); //Read 210 bytes of byte array that stores dungeon message 10
 
@@ -2150,7 +2151,7 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static byte[] DisplayMessage(string message, int height = 4, int width = 27)
+        public static byte[] DisplayMessage(string message, int height = 4, int width = 27, int displayTime = 2000)
         {
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
             byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210);
@@ -2302,11 +2303,21 @@ namespace Dark_Cloud_Improved_Version
             Thread.Sleep(18);
             Memory.WriteInt(Addresses.dunMessageHeight, height);
             Memory.WriteInt(Addresses.dunMessageWidth, width);
-            Thread.Sleep(2000); //Wait two seconds
-            Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-            Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+            messageThread = new Thread(() => DisplayMessageCustomTime(displayTime));
+            messageThread.Start();
+            //Thread.Sleep(2000); //Wait two seconds
+            //Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+            //Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
 
             return outputMessage;
+        }
+
+        public static void DisplayMessageCustomTime(int displayTime)
+        {
+            Thread.Sleep(displayTime);
+            Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+            Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+            messageThread.Abort();
         }
 
         public static void CallGameFunction(byte[] function) // functionBGMStop
