@@ -1435,28 +1435,28 @@ namespace Dark_Cloud_Improved_Version
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             muskarackaXiao[0] = "Filthy beasts like you can learn^a thing or two from my beauty!¤You probably think you´re so cute but^you´ll never be anything when^compared to the great Jibubu!";
-            muskarackaXiao[1] = "";
-            muskarackaXiao[2] = "";
-            muskarackaXiao[3] = "";
-            muskarackaXiao[4] = "";
-            muskarackaXiao[5] = "";
-            muskarackaXiao[6] = "";
-            muskarackaXiao[7] = "";
-            muskarackaXiao[8] = "";
-            muskarackaXiao[9] = "";
-            muskarackaXiao[10] = "";
+            muskarackaXiao[1] = "What´s a small cat like you doing in^this desert?¤You must be fierce and vigilant to^survive in this harsh climate.¤You may look cute but looking at your^eyes I can see the warrior within...";
+            muskarackaXiao[2] = "I heard Enga used to be an accomplished^swordsman when he was a young man.¤I never was able to master the sword^like Enga but I´m the only warrior in^the village who can use a Slingshot!";
+            muskarackaXiao[3] = "You´re a small cat aren´t you, I know a^thing or two about being the smallest...¤Living out in the desert can be^dangerous, the other day my friend was^stung by a scorpion and almost died!¤If you need anything at all or even a^house to take shelter, feel free to find^me.";
+            muskarackaXiao[4] = "A stray cat like you has no business^being in or around my home!¤There´s plenty of room in the wide open^desert for you to roam around in.";
+            muskarackaXiao[5] = "Gosuke and Toto would always pretend to^be warriors and have adventures^together!¤Maybe you could join them and be an^adventurer too!¤You´re a small cat now I´m sure you´ll^change the world one day! Tehehe"; // <3 AT THE END
+            muskarackaXiao[6] = "The Sun and Moon Temple is a sacred^place as it´s not only the home of the^Moon Ship but also the final resting¤place of our noble king who passed away^generations ago.¤Since his passing his kingdom broke up^into many warring tribes.¤Since then blood has been split and^people have been killed, perhaps it is¤too late to unify...¤It´s up to our generation to unify after^years of conflict.";
+            muskarackaXiao[7] = "No one should ever under estimate the^killer instinct of an animal.¤You may be small but you´re a worthy^hunter in your own right.";
+            muskarackaXiao[8] = "Hey cat, how about you bust me out of^here!";
+            muskarackaXiao[9] = "Wow, a cat in our village!^Would you like to play with me?";
+            muskarackaXiao[10] = "You, your no ordinary cat...¤What are you?";
 
             muskarackaXiao2[0] = "Everyone thinks that Ų is^the most handsome looking man^in the village!¤Keep this between you and me but^everyone here has low standards!¤Here I am talking to^a wild animal, shoo!";
-            muskarackaXiao2[1] = "";
-            muskarackaXiao2[2] = "";
-            muskarackaXiao2[3] = "";
-            muskarackaXiao2[4] = "";
-            muskarackaXiao2[5] = "";
-            muskarackaXiao2[6] = "";
-            muskarackaXiao2[7] = "";
-            muskarackaXiao2[8] = "";
-            muskarackaXiao2[9] = "";
-            muskarackaXiao2[10] = "";
+            muskarackaXiao2[1] = "I always see you following the boy in^the green hat. I once knew a man with^sparkling eyes just like him, full of^hope and strength.¤He was a travelling adventurer, when he^made his way here he defeated everyone^in the village!¤They say he was looking for something or^perhaps someplace...¤He was determined so I´m sure he found^what he was looking for.";
+            muskarackaXiao2[2] = "It´s been my responsibility to take care^of the Moon Signet for quite some time^now.¤I feel a sense of pride whenever I think^about the village trusting me with this^heirloom.¤The Moon Signet used to be inseparable^from the Moon people here on Terra but^in recent years they´ve become lazy.";
+            muskarackaXiao2[3] = "Mikara doesn´t like animals, she says^she´s allergic but I think she´s just^scared.";
+            muskarackaXiao2[4] = "Devia was talking about you the other^day, she said she wanted to take you in.¤Don´t get any ideas little cat, there´s^no room in the 3 Sisters´ House.";
+            muskarackaXiao2[5] = "Were you also stuck inside of a weird^bubble?¤I wonder how that all happened anyways,^one minute we´re minding our own^business and the next we´re gone...¤I guess everything can change in the^blink of an eye huh Ӿ.";
+            muskarackaXiao2[6] = "Cats like you shouldn´t step foot into^the Temple, it´s a tomb festering with^some of the most ferocious monsters only^seen in your nightmares.¤No place for a little critter like you^haha!";
+            muskarackaXiao2[7] = "I wish it were possible for all the^desert tribes to live in peace.¤If the return of the Dark Genie has^taught us anything it´s that we should^stand together.";
+            muskarackaXiao2[8] = "These people, they put me in this prison^like an animal.¤If I was given another chance I would^be a changed man, honest!";
+            muskarackaXiao2[9] = "Gosuke will always be my best friend,^I see you running after Ť all^the time, I guess he would be your best^friend haha!";
+            muskarackaXiao2[10] = "I feel magic...¤Are you like Gosuke?¤No, you are different...";
 
 
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
