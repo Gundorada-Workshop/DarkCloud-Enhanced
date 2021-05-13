@@ -69,6 +69,7 @@ namespace Dark_Cloud_Improved_Version
         static int savedDialogueCheck;
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
         static int[] norunesidequestCharacters = { 12592 };
+        static int[] matatakisidequestCharacters = { 13618 };
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
         static int[] muskarackaCharacters = { 13876, 14388, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389 }; //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
@@ -164,6 +165,7 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = matatakiXiao;
                         customDialogues2 = matatakiXiao2;
                         customDialoguesCheck = matatakiXiaoCheck;
+                        currentDialogueOptions = sideQuestDialogueOption[1];
                     }
                     else if (currentArea == 2)
                     {
@@ -192,6 +194,7 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = matatakiGoro;
                         customDialogues2 = matatakiGoro2;
                         customDialoguesCheck = matatakiGoroCheck;
+                        currentDialogueOptions = sideQuestDialogueOption[1];
                     }
                     else if (currentArea == 2)
                     {
@@ -221,6 +224,7 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = matatakiRuby;
                         customDialogues2 = matatakiRuby2;
                         customDialoguesCheck = matatakiRubyCheck;
+                        currentDialogueOptions = sideQuestDialogueOption[1];
                     }
                     else if (currentArea == 2)
                     {
@@ -250,6 +254,7 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = matatakiUngaga;
                         customDialogues2 = matatakiUngaga2;
                         customDialoguesCheck = matatakiUngagaCheck;
+                        currentDialogueOptions = sideQuestDialogueOption[1];
                     }
                     else if (currentArea == 2)
                     {
@@ -279,6 +284,7 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = matatakiOsmond;
                         customDialogues2 = matatakiOsmond2;
                         customDialoguesCheck = matatakiOsmondCheck;
+                        currentDialogueOptions = sideQuestDialogueOption[1];
                     }
                     else if (currentArea == 2)
                     {
@@ -380,13 +386,41 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (customDialoguesCheck[i] != 1)
                         {
-                            currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
-                            savedDialogueCheck = i;
+                            if (isSidequest)
+                            {
+                                if (matatakisidequestCharacters.Contains(characterIdData))
+                                {
+                                    currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else
+                                {
+                                    currentDialogue = "Sorry, I don´t have any quests currently.";
+                                }
+                            }
+                            else
+                            {
+                                currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                                savedDialogueCheck = i;
+                            }
                         }
                         else
                         {
-                            currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
-                            savedDialogueCheck = i;
+                            if (isSidequest)
+                            {
+                                if (matatakisidequestCharacters.Contains(characterIdData))
+                                {
+                                    currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else
+                                {
+                                    currentDialogue = "Sorry, I don´t have any quests currently.";
+                                }
+                            }
+                            else
+                            {
+                                currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                                savedDialogueCheck = i;
+                            }
                         }
 
                         if (i == 10 || i == 11)  //check for shopkeeper
@@ -397,6 +431,9 @@ namespace Dark_Cloud_Improved_Version
                         {
                             TownCharacter.shopkeeper = false;
                         }
+
+                        TownCharacter.sidequestDialogueID = 107;
+                        currentsidequestAddress = 0x2064C492; //hag's first hello normal dialogue
                     }
                 }
             }
@@ -509,6 +546,10 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 1)
             {
                 currentAddress = 0x2064ECBC; //pao's first normal "hello" dialogue
+                if (isSidequest)
+                {
+                    currentAddress = currentsidequestAddress;
+                }
             }
             else if (currentArea == 2)
             {
@@ -711,6 +752,32 @@ namespace Dark_Cloud_Improved_Version
                         currentAddress = 0x206492F6; //norune dialogueoptions after event finish
                         dialogueOptions = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
                         Console.WriteLine("Entered building (not hag's)");
+                        dialogueSet = true;
+                    }
+                }
+            }
+            else if (currentArea == 1)
+            {
+                if (buildingCheck == false) //if player is not inside (storage) house
+                {
+                    currentAddress = 0x20649306; //matataki dialogueoptions after event finish
+                    dialogueOptions = "Hello.^  How should I rebuild Matataki Village?^  It´s finished!^  Do you have any sidequests?";
+                    dialogueSet = true;
+                }
+                else
+                {
+                    if (Memory.ReadByte(0x202A2820) == 5) //check for couscous
+                    {
+                        currentAddress = 0x2064938A; //can I check for items? dialogue
+                        dialogueOptions = "  Can I check in some items?^  Hello.^  How should I rebuild Matataki Village?^  It´s finished!";
+                        Console.WriteLine("Entered couscous");
+                        dialogueSet = true;
+                    }
+                    else
+                    {
+                        currentAddress = 0x20649306; //matataki dialogueoptions after event finish
+                        dialogueOptions = "Hello.^  How should I rebuild Matataki Village?^  It´s finished!^  Do you have any sidequests?";
+                        Console.WriteLine("Entered building (not couscous)");
                         dialogueSet = true;
                     }
                 }
@@ -957,6 +1024,7 @@ namespace Dark_Cloud_Improved_Version
         public static void InitializeDialogues()
         {
             sideQuestDialogueOption[0] = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
+            sideQuestDialogueOption[1] = "Hello.^  How should I rebuild Matataki Village?^  It´s finished!^  Do you have any sidequests?";
 
             brownbooPickle = "Hey there, wanderer! Would you like^to know your collection progress?^Whenever you talk to me, I´ll check^your obtained items and weapons.¤You need to be either carrying them^or have them in your storage.¤Can you make it to the 100% collection?^It won´t be easy, but if you commit^to it, you can achieve anything!^Good luck!";
             brownbooPickleData = "You have collected:^X / Y obtainable items^X / Y obtainable weapons";

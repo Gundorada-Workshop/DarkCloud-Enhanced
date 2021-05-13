@@ -609,7 +609,7 @@ namespace Dark_Cloud_Improved_Version
                     //if (Memory.ReadByte(0x21D1CC0C) == 12)
 
                     currentArea = Memory.ReadByte(0x202A2518);
-                    if (currentArea == 0)
+                    if (currentArea == 0 || currentArea == 1)
                     {
                         if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
                         {
@@ -884,6 +884,23 @@ namespace Dark_Cloud_Improved_Version
                 {
                     SideQuestManager.MonsterQuestReward();
                     Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(0));
+                }
+            }
+            else if (characterIDData == 13618) //gob sidequest
+            {
+                if (Memory.ReadByte(0x21CE4407) == 0)
+                {
+                    Memory.WriteOneByte(0x21CE4407, BitConverter.GetBytes(1));
+                }
+                else if (Memory.ReadByte(0x21CE4407) == 1)
+                {
+                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                }
+
+                else if (Memory.ReadByte(0x21CE4407) == 2)
+                {
+                    SideQuestManager.MonsterQuestReward();
+                    Memory.WriteOneByte(0x21CE4407, BitConverter.GetBytes(0));
                 }
             }
         }
