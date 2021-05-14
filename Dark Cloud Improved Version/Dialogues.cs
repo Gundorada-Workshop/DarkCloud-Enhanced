@@ -1530,29 +1530,29 @@ namespace Dark_Cloud_Improved_Version
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            muskarackaGoro[0] = "";
-            muskarackaGoro[1] = "";
-            muskarackaGoro[2] = "";
-            muskarackaGoro[3] = "";
-            muskarackaGoro[4] = "";
-            muskarackaGoro[5] = "";
-            muskarackaGoro[6] = "";
-            muskarackaGoro[7] = "";
-            muskarackaGoro[8] = "";
-            muskarackaGoro[9] = "";
-            muskarackaGoro[10] = "";
+            muskarackaGoro[0] = "You are so out of shape, have you ever^thought of laying off the grass cakes?";
+            muskarackaGoro[1] = "Ah so your from the village of Matataki,^I can tell by your distinct warrior^garb.¤The Moon People used to maintain the^shrine but they've gotten lazy over^time, now they relax in the woods not to^far from Matataki.¤Make sure your people don´t hunt them^by accident!";
+            muskarackaGoro[2] = "The Sun and Moon Temple is a sacred^place, no one outside of the village has^ever stepped foot inside of it.¤It´s a shame that it has been riddled^with monsters, please help Ť^and Ungaga rid us of this infestation.";
+            muskarackaGoro[3] = "It´s hard to believe that we were almost^destroyed had not been for Ť^and his friends rescuing us.¤We are all in your debt.";
+            muskarackaGoro[4] = "Why are you wearing that, you must^be hot!";
+            muskarackaGoro[5] = "You´re so heroic, seeing you fight side^side with Ų makes me inspired^to become a warrior myself!";
+            muskarackaGoro[6] = "Bonka used to be the strongest person in^the villages´ history, that all changed^when that traveler came.¤I still remember that fated encounter^to this day, he wielded a beautiful sky^blue blade engraved in gold!¤Much to everyone´s surprise, in just one^swing he defeated Bonka.¤He said he came from a faraway village^in search of a powerful weapon.¤I can´t remember what he was in search^in particular but he seemed desperate^to find it.¤Come to think of it, he looked a lot^like that boy leading you all...";
+            muskarackaGoro[7] = "Ah, a hunter from Matataki!¤Matataki Village is renowned for their^hunting prowess and bravery in battle.";
+            muskarackaGoro[8] = "Chubby hunters like you better watch out^when walking near me, they didn´t put me^in this cage for show you know!¤You better watch your back forest^hunter!";
+            muskarackaGoro[9] = "You´re a small guy huh, yet your still a^capable warrior!¤That´s so inspiring, I want to be just^like the great warrior Ʊ when^I´m older!";
+            muskarackaGoro[10] = "You are small like Toto yet you fight...¤What are you fighting for little one?";
 
-            muskarackaGoro2[0] = "";
-            muskarackaGoro2[1] = "";
-            muskarackaGoro2[2] = "";
-            muskarackaGoro2[3] = "";
-            muskarackaGoro2[4] = "";
-            muskarackaGoro2[5] = "";
-            muskarackaGoro2[6] = "";
-            muskarackaGoro2[7] = "";
-            muskarackaGoro2[8] = "";
-            muskarackaGoro2[9] = "";
-            muskarackaGoro2[10] = "";
+            muskarackaGoro2[0] = "I heard Devia say that you looked cute,^how and why!¤The women of the village should be^coming to me and not some out of shape^Opar like you!";
+            muskarackaGoro2[1] = "You seem like quite the accomplished^warrior, you remind me of myself when^I was young.¤I used to be the best warrior in all the^village, I still am to some degree.¤This all changed when I was bested in a^duel with a travelling adventurer by the^name of Aga.¤He was determined to find a weapon that^was capable of defeating the darkness^which had begun to linger in our world.¤We were both young and I must admit I^have fallen for him.¤I have not seen him since and I fear he^may have succumbed to the darkness^himself...";
+            muskarackaGoro2[2] = "To access the Moon Ship you need both^the Sun and the Moon Signet.¤The Sun Signet has always been in the^care of our village chief but the Moon^Signet was recently given to us by the^Moon People.¤Sure it makes it more convenient but I^can´t imagine someone walking away from^their duty!";
+            muskarackaGoro2[3] = "I can´t fathom leaving your home behind^and going on an adventure across the^world.¤For a small guy you are quite brave...";
+            muskarackaGoro2[4] = "They say that you are a warrior, as if!¤I bet even that wimp Jibubu could defeat^you with one hand tied behind his back!";
+            muskarackaGoro2[5] = "I bet your mallet is so strong that you^can even crack the shell of a crabby^hermit!";
+            muskarackaGoro2[6] = ""; //DUPLICATED LINE, NEED TO WAIT FOR HIDDEN TO CORRECT IT
+            muskarackaGoro2[7] = "Always take care brave hunter.^To defeat the evil plaguing our land one^must first overcome the evil within and^extinguish any self-doubts.";
+            muskarackaGoro2[8] = "One thing you and the hunters from^Muska Laka have in common is that you´re^both prideful, that pride will be your^downfall.¤It´s that same pride that helped fuel^the conflict between our desert tribes.¤Even if you found some way to defeat the^Dark Genie you´ll never defeat the evil^within the human heart!";
+            muskarackaGoro2[9] = "They say Gosuke appeared in our village^soon after a powerful warrior departed.¤Whenever I ask the adults about who this^traveller was they´re always very^secretive about his identity.¤I´d love to meet him and ask how he made^Gosuke, maybe he could make more!";
+            muskarackaGoro2[10] = "The animal you´re wearing, it is dead...¤Why did you harm it?";
 
 
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
