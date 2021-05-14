@@ -22,6 +22,9 @@ namespace Dark_Cloud_Improved_Version
         static int[] SMEnemyIDs = { 30, 32, 37, 73 };
         static int[] MoonSeaEnemyIDs = { 66, 72, 39, 76 };
         static int[] GOFEnemyIDs = { 63, 48, 83, 43 };
+        static int rolledDng = 0;
+        static int rolledEnemy = 0;
+        static int enemyID = 0;
         public static string generatedEnemyName;
         public static string generatedMonsterQuestDungeon;
         public static int generatedEnemyKillsNeeded;
@@ -39,7 +42,7 @@ namespace Dark_Cloud_Improved_Version
         static Random rnd = new Random();
         public static string GetQuestDialogue(string currentDialogue, int characterID)
         {
-            if (characterID == 12592)
+            if (characterID == 12592) //macho
             {
                 TownCharacter.characterIDData = characterID;
                 if (Memory.ReadByte(0x21CE4402) == 0)
@@ -55,6 +58,26 @@ namespace Dark_Cloud_Improved_Version
                     currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
                 }
                 else if (Memory.ReadByte(0x21CE4402) == 2)
+                {
+                    currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                }
+            }
+            else if (characterID == 13618) //gob
+            {
+                TownCharacter.characterIDData = characterID;
+                if (Memory.ReadByte(0x21CE4407) == 0)
+                {
+                    SetSideQuestAddresses(characterID);
+                    GenerateMonsterQuest();
+                    currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                }
+                else if (Memory.ReadByte(0x21CE4407) == 1)
+                {
+                    SetSideQuestAddresses(characterID);
+                    GetMonsterQuestValues();
+                    currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
+                }
+                else if (Memory.ReadByte(0x21CE4407) == 2)
                 {
                     currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
                 }
@@ -80,66 +103,85 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
 
-            int rolledDng = rnd.Next(0, dngs);
-            int rolledEnemy = 0;
-            int enemyID = 0;
-            switch (rolledDng)
+            bool checkDuplicate = true;           
+            while (checkDuplicate)
             {
-                case 0:
-                    rolledEnemy = rnd.Next(0, DBCEnemies.Length);
-                    generatedEnemyName = DBCEnemies[rolledEnemy];
-                    enemyID = DBCEnemyIDs[rolledEnemy];
-                    break;
-                case 1:
-                    rolledEnemy = rnd.Next(0, DBCEnemies.Length);
-                    generatedEnemyName = WOFEnemies[rolledEnemy];
-                    enemyID = WOFEnemyIDs[rolledEnemy];
-                    break;
-                case 2:
-                    rolledEnemy = rnd.Next(0, DBCEnemies.Length);
-                    generatedEnemyName = ShipwreckEnemies[rolledEnemy];
-                    enemyID = ShipwreckEnemyIDs[rolledEnemy];
-                    break;
-                case 3:
-                    rolledEnemy = rnd.Next(0, DBCEnemies.Length);
-                    generatedEnemyName = SMEnemies[rolledEnemy];
-                    enemyID = SMEnemyIDs[rolledEnemy];
-                    break;
-                case 4:
-                    rolledEnemy = rnd.Next(0, DBCEnemies.Length);
-                    generatedEnemyName = MoonSeaEnemies[rolledEnemy];
-                    enemyID = MoonSeaEnemyIDs[rolledEnemy];
-                    break;
-                case 5:
-                    rolledEnemy = rnd.Next(0, DBCEnemies.Length);
-                    generatedEnemyName = GOFEnemies[rolledEnemy];
-                    enemyID = GOFEnemyIDs[rolledEnemy];
-                    break;
-                case 6: //demon shaft
-                    rolledEnemy = rnd.Next(0, DBCEnemies.Length);
-                    generatedEnemyName = DBCEnemies[rolledEnemy];
-                    enemyID = DBCEnemyIDs[rolledEnemy];
-                    break;
+                rolledDng = rnd.Next(0, dngs);
+                switch (rolledDng)
+                {
+                    case 0:
+                        rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        generatedEnemyName = DBCEnemies[rolledEnemy];
+                        enemyID = DBCEnemyIDs[rolledEnemy];
+                        break;
+                    case 1:
+                        rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        generatedEnemyName = WOFEnemies[rolledEnemy];
+                        enemyID = WOFEnemyIDs[rolledEnemy];
+                        break;
+                    case 2:
+                        rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        generatedEnemyName = ShipwreckEnemies[rolledEnemy];
+                        enemyID = ShipwreckEnemyIDs[rolledEnemy];
+                        break;
+                    case 3:
+                        rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        generatedEnemyName = SMEnemies[rolledEnemy];
+                        enemyID = SMEnemyIDs[rolledEnemy];
+                        break;
+                    case 4:
+                        rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        generatedEnemyName = MoonSeaEnemies[rolledEnemy];
+                        enemyID = MoonSeaEnemyIDs[rolledEnemy];
+                        break;
+                    case 5:
+                        rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        generatedEnemyName = GOFEnemies[rolledEnemy];
+                        enemyID = GOFEnemyIDs[rolledEnemy];
+                        break;
+                    case 6: //demon shaft
+                        rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        generatedEnemyName = DBCEnemies[rolledEnemy];
+                        enemyID = DBCEnemyIDs[rolledEnemy];
+                        break;
+                }
+
+                if (Memory.ReadByte(0x21CE4406) == enemyID || Memory.ReadByte(0x21CE440B) == enemyID)
+                {
+                    Console.WriteLine("Duplicate quest, rerolling...");
+                    checkDuplicate = true;
+                }
+                else
+                {
+                    checkDuplicate = false;
+                }
             }
 
             generatedMonsterQuestDungeon = dungeonNames[rolledDng];
             //generatedEnemyKillsNeeded = rnd.Next(8, 21);
             generatedEnemyKillsNeeded = rnd.Next(2, 4);
 
-            Memory.Write(currentAddressDungeonID, BitConverter.GetBytes(rolledDng));
-            Memory.Write(currentAddressEnemyName, BitConverter.GetBytes(rolledEnemy));
-            Memory.Write(currentAddressEnemyCounter, BitConverter.GetBytes(generatedEnemyKillsNeeded));
-            Memory.Write(currentAddressEnemyID, BitConverter.GetBytes(enemyID));
+            Memory.WriteOneByte(currentAddressDungeonID, BitConverter.GetBytes(rolledDng));
+            Memory.WriteOneByte(currentAddressEnemyName, BitConverter.GetBytes(rolledEnemy));
+            Memory.WriteOneByte(currentAddressEnemyCounter, BitConverter.GetBytes(generatedEnemyKillsNeeded));
+            Memory.WriteOneByte(currentAddressEnemyID, BitConverter.GetBytes(enemyID));
         }
 
         public static void SetSideQuestAddresses(int characterID)
         {
-            if (characterID == 12592)
+            if (characterID == 12592) //macho
             {
                 currentAddressDungeonID = 0x21CE4403;
                 currentAddressEnemyName = 0x21CE4404;
                 currentAddressEnemyCounter = 0x21CE4405;
                 currentAddressEnemyID = 0x21CE4406;
+            }
+            else if (characterID == 13618) //gob
+            {
+                currentAddressDungeonID = 0x21CE4408;
+                currentAddressEnemyName = 0x21CE4409;
+                currentAddressEnemyCounter = 0x21CE440A;
+                currentAddressEnemyID = 0x21CE440B;
             }
         }
 
@@ -179,15 +221,28 @@ namespace Dark_Cloud_Improved_Version
 
         public static bool CheckCurrentDungeonQuests(int currentDungeon)
         {
+            bool questActive = false;
             if (Memory.ReadByte(0x21CE4402) == 1)
             {
                 DungeonThread.monsterQuestMachoActive = true;
-                return true;
+                questActive = true;
             }
             else
                 DungeonThread.monsterQuestMachoActive = false;
 
-            return false;
+            if (Memory.ReadByte(0x21CE4407) == 1)
+            {
+                DungeonThread.monsterQuestGobActive = true;
+                questActive = true;
+            }
+            else
+                DungeonThread.monsterQuestGobActive = false;
+
+
+            if (questActive)
+                return true;
+            else
+                return false;
         }
 
         public static void MonsterQuestReward()

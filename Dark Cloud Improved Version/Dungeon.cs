@@ -25,6 +25,7 @@ namespace Dark_Cloud_Improved_Version
         static bool[] monstersDead = new bool[15];
         static bool monsterQuestActive = false;
         public static bool monsterQuestMachoActive = false;
+        public static bool monsterQuestGobActive = false;
 
         public static void InsideDungeonThread()
         {
@@ -173,8 +174,8 @@ namespace Dark_Cloud_Improved_Version
             if (monsterQuestMachoActive)
             {
                 Console.WriteLine("Macho quest active");
-                currentEnemyAddress += 0x0000001E;
-                if (Memory.ReadByte(currentEnemyAddress) == Memory.ReadByte(0x21CE4406))
+                int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
+                if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4406))
                 {
                     Console.WriteLine("Quest progress +1!");
                     byte killsleft = Memory.ReadByte(0x21CE4405);
@@ -187,6 +188,26 @@ namespace Dark_Cloud_Improved_Version
                         Dayuppy.DisplayMessage("You completed Macho's quest!\nWell done!", 2, 30, 4000);
                         Memory.WriteByte(0x21CE4402, 2);
                         monsterQuestMachoActive = false;
+                    }
+                }
+            }
+            if (monsterQuestGobActive)
+            {
+                Console.WriteLine("Gob quest active");
+                int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
+                if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE440B))
+                {
+                    Console.WriteLine("Quest progress +1!");
+                    byte killsleft = Memory.ReadByte(0x21CE440A);
+                    killsleft--;
+                    Memory.WriteByte(0x21CE440A, killsleft);
+
+                    if (killsleft == 0)
+                    {
+                        Console.WriteLine("Quest complete!!");
+                        Dayuppy.DisplayMessage("You completed Gob's quest!\nWell done!", 2, 30, 4000);
+                        Memory.WriteByte(0x21CE4407, 2);
+                        monsterQuestGobActive = false;
                     }
                 }
             }
