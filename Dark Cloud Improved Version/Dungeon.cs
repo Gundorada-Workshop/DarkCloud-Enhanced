@@ -26,6 +26,7 @@ namespace Dark_Cloud_Improved_Version
         static bool monsterQuestActive = false;
         public static bool monsterQuestMachoActive = false;
         public static bool monsterQuestGobActive = false;
+        public static bool monsterQuestJakeActive = false;
 
         public static void InsideDungeonThread()
         {
@@ -208,6 +209,26 @@ namespace Dark_Cloud_Improved_Version
                         Dayuppy.DisplayMessage("You completed Gob's quest!\nWell done!", 2, 30, 4000);
                         Memory.WriteByte(0x21CE4407, 2);
                         monsterQuestGobActive = false;
+                    }
+                }
+            }
+            if (monsterQuestJakeActive)
+            {
+                Console.WriteLine("Jake quest active");
+                int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
+                if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4410))
+                {
+                    Console.WriteLine("Quest progress +1!");
+                    byte killsleft = Memory.ReadByte(0x21CE440F);
+                    killsleft--;
+                    Memory.WriteByte(0x21CE440F, killsleft);
+
+                    if (killsleft == 0)
+                    {
+                        Console.WriteLine("Quest complete!!");
+                        Dayuppy.DisplayMessage("You completed Jake's quest!\nWell done!", 2, 30, 4000);
+                        Memory.WriteByte(0x21CE440C, 2);
+                        monsterQuestJakeActive = false;
                     }
                 }
             }
