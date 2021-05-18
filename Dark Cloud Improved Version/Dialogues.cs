@@ -1748,29 +1748,29 @@ namespace Dark_Cloud_Improved_Version
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            muskarackaUngaga[0] = "";
-            muskarackaUngaga[1] = "";
-            muskarackaUngaga[2] = "";
-            muskarackaUngaga[3] = "";
-            muskarackaUngaga[4] = "";
-            muskarackaUngaga[5] = "";
-            muskarackaUngaga[6] = "";
-            muskarackaUngaga[7] = "";
-            muskarackaUngaga[8] = "";
-            muskarackaUngaga[9] = "";
-            muskarackaUngaga[10] = "";
+            muskarackaUngaga[0] = "Everyone seems to prefer you over me and^now your going on an adventure to save^the world? The Spirits always seems to^deal you a better hand.¤I know we haven´t always got along but^I´ll be sure to defend the village in^your absence...¤But, if I get so much as one scratch on^my perfect face that´s it for me!";
+            muskarackaUngaga[1] = "That friend of yours, the one with the^green hat... Be sure to keep him close^and learn from him.¤Ų I´m an old warrior but not^one without regrets.¤Long ago, there was a day when that^boy´s father and I met each other in^battle.¤His strength was unmatched and I was^quickly bested. He treated everyone,^with love and kindness, even on the^battlefield. He was a good man.¤Part of me wishes I could have joined^him on his journey but I had to fulfil^my responsibilities here to guide our^village as chief.¤(Sigh) As people grow older, they tend^to wonder about what could have been.¤Life is a journey Ų, be sure to^live without regrets.";
+            muskarackaUngaga[2] = "Hey Ų, make sure to take some^precaution when going into the Sun and^Moon Temple.¤I hear there´s plenty of poisonous^scorpions there, last thing we need is^you being stung again haha!¤Sorry, I´m just teasing!";
+            muskarackaUngaga[3] = "I always worry about you Ų it^like your always putting yourself in^harm´s way for the sake of the village^but now with the threat of the¤Dark Genie you´re doing it for all of^world.¤Only you and your allies can save us.";
+            muskarackaUngaga[4] = "Ų you´re a strong warrior, that^little kid with the green hat will need^all the help he can get to defeat the^Dark Genie.¤Take care and make sure you come back in^one piece, I don´t want you breaking my^sisters heart!";
+            muskarackaUngaga[5] = "Thank you so much for helping everyone^in the village, make sure you give that^Dark Genie a good whack in the head^for me!¤I may be an optimist but perhaps all of^the desert tribes can come together and^start a new way of life!";
+            muskarackaUngaga[6] = "All of these events has reminded me of^an old fable that has been passed down^throughout our Muska Laka.¤One which tells the story of a young boy^who´s village was torn from the earth by^a great evil and suspended from the sky!¤This boy had to travel throughout the^lands to find a way to not only defeat^the evil but also return his home.¤Make believe often mimics reality it^seems haha!";
+            muskarackaUngaga[7] = "You are the pride of our village, now^you´ll step foot into the outside world^and everyone why the warriors of Muska^Laka are the strongest to walk on Terra.";
+            muskarackaUngaga[8] = "Heh, if it isn’t the brave Ų^have you come to taunt me once again!";
+            muskarackaUngaga[9] = "Woah, big bro!¤I had so much fun during our training,^I want to be just like you when I´m^older!";
+            muskarackaUngaga[10] = "Ų... friend...";
 
-            muskarackaUngaga2[0] = "";
-            muskarackaUngaga2[1] = "";
-            muskarackaUngaga2[2] = "";
-            muskarackaUngaga2[3] = "";
-            muskarackaUngaga2[4] = "";
-            muskarackaUngaga2[5] = "";
-            muskarackaUngaga2[6] = "";
-            muskarackaUngaga2[7] = "";
-            muskarackaUngaga2[8] = "";
-            muskarackaUngaga2[9] = "";
-            muskarackaUngaga2[10] = "";
+            muskarackaUngaga2[0] = "I heard Enga used to be the most^handsome man in the village.I have a^hard time believing that!";
+            muskarackaUngaga2[1] = "You are strong Ų be sure to^stay true to your ideals.¤You are now traveling the world for a^great purpose, to protect those who are^weak and to defeat the great evil that^is afflicting the land.¤That same evil destroyed this village^and will not stop until the it leaves^only dark clouds of destruction in its^wake.";
+            muskarackaUngaga2[2] = "I heard you spent time with a Moon Bunny^by the name of Theo, that is so cool!^I wish they would come visit more often!";
+            muskarackaUngaga2[3] = "Ų as you explore the world make^it would make me happy if you could come^back to visit and tell me all about your^journey.";
+            muskarackaUngaga2[4] = "The other day, Devia was drawing water^from the Oasis at dusk when she saw the^most bizarre fish!¤She described it as being the oddest^shade of purple with long yellow fins^that resembled a regal hair style!¤We´re not sure why it appeared, we made^Potato Cakes perhaps it was fond of the^smell?";
+            muskarackaUngaga2[5] = "After what happened to our village I^think I have a new found motivation to^become a strong warrior like Chief^Bonka.";
+            muskarackaUngaga2[6] = "They say a Moon person helped snap you^out of that depression you fell into.¤They are quite the wise ones those Moon^people!";
+            muskarackaUngaga2[7] = "I´ve watched over you since you were^young, it takes a village to raise a^child!¤I´m very proud of all of the progress^you have made, not only as a warrior but^also as a person.¤Ų our warring tribes is no^stranger to conflict and there will be^times where you will have to put your¤values to the test on the battlefield.^That is how I lost my eye.¤That´s the price we have to pay for^holding true to our ideals.¤It´s important that when faced with^difficulty, you don´t lose sight of who^you are."; // CHECK BACK WITH THE EYE THING
+            muskarackaUngaga2[8] = "I wonder, once you fail and meet your^end what will become of your legacy?¤Will your pitiful tribe still hold you^to high regard or will be known as the^failure that doomed them?";
+            muskarackaUngaga2[9] = "Don´t tell Chief Bonka or Enga but I was^once exploring the Sun and Moon Temple^the other day and I saw some gold and^silver golems.¤Do you think they´re related to Gosuke?";
+            muskarackaUngaga2[10] = "Don´t be sad Ų...^Gosuke proud of you...";
 
 
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
