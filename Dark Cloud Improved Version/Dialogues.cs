@@ -1720,29 +1720,29 @@ namespace Dark_Cloud_Improved_Version
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            muskarackaRuby[0] = "";
-            muskarackaRuby[1] = "";
-            muskarackaRuby[2] = "";
-            muskarackaRuby[3] = "";
-            muskarackaRuby[4] = "";
-            muskarackaRuby[5] = "";
-            muskarackaRuby[6] = "";
-            muskarackaRuby[7] = "";
-            muskarackaRuby[8] = "";
-            muskarackaRuby[9] = "";
-            muskarackaRuby[10] = "";
+            muskarackaRuby[0] = "Oh my, finally someone with beautiful^sensibilities such as myself!¤What kind of foundation do you use for^your skin?";
+            muskarackaRuby[1] = "Now aren´t you the pretty one, it´s not^every day that you meet another woman^warrior.¤I´ve been the chief of this village for^quite some time, initially my ability to^lead was called into question due to my^gender.¤However these disagreements were always^settled in a duel and I always was the^victor.¤Let no one dictate what you can do,^always take pride in who you are.";
+            muskarackaRuby[2] = "Oh you came from a port town called^Queens? That´s funny the most water we^have is our oasis.";
+            muskarackaRuby[3] = "You can use magic right?¤I wonder if you can make Toto another^playmate like Gosuke, he often gets^lonely...";
+            muskarackaRuby[4] = "I never met someone who could use magic^but old Enga says that long ago the Moon^people once sealed the Dark Genie by^using magic.";
+            muskarackaRuby[5] = "Wow I love your outfit, it´s so cute!"; // <3 AT THE END
+            muskarackaRuby[6] = "You and the Dark Genie share many^similarities but I sense no hostility^from you.";
+            muskarackaRuby[7] = "I´ve never had the experience of facing^a magic user in battle and I hope I^never have the chance. You are a^formidable fighter indeed.";
+            muskarackaRuby[8] = "Purple hair?¤Jeez they must really be desperate for^help if they let a purple hair clown^like you join!¤Oops did I say clown, I meant to say ´´Genie´´";
+            muskarackaRuby[9] = "No way you can do magic, they say Gosuke^came from magic!";
+            muskarackaRuby[10] = "Maaaaaaaaagic...";
 
-            muskarackaRuby2[0] = "";
-            muskarackaRuby2[1] = "";
-            muskarackaRuby2[2] = "";
-            muskarackaRuby2[3] = "";
-            muskarackaRuby2[4] = "";
-            muskarackaRuby2[5] = "";
-            muskarackaRuby2[6] = "";
-            muskarackaRuby2[7] = "";
-            muskarackaRuby2[8] = "";
-            muskarackaRuby2[9] = "";
-            muskarackaRuby2[10] = "";
+            muskarackaRuby2[0] = "I heard that if you use the saliva of a^blue dragon it can promote hair growth!¤I mean there´s only one way to test that^theory, time to find some blue dragons!";
+            muskarackaRuby2[1] = "They say that you see the same eyes in^different people and that time passes^faster as you age.¤That boy who arrived in the village,^the one with the green hat, I´m sure he^is the son of Aga.¤He was in search for a weapon in^preparation which can defeat a coming^great evil.¤Perhaps he himself became lost to evil^and the Fairies saw fit to send his own^son to finish the journey his father^began...¤Aga...";
+            muskarackaRuby2[2] = "The Moon Signet represents our^connection to the moons, I´m not sure^why the Moon people gave it up but I´m^very proud to defend this signet.";
+            muskarackaRuby2[3] = "The other day I saw Ӿ sitting^by the river waiting for Ť to^catch a fish, it was such a precious^moment!";
+            muskarackaRuby2[4] = "Now I heard all about your skills in^magic but if only you could use find^someway to use your magic to change the^weather!";
+            muskarackaRuby2[5] = "I heard that you want to be the most^power genie in the world, I bet you can^do it!";
+            muskarackaRuby2[6] = "Watching that young Toto run and play^reminds me of the good old days of my^youth!";
+            muskarackaRuby2[7] = "I once heard a story of an old merchant^who wore a sombrero and owned a number^of buggies.¤They say that man has no eyes to speak^of, what manor or horror is he?¤Perhaps it is just make believe...";
+            muskarackaRuby2[8] = "Being in this prison is making me bored,^hey genie can you do any magic tricks!¤Maybe you could make a moon bunny come^out of your green friends hat haha!";
+            muskarackaRuby2[9] = "I hope I can go on an adventure like^Ų and Ť when^I´m older!";
+            muskarackaRuby2[10] = "Thank you for helping, magic girl...";
 
 
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
