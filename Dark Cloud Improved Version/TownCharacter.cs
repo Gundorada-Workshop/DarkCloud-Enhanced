@@ -609,7 +609,7 @@ namespace Dark_Cloud_Improved_Version
                     //if (Memory.ReadByte(0x21D1CC0C) == 12)
 
                     currentArea = Memory.ReadByte(0x202A2518);
-                    if (currentArea == 0 || currentArea == 1)
+                    if (currentArea == 0 || currentArea == 1 || currentArea == 2 || currentArea == 3)
                     {
                         if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
                         {
@@ -901,6 +901,40 @@ namespace Dark_Cloud_Improved_Version
                 {
                     SideQuestManager.MonsterQuestReward();
                     Memory.WriteOneByte(0x21CE4407, BitConverter.GetBytes(0));
+                }
+            }
+            else if (characterIDData == 13108) //jake sidequest
+            {
+                if (Memory.ReadByte(0x21CE440C) == 0)
+                {
+                    Memory.WriteOneByte(0x21CE440C, BitConverter.GetBytes(1));
+                }
+                else if (Memory.ReadByte(0x21CE440C) == 1)
+                {
+                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                }
+
+                else if (Memory.ReadByte(0x21CE440C) == 2)
+                {
+                    SideQuestManager.MonsterQuestReward();
+                    Memory.WriteOneByte(0x21CE440C, BitConverter.GetBytes(0));
+                }
+            }
+            else if (characterIDData == 14388) //chiefbonka sidequest
+            {
+                if (Memory.ReadByte(0x21CE4411) == 0)
+                {
+                    Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(1));
+                }
+                else if (Memory.ReadByte(0x21CE4411) == 1)
+                {
+                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                }
+
+                else if (Memory.ReadByte(0x21CE4411) == 2)
+                {
+                    SideQuestManager.MonsterQuestReward();
+                    Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(0));
                 }
             }
         }

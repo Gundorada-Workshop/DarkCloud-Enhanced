@@ -82,6 +82,46 @@ namespace Dark_Cloud_Improved_Version
                     currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
                 }
             }
+            else if (characterID == 13108) //jake
+            {
+                TownCharacter.characterIDData = characterID;
+                if (Memory.ReadByte(0x21CE440C) == 0)
+                {
+                    SetSideQuestAddresses(characterID);
+                    GenerateMonsterQuest();
+                    currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                }
+                else if (Memory.ReadByte(0x21CE440C) == 1)
+                {
+                    SetSideQuestAddresses(characterID);
+                    GetMonsterQuestValues();
+                    currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
+                }
+                else if (Memory.ReadByte(0x21CE440C) == 2)
+                {
+                    currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                }
+            }
+            else if (characterID == 14388) //chiefbonka
+            {
+                TownCharacter.characterIDData = characterID;
+                if (Memory.ReadByte(0x21CE4411) == 0)
+                {
+                    SetSideQuestAddresses(characterID);
+                    GenerateMonsterQuest();
+                    currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                }
+                else if (Memory.ReadByte(0x21CE4411) == 1)
+                {
+                    SetSideQuestAddresses(characterID);
+                    GetMonsterQuestValues();
+                    currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
+                }
+                else if (Memory.ReadByte(0x21CE4411) == 2)
+                {
+                    currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                }
+            }
             return currentDialogue;
         }
 
@@ -146,7 +186,7 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
 
-                if (Memory.ReadByte(0x21CE4406) == enemyID || Memory.ReadByte(0x21CE440B) == enemyID)
+                if (Memory.ReadByte(0x21CE4406) == enemyID || Memory.ReadByte(0x21CE440B) == enemyID || Memory.ReadByte(0x21CE4410) == enemyID || Memory.ReadByte(0x21CE4415) == enemyID)
                 {
                     Console.WriteLine("Duplicate quest, rerolling...");
                     checkDuplicate = true;
@@ -182,6 +222,20 @@ namespace Dark_Cloud_Improved_Version
                 currentAddressEnemyName = 0x21CE4409;
                 currentAddressEnemyCounter = 0x21CE440A;
                 currentAddressEnemyID = 0x21CE440B;
+            }
+            else if (characterID == 13108) //jake
+            {
+                currentAddressDungeonID = 0x21CE440D;
+                currentAddressEnemyName = 0x21CE440E;
+                currentAddressEnemyCounter = 0x21CE440F;
+                currentAddressEnemyID = 0x21CE4410;
+            }
+            else if (characterID == 14388) //chiefbonka
+            {
+                currentAddressDungeonID = 0x21CE4412;
+                currentAddressEnemyName = 0x21CE4413;
+                currentAddressEnemyCounter = 0x21CE4414;
+                currentAddressEnemyID = 0x21CE4415;
             }
         }
 
@@ -237,6 +291,22 @@ namespace Dark_Cloud_Improved_Version
             }
             else
                 DungeonThread.monsterQuestGobActive = false;
+
+            if (Memory.ReadByte(0x21CE440C) == 1)
+            {
+                DungeonThread.monsterQuestJakeActive = true;
+                questActive = true;
+            }
+            else
+                DungeonThread.monsterQuestJakeActive = false;
+
+            if (Memory.ReadByte(0x21CE4411) == 1)
+            {
+                DungeonThread.monsterQuestChiefActive = true;
+                questActive = true;
+            }
+            else
+                DungeonThread.monsterQuestChiefActive = false;
 
 
             if (questActive)
