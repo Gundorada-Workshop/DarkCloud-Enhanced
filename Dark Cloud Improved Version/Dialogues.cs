@@ -71,6 +71,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] norunesidequestCharacters = { 12592 };
         static int[] matatakisidequestCharacters = { 13618 };
         static int[] queenssidequestCharacters = { 13108 };
+        static int[] muskarackasidequestCharacters = { 14388 };
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
         static int[] muskarackaCharacters = { 13876, 14388, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389 }; //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
@@ -505,13 +506,41 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (customDialoguesCheck[i] != 1)
                         {
-                            currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
-                            savedDialogueCheck = i;
+                            if (isSidequest)
+                            {
+                                if (muskarackasidequestCharacters.Contains(characterIdData))
+                                {
+                                    currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else
+                                {
+                                    currentDialogue = "Sorry, I don´t have any quests currently.";
+                                }
+                            }
+                            else
+                            {
+                                currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                                savedDialogueCheck = i;
+                            }
                         }
                         else
                         {
-                            currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
-                            savedDialogueCheck = i;
+                            if (isSidequest)
+                            {
+                                if (muskarackasidequestCharacters.Contains(characterIdData))
+                                {
+                                    currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else
+                                {
+                                    currentDialogue = "Sorry, I don´t have any quests currently.";
+                                }
+                            }
+                            else
+                            {
+                                currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
+                                savedDialogueCheck = i;
+                            }
                         }
 
                         if (i == 6 || i == 7)  //check for shopkeeper
@@ -523,6 +552,8 @@ namespace Dark_Cloud_Improved_Version
                             TownCharacter.shopkeeper = false;
                         }
                     }
+                    TownCharacter.sidequestDialogueID = 147;
+                    currentsidequestAddress = 0x2064DDB8; //basker's first hello normal dialogue
                 }
             }
             else if (currentArea == 14)
@@ -594,6 +625,10 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 3)
             {
                 currentAddress = 0x20649A56; //bonka's first normal hello dialogue
+                if (isSidequest)
+                {
+                    currentAddress = currentsidequestAddress;
+                }
             }
             else if (currentArea == 14)
             {
@@ -844,6 +879,32 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+            else if (currentArea == 3)
+            {
+                if (buildingCheck == false) //if player is not inside (storage) house
+                {
+                    currentAddress = 0x20649288; //muska dialogueoptions after event finish
+                    dialogueOptions = "Hello.^  Any requests for building Muska Racka?^  It´s finished!^  Do you have any sidequests?";
+                    dialogueSet = true;
+                }
+                else
+                {
+                    if (Memory.ReadByte(0x202A2820) == 5) //check for basker
+                    {
+                        currentAddress = 0x2064930C; //can I check for items? dialogue
+                        dialogueOptions = "  Can I check in some items?^  Hello.^  Any requests for building Muska Racka?^  It´s finished!";
+                        Console.WriteLine("Entered Enga");
+                        dialogueSet = true;
+                    }
+                    else
+                    {
+                        currentAddress = 0x20649288; //muska dialogueoptions after event finish
+                        dialogueOptions = "Hi.^  Any requests for building Muska Racka?^  It´s finished!^  Do you have any sidequests?";
+                        Console.WriteLine("Entered building (not enga)");
+                        dialogueSet = true;
+                    }
+                }
+            }
             if (dialogueSet)
             {
                 for (int i = 0; i < dialogueOptions.Length; i++)
@@ -958,6 +1019,14 @@ namespace Dark_Cloud_Improved_Version
                         Console.WriteLine("Storage dialogue written");
                     }
                 }
+                else if (currentArea == 3)
+                {
+                    if (storageOriginalDialogue != null)
+                    {
+                        Memory.WriteByteArray(0x2064DDB8, storageOriginalDialogue);
+                        Console.WriteLine("Storage dialogue written");
+                    }
+                }
             }
             else
             {
@@ -974,6 +1043,11 @@ namespace Dark_Cloud_Improved_Version
                 else if (currentArea == 2)
                 {
                     storageOriginalDialogue = Memory.ReadByteArray(0x2064DB3A, 1000);
+                    Console.WriteLine("Storage dialogue stored");
+                }
+                else if (currentArea == 3)
+                {
+                    storageOriginalDialogue = Memory.ReadByteArray(0x2064DDB8, 1000);
                     Console.WriteLine("Storage dialogue stored");
                 }
             }

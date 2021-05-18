@@ -27,10 +27,11 @@ namespace Dark_Cloud_Improved_Version
         public static bool monsterQuestMachoActive = false;
         public static bool monsterQuestGobActive = false;
         public static bool monsterQuestJakeActive = false;
+        public static bool monsterQuestChiefActive = false;
 
         public static void InsideDungeonThread()
         {
-
+            Console.WriteLine("Dungeon Thread Activated");
             while (true)
             {
                 if (Player.InDungeonFloor())
@@ -229,6 +230,26 @@ namespace Dark_Cloud_Improved_Version
                         Dayuppy.DisplayMessage("You completed Jake's quest!\nWell done!", 2, 30, 4000);
                         Memory.WriteByte(0x21CE440C, 2);
                         monsterQuestJakeActive = false;
+                    }
+                }
+            }
+            if (monsterQuestChiefActive)
+            {
+                Console.WriteLine("Chief quest active");
+                int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
+                if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4415))
+                {
+                    Console.WriteLine("Quest progress +1!");
+                    byte killsleft = Memory.ReadByte(0x21CE4414);
+                    killsleft--;
+                    Memory.WriteByte(0x21CE4414, killsleft);
+
+                    if (killsleft == 0)
+                    {
+                        Console.WriteLine("Quest complete!!");
+                        Dayuppy.DisplayMessage("You completed Chief Bonka´s quest!\nWell done!", 2, 35, 4000);
+                        Memory.WriteByte(0x21CE4411, 2);
+                        monsterQuestChiefActive = false;
                     }
                 }
             }
