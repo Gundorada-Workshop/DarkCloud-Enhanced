@@ -1601,21 +1601,21 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             queensUngaga[0] = "It´s comforting to know that Gilda can^solve problems in society.¤How much do you think it would cost to^get the Dark Genie to leave and never^show his ugly face here again?¤Hey, everyone has a price.";
             queensUngaga[1] = "I hope that one day I´ll be as tall as^you Ų.";
-            queensUngaga[2] = "Interesting, I heard your from the^desert village of Muska Laka.¤I know that there´s some rare fish that^can be found in the desert by using^potato cakes as bait.";
+            queensUngaga[2] = "Interesting, I heard your from the^desert village of Muska Racka.¤I know that there´s some rare fish that^can be found in the desert by using^potato cakes as bait.";
             queensUngaga[3] = "It hasn´t been easy running a business^since King was elected as mayor.¤I feel like he slowly wants to buy every^business in Queens.¤I´d love to give him a piece of my mind!";
             queensUngaga[4] = "The good thing about living in Queens is^we get people from all around the world^coming to visit!";
-            queensUngaga[5] = "I had the luxury of travelling all^around the Earth but not once have I^been to Muska Laka."; //CANNOT TALK TO THE NPC
+            queensUngaga[5] = "I had the luxury of travelling all^around the Earth but not once have I^been to Muska Racka."; //CANNOT TALK TO THE NPC
             queensUngaga[6] = "You´re dressed funny, you must be from^out of town.";
             queensUngaga[7] = "I don´t think you or any of your friends^are going to be able to defeat the^Dark Genie.¤The power of hate is too strong, it lies^in the heart of everyone.¤Something tells me that Genie draws from^that hate to fuel itself.";
             queensUngaga[8] = "The story of La Saia underscores the^importance of upholding the promises you^make with loved ones.";
             queensUngaga[9] = "You think you´re so tough?¤We should see which one of us is^stronger.";
-            queensUngaga[10] = "Ahh, a brave warrior from the Muska Laka^Desert.¤Thank you for all the help young man,^the people of Queens appreciate your^service.¤We´ll make that Dark Genie pay for what^he did!";
+            queensUngaga[10] = "Ahh, a brave warrior from the Muska Racka^Desert.¤Thank you for all the help young man,^the people of Queens appreciate your^service.¤We´ll make that Dark Genie pay for what^he did!";
             queensUngaga[11] = "You, I sense a that you hold a great^responsibility, is there someone who you^wish to protect?";
             queensUngaga[12] = "I don´t believe in using a staff, a good^weapon should be sharp and to the^point.¤I hear the shipwreck is home to many^ferocious monster and precious gems.¤I wouldn´t want to go down there even^if there´re rare gems!";
 
             queensUngaga2[0] = "I should take you out on a spin in my^new car as a way of saying thanks for^freeing me.";
             queensUngaga2[1] = "My primary goal in life is to keep^people safe, who knows maybe one day^I´ll be the Sheriff!";
-            queensUngaga2[2] = "That´s a cool looking turban you´ve got^there, Rando has one just like it!¤I guess it goes to show that even^Muska Laka and Queens share some^similarities!";
+            queensUngaga2[2] = "That´s a cool looking turban you´ve got^there, Rando has one just like it!¤I guess it goes to show that even^Muska Racka and Queens share some^similarities!";
             queensUngaga2[3] = "Being trapped in Atla wasn´t so bad,^at the very least I was able to have^some alone time!";
             queensUngaga2[4] = "Say, now that I think about it Rando^hasn´t aged a day!¤I wonder what kind of moisturizer he is^using and if he´d be willing to share^some with me ohhohoho!";
             queensUngaga2[5] = "Be safe when you enter the Shipwreck,^there are many strange monsters which^call La Saia´s underwater grave home."; //CANNOT TALK TO THE NPC
@@ -1625,7 +1625,7 @@ namespace Dark_Cloud_Improved_Version
             queensUngaga2[9] = "Sheriff Wilder is always running around^and ruining our plans.¤One of these days his assistant Sam is^going to disappear.¤Hehehehe.";
             queensUngaga2[10] = "Haha you have admirers, Sam was talking^about how he wants to be as tall as you^one day!";
             queensUngaga2[11] = "I also can see that you have a fear of^scorpions, perhaps you were hurt by one?¤That makes no sense as I saw you eating^scorpion jerky the other day!";
-            queensUngaga2[12] = "Come to think of it, I used to know a^guy from Muska Laka, we used to trade^merchandise every so often.¤His name was Brooke, he was one tough^guy!";
+            queensUngaga2[12] = "Come to think of it, I used to know a^guy from Muska Racka, we used to trade^merchandise every so often.¤His name was Brooke, he was one tough^guy!";
 
 
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
@@ -1712,7 +1712,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaGoro2[5] = "I bet your mallet is so strong that you^can even crack the shell of a crabby^hermit!";
             muskarackaGoro2[6] = "If that mallet of yours ever becomes^worn out be sure to visit Brooke to get^some repair powder.¤He is one of the bravest warriors in our^village, his eye is proof of that.";
             muskarackaGoro2[7] = "Always take care brave hunter.^To defeat the evil plaguing our land one^must first overcome the evil within and^extinguish any self-doubts.";
-            muskarackaGoro2[8] = "One thing you and the hunters from^Muska Laka have in common is that you´re^both prideful, that pride will be your^downfall.¤It´s that same pride that helped fuel^the conflict between our desert tribes.¤Even if you found some way to defeat the^Dark Genie you´ll never defeat the evil^within the human heart!";
+            muskarackaGoro2[8] = "One thing you and the hunters from^Muska Racka have in common is that you´re^both prideful, that pride will be your^downfall.¤It´s that same pride that helped fuel^the conflict between our desert tribes.¤Even if you found some way to defeat the^Dark Genie you´ll never defeat the evil^within the human heart!";
             muskarackaGoro2[9] = "They say Gosuke appeared in our village^soon after a powerful warrior departed.¤Whenever I ask the adults about who this^traveller was they´re always very^secretive about his identity.¤I´d love to meet him and ask how he made^Gosuke, maybe he could make more!";
             muskarackaGoro2[10] = "The animal you´re wearing, it is dead...¤Why did you harm it?";
 
@@ -1754,8 +1754,8 @@ namespace Dark_Cloud_Improved_Version
             muskarackaUngaga[3] = "I always worry about you Ų it^like your always putting yourself in^harm´s way for the sake of the village^but now with the threat of the¤Dark Genie you´re doing it for all of^world.¤Only you and your allies can save us.";
             muskarackaUngaga[4] = "Ų you´re a strong warrior, that^little kid with the green hat will need^all the help he can get to defeat the^Dark Genie.¤Take care and make sure you come back in^one piece, I don´t want you breaking my^sisters heart!";
             muskarackaUngaga[5] = "Thank you so much for helping everyone^in the village, make sure you give that^Dark Genie a good whack in the head^for me!¤I may be an optimist but perhaps all of^the desert tribes can come together and^start a new way of life!";
-            muskarackaUngaga[6] = "All of these events has reminded me of^an old fable that has been passed down^throughout our Muska Laka.¤One which tells the story of a young boy^who´s village was torn from the earth by^a great evil and suspended from the sky!¤This boy had to travel throughout the^lands to find a way to not only defeat^the evil but also return his home.¤Make believe often mimics reality it^seems haha!";
-            muskarackaUngaga[7] = "You are the pride of our village, now^you´ll step foot into the outside world^and everyone why the warriors of Muska^Laka are the strongest to walk on Terra.";
+            muskarackaUngaga[6] = "All of these events has reminded me of^an old fable that has been passed down^throughout our Muska Racka.¤One which tells the story of a young boy^who´s village was torn from the earth by^a great evil and suspended from the sky!¤This boy had to travel throughout the^lands to find a way to not only defeat^the evil but also return his home.¤Make believe often mimics reality it^seems haha!";
+            muskarackaUngaga[7] = "You are the pride of our village, now^you´ll step foot into the outside world^and everyone why the warriors of Muska^Racka are the strongest to walk on Terra.";
             muskarackaUngaga[8] = "Heh, if it isn’t the brave Ų^have you come to taunt me once again!";
             muskarackaUngaga[9] = "Woah, big bro!¤I had so much fun during our training,^I want to be just like you when I´m^older!";
             muskarackaUngaga[10] = "Ų... friend...";
@@ -1767,7 +1767,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaUngaga2[4] = "The other day, Devia was drawing water^from the Oasis at dusk when she saw the^most bizarre fish!¤She described it as being the oddest^shade of purple with long yellow fins^that resembled a regal hair style!¤We´re not sure why it appeared, we made^Potato Cakes perhaps it was fond of the^smell?";
             muskarackaUngaga2[5] = "After what happened to our village I^think I have a new found motivation to^become a strong warrior like Chief^Bonka.";
             muskarackaUngaga2[6] = "They say a Moon person helped snap you^out of that depression you fell into.¤They are quite the wise ones those Moon^people!";
-            muskarackaUngaga2[7] = "I´ve watched over you since you were^young, it takes a village to raise a^child!¤I´m very proud of all of the progress^you have made, not only as a warrior but^also as a person.¤Ų our warring tribes is no^stranger to conflict and there will be^times where you will have to put your¤values to the test on the battlefield.^That is how I lost my eye.¤That´s the price we have to pay for^holding true to our ideals.¤It´s important that when faced with^difficulty, you don´t lose sight of who^you are."; // CHECK BACK WITH THE EYE THING
+            muskarackaUngaga2[7] = "I´ve watched over you since you were^young, it takes a village to raise a^child!¤I´m very proud of all of the progress^you have made, not only as a warrior but^also as a person.¤Ų our warring tribes is no^stranger to conflict and there will be^times where you will have to put your¤values to the test on the battlefield.^That is how I lost my eye.¤That´s the price we have to pay for^holding true to our ideals.¤It´s important that when faced with^difficulty, you don´t lose sight of who^you are.";
             muskarackaUngaga2[8] = "I wonder, once you fail and meet your^end what will become of your legacy?¤Will your pitiful tribe still hold you^to high regard or will be known as the^failure that doomed them?";
             muskarackaUngaga2[9] = "Don´t tell Chief Bonka or Enga but I was^once exploring the Sun and Moon Temple^the other day and I saw some gold and^silver golems.¤Do you think they´re related to Gosuke?";
             muskarackaUngaga2[10] = "Don´t be sad Ų...^Gosuke proud of you...";
@@ -1776,29 +1776,29 @@ namespace Dark_Cloud_Improved_Version
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            muskarackaOsmond[0] = "";
-            muskarackaOsmond[1] = "";
-            muskarackaOsmond[2] = "";
-            muskarackaOsmond[3] = "";
-            muskarackaOsmond[4] = "";
-            muskarackaOsmond[5] = "";
-            muskarackaOsmond[6] = "";
-            muskarackaOsmond[7] = "";
-            muskarackaOsmond[8] = "";
-            muskarackaOsmond[9] = "";
-            muskarackaOsmond[10] = "";
+            muskarackaOsmond[0] = "You cover your face with goggles and a^scarf, why not show your beauty for all^to see?";
+            muskarackaOsmond[1] = "Ah hah, finally a Moon person comes to^our village!¤I´ll have you know that the people of^Muska Racka have been staying on top of^the defending the Sun and Moon Temple as^well as the Signets.¤We´re not lazy like those bunnies who^chose to live the easy life in the^forest...";
+            muskarackaOsmond[2] = "Ah a Moon person, have you come to visit^the Sun and Moon Temple?¤Take caution as it is invested with^monsters!";
+            muskarackaOsmond[3] = "So if you´re here that must^mean that Ų and his friends^made his way to the moons!";
+            muskarackaOsmond[4] = "Old Enga would tell us that the moons^are home to the Moon tribe but I never^thought they would be bunnies!";
+            muskarackaOsmond[5] = "You may be small and cuddly but I bet^your quite the warrior!"; // <3 AT THE END
+            muskarackaOsmond[6] = "Ahhh how are doing young one!¤It has been a lifetime since I´ve been^in the presence of your kind.¤I have passed down the stories and myths^that your tribe has given us to the next^generation of Muska Racka¤but they often have time believing that^the Moon people once lived among us!";
+            muskarackaOsmond[7] = "It has been sometime since a moon person^has journeyed to our village.^If you are in need of any supplies let^me know my friend.¤The Moon people and the tribe of^Muska Racka have always had a close^partnership and we wish to maintain that^connection.";
+            muskarackaOsmond[8] = "What even are you?";
+            muskarackaOsmond[9] = "Wooah, nice you can fly!";
+            muskarackaOsmond[10] = "Moons... Pretty...";
 
-            muskarackaOsmond2[0] = "";
-            muskarackaOsmond2[1] = "";
-            muskarackaOsmond2[2] = "";
-            muskarackaOsmond2[3] = "";
-            muskarackaOsmond2[4] = "";
-            muskarackaOsmond2[5] = "";
-            muskarackaOsmond2[6] = "";
-            muskarackaOsmond2[7] = "";
-            muskarackaOsmond2[8] = "";
-            muskarackaOsmond2[9] = "";
-            muskarackaOsmond2[10] = "";
+            muskarackaOsmond2[0] = "Are you a short hair or a long hair^bunny, what is your hair care regimen?";
+            muskarackaOsmond2[1] = "I can tell by your demeanour that you’re^the leader of your moon tribe, care to^have a duel?¤The winner will be both the chief of the^desert tribe as well as the moon^bunnies!";
+            muskarackaOsmond2[2] = "What is that weapon you use, it´s like^a slingshot but mechanical! I know Moon^people are adept in magic but what magic^is this?!";
+            muskarackaOsmond2[3] = "When this is all over I hope that we can^continue to live in unison.¤It seems like people have been fighting^each other for some time now and that^has to change.";
+            muskarackaOsmond2[4] = "Ų is the best warrior the^village has to offer, I hope he will aid^you all on your quest.";
+            muskarackaOsmond2[5] = "Have you been teaching Ų a^thing or two when it comes to fighting?";
+            muskarackaOsmond2[6] = "I often wonder about Gosuke and his^creation.¤How was that traveller Aga able to^create him, did he learn a method from^you Moon people or did he use some other^form of magic to conjure Gosuke?";
+            muskarackaOsmond2[7] = "They say the Moon people here on Terra^have been spending their time relaxing^in the woods, have you visited them yet?";
+            muskarackaOsmond2[8] = "Hahaha you are going to fight the^Dark Genie?!¤Good luck short stuff!";
+            muskarackaOsmond2[9] = "I can´t believe I´m actually talking to^a Moon person! Enga tells me all about^your tribe, I always believed him but^it´s so cool to see one for real!¤Can you take me with you to the Moon^one day?";
+            muskarackaOsmond2[10] = "Gosuke likes you little bunny...";
 
         }
 
