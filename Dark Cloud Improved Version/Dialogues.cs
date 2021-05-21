@@ -1782,7 +1782,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaOsmond[3] = "So if you´re here that must^mean that Ų and his friends^made his way to the moons!";
             muskarackaOsmond[4] = "Old Enga would tell us that the moons^are home to the Moon tribe but I never^thought they would be bunnies!";
             muskarackaOsmond[5] = "You may be small and cuddly but I bet^your quite the warrior!"; // <3 AT THE END
-            muskarackaOsmond[6] = "Ahhh how are doing young one!¤It has been a lifetime since I´ve been^in the presence of your kind.¤I have passed down the stories and myths^that your tribe has given us to the next^generation of Muska Racka¤but they often have time believing that^the Moon people once lived among us!";
+            muskarackaOsmond[6] = "Ahhh how are doing young one!¤It has been a lifetime since I´ve been^in the presence of your kind.¤I have passed down the stories and myths^that your tribe has given us to the next^generation of Muska Racka¤but they often have a hard time^believing that the Moon people once^lived among us!";
             muskarackaOsmond[7] = "It has been sometime since a moon person^has journeyed to our village.^If you are in need of any supplies let^me know my friend.¤The Moon people and the tribe of^Muska Racka have always had a close^partnership and we wish to maintain that^connection.";
             muskarackaOsmond[8] = "What even are you?";
             muskarackaOsmond[9] = "Wooah, nice you can fly!";
