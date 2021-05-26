@@ -11,7 +11,6 @@ namespace Dark_Cloud_Improved_Version
         public const uint MagicCircleTwo_PosY = 0x21DE61E8;
         public const uint MagicCircleThree_PosX = 0x21DE61E0;
         public const uint MagicCircleThree_PosY = 0x21DE61E8;
-        
     }
 
     public class DungeonThread
