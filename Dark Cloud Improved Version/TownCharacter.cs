@@ -25,11 +25,14 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value4 = new byte[4];
         static byte checkByte;
         static byte[] townDialogueIDs = { 247, 167, 87, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        static byte[] fishArray = new byte[6];
+        
 
         static string cfgFile;
         static string chrFilePath;
         static string currentCharacter = "chara/c01d.chr";
 
+        static bool isUsingAlly = false;
         static bool successful;
         static bool charSelected;
         static bool indungeon;
@@ -44,9 +47,12 @@ namespace Dark_Cloud_Improved_Version
         static bool areaChanged = false;
         static bool sidequestOptionFlag = false;
         static bool isSideQuestDialogueActive = false;
+        static bool fishingActive = false;
+        static bool[] fishCaught = new bool[6];
 
         public static bool talkableNPC = true;
         public static bool shopkeeper = false;
+        public static bool fishingQuestPikeActive = false;
         
         public static int onDialogueFlag = 0;
         public static int sidequestonDialogueFlag = 0;
@@ -391,13 +397,14 @@ namespace Dark_Cloud_Improved_Version
                     prevCharNumber = 99;
                 }
 
-                if (Memory.ReadByte(0x21D33E28) == 9)   //cancel landing animation to avoid being stuck
+                if (Memory.ReadByte(0x21D33E28) == 9 && fishingActive == false)   //cancel landing animation to avoid being stuck
                 {
                     Memory.WriteByte(0x21D33E30, 3);
                 }
 
                 if (Memory.ReadInt(0x2029AA0E) != 1680945251)   //If not using Toan, force any house event to be cancelled
                 {
+                    isUsingAlly = true;
                     currentHouseID = Memory.ReadByte(0x202A2820);
 
                     if (currentHouseID != 255)  //check if its actual georama house
@@ -603,6 +610,7 @@ namespace Dark_Cloud_Improved_Version
                 }
                 else
                 {
+                    isUsingAlly = false;
                     Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
                     Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
 
@@ -688,11 +696,12 @@ namespace Dark_Cloud_Improved_Version
 
                 buildingCheck = Memory.ReadByte(0x202A281C); //is player inside house
 
-                if (Memory.ReadInt(0x202A2880) < 80) //check player duration in new area (to check if its a new/changed area)
+                if (Memory.ReadInt(0x202A2880) < 50) //check player duration in new area (to check if its a new/changed area)
                 {
-                    if (Memory.ReadInt(0x202A2880) > 40)
+                    if (Memory.ReadInt(0x202A2880) > 30)
                     {
                         areaChanged = true;
+                        CheckAllyFishing();                     
                     }
                 }
                 else
@@ -759,6 +768,21 @@ namespace Dark_Cloud_Improved_Version
                     changingLocation = false;
                 }
 
+                int checkFishing = Memory.ReadByte(0x21D19714);
+                if (fishingActive == false & checkFishing == 1)
+                {
+                    fishingActive = true;
+                    fishingQuestPikeActive = false;
+                }
+
+                if (fishingActive == true)
+                {
+                    CheckFishingQuest(currentArea);
+                    if (checkFishing == 0)
+                    {                      
+                        fishingActive = false;
+                    }
+                }
 
 
                 /*
@@ -865,6 +889,19 @@ namespace Dark_Cloud_Improved_Version
             */
         }
 
+        public static void CheckAllyFishing()
+        {
+            if (isUsingAlly)
+            {
+                if (currentArea == 0)
+                {
+                    Memory.WriteOneByte(0x2041BF4E, BitConverter.GetBytes(1)); //disable fishing
+                    Dialogues.SetFishingDisabledDialogue(currentArea);
+                    Console.WriteLine("Fishing disabled");
+                }
+            }
+        }
+
         public static void CheckSideQuestDialogue()
         {
             sidequestOptionFlag = false;
@@ -935,6 +972,75 @@ namespace Dark_Cloud_Improved_Version
                 {
                     SideQuestManager.MonsterQuestReward();
                     Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(0));
+                }
+            }
+            else if (characterIDData == 13872)
+            {
+                if (Memory.ReadByte(0x21CE4416) == 0)
+                {
+                    Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(1));
+                }
+                else if (Memory.ReadByte(0x21CE4416) == 1)
+                {
+                    //Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(2));
+                }
+                else if (Memory.ReadByte(0x21CE4416) == 2)
+                {
+                    SideQuestManager.GetFishingQuestReward();
+                    Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(0));
+                }
+            }
+        }
+
+        public static void CheckFishingQuest(int area)
+        {
+            if (area == 0)
+            {
+                if (!fishingQuestPikeActive)
+                {
+                    if (Memory.ReadByte(0x21CE4416) == 1)
+                    {
+                        fishingQuestPikeActive = true;
+                        currentAddress = 0x214798D0;
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            fishArray[i] = Memory.ReadByte(currentAddress);
+                            currentAddress += 0x00002410;
+                            Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
+                            fishCaught[i] = false;
+                        }
+                    }
+                }
+                else
+                {
+                    currentAddress = 0x214798D0;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (Memory.ReadByte(currentAddress) == 255 && fishCaught[i] == false && Memory.ReadByte(0x202A26E8) == 12)
+                        {
+                            fishCaught[i] = true;
+                            Console.WriteLine("Fish caught");
+
+                            if (fishArray[i] == Memory.ReadByte(0x21CE4419)) //check if caught fish matches quest fish ID
+                            {
+                                Console.WriteLine("Quest progress +1!");
+
+                                byte fishleft = Memory.ReadByte(0x21CE441A);
+                                fishleft--;
+                                Memory.WriteByte(0x21CE441A, fishleft);
+
+                                if (fishleft == 0)
+                                {
+                                    Console.WriteLine("Quest complete!!");
+                                    Memory.WriteByte(0x21CE4416, 2);
+                                    fishingQuestPikeActive = false;
+                                }
+                            }
+                        }
+
+                        currentAddress += 0x00002410;
+                    }
                 }
             }
         }

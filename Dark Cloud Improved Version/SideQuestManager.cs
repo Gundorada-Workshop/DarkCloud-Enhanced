@@ -16,28 +16,57 @@ namespace Dark_Cloud_Improved_Version
         static string[] SMEnemies = { "Golems", "Dunes", "Mimics", "Blue Dragons" };
         static string[] MoonSeaEnemies = { "Moon Diggers", "Space Gyons", "Mimics", "Crescent Barons" };
         static string[] GOFEnemies = { "Rash Dashers", "Jokers", "Mimics", "Alexanders" };
+        static string[] NorunePondFish = { "Nilers", "Gummies", "Nonkies", "Gobblers" };
+        static string[] MatatakiPondFish = { "Baku Bakus", "Gobblers", "Tartons", "Umadakaras" };
+        static string[] MatatakiWaterfallFish = { "Nonkies", "Baku Bakus", "Gummies", "Mardan Garayan", "Baron Garayan" };
+        static string[] QueensSeaFish = { "Bobos", "Kaijis", "Piccolys", "Bons", "Hamahamas" };
+        static string[] MuskaOasisFish = { "Negies", "Dens", "Heelas", "Mardan Garayans", "Baron Garayan" };
+        //fish ID list:  0 = bobo, 1 = gobbler, 2 = nonky, 3 = kaiji, 4 = baku baku, 5 = mardan, 6 = gummy, 7 = niler , 8 = NULL , 9 = umadakara , 10 = tarton , 11 = piccoly , 12 = bon, 13 = hamahama , 14 = negie, 15 = den , 16 = heela, 17 = baron
         static int[] DBCEnemyIDs = { 1, 6, 35, 59 };
         static int[] WOFEnemyIDs = { 8, 12, 79, 7 };
         static int[] ShipwreckEnemyIDs = { 23, 24, 81, 25 };
         static int[] SMEnemyIDs = { 30, 32, 37, 73 };
         static int[] MoonSeaEnemyIDs = { 66, 72, 39, 76 };
         static int[] GOFEnemyIDs = { 63, 48, 83, 43 };
+        static int[] NorunePondFishIDs = { 7, 6, 2, 1 };
+        static int[] MatatakiPondFishIDs = { 4, 1, 10, 9 };
+        static int[] MatatakiWaterfallFishIDs = { 2, 4, 6, 5, 17 };
+        static int[] QueensSeaFishIDs = { 0, 3, 11, 12, 13 };
+        static int[] MuskaOasisFishIDs = { 14, 15, 16, 5, 17 };
         static int rolledDng = 0;
         static int rolledEnemy = 0;
         static int enemyID = 0;
+        static int rolledFish = 0;
+        static int fishID = 0;
+        static int fishingPoints = 0;
+        static int randomizedFPoints = 0;
+        static int fishMultiplier = 0;
+        public static int generatedNeededFishCount = 0;
         public static string generatedEnemyName;
         public static string generatedMonsterQuestDungeon;
         public static int generatedEnemyKillsNeeded;
 
+        public static string generatedFishName;
+
         public static int getDngID;
         public static int getEnemyID;
         public static int getEnemyCounter;
+        public static int getFishID;
+        public static int getFishCounter;
 
         static int currentAddress;
         static int currentAddressDungeonID;
         static int currentAddressEnemyName;
         static int currentAddressEnemyID;
         static int currentAddressEnemyCounter;
+
+        static int currentAddressFishingQuestType;
+        static int currentAddressFishName;
+        static int currentAddressFishID;
+        static int currentAddressFishLeftCounter;
+        static int currentAddressFishMinSizeReq;
+        static int currentAddressFishMaxSizeReq;
+        static int currentAddressOriginalFishCounter;
 
         static Random rnd = new Random();
         public static string GetQuestDialogue(string currentDialogue, int characterID)
@@ -120,6 +149,44 @@ namespace Dark_Cloud_Improved_Version
                 else if (Memory.ReadByte(0x21CE4411) == 2)
                 {
                     currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                }
+            }
+            else if (characterID == 13872) //pike
+            {
+                TownCharacter.characterIDData = characterID;
+                if (Memory.ReadByte(0x21CE4416) == 0)
+                {
+                    SetSideQuestAddresses(characterID);
+
+                    int whichQuest = rnd.Next(100);
+
+                    if (whichQuest < 100)
+                    {
+                        Memory.WriteOneByte(0x21CE4417, BitConverter.GetBytes(0));
+                        GenerateFishingQuestOne();
+                        currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Norune Pond.^Good luck!";
+                    }
+                    else
+                    {
+                        SetSideQuestAddresses(characterID);
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE4416) == 1)
+                {
+                    if (Memory.ReadByte(0x21CE4417) == 0)
+                    {
+                        GetFishingQuestOneValues(0);
+                        currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Norune Pond,^just " + generatedNeededFishCount + " left!";
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE4416) == 2)
+                {
+                    RollFishingQuestReward(0);
+                    currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                 }
             }
             return currentDialogue;
@@ -237,6 +304,16 @@ namespace Dark_Cloud_Improved_Version
                 currentAddressEnemyCounter = 0x21CE4414;
                 currentAddressEnemyID = 0x21CE4415;
             }
+            else if (characterID == 13872)
+            {
+                currentAddressFishingQuestType = 0x21CE4417;
+                currentAddressFishName = 0x21CE4418;
+                currentAddressFishID = 0x21CE4419;
+                currentAddressFishLeftCounter = 0x21CE441A;
+                currentAddressFishMinSizeReq = 0x21CE441B;
+                currentAddressFishMaxSizeReq = 0x21CE441C;
+                currentAddressOriginalFishCounter = 0x21CE441D;
+            }
         }
 
         public static void GetMonsterQuestValues()
@@ -330,6 +407,59 @@ namespace Dark_Cloud_Improved_Version
                     currentAddress += 0x00000002;
                 }
             }
+        }
+
+        public static void GenerateFishingQuestOne()
+        {
+            int currentlocation = Memory.ReadByte(0x202A2518);
+
+            switch (currentlocation)
+            {
+                case 0:
+                    rolledFish = rnd.Next(0, NorunePondFish.Length);
+                    generatedFishName = NorunePondFish[rolledFish];
+                    fishID = NorunePondFishIDs[rolledFish];
+                    generatedNeededFishCount = rnd.Next(2, 3);
+                    break;
+            }
+
+            Memory.WriteOneByte(currentAddressFishName, BitConverter.GetBytes(rolledFish));
+            Memory.WriteOneByte(currentAddressFishID, BitConverter.GetBytes(fishID));
+            Memory.WriteOneByte(currentAddressFishLeftCounter, BitConverter.GetBytes(generatedNeededFishCount));
+            Memory.WriteOneByte(currentAddressOriginalFishCounter, BitConverter.GetBytes(generatedNeededFishCount));
+        }
+
+        public static void GetFishingQuestOneValues(int area)
+        {
+            getFishID = Memory.ReadByte(currentAddressFishName);
+            getFishCounter = Memory.ReadByte(currentAddressFishLeftCounter);
+
+            switch (area)
+            {
+                case 0:
+                    generatedFishName = NorunePondFish[getFishID];
+                    break;
+            }
+
+            generatedNeededFishCount = getFishCounter;           
+        }
+
+        public static void RollFishingQuestReward(int area)
+        {
+            if (area == 0)
+            {
+                randomizedFPoints = rnd.Next(30, 61);
+                fishMultiplier = Memory.ReadByte(0x21CE441D);
+                fishingPoints = randomizedFPoints * fishMultiplier;
+            }                    
+        }
+
+        public static void GetFishingQuestReward()
+        {
+            currentAddress = 0x21CD431C;
+            int currentFP = Memory.ReadUShort(currentAddress);
+            currentFP = currentFP + fishingPoints;
+            Memory.WriteInt(currentAddress, currentFP);
         }
     }
 }
