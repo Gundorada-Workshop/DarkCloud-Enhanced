@@ -54,6 +54,16 @@ namespace Dark_Cloud_Improved_Version
         static string[] muskarackaUngaga2 = new string[15];
         static string[] muskarackaOsmond = new string[15];
         static string[] muskarackaOsmond2 = new string[15];
+        static string[] sunmoonXiao = new string[15];
+        static string[] sunmoonXiao2 = new string[15];
+        static string[] sunmoonGoro = new string[15];
+        static string[] sunmoonGoro2 = new string[15];
+        static string[] sunmoonRuby = new string[15];
+        static string[] sunmoonRuby2 = new string[15];
+        static string[] sunmoonUngaga = new string[15];
+        static string[] sunmoonUngaga2 = new string[15];
+        static string[] sunmoonOsmond = new string[15];
+        static string[] sunmoonOsmond2 = new string[15];
         static string currentDialogue;
         static string currentDialogueOptions;
         static string prevDialogue;
@@ -75,6 +85,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
         static int[] muskarackaCharacters = { 13876, 14388, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389 }; //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
+        static int[] sunmoonCharacters = { 12337, 13111 };
         static int[] customDialoguesCheck = new int[15];      
         static int[] noruneXiaoCheck = new int[15];
         static int[] noruneGoroCheck = new int[15];
@@ -96,6 +107,11 @@ namespace Dark_Cloud_Improved_Version
         static int[] muskarackaRubyCheck = new int[15];
         static int[] muskarackaUngagaCheck = new int[15];
         static int[] muskarackaOsmondCheck = new int[15];
+        static int[] sunmoonXiaoCheck = new int[15];
+        static int[] sunmoonGoroCheck = new int[15];
+        static int[] sunmoonRubyCheck = new int[15];
+        static int[] sunmoonUngagaCheck = new int[15];
+        static int[] sunmoonOsmondCheck = new int[15];
 
         static bool[] itemIDCheckList = new bool[380];
         static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
@@ -181,6 +197,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaXiao2;
                         customDialoguesCheck = muskarackaXiaoCheck;
                     }
+                    else if (currentArea == 42)
+                    {
+                        customDialogues = sunmoonXiao;
+                        customDialogues2 = sunmoonXiao2;
+                        customDialoguesCheck = sunmoonXiaoCheck;
+                    }
                 }
                 else if (Memory.ReadInt(currentAddress) == 791752819)  //Goro
                 {
@@ -209,6 +231,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = muskarackaGoro;
                         customDialogues2 = muskarackaGoro2;
                         customDialoguesCheck = muskarackaGoroCheck;
+                    }
+                    else if (currentArea == 42)
+                    {
+                        customDialogues = sunmoonGoro;
+                        customDialogues2 = sunmoonGoro2;
+                        customDialoguesCheck = sunmoonGoroCheck;
                     }
                 }
 
@@ -240,6 +268,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaRuby2;
                         customDialoguesCheck = muskarackaRubyCheck;
                     }
+                    else if (currentArea == 42)
+                    {
+                        customDialogues = sunmoonRuby;
+                        customDialogues2 = sunmoonRuby2;
+                        customDialoguesCheck = sunmoonRubyCheck;
+                    }
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 792278899)  //Ungaga
@@ -270,6 +304,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaUngaga2;
                         customDialoguesCheck = muskarackaUngagaCheck;
                     }
+                    else if (currentArea == 42)
+                    {
+                        customDialogues = sunmoonUngaga;
+                        customDialogues2 = sunmoonUngaga2;
+                        customDialoguesCheck = sunmoonUngagaCheck;
+                    }
                 }
 
                 else if (Memory.ReadInt(currentAddress) == 792014949)  //Osmond
@@ -299,6 +339,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = muskarackaOsmond;
                         customDialogues2 = muskarackaOsmond2;
                         customDialoguesCheck = muskarackaOsmondCheck;
+                    }
+                    else if (currentArea == 42)
+                    {
+                        customDialogues = sunmoonOsmond;
+                        customDialogues2 = sunmoonOsmond2;
+                        customDialoguesCheck = sunmoonOsmondCheck;
                     }
                 }
 
@@ -593,6 +639,25 @@ namespace Dark_Cloud_Improved_Version
                     currentDialogue = "Sup buddy. I don´t have a dialogue yet.";
                 }
             }
+            else if (currentArea == 42)
+            {
+                for (int i = 0; i < sunmoonCharacters.Length; i++)   //search through array to find character match
+                {
+                    if (characterIdData == sunmoonCharacters[i])
+                    {
+                        if (customDialoguesCheck[i] != 1)
+                        {
+                            currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
+                        else
+                        {
+                            currentDialogue = customDialogues2[i];    //gets the correct dialogue and stores it
+                            savedDialogueCheck = i;
+                        }
+                    }
+                }
+            }
 
             if (characterIdData == 14132)
             {
@@ -633,6 +698,10 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 14)
             {
                 currentAddress = 0x2064ADCA; //pickle's 1st message                   
+            }
+            else if (currentArea == 42)
+            {
+                currentAddress = 0x20648FBA;
             }
 
             for (int i = 0; i < currentDialogue.Length; i++)
@@ -716,7 +785,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void SetDefaultDialogue(int area)
         {
-            string defDialogue = "Hello";
+            string defDialogue = "Hello.";
             
             if (area == 0)
             {
@@ -750,6 +819,10 @@ namespace Dark_Cloud_Improved_Version
                      else
                         defDialogue = "Checking your data... Please wait.";
                 }
+            }
+            else if (area == 42)
+            {
+                currentAddress = 0x20648EC8;
             }
 
             for (int i = 0; i < defDialogue.Length; i++)
@@ -1865,6 +1938,45 @@ namespace Dark_Cloud_Improved_Version
             muskarackaOsmond2[8] = "Hahaha you are going to fight the^Dark Genie?!¤Good luck short stuff!";
             muskarackaOsmond2[9] = "I can´t believe I´m actually talking to^a Moon person! Enga tells me all about^your tribe, I always believed him but^it´s so cool to see one for real!¤Can you take me with you to the Moon^one day?";
             muskarackaOsmond2[10] = "Gosuke likes you little bunny...";
+
+
+
+            //ungaga, theo
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            sunmoonXiao[0] = "It´s nice to see such^a friendly creature.";
+            sunmoonXiao[1] = "Oh my, you smell like magic!¤Did you use a Change Potion recently?";
+
+            sunmoonXiao2[0] = "It´s useless, I´m not a strong warrior^like Ť, I let everyone down.¤Mikara...";
+            sunmoonXiao2[1] = "I envy you, I can only imagine^what going on a journey^with Ť is like!";
+
+
+            sunmoonGoro[0] = "A brave warrior like you would^have prevented this tragedy.¤I bet you have always been strong,^your determination is unwavering.";
+            sunmoonGoro[1] = "I´m glad I could see a familiar face,^we may be far away from Brownboo or^Matataki but we´re still neighbours,^and neighbours help each other out!";
+
+            sunmoonGoro2[0] = "Life is precious, I failed to^protect the living...¤I am a failure...";
+            sunmoonGoro2[1] = "We really need to cheer Ų up,^if he stays like this he´ll never^be the warrior we need!¤It might be difficult^but I´m sure you´re a^barrel full of laughs Ʊ!";
+
+
+            sunmoonRuby[0] = "You´re a genie, perhaps you´ve come^to finish the work left behind^by the Dark Genie...";
+            sunmoonRuby[1] = "I can´t believe Ť and his^allies actually recruited a genie,^wait until I tell everyone!";
+
+            sunmoonRuby2[0] = "I let everyone down...";
+            sunmoonRuby2[1] = "We should try to find the time^to do a magic show, after we defeat^the Dark Genie of course!";
+
+
+            sunmoonUngaga[0] = "Hmm, it seems you used a cheat device^to unlock all characters before^getting Ų, this dialogue^shouldn´t be possible¤but that didn´t stop you haha!^I may as well use this dialogue space^to shout out my talented friends^Word of Wind, MikeZord, Plguee,^Dayuppy and Glitchedd for all of the¤generous contributions they´ve made to^the Dark Cloud Community and for^their diligent work on this fan mod.¤It was a challenge and we worked day^and night to make this mod something^truly special for you all to enjoy.¤One thing I love about this community^is that it´s home to so many^passionate and talented people.¤Even after 20 years you all continue^to be creative, we hope this mod^can help make new memories.^Thank you for all the support.¤Sincerely, Hiddencastle and^the Dark Cloud Compendium.";
+            sunmoonUngaga[1] = "Hey you are not supposed to be here!¤Dark Cloud is home to some of the most^interesting cut content, one of my^favourite moments in my time in^the Dark Cloud Community was when¤Word of Wind and MikeZord actually^found the cut playable character Seda!¤Ahhhh we were so happy,^it was 20 years in the making!¤Could you imagine if we got Seda^instead of Osmond, crazy to think!";
+
+            sunmoonUngaga2[0] = "We lost so much during the pandemic^years, countless good people^gone too soon.¤On August 17th 2020, I lost my father^due to cancer and a lot of this^dialogue was inspired by the stories^we would tell each other.¤We´re all missing someone but^it can´t rain all the time.¤This is dedicated to everyone we^lost in the pandemic years,^the young and the old.¤We miss you more than words^can describe, you will all^forever be in our hearts.";
+            sunmoonUngaga2[1] = "Oh so you want to know about the^legendary Dark Cloud 3 eh?¤Well if I told you I´d^have to eat you!¤I may look like a cute Moon Bunny^but I´m secretly a Xenomorph!";
+
+
+            sunmoonOsmond[0] = "Hmm, it seems you used a cheat device^to unlock all characters before^getting Ų, this dialogue^shouldn´t be possible¤but that didn´t stop you haha!^I may as well use this dialogue space^to shout out my talented friends^Word of Wind, MikeZord, Plguee,^Dayuppy and Glitchedd for all of the¤generous contributions they´ve made to^the Dark Cloud Community and for^their diligent work on this fan mod.¤It was a challenge and we worked day^and night to make this mod something^truly special for you all to enjoy.¤One thing I love about this community^is that it´s home to so many^passionate and talented people.¤Even after 20 years you all continue^to be creative, we hope this mod^can help make new memories.^Thank you for all the support.¤Sincerely, Hiddencastle and^the Dark Cloud Compendium.";
+            sunmoonOsmond[1] = "Hey you are not supposed to be here!¤Dark Cloud is home to some of the most^interesting cut content, one of my^favourite moments in my time in^the Dark Cloud Community was when¤Word of Wind and MikeZord actually^found the cut playable character Seda!¤Ahhhh we were so happy,^it was 20 years in the making!¤Could you imagine if we got Seda^instead of Osmond, crazy to think!";
+
+            sunmoonOsmond2[0] = "We lost so much during the pandemic^years, countless good people^gone too soon.¤On August 17th 2020, I lost my father^due to cancer and a lot of this^dialogue was inspired by the stories^we would tell each other.¤We´re all missing someone but^it can´t rain all the time.¤This is dedicated to everyone we^lost in the pandemic years,^the young and the old.¤We miss you more than words^can describe, you will all^forever be in our hearts.";
+            sunmoonOsmond2[1] = "Oh so you want to know about the^legendary Dark Cloud 3 eh?¤Well if I told you I´d^have to eat you!¤I may look like a cute Moon Bunny^but I´m secretly a Xenomorph!";
 
         }
 
