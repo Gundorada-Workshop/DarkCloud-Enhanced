@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -27,6 +28,45 @@ namespace Dark_Cloud_Improved_Version
         public static bool monsterQuestGobActive = false;
         public static bool monsterQuestJakeActive = false;
         public static bool monsterQuestChiefActive = false;
+
+        public static List<byte> GetDungeonEventFloors(byte dungeon)
+        {
+            List<byte> floors = new List<byte>();
+
+            switch (dungeon)
+            {
+                case 0:
+                    floors.Add(3);
+                    floors.Add(7);
+                    floors.Add(14);
+                    break;
+                case 1:
+                    floors.Add(8);
+                    floors.Add(16);
+                    break;
+                case 2:
+                    floors.Add(8);
+                    floors.Add(16);
+                    break;
+                case 3:
+                    floors.Add(8);
+                    floors.Add(17);
+                    break;
+                case 4:
+                    floors.Add(7);
+                    floors.Add(14);
+                    break;
+                case 5:
+                    floors.Add(24);
+                    break;
+                case 6:
+                    floors.Add(99);
+                    break;
+                default:
+                    break;
+            }
+            return floors;
+        }
 
         public static void InsideDungeonThread()
         {

@@ -1,9 +1,159 @@
-﻿namespace Dark_Cloud_Improved_Version
-{
+﻿using System.Collections.Generic;
+namespace Dark_Cloud_Improved_Version { 
+
     class Enemies
     {
 
         //0x9C is the offset between table enemy addresses (The read only ones)
+
+        internal class EnemyList
+        {
+            public static Dictionary<int, string> GetNormalEnemies()
+            {
+                return enemiesNormal;
+            }
+
+            public static Dictionary<int, string> enemiesNormal = new Dictionary<int, string>()
+            {
+                { 1, "Master Jacket" },
+                { 3, "Skeleton Soldier" },
+                { 5, "Statue" },
+                { 6, "Dasher" },
+                { 7, "Werewolf" },
+                { 8, "Fli Fli" },
+                { 10, "Halloween" },
+                { 11, "Cannibal Plant" },
+                { 12, "Earth Digger" },
+                { 14, "Sunday" },
+                { 15, "Monday" },
+                { 16, "Tuesday" },
+                { 17, "Wednesday" },
+                { 18, "Thursday" },
+                { 19, "Friday" },
+                { 20, "Saturday" },
+                { 23, "Gunny" },
+                { 24, "Gyon" },
+                { 25, "Pirate's Chariot" },
+                { 26, "Auntie Medu" },
+                { 27, "Captain" },
+                { 28, "Corcea" },
+                { 30, "Golem" },
+                { 31, "Mr. Blare" },
+                { 32, "Dune" },
+                { 33, "Titan" },
+                { 34, "King Mimic (Divine Beast Cave)" },
+                { 35, "Mimic (Divine Beast Cave)" },
+                { 36, "King Mimic (Sun & Moon Temple)" },
+                { 37, "Mimic (Sun & Moon Temple)" },
+                { 38, "King Mimic (Moon Sea)" },
+                { 39, "Mimic (Moon Sea)" },
+                { 40, "Arthur" },
+                { 43, "Alexander" },
+                { 44, "Heart" },
+                { 45, "Club" },
+                { 46, "Diamond" },
+                { 47, "Spade" },
+                { 48, "Joker" },
+                { 49, "Bomber Head" },
+                { 50, "Mummy" },
+                { 52, "Curse Dancer" },
+                { 54, "Killer Snake" },
+                { 55, "Living Armor" },
+                { 56, "White Fang" },
+                { 57, "Moon Bug" },
+                { 59, "Dragon" },
+                { 62, "Hell Pockle" },
+                { 63, "Rash Dasher" },
+                { 64, "Steel Giant" },
+                { 65, "Blizzard" },
+                { 66, "Moon Digger" },
+                { 67, "Dark Flower" },
+                { 68, "Cursed Rose" },
+                { 69, "Billy" },
+                { 70, "Vulcan" },
+                { 71, "Crabby Hermit" },
+                { 72, "Space Gyon" },
+                { 73, "Blue Dragon" },
+                { 74, "Black Dragon" },
+                { 75, "Mask of Prajna" },
+                { 76, "Crescent Baron" },
+                { 77, "Rockanoff" },
+                { 78, "King Mimic (Wise Owl)" },
+                { 79, "Mimic (Wise Owl)" },
+                { 80, "King Mimic (Shipwreck)" },
+                { 81, "Mimic (Shipwreck)" },
+                { 82, "King Mimic (Gallery of Time)" },
+                { 83, "Mimic (Gallery of Time)" },
+                { 85, "Sam" },
+                { 90, "Gol" },
+                { 91, "Sil" },
+                { 301, "Yammich" },
+                { 303, "Statue Dog" },
+                { 304, "Opar" },
+                { 305, "Haley Holey" },
+                { 306, "King Prickly" },
+                { 308, "Nikapous" },
+                { 309, "Mimic (Demon Shaft)" },
+                { 310, "King Mimic (Demon Shaft)" },
+                { 311, "Gemron (Fire)" },
+                { 312, "Gemron (Ice)" },
+                { 313, "Gemron (Thunder)" },
+                { 314, "Gemron (Wind)" },
+                { 315, "Gemron (Holy)" },
+                { 316, "Bishop Q" },
+                { 317, "Gacious" },
+                { 318, "Silver Gear" },
+                { 319, "Horn Head" }
+            };
+
+            internal static Dictionary<int, string> enemiesFlying = new Dictionary<int, string>()
+            {
+                { 9, "Hornet" },
+                { 21, "Witch Hellza" },
+                { 22, "Witch Illza" },
+                { 42, "Ghost" },
+                { 51, "Lich" },
+                { 58, "Phantom" },
+                { 60, "Cave Bat" },
+                { 61, "Evil Bat" },
+            };
+
+            internal static Dictionary<int, string> enemiesOversea = new Dictionary<int, string>()
+            {
+                { 301, "Yammich" },
+                { 303, "Statue Dog" },
+                { 304, "Opar" },
+                { 305, "Haley Holey" },
+                { 306, "King Prickly" },
+                { 308, "Nikapous" },
+                { 309, "Mimic (Demon Shaft)" },
+                { 310, "King Mimic (Demon Shaft)" },
+                { 311, "Gemron (Fire)" },
+                { 312, "Gemron (Ice)" },
+                { 313, "Gemron (Thunder)" },
+                { 314, "Gemron (Wind)" },
+                { 315, "Gemron (Holy)" },
+                { 316, "Bishop Q" },
+                { 317, "Gacious" },
+                { 318, "Silver Gear" },
+                { 319, "Horn Head" },
+            };
+
+            internal static Dictionary<int, string> enemiesBoss = new Dictionary<int, string>()
+            {
+                { 84, "Ice Arrow" },
+                { 112, "Dran" },
+                { 113, "Ice Queen" },
+                { 114, "Master Utan" },
+                { 115, "King's Curse" },
+                { 116, "Minotaur Joe" },
+                { 117, "Dark Genie" },
+                { 119, "Right Hand" },
+                { 120, "Left Hand" },
+                { 121, "Wine Keg" },
+                { 221, "Black Knight" },
+            };
+        }
 
         internal class Enemy0
         {
