@@ -3,16 +3,54 @@ namespace Dark_Cloud_Improved_Version {
 
     class Enemies
     {
+        public const int offset = 0x190;        //Offset between floor enemies
+        public const int tableOffset = 0x9C;    //Offset between table enemies
 
-        //0x9C is the offset between table enemy addresses (The read only ones)
+        public static Dictionary<int, string> GetNormalEnemies()
+        {
+            return EnemyList.enemiesNormal;
+        }
+
+        public static Dictionary<int, string> GetFlyingEnemies()
+        {
+            return EnemyList.enemiesFlying;
+        }
+
+        public static Dictionary<int, string> GetOverseasEnemies()
+        {
+            return EnemyList.enemiesOversea;
+        }
+
+        public static Dictionary<int, string> GetBossEnemies()
+        {
+            return EnemyList.enemiesBoss;
+        }
+
+        public static int GetFloorEnemyId(int enemyFloorNum)
+        {
+            return Memory.ReadInt(Enemies.Enemy0.nameTag + (offset * enemyFloorNum));
+        }
+
+        public static List<int> GetFloorEnemiesIds()
+        {
+            List<int> Ids = new List<int>();
+
+            for (int i = 0; i <= 15; i++)
+            {
+                Ids.Add(Memory.ReadInt(Enemies.Enemy0.nameTag + (offset * i)));
+            }
+
+            return Ids;
+        }
+
+        public static bool EnemyHasKey(int enemyNumber, byte dungeon)
+        {
+            return DungeonThread.GetDungeonGateKey(dungeon).Contains(Memory.ReadByte(Enemies.Enemy0.forceItemDrop + (offset * enemyNumber)));
+        }
 
         internal class EnemyList
         {
-            public static Dictionary<int, string> GetNormalEnemies()
-            {
-                return enemiesNormal;
-            }
-
+            
             public static Dictionary<int, string> enemiesNormal = new Dictionary<int, string>()
             {
                 { 1, "Master Jacket" },
@@ -166,20 +204,19 @@ namespace Dark_Cloud_Improved_Version {
             public const int hp = 0x21E16BC4;
             public const int drop = 0x21E16C40;
             public const int nameTag = 0x21E16BE2;
-            public const int minGoldDrop = 0x21E16BD4; //Minimum value gold can drop
-            public const int dropChance = 0x21E16BD8; // 0 = 0% | 100 = 100%
-            public const int forceItemDrop = 0x21E16C40; //Default value is 65535 |
-                                                         //Turns into an item ID value once an item is dropped |
-                                                         //If value is changed before killed, it will drop that item, be it by weapon or throw kill |
+            public const int minGoldDrop = 0x21E16BD4;      //Minimum value gold can drop
+            public const int dropChance = 0x21E16BD8;       // 0 = 0% | 100 = 100%
+            public const int forceItemDrop = 0x21E16C40;    //Default value is 65535 ...
+                                                            //Turns into an item ID value once an item is dropped ...
+                                                            //If value is changed before killed, it will drop that item, be it by weapon or throw kill
             public const int abs = 0x21E16C50;
             public const int stealItemId = 0x21E16C50;
-            public const int itemResistance = 0x21E16C7C; //0 = Immune | 100 = 100%
-            public const int itemDropId = 0x21E16FA4; //The item dropped by weapon kill
+            public const int itemResistance = 0x21E16C7C;   //0 = Immune | 100 = 100%
+            public const int itemDropId = 0x21E16FA4;       //The item dropped by weapon kill
         }
 
         internal class Enemy1
         {
-            const int offset = 0x190;
             const byte EnemyMultiplier = 1;
 
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
@@ -202,7 +239,6 @@ namespace Dark_Cloud_Improved_Version {
 
         internal class Enemy2
         {
-            const int offset = 0x190;
             const byte EnemyMultiplier = 2;
 
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);
@@ -225,7 +261,6 @@ namespace Dark_Cloud_Improved_Version {
 
         internal class Enemy3
         {
-            const int offset = 0x190;
             const byte EnemyMultiplier = 3;
 
             public const int visible = Enemy0.visible + (offset * EnemyMultiplier);

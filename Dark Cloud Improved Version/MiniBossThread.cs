@@ -23,50 +23,62 @@ namespace Dark_Cloud_Improved_Version
         public const int enemyABSMult = 3;          //Miniboss ABS multiplier
         public const int enemyItemResistMulti = 30; //Miniboss Item Resistance multiplier
         public const int enemyGoldMult = 3;         //Miniboss Gilda Drop multiplier
-
-        public static byte currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+        public const int enemyDropChance = 100;         //Miniboss Drop chance % (0 - 100)
 
         //Get flying enemies
         public static Dictionary<int, string> nonKeyEnemies = Enemies.EnemyList.enemiesFlying;
 
-        //Define event and boss floors
-        public static List<byte> excludeFloors = DungeonThread.GetDungeonEventFloors(currentDungeon);
-
-        public static byte GetCurrentFloor()
+        public static bool MiniBossSpawn(bool skipFirstRoll = false, byte dungeon = 255)
         {
-            return Memory.ReadByte(Addresses.checkFloor);
-        }
+            //Rolls for a 30% chance to spawn the miniboss
+            if (rnd.Next(100) <= 100 || skipFirstRoll)
+            {
+                //Choose the enemy to convert into mini boss (0 - 15)
+                int enemyNumber = rnd.Next(16);
 
-        public static bool MiniBossSpawn()
-        {
-            //Exclude event and boss floors
-            if(!excludeFloors.Contains(GetCurrentFloor())){
-                //Rolls for a 30% chance to spawn the miniboss
-                if (rnd.Next(100) <= 100)
+                //Check if enemy is flying type
+                if (!nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)))
                 {
-                    //Choose the enemy to convert into mini boss (0 - 15)
-                    int bossEnemy = rnd.Next(15);
-                    
-                    //Exclude the flying enemies
-                    if (!nonKeyEnemies.ContainsKey(bossEnemy)) {
+                    //Check if chosen enemy has the key
+                    if(Enemies.EnemyHasKey(enemyNumber, dungeon))
+                    {
+                        Console.WriteLine("The Key has landed on the mini boss!");
 
-                        //Get base values from the chosen enemy
-                        int startBossHP = Memory.ReadByte(Enemies.Enemy0.hp + (varOffset * bossEnemy));
-                        int startAbs = Memory.ReadInt(Enemies.Enemy0.abs + (varOffset * bossEnemy));
-                        int startGold = Memory.ReadInt(Enemies.Enemy0.minGoldDrop + (varOffset * bossEnemy));
+                        int newEnemyNumber;
 
-                        Memory.WriteFloat(enemyZeroWidth + (scaleOffset * bossEnemy), scaleSize);   //Scales Width
-                        Memory.WriteFloat(enemyZeroHeight + (scaleOffset * bossEnemy), scaleSize);  //Scales Height
-                        Memory.WriteFloat(enemyZeroDepth + (scaleOffset * bossEnemy), scaleSize);   //Scales Depth
-                        Memory.WriteInt(Enemies.Enemy0.hp + (varOffset * bossEnemy), (startBossHP * enemyHPMult));      //Changes Enemy HP                  
-                        Memory.WriteInt(Enemies.Enemy0.maxHp + (varOffset * bossEnemy), (startBossHP * enemyHPMult));   //Changes MaxHP
-                        Memory.WriteInt(Enemies.Enemy0.abs + (varOffset * bossEnemy), (startAbs * enemyABSMult));       //Changes ABS reward
-                        Memory.WriteInt(Enemies.Enemy0.itemResistance + (varOffset * bossEnemy), enemyItemResistMulti);         //Changes the enemies item resistance
-                        Memory.WriteInt(Enemies.Enemy0.minGoldDrop + (varOffset * bossEnemy), startGold * enemyGoldMult);       //Changes the enemies gilda drop amount
-                        return true;
+                        //Get the enemy key ID
+                        byte KeyId = Memory.ReadByte(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber));
+
+                        //Re-roll for a different enemy that does not hold the key and is non flying
+                        do { newEnemyNumber = rnd.Next(15); } while (   newEnemyNumber == enemyNumber && 
+                                                                        Enemies.EnemyHasKey(newEnemyNumber, dungeon) && 
+                                                                        nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber))    );
+
+                        //Set the key onto a new enemy
+                        Memory.WriteByte(Enemies.Enemy0.forceItemDrop + (varOffset * newEnemyNumber), KeyId);
                     }
+
+                    //Get base values from the chosen enemy
+                    int startBossHP = Memory.ReadByte(Enemies.Enemy0.hp + (varOffset * enemyNumber));
+                    int startAbs = Memory.ReadInt(Enemies.Enemy0.abs + (varOffset * enemyNumber));
+                    int startGold = Memory.ReadInt(Enemies.Enemy0.minGoldDrop + (varOffset * enemyNumber));
+
+                    Memory.WriteFloat(enemyZeroWidth + (scaleOffset * enemyNumber), scaleSize);   //Scales Width
+                    Memory.WriteFloat(enemyZeroHeight + (scaleOffset * enemyNumber), scaleSize);  //Scales Height
+                    Memory.WriteFloat(enemyZeroDepth + (scaleOffset * enemyNumber), scaleSize);   //Scales Depth
+                    Memory.WriteInt(Enemies.Enemy0.hp + (varOffset * enemyNumber), (startBossHP * enemyHPMult));        //Changes Enemy HP                  
+                    Memory.WriteInt(Enemies.Enemy0.maxHp + (varOffset * enemyNumber), (startBossHP * enemyHPMult));     //Changes MaxHP
+                    Memory.WriteInt(Enemies.Enemy0.abs + (varOffset * enemyNumber), (startAbs * enemyABSMult));         //Changes ABS reward
+                    Memory.WriteInt(Enemies.Enemy0.itemResistance + (varOffset * enemyNumber), enemyItemResistMulti);   //Changes the enemies item resistance
+                    Memory.WriteInt(Enemies.Enemy0.minGoldDrop + (varOffset * enemyNumber), startGold * enemyGoldMult); //Changes the enemies gilda drop amount
+                    Memory.WriteInt(Enemies.Enemy0.dropChance + (varOffset * enemyNumber), enemyDropChance);            //Changes the enemies drop chance
+                    return true;
                 }
-            } return false;
+                //Retry if landing on a flying enemy
+                else { Console.WriteLine("Miniboss landed on flying enemy!"); MiniBossSpawn(true); }
+            }
+            else Console.WriteLine("Failed to roll for Mini Boos"); 
+            return false;
         }
     }
 }

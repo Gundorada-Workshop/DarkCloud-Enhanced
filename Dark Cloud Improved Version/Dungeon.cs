@@ -12,13 +12,13 @@ namespace Dark_Cloud_Improved_Version
         public const uint MagicCircleTwo_PosY = 0x21DE61E8;
         public const uint MagicCircleThree_PosX = 0x21DE61E0;
         public const uint MagicCircleThree_PosY = 0x21DE61E8;
+
     }
 
     public class DungeonThread
     {
         static int currentAddress;
         static int currentFloor;
-        static int currentDungeon;
         static int prevFloor = 200;
         static bool clownOnScreen = false;
         static bool chronicle2 = false;
@@ -29,39 +29,71 @@ namespace Dark_Cloud_Improved_Version
         public static bool monsterQuestJakeActive = false;
         public static bool monsterQuestChiefActive = false;
 
+        public static List<byte> GetDungeonGateKey(byte dungeon)
+        {
+            List<byte> key = new List<byte>();
+
+            switch (dungeon)
+            {
+                //DBC
+                case 0:
+                    key.Add(195); break;
+                //Wise Owl
+                case 1:
+                    key.Add(196); key.Add(198); key.Add(205); break; 
+                //Shipwreck
+                case 2:
+                    key.Add(201); break;
+                //Sun&Moon
+                case 3:
+                    key.Add(202); break;
+                //Moon Sea
+                case 4:
+                    key.Add(203); break;
+                //Gallery
+                case 5:
+                    key.Add(204); break;
+                //Demon Shaft
+                case 6:
+                    key.Add(206); break;
+                default:
+                    break;
+            }
+            return key;
+        }
+
+        public static byte GetCurrentFloor()
+        {
+            return Memory.ReadByte(Addresses.checkFloor);
+        }
+
         public static List<byte> GetDungeonEventFloors(byte dungeon)
         {
             List<byte> floors = new List<byte>();
 
             switch (dungeon)
             {
+                //DBC
                 case 0:
-                    floors.Add(3);
-                    floors.Add(7);
-                    floors.Add(14);
-                    break;
+                    floors.Add(3); floors.Add(7); floors.Add(14); break;
+                //Wise Owl
                 case 1:
-                    floors.Add(8);
-                    floors.Add(16);
-                    break;
+                    floors.Add(8); floors.Add(16); break;
+                //Shipwreck
                 case 2:
-                    floors.Add(8);
-                    floors.Add(16);
-                    break;
+                    floors.Add(8); floors.Add(16); break;
+                //Sun&Moon
                 case 3:
-                    floors.Add(8);
-                    floors.Add(17);
-                    break;
+                    floors.Add(8); floors.Add(17); break;
+                //Moon Sea
                 case 4:
-                    floors.Add(7);
-                    floors.Add(14);
-                    break;
+                    floors.Add(7); floors.Add(14); break;
+                //Gallery
                 case 5:
-                    floors.Add(24);
-                    break;
+                    floors.Add(24); break;
+                //Demon Shaft
                 case 6:
-                    floors.Add(99);
-                    break;
+                    floors.Add(99); break;
                 default:
                     break;
             }
@@ -132,24 +164,38 @@ namespace Dark_Cloud_Improved_Version
                     if (currentFloor != prevFloor)  //checking if player has entered a new floor
                     {
                         
-                        Console.WriteLine("new floor");
-                        currentDungeon = Memory.ReadUShort(Addresses.checkDungeon);
+                        Console.WriteLine("Player has entered a new floor!");
+                        byte currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+                        bool hasMiniBoss = false;
+
                         Thread.Sleep(4000);
+
                         chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
                         CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
 
-                        bool HasMiniBoss = MiniBossThread.MiniBossSpawn();
-                        Thread.Sleep(3500); //Wait an addition 3.5 seconds to check if a limited floor message is present
-                        int DungeonMessage = Memory.ReadInt(0x21EA76B4);
-                        Console.WriteLine(DungeonMessage);
+                        //Define event and boss floors
+                        List<byte> excludeFloors = GetDungeonEventFloors(currentDungeon);
 
-                        if (HasMiniBoss && DungeonMessage == -1)
+                        //Check if player is not on an event floor and call the Mini Boss
+                        if (!excludeFloors.Contains(GetCurrentFloor())) hasMiniBoss = MiniBossThread.MiniBossSpawn();
+                        else Console.WriteLine("Player has entered an event floor!");
+
+                        //Wait an addition 3.5 seconds to check if a limited floor message is present
+                        Thread.Sleep(3500); 
+
+                        //Fetch the dungeon message displayed
+                        int DungeonMessage = Memory.ReadInt(0x21EA76B4);
+
+                        //Check if Mini Boss spawned and no dungeon message is displaying
+                        if (hasMiniBoss && DungeonMessage == -1)
                         {
                             Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
                         }
-                        if (HasMiniBoss && DungeonMessage != -1)
+                        
+                        //Check if Mini Boss spawned and a dungeon message is displaying
+                        if (hasMiniBoss && DungeonMessage != -1)
                         {
-                            Thread.Sleep(4100);
+                            Thread.Sleep(4100); //Wait roughly the amount of time of the floor introduction cutscene
                             Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
                         }
 
