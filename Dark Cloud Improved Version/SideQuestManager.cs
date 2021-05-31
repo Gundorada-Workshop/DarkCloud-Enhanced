@@ -42,6 +42,8 @@ namespace Dark_Cloud_Improved_Version
         static int randomizedFPoints = 0;
         static int fishMultiplier = 0;
         public static int generatedNeededFishCount = 0;
+        public static int generatedMinFishSize = 0;
+        public static int generatedMaxFishSize = 0;
         public static string generatedEnemyName;
         public static string generatedMonsterQuestDungeon;
         public static int generatedEnemyKillsNeeded;
@@ -154,13 +156,12 @@ namespace Dark_Cloud_Improved_Version
             else if (characterID == 13872) //pike
             {
                 TownCharacter.characterIDData = characterID;
+                SetSideQuestAddresses(characterID);
                 if (Memory.ReadByte(0x21CE4416) == 0)
                 {
-                    SetSideQuestAddresses(characterID);
-
                     int whichQuest = rnd.Next(100);
 
-                    if (whichQuest < 100)
+                    if (whichQuest < 50)
                     {
                         Memory.WriteOneByte(0x21CE4417, BitConverter.GetBytes(0));
                         GenerateFishingQuestOne();
@@ -168,7 +169,9 @@ namespace Dark_Cloud_Improved_Version
                     }
                     else
                     {
-                        SetSideQuestAddresses(characterID);
+                        Memory.WriteOneByte(0x21CE4417, BitConverter.GetBytes(1));
+                        GenerateFishingQuestTwo();
+                        currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize +" cm to " + generatedMaxFishSize + " cm^at the Norune Pond.^Good luck!";
                     }
                 }
                 else if (Memory.ReadByte(0x21CE4416) == 1)
@@ -180,12 +183,20 @@ namespace Dark_Cloud_Improved_Version
                     }
                     else
                     {
-
+                        GetFishingQuestTwoValues();
+                        currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Norune Pond.^Good luck!";
                     }
                 }
                 else if (Memory.ReadByte(0x21CE4416) == 2)
                 {
-                    RollFishingQuestReward(0);
+                    if (Memory.ReadByte(0x21CE4417) == 0)
+                    {
+                        RollFishingQuestReward(0);
+                    }
+                    else
+                    {
+                        RollFishingQuestTwoReward();
+                    }
                     currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                 }
             }
@@ -429,6 +440,22 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteOneByte(currentAddressOriginalFishCounter, BitConverter.GetBytes(generatedNeededFishCount));
         }
 
+        public static void GenerateFishingQuestTwo()
+        {
+            int currentlocation = Memory.ReadByte(0x202A2518);
+
+            switch (currentlocation)
+            {
+                case 0:
+                    int fishSize = rnd.Next(80, 141);
+                    generatedMinFishSize = fishSize;
+                    generatedMaxFishSize = fishSize + 5;
+                    Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
+                    Memory.WriteOneByte(currentAddressFishMaxSizeReq, BitConverter.GetBytes(generatedMaxFishSize));
+                    break;
+            }
+        }
+
         public static void GetFishingQuestOneValues(int area)
         {
             getFishID = Memory.ReadByte(currentAddressFishName);
@@ -444,6 +471,12 @@ namespace Dark_Cloud_Improved_Version
             generatedNeededFishCount = getFishCounter;           
         }
 
+        public static void GetFishingQuestTwoValues()
+        {
+            generatedMinFishSize = Memory.ReadByte(currentAddressFishMinSizeReq);
+            generatedMaxFishSize = Memory.ReadByte(currentAddressFishMaxSizeReq);
+        }
+
         public static void RollFishingQuestReward(int area)
         {
             if (area == 0)
@@ -452,6 +485,11 @@ namespace Dark_Cloud_Improved_Version
                 fishMultiplier = Memory.ReadByte(0x21CE441D);
                 fishingPoints = randomizedFPoints * fishMultiplier;
             }                    
+        }
+
+        public static void RollFishingQuestTwoReward()
+        {
+            fishingPoints = rnd.Next(Memory.ReadByte(currentAddressFishMaxSizeReq) - 30, Memory.ReadByte(currentAddressFishMaxSizeReq));
         }
 
         public static void GetFishingQuestReward()

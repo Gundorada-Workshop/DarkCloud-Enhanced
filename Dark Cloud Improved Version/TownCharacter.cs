@@ -50,6 +50,8 @@ namespace Dark_Cloud_Improved_Version
         static bool fishingActive = false;
         static bool[] fishCaught = new bool[6];
 
+        static float fishSizeFloat = 0;
+
         public static bool talkableNPC = true;
         public static bool shopkeeper = false;
         public static bool fishingQuestPikeActive = false;
@@ -66,6 +68,10 @@ namespace Dark_Cloud_Improved_Version
         static int partsCollected = 0;
         static int currentArea;
         static int buildingCheck;
+        static int minFishSize = 0;
+        static int maxFishSize = 0;
+        static int fishSizeInt = 0;
+        static int fishSizeAddress = 0;
         public static int characterIDData;
         public static int sidequestDialogueID = 0;
         
@@ -1002,14 +1008,27 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadByte(0x21CE4416) == 1)
                     {
                         fishingQuestPikeActive = true;
-                        currentAddress = 0x214798D0;
 
-                        for (int i = 0; i < 4; i++)
+                        if (Memory.ReadByte(0x21CE4417) == 0) //check if fishing quest one
                         {
-                            fishArray[i] = Memory.ReadByte(currentAddress);
-                            currentAddress += 0x00002410;
-                            Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
-                            fishCaught[i] = false;
+                            currentAddress = 0x214798D0;
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                fishArray[i] = Memory.ReadByte(currentAddress);
+                                currentAddress += 0x00002410;
+                                Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
+                                fishCaught[i] = false;
+                            }
+                        }
+                        else //fishing quest two
+                        {
+                            minFishSize = Memory.ReadByte(0x21CE441B);
+                            maxFishSize = Memory.ReadByte(0x21CE441C);
+                            for (int i = 0; i < 4; i++)
+                            {
+                                fishCaught[i] = false;
+                            }
                         }
                     }
                 }
@@ -1023,20 +1042,38 @@ namespace Dark_Cloud_Improved_Version
                             fishCaught[i] = true;
                             Console.WriteLine("Fish caught");
 
-                            if (fishArray[i] == Memory.ReadByte(0x21CE4419)) //check if caught fish matches quest fish ID
+                            if (Memory.ReadByte(0x21CE4417) == 0) //check if fishing quest one
                             {
-                                Console.WriteLine("Quest progress +1!");
+                                if (fishArray[i] == Memory.ReadByte(0x21CE4419)) //check if caught fish matches quest fish ID
+                                {
+                                    Console.WriteLine("Quest progress +1!");
 
-                                byte fishleft = Memory.ReadByte(0x21CE441A);
-                                fishleft--;
-                                Memory.WriteByte(0x21CE441A, fishleft);
+                                    byte fishleft = Memory.ReadByte(0x21CE441A);
+                                    fishleft--;
+                                    Memory.WriteByte(0x21CE441A, fishleft);
 
-                                if (fishleft == 0)
+                                    if (fishleft == 0)
+                                    {
+                                        Console.WriteLine("Quest complete!!");
+                                        Memory.WriteByte(0x21CE4416, 2);
+                                        fishingQuestPikeActive = false;
+                                    }
+                                }
+                            }
+                            else //fishing quest two
+                            {
+                                fishSizeAddress = currentAddress + 0x00000060;
+                                fishSizeFloat = Memory.ReadFloat(fishSizeAddress);
+                                fishSizeFloat = fishSizeFloat * 10;
+                                fishSizeFloat = (float)System.Math.Floor(fishSizeFloat);
+                                fishSizeInt = Convert.ToInt32(fishSizeFloat);
+
+                                if (minFishSize <= fishSizeInt && maxFishSize >= fishSizeInt)
                                 {
                                     Console.WriteLine("Quest complete!!");
                                     Memory.WriteByte(0x21CE4416, 2);
                                     fishingQuestPikeActive = false;
-                                }
+                                }                             
                             }
                         }
 
