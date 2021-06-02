@@ -18,7 +18,7 @@ namespace Dark_Cloud_Improved_Version
         static string[] GOFEnemies = { "Rash Dashers", "Jokers", "Mimics", "Alexanders" };
         static string[] NorunePondFish = { "Nilers", "Gummies", "Nonkies", "Gobblers" };
         static string[] MatatakiPondFish = { "Baku Bakus", "Gobblers", "Tartons", "Umadakaras" };
-        static string[] MatatakiWaterfallFish = { "Nonkies", "Baku Bakus", "Gummies", "Mardan Garayan", "Baron Garayan" };
+        static string[] MatatakiWaterfallFish = { "Baku Bakus", "Nonkies", "Gummies", "Mardan Garayan", "Baron Garayan" };
         static string[] QueensSeaFish = { "Bobos", "Kaijis", "Piccolys", "Bons", "Hamahamas" };
         static string[] MuskaOasisFish = { "Negies", "Dens", "Heelas", "Mardan Garayans", "Baron Garayan" };
         //fish ID list:  0 = bobo, 1 = gobbler, 2 = nonky, 3 = kaiji, 4 = baku baku, 5 = mardan, 6 = gummy, 7 = niler , 8 = NULL , 9 = umadakara , 10 = tarton , 11 = piccoly , 12 = bon, 13 = hamahama , 14 = negie, 15 = den , 16 = heela, 17 = baron
@@ -30,7 +30,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] GOFEnemyIDs = { 63, 48, 83, 43 };
         static int[] NorunePondFishIDs = { 7, 6, 2, 1 };
         static int[] MatatakiPondFishIDs = { 4, 1, 10, 9 };
-        static int[] MatatakiWaterfallFishIDs = { 2, 4, 6, 5, 17 };
+        static int[] MatatakiWaterfallFishIDs = { 4, 2, 6, 5, 17 };
         static int[] QueensSeaFishIDs = { 0, 3, 11, 12, 13 };
         static int[] MuskaOasisFishIDs = { 14, 15, 16, 5, 17 };
         static int rolledDng = 0;
@@ -41,6 +41,8 @@ namespace Dark_Cloud_Improved_Version
         static int fishingPoints = 0;
         static int randomizedFPoints = 0;
         static int fishMultiplier = 0;
+        static int matatakiLocation = 0;
+        static int matatakiLocationID = 0;
         public static int generatedNeededFishCount = 0;
         public static int generatedMinFishSize = 0;
         public static int generatedMaxFishSize = 0;
@@ -69,6 +71,7 @@ namespace Dark_Cloud_Improved_Version
         static int currentAddressFishMinSizeReq;
         static int currentAddressFishMaxSizeReq;
         static int currentAddressOriginalFishCounter;
+        static int currentAddressMatatakiLocation;
 
         static Random rnd = new Random();
         public static string GetQuestDialogue(string currentDialogue, int characterID)
@@ -200,6 +203,73 @@ namespace Dark_Cloud_Improved_Version
                     currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                 }
             }
+            else if (characterID == 13362) //pao
+            {
+                TownCharacter.characterIDData = characterID;
+                SetSideQuestAddresses(characterID);
+
+                if (Memory.ReadByte(0x21CE441E) == 0)
+                {
+                    matatakiLocation = rnd.Next(100);
+                    int whichQuest = rnd.Next(100);
+
+                    if (whichQuest < 200)
+                    {
+                        Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(0));
+                        GenerateFishingQuestOne();
+                        if (matatakiLocationID == 0 )
+                        {
+                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the^Matataki Pond. Good luck!";
+                        }
+                        else if (matatakiLocationID == 1)
+                        {
+                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the^Matataki Waterfall. Good luck!";
+                        }
+                        else
+                        {
+                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " anywhere in^Matataki Village. Good luck!";
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+
+                }
+                else if (Memory.ReadByte(0x21CE441E) == 1)
+                {
+                    if (Memory.ReadByte(0x21CE441F) == 0)
+                    {
+                        GetFishingQuestOneValues(1);
+                        if (matatakiLocationID == 0)
+                        {
+                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Matataki Pond,^just " + generatedNeededFishCount + " left!";
+                        }
+                        else if (matatakiLocationID == 1)
+                        {
+                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Matataki^Waterfall, just " + generatedNeededFishCount + " left!";
+                        }
+                        else
+                        {
+                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " anywhere in Matataki^Village, just " + generatedNeededFishCount + " left!";
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE441E) == 2)
+                {
+                    if (Memory.ReadByte(0x21CE441F) == 0)
+                    {
+                        RollFishingQuestReward(1);
+                    }
+
+                    currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
+                }
+
+            }
             return currentDialogue;
         }
 
@@ -315,7 +385,7 @@ namespace Dark_Cloud_Improved_Version
                 currentAddressEnemyCounter = 0x21CE4414;
                 currentAddressEnemyID = 0x21CE4415;
             }
-            else if (characterID == 13872)
+            else if (characterID == 13872) //pike
             {
                 currentAddressFishingQuestType = 0x21CE4417;
                 currentAddressFishName = 0x21CE4418;
@@ -324,6 +394,17 @@ namespace Dark_Cloud_Improved_Version
                 currentAddressFishMinSizeReq = 0x21CE441B;
                 currentAddressFishMaxSizeReq = 0x21CE441C;
                 currentAddressOriginalFishCounter = 0x21CE441D;
+            }
+            else if (characterID == 13362) //pao
+            {
+                currentAddressFishingQuestType = 0x21CE441F;
+                currentAddressFishName = 0x21CE4420;
+                currentAddressFishID = 0x21CE4421;
+                currentAddressFishLeftCounter = 0x21CE4422;
+                currentAddressFishMinSizeReq = 0x21CE4423;
+                currentAddressFishMaxSizeReq = 0x21CE4424;
+                currentAddressOriginalFishCounter = 0x21CE4425;
+                currentAddressMatatakiLocation = 0x21CE4426;
             }
         }
 
@@ -432,6 +513,50 @@ namespace Dark_Cloud_Improved_Version
                     fishID = NorunePondFishIDs[rolledFish];
                     generatedNeededFishCount = rnd.Next(2, 3);
                     break;
+                case 1:
+                    if (matatakiLocation < 50)
+                    {
+                        rolledFish = rnd.Next(0, MatatakiPondFish.Length);
+                        generatedFishName = MatatakiPondFish[rolledFish];
+                        fishID = MatatakiPondFishIDs[rolledFish];
+                        generatedNeededFishCount = rnd.Next(2, 3);
+                        if (rolledFish == 0)
+                        {
+                            matatakiLocationID = 2;
+                        }
+                        else
+                        {
+                            matatakiLocationID = 0;
+                        }
+                    }
+                    else
+                    {
+                        rolledFish = rnd.Next(0, MatatakiWaterfallFish.Length);
+                        if (rolledFish == 3 || rolledFish == 4) //mardan/baron
+                        {
+                            rolledFish = rnd.Next(0, MatatakiWaterfallFish.Length);
+                        }
+                        generatedFishName = MatatakiWaterfallFish[rolledFish];
+                        fishID = MatatakiWaterfallFishIDs[rolledFish];
+                        if (rolledFish == 3 || rolledFish == 4) //mardan/baron
+                        {
+                            generatedNeededFishCount = 1;
+                        }
+                        else
+                        {
+                            generatedNeededFishCount = rnd.Next(2, 3);
+                        }
+                        if (rolledFish == 0)
+                        {
+                            matatakiLocationID = 2;
+                        }
+                        else
+                        {
+                            matatakiLocationID = 1;
+                        }
+                    }
+                    Memory.WriteOneByte(currentAddressMatatakiLocation, BitConverter.GetBytes(matatakiLocationID));
+                    break;
             }
 
             Memory.WriteOneByte(currentAddressFishName, BitConverter.GetBytes(rolledFish));
@@ -466,6 +591,21 @@ namespace Dark_Cloud_Improved_Version
                 case 0:
                     generatedFishName = NorunePondFish[getFishID];
                     break;
+                case 1:
+                    matatakiLocationID = Memory.ReadByte(currentAddressMatatakiLocation);
+                    if (matatakiLocationID == 0)
+                    {
+                        generatedFishName = MatatakiPondFish[getFishID];
+                    }
+                    else if (matatakiLocationID == 1)
+                    {
+                        generatedFishName = MatatakiWaterfallFish[getFishID];
+                    }
+                    else
+                    {
+                        generatedFishName = MatatakiPondFish[getFishID];
+                    }              
+                    break;
             }
 
             generatedNeededFishCount = getFishCounter;           
@@ -484,7 +624,13 @@ namespace Dark_Cloud_Improved_Version
                 randomizedFPoints = rnd.Next(30, 61);
                 fishMultiplier = Memory.ReadByte(0x21CE441D);
                 fishingPoints = randomizedFPoints * fishMultiplier;
-            }                    
+            }
+            else if (area == 1)
+            {
+                randomizedFPoints = rnd.Next(35, 66);
+                fishMultiplier = Memory.ReadByte(0x21CE4425);
+                fishingPoints = randomizedFPoints * fishMultiplier;
+            }
         }
 
         public static void RollFishingQuestTwoReward()

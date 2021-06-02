@@ -55,6 +55,7 @@ namespace Dark_Cloud_Improved_Version
         public static bool talkableNPC = true;
         public static bool shopkeeper = false;
         public static bool fishingQuestPikeActive = false;
+        public static bool fishingQuestPaoActive = false;
         
         public static int onDialogueFlag = 0;
         public static int sidequestonDialogueFlag = 0;
@@ -780,6 +781,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     fishingActive = true;
                     fishingQuestPikeActive = false;
+                    fishingQuestPaoActive = false;
                 }
 
                 if (fishingActive == true)
@@ -981,7 +983,7 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(0));
                 }
             }
-            else if (characterIDData == 13872)
+            else if (characterIDData == 13872) //pike
             {
                 if (Memory.ReadByte(0x21CE4416) == 0)
                 {
@@ -995,6 +997,22 @@ namespace Dark_Cloud_Improved_Version
                 {
                     SideQuestManager.GetFishingQuestReward();
                     Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(0));
+                }
+            }
+            else if (characterIDData == 13362)
+            {
+                if (Memory.ReadByte(0x21CE441E) == 0)
+                {
+                    Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(1));
+                }
+                else if (Memory.ReadByte(0x21CE441E) == 1)
+                {
+                    //Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(2));
+                }
+                else if (Memory.ReadByte(0x21CE441E) == 2)
+                {
+                    SideQuestManager.GetFishingQuestReward();
+                    Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(0));
                 }
             }
         }
@@ -1074,6 +1092,70 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(0x21CE4416, 2);
                                     fishingQuestPikeActive = false;
                                 }                             
+                            }
+                        }
+
+                        currentAddress += 0x00002410;
+                    }
+                }
+            }
+            else if (area == 1)
+            {
+                if (!fishingQuestPaoActive)
+                {
+                    if (Memory.ReadByte(0x21CE441E) == 1)
+                    {
+                        fishingQuestPaoActive = true;
+
+                        if (Memory.ReadByte(0x21CE441F) == 0)
+                        {
+                            currentAddress = 0x214D9910;
+
+                            for (int i = 0; i < 5; i++)
+                            {
+                                fishArray[i] = Memory.ReadByte(currentAddress);
+                                currentAddress += 0x00002410;
+                                Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
+                                fishCaught[i] = false;
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+                else
+                {
+                    currentAddress = 0x214D9910;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (Memory.ReadByte(currentAddress) == 255 && fishCaught[i] == false && Memory.ReadByte(0x202A26E8) == 12)
+                        {
+                            fishCaught[i] = true;
+                            Console.WriteLine("Fish caught");
+
+                            if (Memory.ReadByte(0x21CE441F) == 0)
+                            {
+                                if (fishArray[i] == Memory.ReadByte(0x21CE4421))
+                                {
+                                    Console.WriteLine("Quest progress +1!");
+
+                                    byte fishleft = Memory.ReadByte(0x21CE4422);
+                                    fishleft--;
+                                    Memory.WriteByte(0x21CE4422, fishleft);
+
+                                    if (fishleft == 0)
+                                    {
+                                        Console.WriteLine("Quest complete!!");
+                                        Memory.WriteByte(0x21CE441E, 2);
+                                        fishingQuestPaoActive = false;
+                                    }
+                                }
+                            }
+                            else
+                            {
+
                             }
                         }
 

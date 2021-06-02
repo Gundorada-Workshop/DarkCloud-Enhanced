@@ -79,7 +79,7 @@ namespace Dark_Cloud_Improved_Version
         static int savedDialogueCheck;
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
         static int[] norunesidequestCharacters = { 12592, 13872 };
-        static int[] matatakisidequestCharacters = { 13618 };
+        static int[] matatakisidequestCharacters = { 13618, 13362 };
         static int[] queenssidequestCharacters = { 13108 };
         static int[] muskarackasidequestCharacters = { 14388 };
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
