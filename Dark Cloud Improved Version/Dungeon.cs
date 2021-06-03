@@ -62,6 +62,36 @@ namespace Dark_Cloud_Improved_Version
             return key;
         }
 
+        public static byte GetDungeonBackFloorKey(byte dungeon)
+        {
+            switch (dungeon)
+            {
+                //DBC
+                case 0:
+                    return 224;
+                //Wise Owl
+                case 1:
+                    return 225;
+                //Shipwreck
+                case 2:
+                    return 226;
+                //Sun&Moon
+                case 3:
+                    return 228;
+                //Moon Sea
+                case 4:
+                    return 229;
+                //Gallery
+                case 5:
+                    return 230;
+                //Demon Shaft
+                case 6:
+                    return 231;
+                default:
+                    return 255;
+            }
+        }
+
         public static byte GetCurrentFloor()
         {
             return Memory.ReadByte(Addresses.checkFloor);
@@ -176,11 +206,44 @@ namespace Dark_Cloud_Improved_Version
                         //Define event and boss floors
                         List<byte> excludeFloors = GetDungeonEventFloors(currentDungeon);
 
-                        //Check if player is not on an event floor and call the Mini Boss
-                        if (!excludeFloors.Contains(GetCurrentFloor())) hasMiniBoss = MiniBossThread.MiniBossSpawn();
-                        else Console.WriteLine("Player has entered an event floor!");
+                        byte numNormalEnemies = 0;
+
+                        //Get the quantity of normal enemies in the floor
+                        foreach (byte enemy in Enemies.GetFloorEnemiesIds())
+                        {
+                            if (Enemies.GetNormalEnemies().ContainsKey(enemy)) numNormalEnemies++;
+                        }
+
+                        //Check if there are more than 3 normal enemies in the floor
+                        //This is to account for the Wise Owl 3 keys
+                        //There needs to be enough normal enemies to roll for the miniboss in order to avoid infinite retries
+                        if (numNormalEnemies > 3)
+                        {
+                            //Check if player is not on an event floor and call the Mini Boss
+                            if (!excludeFloors.Contains(GetCurrentFloor())) hasMiniBoss = MiniBoss.MiniBossSpawn(); else Console.WriteLine("Player has entered an event floor!");
+                        }
+                        else Console.WriteLine("Not enough normal enemies in floor!");
 
                         //Wait an addition 3.5 seconds to check if a limited floor message is present
+                        Thread.Sleep(3500);
+
+                        //Fetch the dungeon message displayed
+                        int DungeonMessage = Addresses.dunMessage;
+
+                        //Check if Mini Boss spawned and no dungeon message is displaying
+                        if (hasMiniBoss && DungeonMessage == -1)
+                        {
+                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
+                        }
+                        
+                        //Check if Mini Boss spawned and a dungeon message is displaying
+                        if (hasMiniBoss && DungeonMessage != -1)
+                        {
+                            Thread.Sleep(4100); //Wait roughly the amount of time of the floor introduction cutscene
+                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
+                        }
+
+                        /*//Wait an addition 3.5 seconds to check if a limited floor message is present
                         Thread.Sleep(3500); 
 
                         //Fetch the dungeon message displayed
@@ -197,7 +260,7 @@ namespace Dark_Cloud_Improved_Version
                         {
                             Thread.Sleep(4100); //Wait roughly the amount of time of the floor introduction cutscene
                             Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
-                        }
+                        }*/
 
                         monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
                         for (int i = 0; i < monstersDead.Length; i++)

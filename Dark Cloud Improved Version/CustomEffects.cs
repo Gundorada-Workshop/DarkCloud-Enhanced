@@ -112,7 +112,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         //Change the each of the enemy axis dimensions (X,Y and Z) based on the offset from the original Enemy 0 address
                         Memory.WriteFloat(MiniBoss.enemyZeroWidth + (scaleOffset * id), enemyZeroWidth - (i * 0.0001f));
-                        Memory.WriteFloat(MiniBoss.enemyZeroHight + (scaleOffset * id), enemyZeroHeight - (i * 0.0001f));
+                        Memory.WriteFloat(MiniBoss.enemyZeroHeight + (scaleOffset * id), enemyZeroHeight - (i * 0.0001f));
                         Memory.WriteFloat(MiniBoss.enemyZeroDepth + (scaleOffset * id), enemyZeroDepth - (i * 0.0001f));
                         i++;
                         counter++;

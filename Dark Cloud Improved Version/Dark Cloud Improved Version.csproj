@@ -60,7 +60,6 @@
     <Compile Include="CheatCodes.cs" />
     <Compile Include="SideQuestManager.cs" />
     <Compile Include="MiniBoss.cs" />
-    <Compile Include="MiniBossThread.cs" />
     <Compile Include="TASThread.cs" />
     <Compile Include="Dialogues.cs" />
     <Compile Include="CustomEffects.cs" />

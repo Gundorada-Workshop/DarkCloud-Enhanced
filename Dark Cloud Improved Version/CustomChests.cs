@@ -97,6 +97,40 @@ namespace Dark_Cloud_Improved_Version
 
         static Random rnd = new Random();
 
+        public static int[] GetBackFloorItems()
+        {
+            return BackfloorItems;
+        }
+
+        public static int[] GetDungeonWeaponsTable(byte dungeon, byte floor)
+        {
+            switch (dungeon)
+            {
+                case 0:
+                    if (floor <= 8) { return dbcFirstHalfWeapons; } else return dbcSecondHalfWeapons;
+
+                case 1:
+                    if (floor <= 9) { return wiseowlFirstHalfWeapons; } else return wiseowlSecondHalfWeapons;
+
+                case 2:
+                    if (floor <= 9) { return shipwreckFirstHalfWeapons; } else return shipwreckSecondHalfWeapons;
+
+                case 3:
+                    if (floor <= 9) { return sunmoonFirstHalfWeapons; } else return sunmoonSecondHalfWeapons;
+
+                case 4:
+                    if (floor <= 8) { return moonseaFirstHalfWeapons; } else return moonseaSecondHalfWeapons;
+
+                case 5:
+                    return galleryWeapons;
+
+                case 6:
+                    return demonshaftWeapons;
+
+                default:
+                    return null;
+            }
+        }
 
         public static void ChestRandomizer(int currentDungeon, int currentFloor, bool chronicle2)
         {

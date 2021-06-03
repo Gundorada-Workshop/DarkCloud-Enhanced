@@ -38,9 +38,6 @@ namespace Dark_Cloud_Improved_Version
             //place here the function you want to use from your .cs file
             if (!dungeonthread.IsAlive) //If we are not already running
                 dungeonthread.Start(); //Start thread
-
-            if (!debugThread.IsAlive) //If we are not already running
-                debugThread.Start(); //Start thread
         }
 
         private void button3_Click(object sender, EventArgs e)      //plgue
