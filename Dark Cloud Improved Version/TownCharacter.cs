@@ -905,9 +905,14 @@ namespace Dark_Cloud_Improved_Version
                 if (currentArea == 0)
                 {
                     Memory.WriteOneByte(0x2041BF4E, BitConverter.GetBytes(1)); //disable fishing
-                    Dialogues.SetFishingDisabledDialogue(currentArea);
-                    Console.WriteLine("Fishing disabled");
+                    Dialogues.SetFishingDisabledDialogue(currentArea);               
                 }
+                else if (currentArea == 1)
+                {
+                    Memory.WriteOneByte(0x2041AABA, BitConverter.GetBytes(1)); //disable fishing
+                    Dialogues.SetFishingDisabledDialogue(currentArea);
+                }
+                Console.WriteLine("Fishing disabled");
             }
         }
 
@@ -1121,7 +1126,12 @@ namespace Dark_Cloud_Improved_Version
                         }
                         else
                         {
-
+                            minFishSize = Memory.ReadByte(0x21CE4423);
+                            maxFishSize = Memory.ReadByte(0x21CE4424);
+                            for (int i = 0; i < 4; i++)
+                            {
+                                fishCaught[i] = false;
+                            }
                         }
                     }
                 }
@@ -1155,7 +1165,18 @@ namespace Dark_Cloud_Improved_Version
                             }
                             else
                             {
+                                fishSizeAddress = currentAddress + 0x00000060;
+                                fishSizeFloat = Memory.ReadFloat(fishSizeAddress);
+                                fishSizeFloat = fishSizeFloat * 10;
+                                fishSizeFloat = (float)System.Math.Floor(fishSizeFloat);
+                                fishSizeInt = Convert.ToInt32(fishSizeFloat);
 
+                                if (minFishSize <= fishSizeInt && maxFishSize >= fishSizeInt)
+                                {
+                                    Console.WriteLine("Quest complete!!");
+                                    Memory.WriteByte(0x21CE441E, 2);
+                                    fishingQuestPikeActive = false;
+                                }
                             }
                         }
 

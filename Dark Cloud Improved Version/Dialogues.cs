@@ -1103,26 +1103,15 @@ namespace Dark_Cloud_Improved_Version
             }
             else
             {
-                if (currentArea == 0)
-                {
-                    storageOriginalDialogue = Memory.ReadByteArray(0x2064C088, 1000);
-                    Console.WriteLine("Storage dialogue stored");
-                }
-                else if (currentArea == 1)
-                {
-                    storageOriginalDialogue = Memory.ReadByteArray(0x2064C492, 1000);
-                    Console.WriteLine("Storage dialogue stored");
-                }
-                else if (currentArea == 2)
-                {
-                    storageOriginalDialogue = Memory.ReadByteArray(0x2064DB3A, 1000);
-                    Console.WriteLine("Storage dialogue stored");
-                }
-                else if (currentArea == 3)
-                {
-                    storageOriginalDialogue = Memory.ReadByteArray(0x2064DDB8, 1000);
-                    Console.WriteLine("Storage dialogue stored");
-                }
+                if (currentArea == 0)       storageOriginalDialogue = Memory.ReadByteArray(0x2064C088, 1000);
+
+                else if (currentArea == 1)  storageOriginalDialogue = Memory.ReadByteArray(0x2064C492, 1000);
+
+                else if (currentArea == 2)  storageOriginalDialogue = Memory.ReadByteArray(0x2064DB3A, 1000);
+
+                else if (currentArea == 3)  storageOriginalDialogue = Memory.ReadByteArray(0x2064DDB8, 1000);
+                
+                Console.WriteLine("Storage dialogue stored");
             }
         }
 
@@ -1133,6 +1122,10 @@ namespace Dark_Cloud_Improved_Version
             if (area == 0)
             {
                 currentAddress = 0x204334F6;
+            }
+            else if (area == 1)
+            {
+                currentAddress = 0x2042F628;
             }
 
             for (int i = 0; i < currentDialogue.Length; i++)
