@@ -28,6 +28,8 @@ namespace Dark_Cloud_Improved_Version
         public static bool monsterQuestGobActive = false;
         public static bool monsterQuestJakeActive = false;
         public static bool monsterQuestChiefActive = false;
+        public static bool hasMiniBoss = false;
+        public static Thread dungeonChecks;
 
         public static List<byte> GetDungeonGateKey(byte dungeon)
         {
@@ -196,7 +198,9 @@ namespace Dark_Cloud_Improved_Version
                         
                         Console.WriteLine("Player has entered a new floor!");
                         byte currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
-                        bool hasMiniBoss = false;
+
+                        dungeonChecks = new Thread(new ThreadStart(CheckStuff));
+                        dungeonChecks.Start();
 
                         Thread.Sleep(4000);
 
@@ -224,9 +228,6 @@ namespace Dark_Cloud_Improved_Version
                         }
                         else Console.WriteLine("Not enough normal enemies in floor!");
 
-                        //Wait an addition 3.5 seconds to check if a limited floor message is present
-                        Thread.Sleep(3500);
-
                         //Fetch the dungeon message displayed
                         int DungeonMessage = Addresses.dunMessage;
 
@@ -239,28 +240,9 @@ namespace Dark_Cloud_Improved_Version
                         //Check if Mini Boss spawned and a dungeon message is displaying
                         if (hasMiniBoss && DungeonMessage != -1)
                         {
-                            Thread.Sleep(4100); //Wait roughly the amount of time of the floor introduction cutscene
+                            Thread.Sleep(5000); //Wait roughly the amount of time of the floor introduction cutscene
                             Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
                         }
-
-                        /*//Wait an addition 3.5 seconds to check if a limited floor message is present
-                        Thread.Sleep(3500); 
-
-                        //Fetch the dungeon message displayed
-                        int DungeonMessage = Memory.ReadInt(0x21EA76B4);
-
-                        //Check if Mini Boss spawned and no dungeon message is displaying
-                        if (hasMiniBoss && DungeonMessage == -1)
-                        {
-                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
-                        }
-                        
-                        //Check if Mini Boss spawned and a dungeon message is displaying
-                        if (hasMiniBoss && DungeonMessage != -1)
-                        {
-                            Thread.Sleep(4100); //Wait roughly the amount of time of the floor introduction cutscene
-                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
-                        }*/
 
                         monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
                         for (int i = 0; i < monstersDead.Length; i++)
@@ -401,6 +383,15 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+        }
+
+        public static void CheckStuff()
+        {
+            Console.WriteLine("CheckStuff started sleep!");
+            Thread.Sleep(10000);
+            Console.WriteLine("CheckStuff ended sleep!");
+
+            dungeonChecks.Abort();
         }
     }
 }

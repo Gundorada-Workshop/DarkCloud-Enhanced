@@ -2298,25 +2298,23 @@ namespace Dark_Cloud_Improved_Version
 
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
-            
-            messageThread = new Thread(() => DisplayMessageCustomTime(displayTime, width, height));
+            Thread.Sleep(50);
+            Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
+            Thread.Sleep(18);
+            Memory.WriteInt(Addresses.dunMessageHeight, height);
+            Memory.WriteInt(Addresses.dunMessageWidth, width);
+            messageThread = new Thread(() => DisplayMessageCustomTime(displayTime));
             messageThread.Start();
-            messageThread.Abort();
 
             return outputMessage;
         }
 
-        public static void DisplayMessageCustomTime(int displayTime, int width, int height)
+        public static void DisplayMessageCustomTime(int displayTime)
         {
-            //while()
-                Thread.Sleep(50);
-                Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
-                Thread.Sleep(18);
-                Memory.WriteInt(Addresses.dunMessageHeight, height);
-                Memory.WriteInt(Addresses.dunMessageWidth, width);
-                Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-                Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
-                Thread.Sleep(displayTime);
+            Thread.Sleep(displayTime);
+            Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
+            Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+            messageThread.Abort();
         }
 
         public static void CallGameFunction(byte[] function) // functionBGMStop

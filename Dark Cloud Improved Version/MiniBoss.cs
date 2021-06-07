@@ -18,9 +18,9 @@ namespace Dark_Cloud_Improved_Version
         public const int scaleOffset = 0x3510;         //Offset for size
         const int varOffset = 0x190;            //Offset for attributes
         const float scaleSize = 1.5F;           //Sets the total size of the miniboss
-        const int enemyHPMult = 5;              //Miniboss HP multiplier
+        const int enemyHPMult = 3;              //Miniboss HP multiplier
         const int enemyABSMult = 3;             //Miniboss ABS multiplier
-        const int enemyItemResistMulti = 10;    //Miniboss Item Resistance multiplier
+        const int enemyItemResistMulti = 10;    //Miniboss Item Resistance multiplier %
         const int enemyGoldMult = 3;            //Miniboss Gilda Drop multiplier
         const int enemyDropChance = 100;        //Miniboss Drop chance % (0 - 100)
         const byte staminaTimer = 79;          //Miniboss Stamina Timer (Currently 79 on the 3rd byte is roughly 1 day)
