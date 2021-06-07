@@ -198,7 +198,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                     else
                     {
-                        RollFishingQuestTwoReward();
+                        RollFishingQuestTwoReward(0);
                     }
                     currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                 }
@@ -213,7 +213,7 @@ namespace Dark_Cloud_Improved_Version
                     matatakiLocation = rnd.Next(100);
                     int whichQuest = rnd.Next(100);
 
-                    if (whichQuest < 200)
+                    if (whichQuest > 200)
                     {
                         Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(0));
                         GenerateFishingQuestOne();
@@ -232,7 +232,9 @@ namespace Dark_Cloud_Improved_Version
                     }
                     else
                     {
-                        
+                        Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(1));
+                        GenerateFishingQuestTwo();
+                        currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^anywhere in Matataki Village.^Good luck!";
                     }
 
                 }
@@ -256,7 +258,8 @@ namespace Dark_Cloud_Improved_Version
                     }
                     else
                     {
-
+                        GetFishingQuestTwoValues();
+                        currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^anywhere in Matataki Village.^Good luck!";
                     }
                 }
                 else if (Memory.ReadByte(0x21CE441E) == 2)
@@ -264,6 +267,10 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadByte(0x21CE441F) == 0)
                     {
                         RollFishingQuestReward(1);
+                    }
+                    else
+                    {
+                        RollFishingQuestTwoReward(1);
                     }
 
                     currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
@@ -568,11 +575,19 @@ namespace Dark_Cloud_Improved_Version
         public static void GenerateFishingQuestTwo()
         {
             int currentlocation = Memory.ReadByte(0x202A2518);
-
+            int fishSize;
             switch (currentlocation)
             {
                 case 0:
-                    int fishSize = rnd.Next(80, 141);
+                    fishSize = rnd.Next(80, 141);
+                    generatedMinFishSize = fishSize;
+                    generatedMaxFishSize = fishSize + 5;
+                    Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
+                    Memory.WriteOneByte(currentAddressFishMaxSizeReq, BitConverter.GetBytes(generatedMaxFishSize));
+                    break;
+
+                case 1:
+                    fishSize = rnd.Next(80, 141);
                     generatedMinFishSize = fishSize;
                     generatedMaxFishSize = fishSize + 5;
                     Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
@@ -633,9 +648,13 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static void RollFishingQuestTwoReward()
+        public static void RollFishingQuestTwoReward(int area)
         {
             fishingPoints = rnd.Next(Memory.ReadByte(currentAddressFishMaxSizeReq) - 30, Memory.ReadByte(currentAddressFishMaxSizeReq));
+            if (area == 1)
+            {
+                fishingPoints += 10;
+            }
         }
 
         public static void GetFishingQuestReward()
