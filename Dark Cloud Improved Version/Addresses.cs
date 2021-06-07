@@ -132,7 +132,7 @@
         public static byte[] functionBGMStop = { 232, 102, 5, 12 };
 
         public const int mode = 0x202A2534; //Values: 0=Main title, 1=Intro, 2=Town, 3=Dungeon, 4=? (doesnt crash in dungeon), 5=Opening cutscene(dark shrine), 6=?, 7=Debug menu
-        public const int checkFloor = 0x21CD954E;   //tells the current floor player is on, updates when entering the floor
+        public const int checkFloor = 0x21CD954E;  //Tells the current floor player is on, updates when entering the floor
         public const int checkDungeon = 0x202A3594; //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
 
         public const int firstChest = 0x21DD0260;   //first chest rolled in the floor

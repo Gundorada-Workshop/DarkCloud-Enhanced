@@ -18,7 +18,7 @@ namespace Dark_Cloud_Improved_Version
     public class DungeonThread
     {
         static int currentAddress;
-        static int currentFloor;
+        static byte currentFloor;
         static int prevFloor = 200;
         static bool clownOnScreen = false;
         static bool chronicle2 = false;
@@ -92,11 +92,6 @@ namespace Dark_Cloud_Improved_Version
                 default:
                     return 255;
             }
-        }
-
-        public static byte GetCurrentFloor()
-        {
-            return Memory.ReadByte(Addresses.checkFloor);
         }
 
         public static List<byte> GetDungeonEventFloors(byte dungeon)
@@ -224,7 +219,7 @@ namespace Dark_Cloud_Improved_Version
                         if (numNormalEnemies > 3)
                         {
                             //Check if player is not on an event floor and call the Mini Boss
-                            if (!excludeFloors.Contains(GetCurrentFloor())) hasMiniBoss = MiniBoss.MiniBossSpawn(); else Console.WriteLine("Player has entered an event floor!");
+                            if (!excludeFloors.Contains(currentFloor)) hasMiniBoss = MiniBoss.MiniBossSpawn(false, currentDungeon, currentFloor); else Console.WriteLine("Player has entered an event floor!");
                         }
                         else Console.WriteLine("Not enough normal enemies in floor!");
 
