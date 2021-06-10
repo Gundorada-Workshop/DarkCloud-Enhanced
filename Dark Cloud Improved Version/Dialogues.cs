@@ -64,6 +64,16 @@ namespace Dark_Cloud_Improved_Version
         static string[] sunmoonUngaga2 = new string[15];
         static string[] sunmoonOsmond = new string[15];
         static string[] sunmoonOsmond2 = new string[15];
+        static string[] yellowdropsXiao = new string[15];
+        static string[] yellowdropsXiao2 = new string[15];
+        static string[] yellowdropsGoro = new string[15];
+        static string[] yellowdropsGoro2 = new string[15];
+        static string[] yellowdropsRuby = new string[15];
+        static string[] yellowdropsRuby2 = new string[15];
+        static string[] yellowdropsUngaga = new string[15];
+        static string[] yellowdropsUngaga2 = new string[15];
+        static string[] yellowdropsOsmond = new string[15];
+        static string[] yellowdropsOsmond2 = new string[15];
         static string currentDialogue;
         static string currentDialogueOptions;
         static string prevDialogue;
@@ -86,6 +96,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
         static int[] muskarackaCharacters = { 13876, 14388, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389 }; //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
         static int[] sunmoonCharacters = { 12337, 13111 };
+        static int[] yellowdropsTalkableCharacterIDs = { 2, 3, 4, 5, 6, 7, 9, 10, 11, 12 };
         static int[] customDialoguesCheck = new int[15];      
         static int[] noruneXiaoCheck = new int[15];
         static int[] noruneGoroCheck = new int[15];
@@ -112,6 +123,11 @@ namespace Dark_Cloud_Improved_Version
         static int[] sunmoonRubyCheck = new int[15];
         static int[] sunmoonUngagaCheck = new int[15];
         static int[] sunmoonOsmondCheck = new int[15];
+        static int[] yellowdropsXiaoCheck = new int[15];
+        static int[] yellowdropsGoroCheck = new int[15];
+        static int[] yellowdropsRubyCheck = new int[15];
+        static int[] yellowdropsUngagaCheck = new int[15];
+        static int[] yellowdropsOsmondCheck = new int[15];
 
         static bool[] itemIDCheckList = new bool[380];
         static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
@@ -197,6 +213,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaXiao2;
                         customDialoguesCheck = muskarackaXiaoCheck;
                     }
+                    else if (currentArea == 23)
+                    {
+                        customDialogues = yellowdropsXiao;
+                        customDialogues2 = yellowdropsXiao2;
+                        customDialoguesCheck = yellowdropsXiaoCheck;
+                    }
                     else if (currentArea == 42)
                     {
                         customDialogues = sunmoonXiao;
@@ -231,6 +253,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = muskarackaGoro;
                         customDialogues2 = muskarackaGoro2;
                         customDialoguesCheck = muskarackaGoroCheck;
+                    }
+                    else if (currentArea == 23)
+                    {
+                        customDialogues = yellowdropsGoro;
+                        customDialogues2 = yellowdropsGoro2;
+                        customDialoguesCheck = yellowdropsGoroCheck;
                     }
                     else if (currentArea == 42)
                     {
@@ -268,6 +296,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaRuby2;
                         customDialoguesCheck = muskarackaRubyCheck;
                     }
+                    else if (currentArea == 23)
+                    {
+                        customDialogues = yellowdropsRuby;
+                        customDialogues2 = yellowdropsRuby2;
+                        customDialoguesCheck = yellowdropsRubyCheck;
+                    }
                     else if (currentArea == 42)
                     {
                         customDialogues = sunmoonRuby;
@@ -304,6 +338,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaUngaga2;
                         customDialoguesCheck = muskarackaUngagaCheck;
                     }
+                    else if (currentArea == 23)
+                    {
+                        customDialogues = yellowdropsUngaga;
+                        customDialogues2 = yellowdropsUngaga2;
+                        customDialoguesCheck = yellowdropsUngagaCheck;
+                    }
                     else if (currentArea == 42)
                     {
                         customDialogues = sunmoonUngaga;
@@ -339,6 +379,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = muskarackaOsmond;
                         customDialogues2 = muskarackaOsmond2;
                         customDialoguesCheck = muskarackaOsmondCheck;
+                    }
+                    else if (currentArea == 23)
+                    {
+                        customDialogues = yellowdropsOsmond;
+                        customDialogues2 = yellowdropsOsmond2;
+                        customDialoguesCheck = yellowdropsOsmondCheck;
                     }
                     else if (currentArea == 42)
                     {
@@ -639,6 +685,34 @@ namespace Dark_Cloud_Improved_Version
                     currentDialogue = "Sup buddy. I don´t have a dialogue yet.";
                 }
             }
+            else if (currentArea == 23)
+            {
+                currentAddress = currentAddress - 0x00000005;
+                byte NPCID = Memory.ReadByte(currentAddress);
+                if (yellowdropsTalkableCharacterIDs.Contains(NPCID))
+                {
+                    if (customDialoguesCheck[NPCID] != 1)
+                    {
+                        currentDialogue = customDialogues[NPCID];
+                        savedDialogueCheck = NPCID;
+                    }
+                    else
+                    {
+                        currentDialogue = customDialogues2[NPCID];
+                        savedDialogueCheck = NPCID;
+                    }
+                }
+
+                if (NPCID == 0 || NPCID == 1)
+                {
+                    TownCharacter.shopkeeper = true;
+                }
+                else
+                {
+                    TownCharacter.shopkeeper = false;
+                }
+
+            }
             else if (currentArea == 42)
             {
                 for (int i = 0; i < sunmoonCharacters.Length; i++)   //search through array to find character match
@@ -698,6 +772,10 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 14)
             {
                 currentAddress = 0x2064ADCA; //pickle's 1st message                   
+            }
+            else if (currentArea == 23)
+            {
+                currentAddress = 0x2064AE4A; //Aily's 1st message (id 240)
             }
             else if (currentArea == 42)
             {
@@ -819,6 +897,10 @@ namespace Dark_Cloud_Improved_Version
                      else
                         defDialogue = "Checking your data... Please wait.";
                 }
+            }
+            else if (area == 23)
+            {
+                currentAddress = 0x20648F50;
             }
             else if (area == 42)
             {
@@ -1376,7 +1458,7 @@ namespace Dark_Cloud_Improved_Version
             noruneGoro2[4] = "You look a little taller than Carl,^is everyone from Matataki Village^so short?";
             noruneGoro2[5] = "Oh, you´ve come from Matataki Village?^I wonder what kind of fish you can^find it there.";
             noruneGoro2[6] = "Norune Village is too quiet sometimes.^Our villagers don´t put much value in^exercise or body strength, they just^live care free.¤I think the other villagers could learn^something from you hunters of Matataki.";
-            noruneGoro2[7] = "Matataki Village sounds like a weird^place, you`re telling me everyone wears^animal skins there?";
+            noruneGoro2[7] = "Matataki Village sounds like a weird^place, you´re telling me everyone wears^animal skins there?";
             noruneGoro2[8] = "When I first saw you I thought^you were Claude, another villager who^lives not too far from here.¤It´s almost like you could be twins,^perhaps distant relatives!";
             noruneGoro2[9] = "I know you like wearing animal skins^but please don´t do anything to our^Llama, we need it for milk and cheese.";
             noruneGoro2[10] = "I wonder what kind of food can be found^in Matataki Village, can you bring some^back for me?";
@@ -1971,6 +2053,139 @@ namespace Dark_Cloud_Improved_Version
             sunmoonOsmond2[0] = "We lost so much during the pandemic^years, countless good people^gone too soon.¤On August 17th 2020, I lost my father^due to cancer and a lot of this^dialogue was inspired by the stories^we would tell each other.¤We´re all missing someone but^it can´t rain all the time.¤This is dedicated to everyone we^lost in the pandemic years,^the young and the old.¤We miss you more than words^can describe, you will all^forever be in our hearts.";
             sunmoonOsmond2[1] = "Oh so you want to know about the^legendary Dark Cloud 3 eh?¤Well if I told you I´d^have to eat you!¤I may look like a cute Moon Bunny^but I´m secretly a Xenomorph!";
 
+
+
+
+            //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            yellowdropsXiao[2] = "I heard that some individuals^on the Blue Terra think that the^Moon People resemble bunnies,^how preposterous!";
+            yellowdropsXiao[3] = "";
+            yellowdropsXiao[4] = "";
+            yellowdropsXiao[5] = "";
+            yellowdropsXiao[6] = "";
+            yellowdropsXiao[7] = "";
+            yellowdropsXiao[9] = "";
+            yellowdropsXiao[10] = "";
+            yellowdropsXiao[11] = "";
+            yellowdropsXiao[12] = "";
+
+            yellowdropsXiao2[2] = "I wonder how it would be to live^just one day on Terra...";
+            yellowdropsXiao2[3] = "";
+            yellowdropsXiao2[4] = "";
+            yellowdropsXiao2[5] = "";
+            yellowdropsXiao2[6] = "";
+            yellowdropsXiao2[7] = "";
+            yellowdropsXiao2[9] = "";
+            yellowdropsXiao2[10] = "";
+            yellowdropsXiao2[11] = "";
+            yellowdropsXiao2[12] = "";
+
+
+
+            //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            yellowdropsGoro[2] = "";
+            yellowdropsGoro[3] = "";
+            yellowdropsGoro[4] = "";
+            yellowdropsGoro[5] = "";
+            yellowdropsGoro[6] = "";
+            yellowdropsGoro[7] = "";
+            yellowdropsGoro[9] = "";
+            yellowdropsGoro[10] = "";
+            yellowdropsGoro[11] = "";
+            yellowdropsGoro[12] = "";
+
+            yellowdropsGoro2[2] = "";
+            yellowdropsGoro2[3] = "";
+            yellowdropsGoro2[4] = "";
+            yellowdropsGoro2[5] = "";
+            yellowdropsGoro2[6] = "";
+            yellowdropsGoro2[7] = "";
+            yellowdropsGoro2[9] = "";
+            yellowdropsGoro2[10] = "";
+            yellowdropsGoro2[11] = "";
+            yellowdropsGoro2[12] = "";
+
+
+
+            //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            yellowdropsRuby[2] = "";
+            yellowdropsRuby[3] = "";
+            yellowdropsRuby[4] = "";
+            yellowdropsRuby[5] = "";
+            yellowdropsRuby[6] = "";
+            yellowdropsRuby[7] = "";
+            yellowdropsRuby[9] = "";
+            yellowdropsRuby[10] = "";
+            yellowdropsRuby[11] = "";
+            yellowdropsRuby[12] = "";
+
+            yellowdropsRuby2[2] = "";
+            yellowdropsRuby2[3] = "";
+            yellowdropsRuby2[4] = "";
+            yellowdropsRuby2[5] = "";
+            yellowdropsRuby2[6] = "";
+            yellowdropsRuby2[7] = "";
+            yellowdropsRuby2[9] = "";
+            yellowdropsRuby2[10] = "";
+            yellowdropsRuby2[11] = "";
+            yellowdropsRuby2[12] = "";
+
+
+            //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            yellowdropsUngaga[2] = "";
+            yellowdropsUngaga[3] = "";
+            yellowdropsUngaga[4] = "";
+            yellowdropsUngaga[5] = "";
+            yellowdropsUngaga[6] = "";
+            yellowdropsUngaga[7] = "";
+            yellowdropsUngaga[9] = "";
+            yellowdropsUngaga[10] = "";
+            yellowdropsUngaga[11] = "";
+            yellowdropsUngaga[12] = "";
+
+            yellowdropsUngaga2[2] = "";
+            yellowdropsUngaga2[3] = "";
+            yellowdropsUngaga2[4] = "";
+            yellowdropsUngaga2[5] = "";
+            yellowdropsUngaga2[6] = "";
+            yellowdropsUngaga2[7] = "";
+            yellowdropsUngaga2[9] = "";
+            yellowdropsUngaga2[10] = "";
+            yellowdropsUngaga2[11] = "";
+            yellowdropsUngaga2[12] = "";
+
+
+            //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            yellowdropsOsmond[2] = "";
+            yellowdropsOsmond[3] = "";
+            yellowdropsOsmond[4] = "";
+            yellowdropsOsmond[5] = "";
+            yellowdropsOsmond[6] = "";
+            yellowdropsOsmond[7] = "";
+            yellowdropsOsmond[9] = "";
+            yellowdropsOsmond[10] = "";
+            yellowdropsOsmond[11] = "";
+            yellowdropsOsmond[12] = "";
+
+            yellowdropsOsmond2[2] = "";
+            yellowdropsOsmond2[3] = "";
+            yellowdropsOsmond2[4] = "";
+            yellowdropsOsmond2[5] = "";
+            yellowdropsOsmond2[6] = "";
+            yellowdropsOsmond2[7] = "";
+            yellowdropsOsmond2[9] = "";
+            yellowdropsOsmond2[10] = "";
+            yellowdropsOsmond2[11] = "";
+            yellowdropsOsmond2[12] = "";
         }
 
     }

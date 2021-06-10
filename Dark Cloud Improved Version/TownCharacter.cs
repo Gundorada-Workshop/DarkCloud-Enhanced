@@ -24,7 +24,7 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
         static byte checkByte;
-        static byte[] townDialogueIDs = { 247, 167, 87, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        static byte[] townDialogueIDs = { 247, 167, 87, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         static byte[] fishArray = new byte[6];
         
 
@@ -490,7 +490,14 @@ namespace Dark_Cloud_Improved_Version
 
                     if (Memory.ReadByte(0x202A2518) == 23)
                     {
-                        Memory.WriteByte(0x21D2849C, 0); //despawn trade quest bunny
+                        if (Memory.ReadByte(0x21D28474) == 8)
+                        {
+                            Memory.WriteByte(0x21D2849C, 0); //despawn trade quest bunny
+                        }
+                        else
+                        {
+                            Memory.WriteByte(0x21D2849C, 1);
+                        }
                     }
                     currentArea = Memory.ReadByte(0x202A2518);
                     if (currentArea == 11 || currentArea == 13 || currentArea == 19 || currentArea == 33 || currentArea == 35 || currentArea == 37 || currentArea == 14)
@@ -579,7 +586,10 @@ namespace Dark_Cloud_Improved_Version
 
                     if (shopkeeper == true)     //check shopkeeper and change dialogue ID
                     {
-                        Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
+                        if (currentArea != 23)
+                        {
+                            Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
+                        }
                     }
                     else
                     {
@@ -710,6 +720,7 @@ namespace Dark_Cloud_Improved_Version
                         areaChanged = true;
                         CheckAllyFishing();
                         if (currentArea == 42) Dialogues.SetDefaultDialogue(42);
+                        else if (currentArea == 14) Dialogues.SetDefaultDialogue(14);
                     }
                 }
                 else
