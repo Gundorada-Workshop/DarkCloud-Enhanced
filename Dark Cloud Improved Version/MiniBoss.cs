@@ -23,18 +23,18 @@ namespace Dark_Cloud_Improved_Version
         const int enemyItemResistMulti = 10;    //Miniboss Item Resistance multiplier %
         const int enemyGoldMult = 3;            //Miniboss Gilda Drop multiplier
         const int enemyDropChance = 100;        //Miniboss Drop chance % (0 - 100)
-        const byte staminaTimer = 79;          //Miniboss Stamina Timer (Currently 79 on the 3rd byte is roughly 1 day)
+        const byte staminaTimer = 79;           //Miniboss Stamina Timer (Currently 79 on the 3rd byte is roughly 1 day)
 
         //Get flying enemies
-        static Dictionary<int, string> nonKeyEnemies = Enemies.EnemyList.enemiesFlying;
+        static Dictionary<ushort, string> nonKeyEnemies = Enemies.EnemyList.enemiesFlying;
 
         //Define new loot tables for items
-        static int[] attachmentsTableLucky = { 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106 }; //Gems
-        static int[] attachmentsTableUnlucky =  {   81, 82, 83, 84, 85,                                 //Elements
+        static ushort[] attachmentsTableLucky = { 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106 }; //Gems
+        static ushort[] attachmentsTableUnlucky =  {   81, 82, 83, 84, 85,                                 //Elements
                                                     91, 92, 93, 94,                                     //Stats
                                                     111, 112, 113, 114, 115, 116, 117, 118, 119, 120 }; //Anti-Stats
-        static int[] itemTableLucky = { 150, 178, 235 };        //Stam Pot + Feather + PP
-        static int[] itemTableUnlucky = { 132, 133, 134, 135 }; //Amulets
+        static ushort[] itemTableLucky = { 150, 178, 235 };        //Stam Pot + Feather + PP
+        static ushort[] itemTableUnlucky = { 132, 133, 134, 135 }; //Amulets
 
         public static bool MiniBossSpawn(bool skipFirstRoll = false, byte dungeon = 255, byte floor = 255)
         {
@@ -43,6 +43,8 @@ namespace Dark_Cloud_Improved_Version
             {
                 //Choose the enemy to convert into mini boss
                 int enemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count);
+
+                foreach(ushort enemy in Enemies.GetFloorEnemiesIds()) Console.WriteLine(enemy);
 
                 //Check if chosen enemy is flying type
                 if (!nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)))
@@ -97,35 +99,36 @@ namespace Dark_Cloud_Improved_Version
                         byte backFloorKey = DungeonThread.GetDungeonBackFloorKey(dungeon);
 
                         //Set the miniboss item as the backfloor key
-                        Memory.WriteInt(Enemies.Enemy0.itemDropId + (varOffset * enemyNumber), backFloorKey);
+                        Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), backFloorKey);
+                        Console.WriteLine("Miniboss rolled with backfloor key!");
                     }
                     //If backfloor key roll fails, roll for weapon
                     else if (rnd.Next(100) < 15)
                     {
                         //Fetch a random weapon from the current dungeon and floor table
-                        Memory.WriteInt(Enemies.Enemy0.itemDropId + (varOffset * enemyNumber), weaponTable[rnd.Next(weaponTable.Count())]);
+                        Memory.WriteInt(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), weaponTable[rnd.Next(weaponTable.Count())]);
                         Console.WriteLine("Miniboss rolled with weapon!");
                     }
                     //If weapon roll fails, roll for attachments
                     else if (rnd.Next(100) < 50)
                     {
                         //Roll for lucky
-                        if (rnd.Next(100) < 30) Memory.WriteInt(Enemies.Enemy0.itemDropId + (varOffset * enemyNumber), attachmentsTableLucky[rnd.Next(attachmentsTableLucky.Count())]);
-                        else Memory.WriteInt(Enemies.Enemy0.itemDropId + (varOffset * enemyNumber), attachmentsTableUnlucky[rnd.Next(attachmentsTableUnlucky.Count())]);
+                        if (rnd.Next(100) < 30) Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), attachmentsTableLucky[rnd.Next(attachmentsTableLucky.Count())]);
+                        else Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), attachmentsTableUnlucky[rnd.Next(attachmentsTableUnlucky.Count())]);
                         Console.WriteLine("Miniboss rolled with attachment!");
                     }
                     else //If previous rolls fail, default to items
                     {
                         //Roll for lucky
-                        if (rnd.Next(100) < 30) Memory.WriteInt(Enemies.Enemy0.itemDropId + (varOffset * enemyNumber), itemTableLucky[rnd.Next(itemTableLucky.Count())]);
-                        else Memory.WriteInt(Enemies.Enemy0.itemDropId + (varOffset * enemyNumber), itemTableUnlucky[rnd.Next(itemTableUnlucky.Count())]);
+                        if (rnd.Next(100) < 30) Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), itemTableLucky[rnd.Next(itemTableLucky.Count())]);
+                        else Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), itemTableUnlucky[rnd.Next(itemTableUnlucky.Count())]);
                         Console.WriteLine("Miniboss rolled with item!");
                     }
 
                     return true;
                 }
                 //Retry if landing on a flying enemy
-                else { Console.WriteLine("Miniboss landed on flying enemy!"); MiniBossSpawn(true); }
+                else { Console.WriteLine("Miniboss landed on flying enemy!"); MiniBossSpawn(true, dungeon, floor); }
             }
             else Console.WriteLine("Failed to roll for Mini Boos");
             return false;

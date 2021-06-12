@@ -18,6 +18,7 @@ namespace Dark_Cloud_Improved_Version
     public class DungeonThread
     {
         static int currentAddress;
+        static byte currentDungeon;
         static byte currentFloor;
         static int prevFloor = 200;
         static bool clownOnScreen = false;
@@ -29,7 +30,11 @@ namespace Dark_Cloud_Improved_Version
         public static bool monsterQuestJakeActive = false;
         public static bool monsterQuestChiefActive = false;
         public static bool hasMiniBoss = false;
-        public static Thread dungeonChecks;
+        public static bool enemiesSpawn = false;
+        public static List<byte> excludeFloors;
+        public static Thread spawnsCheck;
+        public static Thread minibossProcess;
+        public static Thread miniBossMessage;
 
         public static List<byte> GetDungeonGateKey(byte dungeon)
         {
@@ -186,69 +191,48 @@ namespace Dark_Cloud_Improved_Version
                             break;
                     }
 
+                    //Get current Dungeon
+                    currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+
+                    //Define event and boss floors
+                    excludeFloors = GetDungeonEventFloors(currentDungeon);
+
+                    //Get current Floor
                     currentFloor = Memory.ReadByte(Addresses.checkFloor);
 
-                    if (currentFloor != prevFloor)  //checking if player has entered a new floor
+                    //Check if the player has entered a new floor
+                    if (currentFloor != prevFloor)  
                     {
-                        
                         Console.WriteLine("Player has entered a new floor!");
-                        byte currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
 
-                        dungeonChecks = new Thread(new ThreadStart(CheckStuff));
-                        dungeonChecks.Start();
-
-                        Thread.Sleep(4000);
-
-                        chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
-                        CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
-
-                        //Define event and boss floors
-                        List<byte> excludeFloors = GetDungeonEventFloors(currentDungeon);
-
-                        byte numNormalEnemies = 0;
-
-                        //Get the quantity of normal enemies in the floor
-                        foreach (byte enemy in Enemies.GetFloorEnemiesIds())
+                        //Check if player is not on an event floor and call the Mini Boss
+                        if (!excludeFloors.Contains(currentFloor))
                         {
-                            if (Enemies.GetNormalEnemies().ContainsKey(enemy)) numNormalEnemies++;
-                        }
+                            //Initialize the spawns check
+                            spawnsCheck = new Thread(new ThreadStart (CheckSpawns));
+                            spawnsCheck.Start();
 
-                        //Check if there are more than 3 normal enemies in the floor
-                        //This is to account for the Wise Owl 3 keys
-                        //There needs to be enough normal enemies to roll for the miniboss in order to avoid infinite retries
-                        if (numNormalEnemies > 3)
-                        {
-                            //Check if player is not on an event floor and call the Mini Boss
-                            if (!excludeFloors.Contains(currentFloor)) hasMiniBoss = MiniBoss.MiniBossSpawn(false, currentDungeon, currentFloor); else Console.WriteLine("Player has entered an event floor!");
-                        }
-                        else Console.WriteLine("Not enough normal enemies in floor!");
+                            //Initialize the mini boss thread
+                            minibossProcess = new Thread(() => DoMinibossSpawn(currentDungeon));
 
-                        //Fetch the dungeon message displayed
-                        int DungeonMessage = Addresses.dunMessage;
+                            chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
+                            CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
 
-                        //Check if Mini Boss spawned and no dungeon message is displaying
-                        if (hasMiniBoss && DungeonMessage == -1)
-                        {
-                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
-                        }
-                        
-                        //Check if Mini Boss spawned and a dungeon message is displaying
-                        if (hasMiniBoss && DungeonMessage != -1)
-                        {
-                            Thread.Sleep(5000); //Wait roughly the amount of time of the floor introduction cutscene
-                            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24);
-                        }
+                            monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
 
-                        monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
-                        for (int i = 0; i < monstersDead.Length; i++)
-                        {
-                            monstersDead[i] = false;
+                            for (int i = 0; i < monstersDead.Length; i++)
+                            {
+                                monstersDead[i] = false;
+                            }
                         }
+                        else Console.WriteLine("Player has entered an event floor!");
 
-                        prevFloor = currentFloor;   //once everything is done, we initialize this so it wont reroll again in same floor
+                        //Once everything is done, we initialize this so it wont reroll again in same floor
+                        prevFloor = currentFloor;
                     }
 
-                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false) //check if clown is triggered, then change loot table
+                    //Check if clown is triggered, then change loot table
+                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false)
                     {
                         CustomChests.ClownRandomizer(chronicle2);
                         clownOnScreen = true;
@@ -283,21 +267,21 @@ namespace Dark_Cloud_Improved_Version
                                 }
 
                                 monstersDead[i] = true;
-                            }                         
+                            }
                         }
                     }
-                }
-                else
-                {
-                    prevFloor = 200;    //used to reset the floor data when going back to dungeon
-                }
+
+                }                    
+                //Used to reset the floor data when going back to dungeon
+                else prevFloor = 200;
+
                 Thread.Sleep(10);
             }
         }
 
         public static void CheckEnemyKill(int currentEnemyAddress)
         {
-            Console.WriteLine("checking quest...");
+            Console.WriteLine("Checking quest...");
             if (monsterQuestMachoActive)
             {
                 Console.WriteLine("Macho quest active");
@@ -380,13 +364,101 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static void CheckStuff()
+        public static void CheckSpawns() 
         {
-            Console.WriteLine("CheckStuff started sleep!");
-            Thread.Sleep(10000);
-            Console.WriteLine("CheckStuff ended sleep!");
+            Console.WriteLine("Checking spawns...");
 
-            dungeonChecks.Abort();
+            int ms = 0;
+
+            //Listens for the enemy render address value to change from 0 or 10 seconds have passed
+            //We use the enemy render value here because enemies spawn after chests
+            while (Memory.ReadInt(Enemies.Enemy0.renderStatus) == -1 && ms < 10000)
+            {
+                Thread.Sleep(100);
+                ms += 100;
+                continue;
+            }
+
+            //Set the flag to true
+            if(Memory.ReadInt(Enemies.Enemy0.renderStatus) > 0) enemiesSpawn = true;
+
+            byte numNormalEnemies = 0;
+
+            //Get the quantity of normal enemies in the floor
+            foreach (byte enemy in Enemies.GetFloorEnemiesIds())
+            {
+                if (Enemies.GetNormalEnemies().ContainsKey(enemy)) numNormalEnemies++;
+            }
+
+            //Check if there are more than 3 normal enemies in the floor
+            //This is to account for the Wise Owl 3 keys
+            //There needs to be enough normal enemies to roll for the miniboss in order to avoid infinite retries
+            if (numNormalEnemies > 3)
+            {
+                //Start the next thread
+                minibossProcess.Start();
+            }
+            else Console.WriteLine("Not enough normal enemies in floor!");
+
+            Console.WriteLine("Finished spawn checking");
+
+            //Close this thread
+            spawnsCheck.Abort();
+        }
+
+        public static void DoMinibossSpawn(byte currentDungeon)
+        {
+            Console.WriteLine("Processing mini boss...");
+
+            hasMiniBoss = MiniBoss.MiniBossSpawn(false, currentDungeon, currentFloor); 
+
+            //If the mini boss spawned, start its warning message thread
+            if (hasMiniBoss) { 
+                miniBossMessage = new Thread(new ThreadStart(MiniBossMessage));
+                miniBossMessage.Start();
+            };
+
+            Console.WriteLine("Finished mini boss process!");
+
+            minibossProcess.Abort();
+        }
+
+        public static void MiniBossMessage()
+        {
+            Console.WriteLine("Working on the message...");
+
+            int ms = 0;
+
+            //Wait until we get control, we use the HUD display as a flag
+            while (Memory.ReadInt(Addresses.hideHud) == 1 && ms < 5000)
+            {
+                Thread.Sleep(100);
+                ms += 100;
+                continue;
+            }
+
+            //Check if a dungeon message is displaying
+            if (Memory.ReadInt(Addresses.dunMessage) != -1)
+            {
+                //Reset timer
+                ms = 0;
+
+                //Wait for whatever message is currently displaying
+                while(Memory.ReadInt(Addresses.dunMessage) != -1 && ms < 5000)
+                {
+                    Thread.Sleep(100);
+                    ms += 100;
+                    continue;
+                }
+
+                //Display our message
+                Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
+            }
+            else Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
+
+            Console.WriteLine("Finished message process!");
+
+            miniBossMessage.Abort();
         }
     }
 }

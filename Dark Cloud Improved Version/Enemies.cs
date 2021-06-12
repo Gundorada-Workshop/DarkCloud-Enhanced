@@ -1,43 +1,44 @@
 ﻿using System.Collections.Generic;
-namespace Dark_Cloud_Improved_Version { 
+namespace Dark_Cloud_Improved_Version
+{
 
     class Enemies
     {
         public const int offset = 0x190;        //Offset between floor enemies
         public const int tableOffset = 0x9C;    //Offset between table enemies
 
-        public static Dictionary<int, string> GetNormalEnemies()
+        public static Dictionary<ushort, string> GetNormalEnemies()
         {
             return EnemyList.enemiesNormal;
         }
 
-        public static Dictionary<int, string> GetFlyingEnemies()
+        public static Dictionary<ushort, string> GetFlyingEnemies()
         {
             return EnemyList.enemiesFlying;
         }
 
-        public static Dictionary<int, string> GetOverseasEnemies()
+        public static Dictionary<ushort, string> GetOverseasEnemies()
         {
             return EnemyList.enemiesOversea;
         }
 
-        public static Dictionary<int, string> GetBossEnemies()
+        public static Dictionary<ushort, string> GetBossEnemies()
         {
             return EnemyList.enemiesBoss;
         }
 
-        public static int GetFloorEnemyId(int enemyFloorNum)
+        public static ushort GetFloorEnemyId(int enemyFloorNum)
         {
-            return Memory.ReadInt(Enemies.Enemy0.nameTag + (offset * enemyFloorNum));
+            return Memory.ReadUShort(Enemy0.nameTag + (offset * enemyFloorNum));
         }
 
-        public static List<int> GetFloorEnemiesIds()
+        public static List<ushort> GetFloorEnemiesIds()
         {
-            List<int> Ids = new List<int>();
+            List<ushort> Ids = new List<ushort>();
 
             for (int i = 0; i <= 15; i++)
             {
-                Ids.Add(Memory.ReadInt(Enemies.Enemy0.nameTag + (offset * i)));
+                Ids.Add(Memory.ReadUShort(Enemy0.nameTag + (offset * i)));
             }
 
             return Ids;
@@ -45,13 +46,13 @@ namespace Dark_Cloud_Improved_Version {
 
         public static bool EnemyHasKey(int enemyNumber, byte dungeon)
         {
-            return DungeonThread.GetDungeonGateKey(dungeon).Contains(Memory.ReadByte(Enemies.Enemy0.forceItemDrop + (offset * enemyNumber)));
+            return DungeonThread.GetDungeonGateKey(dungeon).Contains(Memory.ReadByte(Enemy0.forceItemDrop + (offset * enemyNumber)));
         }
 
         internal class EnemyList
         {
-            
-            public static Dictionary<int, string> enemiesNormal = new Dictionary<int, string>()
+
+            public static Dictionary<ushort, string> enemiesNormal = new Dictionary<ushort, string>()
             {
                 { 1, "Master Jacket" },
                 { 3, "Skeleton Soldier" },
@@ -71,7 +72,7 @@ namespace Dark_Cloud_Improved_Version {
                 { 20, "Saturday" },
                 { 23, "Gunny" },
                 { 24, "Gyon" },
-                { 25, "Pirate's Chariot" },
+                { 25, "Pirate's Chariot" }, //Longest name
                 { 26, "Auntie Medu" },
                 { 27, "Captain" },
                 { 28, "Corcea" },
@@ -144,7 +145,7 @@ namespace Dark_Cloud_Improved_Version {
                 { 319, "Horn Head" }
             };
 
-            internal static Dictionary<int, string> enemiesFlying = new Dictionary<int, string>()
+            internal static Dictionary<ushort, string> enemiesFlying = new Dictionary<ushort, string>()
             {
                 { 9, "Hornet" },
                 { 21, "Witch Hellza" },
@@ -156,7 +157,7 @@ namespace Dark_Cloud_Improved_Version {
                 { 61, "Evil Bat" },
             };
 
-            internal static Dictionary<int, string> enemiesOversea = new Dictionary<int, string>()
+            internal static Dictionary<ushort, string> enemiesOversea = new Dictionary<ushort, string>()
             {
                 { 301, "Yammich" },
                 { 303, "Statue Dog" },
@@ -177,7 +178,7 @@ namespace Dark_Cloud_Improved_Version {
                 { 319, "Horn Head" },
             };
 
-            internal static Dictionary<int, string> enemiesBoss = new Dictionary<int, string>()
+            internal static Dictionary<ushort, string> enemiesBoss = new Dictionary<ushort, string>()
             {
                 { 84, "Ice Arrow" },
                 { 112, "Dran" },
@@ -213,6 +214,9 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = 0x21E16C50;
             public const int itemResistance = 0x21E16C7C;   //0 = Immune | 100 = 100%
             public const int itemDropId = 0x21E16FA4;       //The item dropped by weapon kill
+            public const int renderStatus = 0x21E16BA0;     //Determines the enemy status (-1 = Not spawned | 1 = Spawned but not rendered | 2 = Spawned and being rendered)
+
+            //Add this to here later 21E17D74 (enemy 12 render distance default 300 float)
         }
 
         internal class Enemy1
@@ -235,6 +239,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy2
@@ -257,6 +262,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy3
@@ -279,6 +285,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy4
@@ -302,6 +309,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy5
@@ -325,6 +333,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy6
@@ -348,6 +357,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy7
@@ -371,6 +381,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy8
@@ -394,6 +405,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy9
@@ -417,6 +429,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy10
@@ -440,6 +453,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy11
@@ -463,6 +477,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy12
@@ -486,6 +501,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy13
@@ -509,6 +525,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy14
@@ -532,6 +549,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Enemy15
@@ -555,6 +573,7 @@ namespace Dark_Cloud_Improved_Version {
             public const int stealItemId = Enemy0.stealItemId + (offset * EnemyMultiplier);
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
+            public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
         }
 
         internal class Digger

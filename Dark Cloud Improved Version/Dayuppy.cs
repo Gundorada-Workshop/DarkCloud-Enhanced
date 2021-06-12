@@ -2299,6 +2299,8 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
             Thread.Sleep(50);
+            Memory.WriteInt(Addresses.dunMessageHeight, height);
+            Memory.WriteInt(Addresses.dunMessageWidth, width);
             Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
             Thread.Sleep(18);
             Memory.WriteInt(Addresses.dunMessageHeight, height);

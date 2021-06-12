@@ -92,7 +92,7 @@
                                                          //Demon Shaft = 21184
 
         //Hide HUD
-        public const int hideHud = 0x202A347C;
+        public const int hideHud = 0x202A347C;          //0 = HUD active | 1 = HUD hidden
         public const int hideClock = 0x202A2894;
         public const int showNPCArrows = 0x202A28A4;
 
