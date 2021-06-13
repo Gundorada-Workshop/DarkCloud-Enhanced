@@ -90,7 +90,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
         static int[] norunesidequestCharacters = { 12592, 13872 };
         static int[] matatakisidequestCharacters = { 13618, 13362 };
-        static int[] queenssidequestCharacters = { 13108 };
+        static int[] queenssidequestCharacters = { 13108, 13363 };
         static int[] muskarackasidequestCharacters = { 14388 };
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
@@ -1209,6 +1209,10 @@ namespace Dark_Cloud_Improved_Version
             {
                 currentAddress = 0x2042F628;
             }
+            else if (area == 19)
+            {
+                currentAddress = 0x20429AD6;
+            }
 
             for (int i = 0; i < currentDialogue.Length; i++)
             {
@@ -1265,6 +1269,8 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(currentAddress, 1);
             currentAddress += 0x00000001;
             Memory.WriteByte(currentAddress, 255);
+
+            Console.WriteLine("Fishing disabled");
         }
 
         public static void ChangeDialogue()
@@ -1795,7 +1801,7 @@ namespace Dark_Cloud_Improved_Version
             queensRuby[11] = "*Humph* Everyone in Queens is talking^about the magical powers of the great^genie Ʀ as well as her good^looks.¤How come no one compliments me,^the great fortune teller Yaya, for my^beauty?";
             queensRuby[12] = "Hey you´re not here to take more^merchandise are you?¤Come on Ʀ I can´t keep giving^you discounts like this.¤One of these days you´ll send me to the^poor house!";
 
-            queensRuby2[0] = "Remember that one time when Stew tried^teasing me by calling me King Ploogal¤I made sure to punch him right in the^face.";
+            queensRuby2[0] = "Remember that one time when Stew tried^teasing me by calling me King Ploogal?¤I made sure to punch him right in the^face.";
             queensRuby2[1] = "That King is always up to no good!";
             queensRuby2[2] = "The fish were barely biting, it doesn´t^help that the sea is so blue that you^can´t see them either!¤Say, you´re trying to prove that you´re^the most powerful genie, do you know of^any spells that can help?"; //POTENTIAL EASTER EGG
             queensRuby2[3] = "Even a genie like you needs to stay^hydrated, feel free to come by if you^ever need something healthy to drink!";

@@ -19,7 +19,7 @@ namespace Dark_Cloud_Improved_Version
         static string[] NorunePondFish = { "Nilers", "Gummies", "Nonkies", "Gobblers" };
         static string[] MatatakiPondFish = { "Baku Bakus", "Gobblers", "Tartons", "Umadakaras" };
         static string[] MatatakiWaterfallFish = { "Baku Bakus", "Nonkies", "Gummies", "Mardan Garayan", "Baron Garayan" };
-        static string[] QueensSeaFish = { "Bobos", "Kaijis", "Piccolys", "Bons", "Hamahamas" };
+        static string[] QueensSeaFish = { "Bobos", "Kajis", "Piccolys", "Bons", "Hamahamas" };
         static string[] MuskaOasisFish = { "Negies", "Dens", "Heelas", "Mardan Garayans", "Baron Garayan" };
         //fish ID list:  0 = bobo, 1 = gobbler, 2 = nonky, 3 = kaiji, 4 = baku baku, 5 = mardan, 6 = gummy, 7 = niler , 8 = NULL , 9 = umadakara , 10 = tarton , 11 = piccoly , 12 = bon, 13 = hamahama , 14 = negie, 15 = den , 16 = heela, 17 = baron
         static int[] DBCEnemyIDs = { 1, 6, 35, 59 };
@@ -72,6 +72,7 @@ namespace Dark_Cloud_Improved_Version
         static int currentAddressFishMaxSizeReq;
         static int currentAddressOriginalFishCounter;
         static int currentAddressMatatakiLocation;
+        static int currentAddressQueensQuestsCompleteCount;
 
         static Random rnd = new Random();
         public static string GetQuestDialogue(string currentDialogue, int characterID)
@@ -213,7 +214,7 @@ namespace Dark_Cloud_Improved_Version
                     matatakiLocation = rnd.Next(100);
                     int whichQuest = rnd.Next(100);
 
-                    if (whichQuest > 200)
+                    if (whichQuest < 50)
                     {
                         Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(0));
                         GenerateFishingQuestOne();
@@ -276,6 +277,100 @@ namespace Dark_Cloud_Improved_Version
                     currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                 }
 
+            }
+            else if (characterID == 13363) //sam
+            {
+                TownCharacter.characterIDData = characterID;
+                SetSideQuestAddresses(characterID);
+
+                if (Memory.ReadByte(0x21CE4427) == 0)
+                {
+                    int whichQuest = rnd.Next(100);
+
+                    if (whichQuest < 200)
+                    {
+                        Memory.WriteOneByte(0x21CE4428, BitConverter.GetBytes(0));
+                        GenerateFishingQuestOne();
+                        if (Memory.ReadByte(0x21CE442F) < 3)
+                        {
+                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                        }
+                        else
+                        {
+                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Queens Sea.^Good luck!";
+                        }
+                    }
+                    else
+                    {
+                        Memory.WriteOneByte(0x21CE4428, BitConverter.GetBytes(1));
+                        GenerateFishingQuestTwo();
+                        if (Memory.ReadByte(0x21CE442F) < 3)
+                        {
+                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                            currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                        }
+                        else
+                        {
+                            currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.^Good luck!";
+                        }
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE4427) == 1)
+                {
+                    if (Memory.ReadByte(0x21CE4428) == 0)
+                    {
+                        GetFishingQuestOneValues(2);
+                        if (Memory.ReadByte(0x21CE442F) < 3)
+                        {
+                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Queens Sea,^just " + generatedNeededFishCount + " left!¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                        }
+                        else
+                        {
+                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Queens Sea,^just " + generatedNeededFishCount + " left!";
+                        }
+                    }
+                    else
+                    {
+                        GetFishingQuestTwoValues();
+                        if (Memory.ReadByte(0x21CE442F) < 3)
+                        {
+                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                            currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                        }
+                        else
+                        {
+                            currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.^Good luck!";
+                        }
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE4427) == 2)
+                {
+                    if (Memory.ReadByte(0x21CE4428) == 0)
+                    {
+                        RollFishingQuestReward(2);
+                    }
+                    else
+                    {
+                        RollFishingQuestTwoReward(2);
+                    }
+
+                    if (Memory.ReadByte(0x21CE442F) == 3)
+                    {
+                        currentDialogue = "Awesome,^you completed 3 quests for me!¤As a special reward, you can now^see the fish at the Queens Sea!^Cool, right?¤I´ll also give the regular quest^reward: here´s " + fishingPoints + " fishing points!";
+                        TownCharacter.queensQuest = true;
+                    }
+                    else if (Memory.ReadByte(0x21CE442F) < 3)
+                    {
+                        int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                        currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!¤If you can complete " + questsLeft + " more quests for^me, I´ll give you a special reward!";
+                    }
+                    else
+                    {
+                        currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
+                    }
+                }
             }
             return currentDialogue;
         }
@@ -412,6 +507,17 @@ namespace Dark_Cloud_Improved_Version
                 currentAddressFishMaxSizeReq = 0x21CE4424;
                 currentAddressOriginalFishCounter = 0x21CE4425;
                 currentAddressMatatakiLocation = 0x21CE4426;
+            }
+            else if (characterID == 13363) //sam
+            {
+                currentAddressFishingQuestType = 0x21CE4428;
+                currentAddressFishName = 0x21CE4429;
+                currentAddressFishID = 0x21CE442A;
+                currentAddressFishLeftCounter = 0x21CE442B;
+                currentAddressFishMinSizeReq = 0x21CE442C;
+                currentAddressFishMaxSizeReq = 0x21CE442D;
+                currentAddressOriginalFishCounter = 0x21CE442E;
+                currentAddressQueensQuestsCompleteCount = 0x21CE442F;
             }
         }
 
@@ -564,6 +670,12 @@ namespace Dark_Cloud_Improved_Version
                     }
                     Memory.WriteOneByte(currentAddressMatatakiLocation, BitConverter.GetBytes(matatakiLocationID));
                     break;
+                case 2:
+                    rolledFish = rnd.Next(0, QueensSeaFish.Length);
+                    generatedFishName = QueensSeaFish[rolledFish];
+                    fishID = QueensSeaFishIDs[rolledFish];
+                    generatedNeededFishCount = rnd.Next(2, 3);
+                    break;
             }
 
             Memory.WriteOneByte(currentAddressFishName, BitConverter.GetBytes(rolledFish));
@@ -588,6 +700,13 @@ namespace Dark_Cloud_Improved_Version
 
                 case 1:
                     fishSize = rnd.Next(80, 141);
+                    generatedMinFishSize = fishSize;
+                    generatedMaxFishSize = fishSize + 5;
+                    Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
+                    Memory.WriteOneByte(currentAddressFishMaxSizeReq, BitConverter.GetBytes(generatedMaxFishSize));
+                    break;
+                case 2:
+                    fishSize = rnd.Next(90, 161);
                     generatedMinFishSize = fishSize;
                     generatedMaxFishSize = fishSize + 5;
                     Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
@@ -621,6 +740,9 @@ namespace Dark_Cloud_Improved_Version
                         generatedFishName = MatatakiPondFish[getFishID];
                     }              
                     break;
+                case 2:
+                    generatedFishName = QueensSeaFish[getFishID];
+                    break;
             }
 
             generatedNeededFishCount = getFishCounter;           
@@ -645,6 +767,16 @@ namespace Dark_Cloud_Improved_Version
                 randomizedFPoints = rnd.Next(35, 66);
                 fishMultiplier = Memory.ReadByte(0x21CE4425);
                 fishingPoints = randomizedFPoints * fishMultiplier;
+                if (Memory.ReadByte(0x21CE4421) == 5 || Memory.ReadByte(0x21CE4421) == 17)
+                {
+                    fishingPoints = fishingPoints * 3;
+                }
+            }
+            else if (area == 2)
+            {
+                randomizedFPoints = rnd.Next(40, 71);
+                fishMultiplier = Memory.ReadByte(0x21CE442E);
+                fishingPoints = randomizedFPoints * fishMultiplier;
             }
         }
 
@@ -654,6 +786,10 @@ namespace Dark_Cloud_Improved_Version
             if (area == 1)
             {
                 fishingPoints += 10;
+            }
+            else if (area == 2)
+            {
+                fishingPoints += 20;
             }
         }
 
