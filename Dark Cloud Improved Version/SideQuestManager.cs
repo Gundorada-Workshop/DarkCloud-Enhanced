@@ -372,6 +372,53 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+            else if (characterID == 13109) //devia
+            {
+                TownCharacter.characterIDData = characterID;
+                SetSideQuestAddresses(characterID);
+                if (Memory.ReadByte(0x21CE4431) == 0)
+                {
+                    int whichQuest = rnd.Next(100);
+
+                    if (whichQuest > 500)
+                    {
+                        Memory.WriteOneByte(0x21CE4432, BitConverter.GetBytes(0));
+                        GenerateFishingQuestOne();
+                        currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Oasis.^Good luck!";
+                    }
+                    else
+                    {
+                        Memory.WriteOneByte(0x21CE4432, BitConverter.GetBytes(1));
+                        GenerateFishingQuestTwo();
+                        currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Oasis.^Good luck!";
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE4431) == 1)
+                {
+                    if (Memory.ReadByte(0x21CE4432) == 0)
+                    {
+                        GetFishingQuestOneValues(3);
+                        currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Oasis,^just " + generatedNeededFishCount + " left!";
+                    }
+                    else 
+                    {
+                        GetFishingQuestTwoValues();
+                        currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Oasis.^Good luck!";
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE4431) == 2)
+                {
+                    if (Memory.ReadByte(0x21CE4432) == 0)
+                    {
+                        RollFishingQuestReward(3);
+                    }
+                    else
+                    {
+                        RollFishingQuestTwoReward(3);
+                    }
+                    currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
+                }
+            }
             return currentDialogue;
         }
 
@@ -518,6 +565,16 @@ namespace Dark_Cloud_Improved_Version
                 currentAddressFishMaxSizeReq = 0x21CE442D;
                 currentAddressOriginalFishCounter = 0x21CE442E;
                 currentAddressQueensQuestsCompleteCount = 0x21CE442F;
+            }
+            else if (characterID == 13109) //devia
+            {
+                currentAddressFishingQuestType = 0x21CE4432;
+                currentAddressFishName = 0x21CE4433;
+                currentAddressFishID = 0x21CE4434;
+                currentAddressFishLeftCounter = 0x21CE4435;
+                currentAddressFishMinSizeReq = 0x21CE4436;
+                currentAddressFishMaxSizeReq = 0x21CE4437;
+                currentAddressOriginalFishCounter = 0x21CE4438;
             }
         }
 
@@ -676,6 +733,36 @@ namespace Dark_Cloud_Improved_Version
                     fishID = QueensSeaFishIDs[rolledFish];
                     generatedNeededFishCount = rnd.Next(2, 3);
                     break;
+                case 3:
+                    rolledFish = rnd.Next(0, MuskaOasisFish.Length);
+                    if (rolledFish == 3 || rolledFish == 4) //mardan/baron
+                    {
+                        rolledFish = rnd.Next(0, MuskaOasisFish.Length);
+                    }
+                    generatedFishName = MuskaOasisFish[rolledFish];
+                    fishID = MuskaOasisFishIDs[rolledFish];
+                    if (rolledFish == 3) //mardan/baron
+                    {
+                        generatedNeededFishCount = rnd.Next(1, 3);
+                    }
+                    else if (rolledFish == 4)
+                    {
+                        generatedNeededFishCount = 1;
+                    }
+                    else
+                    {
+                        generatedNeededFishCount = rnd.Next(2, 3);
+                    }
+                    break;
+
+                default:
+                    rolledFish = rnd.Next(0, NorunePondFish.Length);
+                    generatedFishName = NorunePondFish[rolledFish];
+                    fishID = NorunePondFishIDs[rolledFish];
+                    generatedNeededFishCount = rnd.Next(2, 3);
+                    break;
+
+
             }
 
             Memory.WriteOneByte(currentAddressFishName, BitConverter.GetBytes(rolledFish));
@@ -697,7 +784,6 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
                     Memory.WriteOneByte(currentAddressFishMaxSizeReq, BitConverter.GetBytes(generatedMaxFishSize));
                     break;
-
                 case 1:
                     fishSize = rnd.Next(80, 141);
                     generatedMinFishSize = fishSize;
@@ -712,6 +798,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
                     Memory.WriteOneByte(currentAddressFishMaxSizeReq, BitConverter.GetBytes(generatedMaxFishSize));
                     break;
+                case 3:
+                    fishSize = rnd.Next(100, 181);
+                    generatedMinFishSize = fishSize;
+                    generatedMaxFishSize = fishSize + 5;
+                    Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
+                    Memory.WriteOneByte(currentAddressFishMaxSizeReq, BitConverter.GetBytes(generatedMaxFishSize));
+                    break;             
             }
         }
 
@@ -742,6 +835,13 @@ namespace Dark_Cloud_Improved_Version
                     break;
                 case 2:
                     generatedFishName = QueensSeaFish[getFishID];
+                    break;
+                case 3:
+                    generatedFishName = MuskaOasisFish[getFishID];
+                    break;
+
+                default:
+                    generatedFishName = NorunePondFish[getFishID];
                     break;
             }
 
@@ -778,6 +878,12 @@ namespace Dark_Cloud_Improved_Version
                 fishMultiplier = Memory.ReadByte(0x21CE442E);
                 fishingPoints = randomizedFPoints * fishMultiplier;
             }
+            else if (area == 3)
+            {
+                randomizedFPoints = rnd.Next(45, 76);
+                fishMultiplier = Memory.ReadByte(0x21CE4438);
+                fishingPoints = randomizedFPoints * fishMultiplier;
+            }
         }
 
         public static void RollFishingQuestTwoReward(int area)
@@ -790,6 +896,10 @@ namespace Dark_Cloud_Improved_Version
             else if (area == 2)
             {
                 fishingPoints += 20;
+            }
+            else if (area == 3)
+            {
+                fishingPoints += 30;
             }
         }
 
