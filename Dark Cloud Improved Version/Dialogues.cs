@@ -1918,7 +1918,7 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             muskarackaGoro[0] = "You are so out of shape, have you ever^thought of laying off the grass cakes?";
             muskarackaGoro[1] = "Ah so your from the village of Matataki,^I can tell by your distinct warrior^garb.¤The Moon People used to maintain the^shrine but they've gotten lazy over^time, now they relax in the woods not to^far from Matataki.¤Make sure your people don´t hunt them^by accident!";
-            muskarackaGoro[2] = "The Sun and Moon Temple is a sacred^place, no one outside of the village has^ever stepped foot inside of it.¤It´s a shame that it has been riddled^with monsters, please help Ť^and Ungaga rid us of this infestation.";
+            muskarackaGoro[2] = "The Sun and Moon Temple is a sacred^place, no one outside of the village has^ever stepped foot inside of it.¤It´s a shame that it has been riddled^with monsters, please help Ť^and Ų rid us of this^infestation.";
             muskarackaGoro[3] = "It´s hard to believe that we were almost^destroyed had not been for Ť^and his friends rescuing us.¤We are all in your debt.";
             muskarackaGoro[4] = "Why are you wearing that, you must^be hot!";
             muskarackaGoro[5] = "You´re so heroic, seeing you fight side^side with Ų makes me inspired^to become a warrior myself!";
@@ -1952,7 +1952,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaRuby[5] = "Wow I love your outfit, it´s so cute!"; // <3 AT THE END
             muskarackaRuby[6] = "You and the Dark Genie share many^similarities but I sense no hostility^from you.";
             muskarackaRuby[7] = "I´ve never had the experience of facing^a magic user in battle and I hope I^never have the chance. You are a^formidable fighter indeed.";
-            muskarackaRuby[8] = "Purple hair?¤Jeez they must really be desperate for^help if they let a purple hair clown^like you join!¤Oops did I say clown, I meant to say ´´Genie´´";
+            muskarackaRuby[8] = "Purple hair?¤Jeez they must really be desperate for^help if they let a purple hair clown^like you join!¤Oops did I say clown, I meant to say ´Genie´";
             muskarackaRuby[9] = "No way you can do magic, they say Gosuke^came from magic!";
             muskarackaRuby[10] = "Maaaaaaaaagic...";
 
@@ -1975,12 +1975,12 @@ namespace Dark_Cloud_Improved_Version
             muskarackaUngaga[0] = "Everyone seems to prefer you over me and^now your going on an adventure to save^the world? The Spirits always seems to^deal you a better hand.¤I know we haven´t always got along but^I´ll be sure to defend the village in^your absence...¤But, if I get so much as one scratch on^my perfect face that´s it for me!";
             muskarackaUngaga[1] = "That friend of yours, the one with the^green hat... Be sure to keep him close^and learn from him.¤Ų I´m an old warrior but not^one without regrets.¤Long ago, there was a day when that^boy´s father and I met each other in^battle.¤His strength was unmatched and I was^quickly bested. He treated everyone,^with love and kindness, even on the^battlefield. He was a good man.¤Part of me wishes I could have joined^him on his journey but I had to fulfil^my responsibilities here to guide our^village as chief.¤(Sigh) As people grow older, they tend^to wonder about what could have been.¤Life is a journey Ų, be sure to^live without regrets.";
             muskarackaUngaga[2] = "Hey Ų, make sure to take some^precaution when going into the Sun and^Moon Temple.¤I hear there´s plenty of poisonous^scorpions there, last thing we need is^you being stung again haha!¤Sorry, I´m just teasing!";
-            muskarackaUngaga[3] = "I always worry about you Ų it^like your always putting yourself in^harm´s way for the sake of the village^but now with the threat of the¤Dark Genie you´re doing it for all of^world.¤Only you and your allies can save us.";
+            muskarackaUngaga[3] = "I always worry about you Ų, it´s^like you are always putting yourself in^harm´s way for the sake of the village^but now with the threat of the¤Dark Genie, you´re doing it for all of^the world.¤Only you and your allies can save us.";
             muskarackaUngaga[4] = "Ų you´re a strong warrior, that^little kid with the green hat will need^all the help he can get to defeat the^Dark Genie.¤Take care and make sure you come back in^one piece, I don´t want you breaking my^sisters heart!";
             muskarackaUngaga[5] = "Thank you so much for helping everyone^in the village, make sure you give that^Dark Genie a good whack in the head^for me!¤I may be an optimist but perhaps all of^the desert tribes can come together and^start a new way of life!";
             muskarackaUngaga[6] = "All of these events has reminded me of^an old fable that has been passed down^throughout our Muska Racka.¤One which tells the story of a young boy^who´s village was torn from the earth by^a great evil and suspended from the sky!¤This boy had to travel throughout the^lands to find a way to not only defeat^the evil but also return his home.¤Make believe often mimics reality it^seems haha!";
             muskarackaUngaga[7] = "You are the pride of our village, now^you´ll step foot into the outside world^and everyone why the warriors of Muska^Racka are the strongest to walk on Terra.";
-            muskarackaUngaga[8] = "Heh, if it isn’t the brave Ų^have you come to taunt me once again!";
+            muskarackaUngaga[8] = "Heh, if it isn´t the brave Ų^have you come to taunt me once again!";
             muskarackaUngaga[9] = "Woah, big bro!¤I had so much fun during our training,^I want to be just like you when I´m^older!";
             muskarackaUngaga[10] = "Ų... friend...";
 
@@ -2070,132 +2070,132 @@ namespace Dark_Cloud_Improved_Version
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             yellowdropsXiao[2] = "I heard that some individuals^on the Blue Terra think that the^Moon People resemble bunnies,^how preposterous!";
-            yellowdropsXiao[3] = "";
-            yellowdropsXiao[4] = "";
-            yellowdropsXiao[5] = "";
-            yellowdropsXiao[6] = "";
-            yellowdropsXiao[7] = "";
-            yellowdropsXiao[9] = "";
+            yellowdropsXiao[3] = "It seems like the people on Terra have^spent countless years in conflict, if^only we could all get along!";
+            yellowdropsXiao[4] = "I could have sworn I saw you transform^into a person, maybe I´m seeing things!";
+            yellowdropsXiao[5] = "I´m proud to see you here with the other^humans and the genie, I guess if one^good thing has come from the¤Dark Genie´s arrival it´s that he´s^uniting everyone together. Cats^included!";
+            yellowdropsXiao[6] = "Are you impressed with the technology we^have here on Yellow Drops?";
+            yellowdropsXiao[7] = "It´s hard to think about how the other^Moon People are living on Terra, have^they lost touch with their culture, can^they still use magic?";
+            yellowdropsXiao[9] = "Oh wow, you are very far away from home^little kitty!";
             yellowdropsXiao[10] = "";
-            yellowdropsXiao[11] = "";
-            yellowdropsXiao[12] = "";
+            yellowdropsXiao[11] = "I wonder how Ʊ still manages^to carry that large mallet out here,^imagine how heavy it is!";
+            yellowdropsXiao[12] = "The Sun Giant will always be the pride^of Yellow Drops!";
 
             yellowdropsXiao2[2] = "I wonder how it would be to live^just one day on Terra...";
-            yellowdropsXiao2[3] = "";
-            yellowdropsXiao2[4] = "";
-            yellowdropsXiao2[5] = "";
-            yellowdropsXiao2[6] = "";
-            yellowdropsXiao2[7] = "";
-            yellowdropsXiao2[9] = "";
+            yellowdropsXiao2[3] = "Salsa said that he saw you transform^into a person haha!¤Oh Salsa, what a comedian!";
+            yellowdropsXiao2[4] = "Seeing Osmand fly with his heli-pac is^so inspiring, is there anything he^can´t do?";
+            yellowdropsXiao2[5] = "We saw the Dark Genie´s attack from up^here, it looked so scary! I´m sorry you^all had to go through that...";
+            yellowdropsXiao2[6] = "Perhaps one day Blue Terra could be just^as advanced as we are in technology!";
+            yellowdropsXiao2[7] = "I hear that the Moon people on Terra^have become lazy, I guess that comes^when living the good life!";
+            yellowdropsXiao2[9] = "I always see you chasing around^Ť and his companions, I wish I^could go on an adventure like you!";
             yellowdropsXiao2[10] = "";
-            yellowdropsXiao2[11] = "";
-            yellowdropsXiao2[12] = "";
+            yellowdropsXiao2[11] = "I admire Ų´s height.^I wish that I can be that tall one day^that way Ō won´t boss^me around!"; // REVIEW THIS
+            yellowdropsXiao2[12] = "I wish it were possible for me to take^that Sun Giant out for a spin!";
 
 
 
             //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            yellowdropsGoro[2] = "";
-            yellowdropsGoro[3] = "";
-            yellowdropsGoro[4] = "";
-            yellowdropsGoro[5] = "";
-            yellowdropsGoro[6] = "";
-            yellowdropsGoro[7] = "";
-            yellowdropsGoro[9] = "";
-            yellowdropsGoro[10] = "";
-            yellowdropsGoro[11] = "";
-            yellowdropsGoro[12] = "";
+            yellowdropsGoro[2] = "I always enjoyed reading about the^Hunting Tribe of Matataki, your village^is close to Brownboo is it not?";
+            yellowdropsGoro[3] = "Minotaur Joe is the #1 combatant to^watch in the coliseum!";
+            yellowdropsGoro[4] = "The other day Ō was kicking^around the idea of competing in the^coliseum, that wouldn´t be fair to the^other fighters!";
+            yellowdropsGoro[5] = "I saw you and your friends come down on^the Moon Ship, that was really cool!";
+            yellowdropsGoro[6] = "I always admired how the people of^Matataki maintained their connection^to nature.";
+            yellowdropsGoro[7] = "I always admired how Ō is able^to bring everyone together, he´s a^great leader!";
+            yellowdropsGoro[9] = "I hope you enjoy your time in^Yellow Drops, we have everything here!";
+            yellowdropsGoro[10] = "The other day Jive had the brilliant^idea of going to the Moon Sea, he ended^up being chased out by Cresent Baron!";
+            yellowdropsGoro[11] = "I would often look at Blue Terra and^wonder what it would be like if I went^down for a visit.";
+            yellowdropsGoro[12] = "The Dark Genie may be powerful but you^got that mallet, never underestimate the^power of a good mallet.";
 
-            yellowdropsGoro2[2] = "";
-            yellowdropsGoro2[3] = "";
-            yellowdropsGoro2[4] = "";
-            yellowdropsGoro2[5] = "";
-            yellowdropsGoro2[6] = "";
-            yellowdropsGoro2[7] = "";
-            yellowdropsGoro2[9] = "";
-            yellowdropsGoro2[10] = "";
-            yellowdropsGoro2[11] = "";
-            yellowdropsGoro2[12] = "";
+            yellowdropsGoro2[2] = "I heard legends of a white tiger which^used to stalk the surrounding forests^of Matataki.¤It would wipe out settlement after^settlement!¤If only there was someone brave enough^to stand up to that beast.";
+            yellowdropsGoro2[3] = "When I grow up I want to be just like^Minotaur Joe, he will always be my hero!";
+            yellowdropsGoro2[4] = "I know Matataki is a tribe of hunters,^maybe you could train me one day so I^can be the next Minotaur Joe!";
+            yellowdropsGoro2[5] = "The Moon Sea wasn´t always so dangerous,^I used to spend my childhood days^exploring every inch of that place!";
+            yellowdropsGoro2[6] = "Careful with that mallet, is it really^necessary to carry that with you^everywhere?";
+            yellowdropsGoro2[7] = "I heard the others needed a hammer for^the Sun Giant repairs, perhaps they^could borrow yours?";
+            yellowdropsGoro2[9] = "Say, those are some weird clothes!^Does everyone from Blue Terra dress^like that?";
+            yellowdropsGoro2[10] = "I wonder why the Dark Genie decimated^all of Blue Terra but didn´t do the same^to Yellow Drops?¤He must have been pretty angry at you^folks!";
+            yellowdropsGoro2[11] = "I can´t believe that the Moon People on^Terra have forgotten how to use magic,^the easy life made them forget the^fundamentals!";
+            yellowdropsGoro2[12] = "Once this Dark Genie business is over I^want to get a heli-pack like Ō!¤Hey don´t look at me like that, you have^to treat yourself!";
 
-
-
-            //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
-            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
-            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            yellowdropsRuby[2] = "";
-            yellowdropsRuby[3] = "";
-            yellowdropsRuby[4] = "";
-            yellowdropsRuby[5] = "";
-            yellowdropsRuby[6] = "";
-            yellowdropsRuby[7] = "";
-            yellowdropsRuby[9] = "";
-            yellowdropsRuby[10] = "";
-            yellowdropsRuby[11] = "";
-            yellowdropsRuby[12] = "";
-
-            yellowdropsRuby2[2] = "";
-            yellowdropsRuby2[3] = "";
-            yellowdropsRuby2[4] = "";
-            yellowdropsRuby2[5] = "";
-            yellowdropsRuby2[6] = "";
-            yellowdropsRuby2[7] = "";
-            yellowdropsRuby2[9] = "";
-            yellowdropsRuby2[10] = "";
-            yellowdropsRuby2[11] = "";
-            yellowdropsRuby2[12] = "";
 
 
             //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            yellowdropsUngaga[2] = "";
-            yellowdropsUngaga[3] = "";
-            yellowdropsUngaga[4] = "";
-            yellowdropsUngaga[5] = "";
-            yellowdropsUngaga[6] = "";
-            yellowdropsUngaga[7] = "";
-            yellowdropsUngaga[9] = "";
-            yellowdropsUngaga[10] = "";
-            yellowdropsUngaga[11] = "";
-            yellowdropsUngaga[12] = "";
+            yellowdropsRuby[2] = "I heard that you´re a being comprised of^magic, a genie! I never met an actual^genie before!";
+            yellowdropsRuby[3] = "Have you heard about Minotaur Joe?^He´ll always be my favourite combatant^to watch in the coliseum!";
+            yellowdropsRuby[4] = "One day we´ll remember this ordeal and^laugh! We gotta stay positive!";
+            yellowdropsRuby[5] = "Ō is so brilliant, they say he^invented that heli-pack by combining a^milk can, pipes and a belt!¤How did he even do that?";
+            yellowdropsRuby[6] = "If I can go anywhere on Terra I´d love^to visit Queens!";
+            yellowdropsRuby[7] = "Being in Yellow Drops must be different^from being in Queens, let me know if you^need anything!";
+            yellowdropsRuby[9] = "Yellow Drops is always in a state of^nightfall, sometimes it gets scary and^I´d get the others to check under^my bed!";
+            yellowdropsRuby[10] = "The others were uncomfortable with the^idea of having a genie in Yellow Drops^but you´re nothing like the Dark Genie.¤Thanks helping Ť and his^allies!";
+            yellowdropsRuby[11] = "I can´t imagine living on Blue Terra!";
+            yellowdropsRuby[12] = "When I was young my friends and I would^go to the Moon Sea and try to test our^bravery! We would all chicken out except^for Ō of course!";
 
-            yellowdropsUngaga2[2] = "";
-            yellowdropsUngaga2[3] = "";
-            yellowdropsUngaga2[4] = "";
-            yellowdropsUngaga2[5] = "";
-            yellowdropsUngaga2[6] = "";
-            yellowdropsUngaga2[7] = "";
-            yellowdropsUngaga2[9] = "";
-            yellowdropsUngaga2[10] = "";
-            yellowdropsUngaga2[11] = "";
-            yellowdropsUngaga2[12] = "";
+            yellowdropsRuby2[2] = "I was wondering, how do you channel^magic through your armbands?";
+            yellowdropsRuby2[3] = "When I grow up, I want to be Tag Team^Champions with Minotaur Joe! Our team^could be called the Bunny and Bull^Connection or the Joe and Lum Express!";
+            yellowdropsRuby2[4] = "I remember reading in an old textbook^that long ago there once used to be^floating continent. I wonder if that was^the work of the Dark Genie was well!";
+            yellowdropsRuby2[5] = "I heard that in some parts of Terra they^don´t use technology at all?¤That can´t be true can it?";
+            yellowdropsRuby2[6] = "I heard from the other allies that some^of Terra´s animals have become^dangerous. They must be under the^influence of the Dark Genie!";
+            yellowdropsRuby2[7] = "I wonder, you´re a strong magic user you^should compete in the coliseum!¤If that blockhead Minotaur Joe could be^a champion so could you!";
+            yellowdropsRuby2[9] = "Last time I found a baby Moon Beetle^under my pillow, crazy right!";
+            yellowdropsRuby2[10] = "Yellow Drops has always took pride in^how we use magic and technology, maybe^we could learn from each other!";
+            yellowdropsRuby2[11] = "Everyone in Yellow Drops was so excited^when you all came, we rarely get^visitors!";
+            yellowdropsRuby2[12] = "There was never monsters in the Moon^Sea, the other day I was going out for^exercise and a Crescent Baron tried^whipping me!";
 
 
             //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            yellowdropsOsmond[2] = "";
-            yellowdropsOsmond[3] = "";
-            yellowdropsOsmond[4] = "";
-            yellowdropsOsmond[5] = "";
-            yellowdropsOsmond[6] = "";
-            yellowdropsOsmond[7] = "";
-            yellowdropsOsmond[9] = "";
-            yellowdropsOsmond[10] = "";
-            yellowdropsOsmond[11] = "";
-            yellowdropsOsmond[12] = "";
+            yellowdropsUngaga[2] = "Woah you´re so much taller than me!^Your almost as big as the sun giant!";
+            yellowdropsUngaga[3] = "You´re almost as tall as Minotaur Joe^but he still bigger haha!";
+            yellowdropsUngaga[4] = "I heard the fighting stick is only used^by the most honorable sand warriors!";
+            yellowdropsUngaga[5] = "Thank you for all of your help^Ų I know the Moon People could^count on the Desert Tribe to help defeat^Dark Genie!";
+            yellowdropsUngaga[6] = "Ʊ seems pretty scary, he´s^wearing an animal pelt! What if he^attacks me, that mallet is huge!";
+            yellowdropsUngaga[7] = "I always wanted to go on an adventure,^maybe once this is all done Ō^can plan an expedition across the^Moon Sea!";
+            yellowdropsUngaga[9] = "Both you and Ʊ carry your^weapons out, if any monsters appear I^know that you two will defend us!";
+            yellowdropsUngaga[10] = "The Moon People and the Desert Tribe of^Blue Terra always had a good^relationship with each other.^Make yourself at home Ų.";
+            yellowdropsUngaga[11] = "Make sure not to drink the yellow moon^water, it can give humans a tummy ache!";
+            yellowdropsUngaga[12] = "When it´s time for bed I hear odd^notices coming from the direction of the^Moon Sea...¤I have no idea what´s out there but^watch yourself.";
 
-            yellowdropsOsmond2[2] = "";
-            yellowdropsOsmond2[3] = "";
-            yellowdropsOsmond2[4] = "";
-            yellowdropsOsmond2[5] = "";
-            yellowdropsOsmond2[6] = "";
-            yellowdropsOsmond2[7] = "";
-            yellowdropsOsmond2[9] = "";
-            yellowdropsOsmond2[10] = "";
-            yellowdropsOsmond2[11] = "";
-            yellowdropsOsmond2[12] = "";
+            yellowdropsUngaga2[2] = "I saw Ӿ the cat walking around^with a slingshot in her mouth, what was^she up to?";
+            yellowdropsUngaga2[3] = "Minotaur Joe always acts like a crazy^beast in the ring but I heard he´s a^quiet Minotaur when outside of the^coliseum.¤Looks can be deceiving!";
+            yellowdropsUngaga2[4] = "I know Matataki is a tribe of hunters,^maybe you could train me one day so I^can be the next Minotaur Joe!"; //REVIEW AFTER (SAME AS GORO)
+            yellowdropsUngaga2[5] = "I hope that once this situation is over^that the Moon People of Yellow Drops can^find some way to keep in contact with^the people of Blue Terra!";
+            yellowdropsUngaga2[6] = "Maybe I was over exaggerating, I would^totally beat Ʊ in a duel.¤Just don´t tell him I said that!";
+            yellowdropsUngaga2[7] = "I had a question Mr.Ų when you^look down at that little blue marble.^Do you ever get homesick?";
+            yellowdropsUngaga2[9] = "I love your head wrap! Can you teach me^how to make one?! I´ll make it Yellow^Drop´s new fashion trend!";
+            yellowdropsUngaga2[10] = "I was surprised when Jive told me that^Muska Laka is home to a legendary family^of fish!";
+            yellowdropsUngaga2[11] = "Ӿ once tried to jump into that^yellow water, she looked disappointed^when Ť stopped her!¤It seems like that little cat thinks^that she´s the boss of everyone haha!";
+            yellowdropsUngaga2[12] = "Once this is all done I´m sure you´re^excited to be back home! Make sure you^tell everyone about the mighty warrior^Cheek okay?";
+
+
+            //linda, lumba, salsa, flammi, flada, limbo, jive, tap, aily, cheek
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            yellowdropsOsmond[2] = "You should get Ʀ to teach you^some Genie magic, imagine how strong^you would be!";
+            yellowdropsOsmond[3] = "You´re such a strong leader, once you^retire from the Moon Factory you could^start a new career as a coliseum fighter^like Minotaur Joe!";
+            yellowdropsOsmond[4] = "Thank you for all the hard work you^do Boss!";
+            yellowdropsOsmond[5] = "I saw that Ť has a fishing rod,^it´s a shame we have no fishing spots^here!";
+            yellowdropsOsmond[6] = "Ų´s wisdom never ceases to amaze^me!¤We were talking about the Sun and Moon^Temple as well as the Signits.¤The Moon People and the Desert Tribe^share many similarities.";
+            yellowdropsOsmond[7] = "You´re so lucky, now you can travel to^Blue Terra! I heard that they think the^Moon is made of cheese!";
+            yellowdropsOsmond[9] = "The Sun Giant has such a magnificent^design, truly the pride of Yellow Drops!";
+            yellowdropsOsmond[10] = "Don´t tell the other allies I said this^but you´re definitely the star of the^show Boss!";
+            yellowdropsOsmond[11] = "Boss I heard that Ӿ was causing^some mischief in the Moon Factory...¤Do you think it´s wise to let an^adventurous cat like her to wander^around unsurprised?";
+            yellowdropsOsmond[12] = "I can´t imagine what the Dark Genie is^thinking trying to destroy Terra but we^cannot let this evil go unanswered.";
+
+            yellowdropsOsmond2[2] = "Finding the courage to be a leader is^challenge for most people. Thanks for^everything Boss!";
+            yellowdropsOsmond2[3] = "Minotaur Joe is an inspiration to^us all!";
+            yellowdropsOsmond2[4] = "I was looking down at Blue Terra with a^telescope and I noticed a large spire,^a shaft like structure?¤Was that always there?";
+            yellowdropsOsmond2[5] = "I wish Ť would teach me how^to fish, we could go on a big fishing^trip on Terra one day!";
+            yellowdropsOsmond2[6] = "It´s been so long but I wonder how the^Moon People and the Desert Tribe´s^relationship began?";
+            yellowdropsOsmond2[7] = "Make sure to get me a souvenir from^Blue Terra, something cool!";
+            yellowdropsOsmond2[9] = "I try to avoid going into the Moon Sea^unless we´re going to the coliseum, you^should come with us!";
+            yellowdropsOsmond2[10] = "It was not too long ago when we were^children, you were always the trouble^maker haha!";
+            yellowdropsOsmond2[11] = "The Moon People and Blue Terra have a^lot of shared history so it´s nice that^we can reconnect!";
+            yellowdropsOsmond2[12] = "Who exactly is Ӿ?^Why did Ť go through the^effort of bringing his pet cat all the^here!¤Perhaps there´s more to that cat then^meets the eye...¤Aha, Ӿ is the team´s mascot!";
         }
 
     }
