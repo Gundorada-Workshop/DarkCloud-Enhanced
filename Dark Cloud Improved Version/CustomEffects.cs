@@ -54,17 +54,79 @@ namespace Dark_Cloud_Improved_Version
             var a = 0.000001; // Base acceleration value
 
             while (Memory.ReadUShort(Addresses.buttonInputs) == 65        // X + L2 being pressed?
-                && Memory.ReadFloat(dunPositionZ) < 30   /*       // Height below 25 units?
+                && Memory.ReadFloat(dunPositionZ) < 30   /*     // Height below 25 units?
                 && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
                 && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
                 && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
                 && Player.CheckDunIsPaused() == false           // Is paused?
                 && Player.CheckDunFirstPersonMode() == false    // Is in first person?
                 && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
-                && Player.CheckDunIsInteracting() == false*/)     // Is interacting with an element? (Doors, backfloor gates...))     
+                && Player.CheckDunIsInteracting() == false*/)   // Is interacting with an element? (Doors, backfloor gates...))     
             {
                 Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(a * i)));
                 i++;
+            }
+        }
+        public static bool CheckChronicle2(bool acquired)
+        {
+            if (Memory.ReadInt(Player.Toan.WeaponSlot0.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.type) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot3.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot4.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot5.type) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot6.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.type) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot9.type) == 298)
+            {
+                Console.WriteLine("Player has Chronicle 2");
+                acquired = true;
+            }
+            else
+            {
+                currentAddress = 0x21CE22D8;
+                for (int i = 0; i < 30; i++)
+                {
+                    if (Memory.ReadInt(currentAddress) == 298)
+                    {
+                        acquired = true;
+                        Console.WriteLine("Player has Chronicle 2 in storage");
+                    }
+                    currentAddress += 0x000000F8;
+                }
+
+                if (acquired != true)
+                {
+                    Console.WriteLine("Player does not have Chronicle 2");
+                    acquired = false;
+                }
+            }
+            return acquired;
+        }
+
+        public static void AngelGear()
+        {
+            byte HpValueAdd = 1;
+            int Delay = 5000;
+
+            while (Player.GetCurrentWeaponId() == 313)
+            {
+                int ToanHp = Player.Toan.GetHp();
+                int ToanMaxHp = Player.Toan.GetMaxHp();
+                //int XiaoHp = Player.Xiao.GetHp();
+                //int XiaoMaxHp = Player.Xiao.GetMaxHp();
+                int GoroHp = Player.Goro.GetHp();
+                int GoroMaxHp = Player.Goro.GetMaxHp();
+                int RubyHp = Player.Ruby.GetHp();
+                int RubyMaxHp = Player.Ruby.GetMaxHp();
+                int UngagaHp = Player.Ungaga.GetHp();
+                int UngagaMaxHp = Player.Ungaga.GetMaxHp();
+                int OsmondHp = Player.Osmond.GetHp();
+                int OsmondMaxHp = Player.Osmond.GetMaxHp();
+
+                if (ToanHp < ToanMaxHp) Player.Toan.SetHp(ToanHp + HpValueAdd);
+                //if (XiaoHp < XiaoMaxHp) Player.Toan.SetHp((ushort)(XiaoHp + HpValueAdd));
+                if (GoroHp < GoroMaxHp) Player.Toan.SetHp(GoroHp + HpValueAdd);
+                if (RubyHp < RubyMaxHp) Player.Toan.SetHp(RubyHp + HpValueAdd);
+                if (UngagaHp < UngagaMaxHp) Player.Toan.SetHp(UngagaHp + HpValueAdd);
+                if (OsmondHp < OsmondMaxHp) Player.Toan.SetHp(OsmondHp + HpValueAdd);
+
+                Thread.Sleep(Delay);
             }
         }
 
@@ -454,38 +516,6 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
-        }
-
-        public static bool CheckChronicle2(bool acquired)
-        {
-            if (Memory.ReadInt(Player.Toan.WeaponSlot0.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.type) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot3.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot4.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot5.type) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot6.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.type) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot9.type) == 298)
-            {
-                Console.WriteLine("Player has Chronicle 2");
-                acquired = true;
-            }
-            else
-            {
-                currentAddress = 0x21CE22D8;
-                for (int i = 0; i < 30; i++)
-                {
-                    if (Memory.ReadInt(currentAddress) == 298)
-                    {
-                        acquired = true;
-                        Console.WriteLine("Player has Chronicle 2 in storage");
-                    }
-                    currentAddress += 0x000000F8;
-                }
-
-                if (acquired != true)
-                {
-                    Console.WriteLine("Player does not have Chronicle 2");
-                    acquired = false;
-                }
-            }
-            return acquired;
         }
     }
 }

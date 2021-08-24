@@ -35,6 +35,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread spawnsCheck;
         public static Thread minibossProcess;
         public static Thread miniBossMessage;
+        public static Thread AngelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
 
         public static List<byte> GetDungeonGateKey(byte dungeon)
         {
@@ -147,9 +148,19 @@ namespace Dark_Cloud_Improved_Version
 
                         //Xiao
                         case 1:
-                            if (Player.GetCurrentWeaponId() == 307) // Dragon's Y ID
+                            switch (Player.GetCurrentWeaponId())
                             {
-                                CustomEffects.DragonsY();
+                                case 307: // Dragon's Y ID
+                                    CustomEffects.DragonsY();
+                                    break;
+                                case 313: //Angel Gear ID
+                                    Console.WriteLine(AngelGearThread.ThreadState);
+                                    if (AngelGearThread.ThreadState != ThreadState.Unstarted)
+                                    {
+                                        AngelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
+                                        AngelGearThread.Start();
+                                    }
+                                    break;
                             }
                             break;
 
@@ -171,14 +182,14 @@ namespace Dark_Cloud_Improved_Version
 
                         //Ungaga
                         case 4:
-                            if (Player.GetCurrentWeaponId() == 356) //Hercules Wrath ID
+                            switch (Player.GetCurrentWeaponId())
                             {
-                                CustomEffects.HerculesWrath();
-                            }
-
-                            if (Player.GetCurrentWeaponId() == 357) //Babel Spear ID
-                            {
-                                CustomEffects.BabelSpear();
+                                case 356: //Hercules Wrath ID
+                                    CustomEffects.HerculesWrath();
+                                    break;
+                                case 357: //Babel Spear ID
+                                    CustomEffects.BabelSpear();
+                                    break;
                             }
                             break;
 
@@ -416,7 +427,7 @@ namespace Dark_Cloud_Improved_Version
             if (hasMiniBoss) { 
                 miniBossMessage = new Thread(new ThreadStart(MiniBossMessage));
                 miniBossMessage.Start();
-            };
+            }
 
             Console.WriteLine("Finished mini boss process!");
 

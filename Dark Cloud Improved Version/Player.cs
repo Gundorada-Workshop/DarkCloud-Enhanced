@@ -194,21 +194,21 @@ namespace Dark_Cloud_Improved_Version
 
             public static int GetHp()
             {
-                return Memory.ReadUShort(hp);
+                return Memory.ReadInt(hp);
             }
 
-            public static void SetHp(ushort newhp)
+            public static void SetHp(int newhp)
             {
-                Memory.WriteUShort(hp, newhp);
+                Memory.WriteInt(hp, newhp);
             }
             public static int GetMaxHp()
             {
-                return Memory.ReadUShort(maxHP);
+                return Memory.ReadInt(maxHP);
             }
 
-            public static void SetMaxHp(ushort newmaxhp)
+            public static void SetMaxHp(int newmaxhp)
             {
-                Memory.WriteUShort(maxHP, newmaxhp);
+                Memory.WriteInt(maxHP, newmaxhp);
             }
             public static int GetDefense()
             {
