@@ -2076,7 +2076,7 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsXiao[6] = "Are you impressed with the technology we^have here on Yellow Drops?";
             yellowdropsXiao[7] = "It´s hard to think about how the other^Moon People are living on Terra, have^they lost touch with their culture, can^they still use magic?";
             yellowdropsXiao[9] = "Oh wow, you are very far away from home^little kitty!";
-            yellowdropsXiao[10] = "";
+            yellowdropsXiao[10] = "Not to sound rude or anything but cats^don´t belong here, if you wonder into^the Moon Factory and cause mischief¤again who knows what Ō^will do!";
             yellowdropsXiao[11] = "I wonder how Ʊ still manages^to carry that large mallet out here,^imagine how heavy it is!";
             yellowdropsXiao[12] = "The Sun Giant will always be the pride^of Yellow Drops!";
 
@@ -2087,7 +2087,7 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsXiao2[6] = "Perhaps one day Blue Terra could be just^as advanced as we are in technology!";
             yellowdropsXiao2[7] = "I hear that the Moon people on Terra^have become lazy, I guess that comes^when living the good life!";
             yellowdropsXiao2[9] = "I always see you chasing around^Ť and his companions, I wish I^could go on an adventure like you!";
-            yellowdropsXiao2[10] = "";
+            yellowdropsXiao2[10] = "Promise to always stay by Ť^side, he has a good heart and will make^sure you won´t cause any trouble!¤The last time you wondered into the^Moon Factory you left destruction in^your wake.¤Who would have thought such a small^creature could cause large damage!";
             yellowdropsXiao2[11] = "I admire Ų´s height.^I wish that I can be that tall one day^that way Ō won´t boss^me around!"; // REVIEW THIS
             yellowdropsXiao2[12] = "I wish it were possible for me to take^that Sun Giant out for a spin!";
 
@@ -2162,7 +2162,7 @@ namespace Dark_Cloud_Improved_Version
 
             yellowdropsUngaga2[2] = "I saw Ӿ the cat walking around^with a slingshot in her mouth, what was^she up to?";
             yellowdropsUngaga2[3] = "Minotaur Joe always acts like a crazy^beast in the ring but I heard he´s a^quiet Minotaur when outside of the^coliseum.¤Looks can be deceiving!";
-            yellowdropsUngaga2[4] = "I know Matataki is a tribe of hunters,^maybe you could train me one day so I^can be the next Minotaur Joe!"; //REVIEW AFTER (SAME AS GORO)
+            yellowdropsUngaga2[4] = "Often I wonder about the power of the^Dark Genie, would it be possible for^someone to harness that power and use it^for good?¤I guess it´s not possible, after all the^Genie was locked away to prevent anyone^from misusing that power.";
             yellowdropsUngaga2[5] = "I hope that once this situation is over^that the Moon People of Yellow Drops can^find some way to keep in contact with^the people of Blue Terra!";
             yellowdropsUngaga2[6] = "Maybe I was over exaggerating, I would^totally beat Ʊ in a duel.¤Just don´t tell him I said that!";
             yellowdropsUngaga2[7] = "I had a question Mr.Ų when you^look down at that little blue marble.^Do you ever get homesick?";
