@@ -29,10 +29,10 @@ namespace Dark_Cloud_Improved_Version
         static Dictionary<ushort, string> nonKeyEnemies = Enemies.EnemyList.enemiesFlying;
 
         //Define new loot tables for items
-        static ushort[] attachmentsTableLucky = { 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106 }; //Gems
-        static ushort[] attachmentsTableUnlucky =  {   81, 82, 83, 84, 85,                                 //Elements
-                                                    91, 92, 93, 94,                                     //Stats
-                                                    111, 112, 113, 114, 115, 116, 117, 118, 119, 120 }; //Anti-Stats
+        static ushort[] attachmentsTableLucky = { 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106 };  //Gems
+        static ushort[] attachmentsTableUnlucky =  {   81, 82, 83, 84, 85,                                  //Elements
+                                                    91, 92, 93, 94,                                         //Stats
+                                                    111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };     //Anti-Stats
         static ushort[] itemTableLucky = { 150, 178, 235 };        //Stam Pot + Feather + PP
         static ushort[] itemTableUnlucky = { 132, 133, 134, 135 }; //Amulets
 
@@ -71,15 +71,15 @@ namespace Dark_Cloud_Improved_Version
                         enemyNumber = newEnemyNumber;
                     }
 
-                    //Get base values from the chosen enemy
+                    //  == Get base values from the chosen enemy ==
                     int startBossHP =   Memory.ReadByte(Enemies.Enemy0.hp + (varOffset * enemyNumber));
                     int startAbs    =   Memory.ReadInt(Enemies.Enemy0.abs + (varOffset * enemyNumber));
                     int startGold   =   Memory.ReadInt(Enemies.Enemy0.minGoldDrop + (varOffset * enemyNumber));
 
                     // === Set mini boss new stats ===
-                    Memory.WriteFloat(enemyZeroWidth + (scaleOffset * enemyNumber), scaleSize);   //Scales Width
-                    Memory.WriteFloat(enemyZeroHeight + (scaleOffset * enemyNumber), scaleSize);  //Scales Height
-                    Memory.WriteFloat(enemyZeroDepth + (scaleOffset * enemyNumber), scaleSize);   //Scales Depth
+                    Memory.WriteFloat(enemyZeroWidth + (scaleOffset * enemyNumber), scaleSize);                         //Scales Width
+                    Memory.WriteFloat(enemyZeroHeight + (scaleOffset * enemyNumber), scaleSize);                        //Scales Height
+                    Memory.WriteFloat(enemyZeroDepth + (scaleOffset * enemyNumber), scaleSize);                         //Scales Depth
                     Memory.WriteInt(Enemies.Enemy0.hp + (varOffset * enemyNumber), (startBossHP * enemyHPMult));        //Changes Enemy HP                  
                     Memory.WriteInt(Enemies.Enemy0.maxHp + (varOffset * enemyNumber), (startBossHP * enemyHPMult));     //Changes MaxHP
                     Memory.WriteInt(Enemies.Enemy0.abs + (varOffset * enemyNumber), (startAbs * enemyABSMult));         //Changes ABS reward

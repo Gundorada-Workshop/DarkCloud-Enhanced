@@ -154,8 +154,7 @@ namespace Dark_Cloud_Improved_Version
                                     CustomEffects.DragonsY();
                                     break;
                                 case 313: //Angel Gear ID
-                                    Console.WriteLine(AngelGearThread.ThreadState);
-                                    if (AngelGearThread.ThreadState != ThreadState.Unstarted)
+                                    if (!AngelGearThread.IsAlive)
                                     {
                                         AngelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
                                         AngelGearThread.Start();

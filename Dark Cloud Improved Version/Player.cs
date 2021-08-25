@@ -27,19 +27,6 @@ namespace Dark_Cloud_Improved_Version
         public const int Ultraman = 0x21D564B0;
 
         public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
-        public const int currentWeaponID = 0x21EA7590;      //The current equipped weapon ID
-        public const int currentWeaponAttack = 0x21EA7594;  //The current equipped weapon Attack
-        public const int currentWeaponMagic = 0x21EA759A;   //The current equipped weapon Magic
-        public const int elementActual = 0x21EA75A6;
-
-        public static bool InDungeonFloor()
-        {
-            if (Memory.ReadByte(0x21CD954F) != 255)         //Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
-                return true;
-
-            else
-                return false;
-        }
 
         public static int CurrentCharacterNum()
         {
@@ -59,32 +46,28 @@ namespace Dark_Cloud_Improved_Version
             else return 255;
         }
 
-        public static int GetCurrentWeaponId() //Returns the current equipped weapon ID
+        public static bool InDungeonFloor()
         {
-            return Memory.ReadUShort(currentWeaponID);
+            if (Memory.ReadByte(0x21CD954F) != 255)         //Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
+                return true;
+
+            else
+                return false;
         }
 
-        public static int GetCurrentWeaponAttack() //Returns the current equipped weapon Attack
+        public ushort Gilda
         {
-            return Memory.ReadUShort(currentWeaponAttack);
-        }
-
-        public static int GetCurrentWeaponMagic() //Returns the current equipped weapon Magic
-        {
-            return Memory.ReadUShort(currentWeaponMagic);
-        }
-
-        public static ushort GetGilda() //These are example functions that we could make more of if we want. It will mean more code but better readability and function.
-        {
-            ushort value = Memory.ReadUShort(gilda);
-            Console.WriteLine("Player has " + value + " Gilda");
-            return value;
-        }
-
-        public static void SetGilda(ushort value)
-        {
-            Console.WriteLine("Player's Gilda was set to: " + value);
-            Memory.WriteUShort(gilda, value);
+            get
+            {
+                ushort value = Memory.ReadUShort(gilda);
+                Console.WriteLine("Player has " + value + " Gilda");
+                return value;
+            }
+            set
+            {
+                Console.WriteLine("Player's Gilda was set to: " + value);
+                Memory.WriteUShort(gilda, value);
+            }
         }
 
         public static bool CheckTownFirstPersonMode()
@@ -151,7 +134,7 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
-        public static bool CheckIsWMMenu()
+        public static bool CheckIsWorldMapMenu()
         {
             if (Memory.ReadUShort(townState) == 8)
             {
@@ -178,18 +161,205 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
+        internal class Weapon
+        //The current equipped weapon (THIS IS READ ONLY)
+        {
+            private const int id = 0x21EA7590;
+            private const int level = 0x21EA7592;        //The level # displayed on the weapon name
+            private const int attack = 0x21EA7594;
+            private const int endurance = 0x21EA7594;
+            private const int speed = 0x21EA7594;
+            private const int magic = 0x21EA759A;
+            private const int maxWhp = 0x21EA759C;
+            private const int whp = 0x21EA75A0;
+            private const int abs = 0x21EA75A4;
+            private const int element = 0x21EA75A6;      //Which element is being used (0-4)
+            private const int fire = 0x21EA75A7;
+            private const int ice = 0x21EA75A8;
+            private const int thunder = 0x21EA75A9;
+            private const int wind = 0x21EA75AA;
+            private const int holy = 0x21EA75AB;
+            private const int aDragon = 0x21EA75AC;
+            private const int aUndead = 0x21EA75AD;
+            private const int aMarine = 0x21EA75AE;
+            private const int aRock = 0x21EA75AF;
+            private const int aPlant = 0x21EA75B0;
+            private const int aBeast = 0x21EA75B1;
+            private const int aSky = 0x21EA75B2;
+            private const int aMetal = 0x21EA75B3;
+            private const int aMimic = 0x21EA75B4;
+            private const int aMage = 0x21EA75B5;
+            private const int special1 = 0x21EA75DC;     //01 unknown(default on Chronicle 2) | 02 Big bucks | 04 Poor | 08 Quench | 16 Thirst | 32 Poison | 64 Stop | 128 Steal
+            private const int special2 = 0x21EA75DD;     //02 Durable | 04 Drain | 08 Heal | 16 Critical | 32 Abs Up
+
+            public static ushort GetCurrentWeaponId()
+            //Returns the current equipped weapon ID
+            {
+                return Memory.ReadUShort(id);
+            }
+
+            public static byte GetCurrentWeaponAttack()
+            //Returns the current equipped weapon Attack
+            {
+                return Memory.ReadByte(attack);
+            }
+
+            public static byte GetCurrentWeaponEndurance()
+            //Returns the current equipped weapon Endurance
+            {
+                return Memory.ReadByte(endurance);
+            }
+
+            public static byte GetCurrentWeaponSpeed()
+            //Returns the current equipped weapon Speed
+            {
+                return Memory.ReadByte(speed);
+            }
+
+            public static byte GetCurrentWeaponMagic()
+            //Returns the current equipped weapon Magic
+            {
+                return Memory.ReadByte(magic);
+            }
+
+            public static float GetCurrentWeaponWhp()
+            //Returns the current equipped weapon Whp
+            {
+                return Memory.ReadFloat(whp);
+            }
+
+            public static ushort GetCurrentWeaponMaxWhp()
+            //Returns the current equipped weapon Max Whp
+            {
+                return Memory.ReadUShort(maxWhp);
+            }
+
+            public static ushort GetCurrentWeaponAbs()
+            //Returns the current equipped weapon Abs
+            {
+                return Memory.ReadUShort(maxWhp);
+            }
+
+            public static byte GetCurrentWeaponElement()
+            //Returns the current equipped weapon element
+            {
+                return Memory.ReadByte(element);
+            }
+
+            public static byte GetCurrentWeaponFire()
+            //Returns the current equipped weapon Fire
+            {
+                return Memory.ReadByte(fire);
+            }
+
+            public static byte GetCurrentWeaponIce()
+            //Returns the current equipped weapon Ice
+            {
+                return Memory.ReadByte(ice);
+            }
+
+            public static byte GetCurrentWeaponThunder()
+            //Returns the current equipped weapon Thunder
+            {
+                return Memory.ReadByte(thunder);
+            }
+
+            public static byte GetCurrentWeaponWind()
+            //Returns the current equipped weapon Wind
+            {
+                return Memory.ReadByte(wind);
+            }
+
+            public static byte GetCurrentWeaponHoly()
+            //Returns the current equipped weapon Fire
+            {
+                return Memory.ReadByte(holy);
+            }
+
+            public static byte GetCurrentWeaponDragon()
+            //Returns the current equipped weapon Anti Dragon
+            {
+                return Memory.ReadByte(aDragon);
+            }
+
+            public static byte GetCurrentWeaponUndead()
+            //Returns the current equipped weapon Anti Undead
+            {
+                return Memory.ReadByte(aUndead);
+            }
+
+            public static byte GetCurrentWeaponMarine()
+            //Returns the current equipped weapon Anti Marine
+            {
+                return Memory.ReadByte(aMarine);
+            }
+
+            public static byte GetCurrentWeaponRock()
+            //Returns the current equipped weapon Anti Rock
+            {
+                return Memory.ReadByte(aRock);
+            }
+
+            public static byte GetCurrentWeaponPlant()
+            //Returns the current equipped weapon Anti Plant
+            {
+                return Memory.ReadByte(aPlant);
+            }
+
+            public static byte GetCurrentWeaponBeast()
+            //Returns the current equipped weapon Anti Beast
+            {
+                return Memory.ReadByte(aBeast);
+            }
+
+            public static byte GetCurrentWeaponSky()
+            //Returns the current equipped weapon Anti Sky
+            {
+                return Memory.ReadByte(aSky);
+            }
+
+            public static byte GetCurrentWeaponMetal()
+            //Returns the current equipped weapon Anti Metal
+            {
+                return Memory.ReadByte(aMetal);
+            }
+
+            public static byte GetCurrentWeaponMimic()
+            //Returns the current equipped weapon Anti Mimic
+            {
+                return Memory.ReadByte(aMimic);
+            }
+
+            public static byte GetCurrentWeaponMage()
+            //Returns the current equipped weapon Anti Mage
+            {
+                return Memory.ReadByte(aMage);
+            }
+
+            public static byte GetCurrentWeaponSpecial1()
+            //Returns the current equipped weapon Special attribute 1
+            {
+                return Memory.ReadByte(special1);
+            }
+
+            public static byte GetCurrentWeaponSpecial2()
+            //Returns the current equipped weapon Special attribute 2
+            {
+                return Memory.ReadByte(special2);
+            }
+        }
 
         internal class Toan
         {
-            public const int hp = 0x21CD955E;
-            public const int maxHP = 0x21CD9552;
-            public const int defense = 0x21CDD894;
-            public const int thirst = 0x21CDD850;
-            public const int thirstMax = 0x21CDD83A;
-            public const int pocketSize = 0x21CDD8AC;
-            public const int status = 0x21CDD814; //04 Freeze, 08 Stamina, 16 Poison, 32 Curse, 64 Goo.
-            public const int statusTimer = 0x21CDD824;
-            public const int currentWeaponSlot = 0x21CDD88C;
+            private const int hp = 0x21CD955E;
+            private const int maxHP = 0x21CD9552;
+            private const int defense = 0x21CDD894;
+            private const int thirst = 0x21CDD850;
+            private const int thirstMax = 0x21CDD83A;
+            private const int pocketSize = 0x21CDD8AC;
+            private const int status = 0x21CDD814;           //04 Freeze, 08 Stamina, 16 Poison, 32 Curse, 64 Goo.
+            private const int statusTimer = 0x21CDD824;
+            private const int currentWeaponSlot = 0x21CDD88C;
             
 
             public static int GetHp()
@@ -279,7 +449,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 return Memory.ReadUShort(currentWeaponSlot);
             }
-
+            
             //Addresses taken from https://deconstruction.fandom.com/wiki/Dark_Cloud
             internal class WeaponSlot0
             {
@@ -331,8 +501,20 @@ namespace Dark_Cloud_Improved_Version
                 //public const int weapon1 = 0x21CDDA9D; //Attached 1 Anti-mimic Bonus
                 //public const int weapon1 = 0x21CDDA9E; //Attached 1 Anti-Mage Bonus
                 //public const int weapon1 = 0x21CDDAA0; //Attached 2 Type Attribute 
-                public const int special1 = 0x21CDDB46; //Special Bitfield 1 	01 unknown(default on Chronicle 2), 02 Big bucks, 04 Poor, 08 Quench, 10 Thirst, 20 Poison, 40 Stop, 80 Steal.
-                public const int special2 = 0x21CDDB47; //Special Bitfield 2 
+                public const int special1 = 0x21CDDB46; //Special Bitfield 1 	  01 unknown(default on Chronicle 2),
+                                                                                //02 Big bucks
+                                                                                //04 Poor
+                                                                                //08 Quench
+                                                                                //16 Thirst
+                                                                                //32 Poison
+                                                                                //64 Stop
+                                                                                //128 Steal
+
+                public const int special2 = 0x21CDDB47; //Special Bitfield 2    //02 Durable
+                                                                                //04 Drain
+                                                                                //08 Heal
+                                                                                //16 Critical
+                                                                                //32 Abs Up
             }
 
             internal class WeaponSlot1

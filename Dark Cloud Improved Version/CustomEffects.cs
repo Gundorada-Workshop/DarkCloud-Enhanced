@@ -7,20 +7,7 @@ namespace Dark_Cloud_Improved_Version
 {
     public class CustomEffects
     {
-        int[] currentEnemyHp = ReusableFunctions.GetEnemiesHp();
-
-        //The current weapon equipped ID by the current loaded character
-        public const int currentWeapon = 0x21EA7590;
         static int currentAddress;
-
-        //The weapon slot on which the current equipped weapon is (0-9)
-        public const int ToanCurrentWeaponSlot = 0x21CDD88C;
-        public const int XiaoCurrentWeaponSlot = 0x21CDD88D;
-        public const int GoroCurrentWeaponSlot = 0x21CDD88E;
-        public const int RubyCurrentWeaponSlot = 0x21CDD88F;
-        public const int UngagaCurrentWeaponSlot = 0x21CDD890;
-        public const int OsmondCurrentWeaponSlot = 0x21CDD891;
-
         public const int mode = 0x202A2534; //Values:
                                             //0=Main title
                                             //1=Intro
@@ -32,12 +19,6 @@ namespace Dark_Cloud_Improved_Version
                                             //7=Debug menu
 
         private static Random random = new Random();
-
-        public const int buttonInputs = 0x21CBC544; //Two-byte Bitfield
-                                                    //Square = 128        Cross = 64      Circle = 32       Triangle = 16
-                                                    //DPadLeft = 32768        DPadDown = 16384      DPadRight = 8192       DPadUP = 4096
-                                                    //Select = 256     L3 = 512      R3 = 1024      Start = 2048
-                                                    //L1 = 4        L2 = 1      R1 = 8      R2 = 2
 
         public static void DragonsY()
         {
@@ -67,6 +48,7 @@ namespace Dark_Cloud_Improved_Version
                 i++;
             }
         }
+        //Grants the ability to fly upwards
         public static bool CheckChronicle2(bool acquired)
         {
             if (Memory.ReadInt(Player.Toan.WeaponSlot0.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.type) == 298
@@ -101,15 +83,25 @@ namespace Dark_Cloud_Improved_Version
 
         public static void AngelGear()
         {
+            //Initialize variables
             byte HpValueAdd = 1;
             int Delay = 5000;
 
-            while (Player.GetCurrentWeaponId() == 313)
+            //Run while Angel Gear is equipped
+            while (Player.Weapon.GetCurrentWeaponId() == 313 &&
+                    !Player.CheckDunIsInteracting() &&
+                    !Player.CheckDunIsOpeningChest() &&
+                    !Player.CheckDunIsPaused())
             {
+                //Fetch HP values for characters
                 int ToanHp = Player.Toan.GetHp();
                 int ToanMaxHp = Player.Toan.GetMaxHp();
-                //int XiaoHp = Player.Xiao.GetHp();
-                //int XiaoMaxHp = Player.Xiao.GetMaxHp();
+                if (Player.Weapon.GetCurrentWeaponSpecial2() % 16 >= 8 &&
+                    Player.Weapon.GetCurrentWeaponSpecial2() % 16 <= 11)
+                {
+                    int XiaoHp = Player.Xiao.GetHp();
+                    int XiaoMaxHp = Player.Xiao.GetMaxHp();
+                }
                 int GoroHp = Player.Goro.GetHp();
                 int GoroMaxHp = Player.Goro.GetMaxHp();
                 int RubyHp = Player.Ruby.GetHp();
@@ -119,6 +111,7 @@ namespace Dark_Cloud_Improved_Version
                 int OsmondHp = Player.Osmond.GetHp();
                 int OsmondMaxHp = Player.Osmond.GetMaxHp();
 
+                //Add the HP value to the characters current HP
                 if (ToanHp < ToanMaxHp) Player.Toan.SetHp(ToanHp + HpValueAdd);
                 //if (XiaoHp < XiaoMaxHp) Player.Toan.SetHp((ushort)(XiaoHp + HpValueAdd));
                 if (GoroHp < GoroMaxHp) Player.Toan.SetHp(GoroHp + HpValueAdd);
@@ -126,9 +119,11 @@ namespace Dark_Cloud_Improved_Version
                 if (UngagaHp < UngagaMaxHp) Player.Toan.SetHp(UngagaHp + HpValueAdd);
                 if (OsmondHp < OsmondMaxHp) Player.Toan.SetHp(OsmondHp + HpValueAdd);
 
+                //Wait inbetween additions
                 Thread.Sleep(Delay);
             }
         }
+        //Applies the Heal regeneration affect to all allies
 
         public static void TallHammer()
         {
@@ -170,7 +165,7 @@ namespace Dark_Cloud_Improved_Version
                     int counter = 0;
 
                     //Instructions will run for 1000 times (arbitrary number) and only while the enemy's dimensions are between 30% - 100% of their original size 
-                    while ( counter < 1000 && ((enemyZeroWidth >= 0.3f && enemyZeroWidth <= 1f) || (enemyZeroHeight >= 0.3f && enemyZeroHeight <= 1f) || (enemyZeroDepth >= 0.3f && enemyZeroDepth <= 1f)))
+                    while (counter < 1000 && ((enemyZeroWidth >= 0.3f && enemyZeroWidth <= 1f) || (enemyZeroHeight >= 0.3f && enemyZeroHeight <= 1f) || (enemyZeroDepth >= 0.3f && enemyZeroDepth <= 1f)))
                     {
                         //Change the each of the enemy axis dimensions (X,Y and Z) based on the offset from the original Enemy 0 address
                         Memory.WriteFloat(MiniBoss.enemyZeroWidth + (scaleOffset * id), enemyZeroWidth - (i * 0.0001f));
@@ -186,15 +181,15 @@ namespace Dark_Cloud_Improved_Version
 
         public static void MobiusRing()
         {
-            
+
             //Check these addresses which tells us if Ruby is charging her attack either in 3rd or 1st person
-            if(Memory.ReadUShort(0x21DC4484) == 14 || Memory.ReadUShort(0x21DC4488) == 14 /*&& Memory.ReadUShort(0x21DC448C) == 14*/)
+            if (Memory.ReadUShort(0x21DC4484) == 14 || Memory.ReadUShort(0x21DC4488) == 14 /*&& Memory.ReadUShort(0x21DC448C) == 14*/)
             {
                 //Fetch the active orbs
                 List<int> OrbIds = RubyOrbs.GetRubyActiveOrbs();
 
                 //Initialize the damage
-                var damage = Player.GetCurrentWeaponAttack() + Player.GetCurrentWeaponMagic();
+                var damage = Player.Weapon.GetCurrentWeaponAttack() + Player.Weapon.GetCurrentWeaponMagic();
 
                 //Declare inputs
                 string message;
@@ -204,7 +199,7 @@ namespace Dark_Cloud_Improved_Version
                 while (Memory.ReadUShort(0x21DC4494) != 16 && Player.CheckDunIsPaused() == false)
                 {
                     damage += damage / 2;
-                                
+
                     if (damage > 9000)
                     {
                         message = "Total damage is over 9000";
@@ -230,41 +225,41 @@ namespace Dark_Cloud_Improved_Version
                     {
                         case 0:
                             //Check if the orb is still alive
-                            while (Memory.ReadByte(RubyOrbs.Orb0.id) == 1) 
+                            while (Memory.ReadByte(RubyOrbs.Orb0.id) == 1)
                             {
                                 Memory.WriteInt(RubyOrbs.Orb0.damage, damage); //Set the damage
                             }
                             break;
                         case 1:
-                            while (Memory.ReadByte(RubyOrbs.Orb1.id) == 1) 
+                            while (Memory.ReadByte(RubyOrbs.Orb1.id) == 1)
                             {
                                 Memory.WriteInt(RubyOrbs.Orb1.damage, damage);
                             }
                             break;
                         case 2:
-                            while (Memory.ReadByte(RubyOrbs.Orb2.id) == 1) 
+                            while (Memory.ReadByte(RubyOrbs.Orb2.id) == 1)
                             {
                                 Memory.WriteInt(RubyOrbs.Orb2.damage, damage);
                             }
                             break;
                         case 3:
-                            while (Memory.ReadByte(RubyOrbs.Orb3.id) == 1) 
-                        {
-                            Memory.WriteInt(RubyOrbs.Orb3.damage, damage);
-                        }
-                        break;
+                            while (Memory.ReadByte(RubyOrbs.Orb3.id) == 1)
+                            {
+                                Memory.WriteInt(RubyOrbs.Orb3.damage, damage);
+                            }
+                            break;
                         case 4:
-                            while (Memory.ReadByte(RubyOrbs.Orb4.id) == 1) 
+                            while (Memory.ReadByte(RubyOrbs.Orb4.id) == 1)
                             {
                                 Memory.WriteInt(RubyOrbs.Orb4.damage, damage);
                             }
                             break;
                         case 5:
-                            while (Memory.ReadByte(RubyOrbs.Orb5.id) == 1) 
-                        {
-                            Memory.WriteInt(RubyOrbs.Orb5.damage, damage);
-                        }
-                        break;
+                            while (Memory.ReadByte(RubyOrbs.Orb5.id) == 1)
+                            {
+                                Memory.WriteInt(RubyOrbs.Orb5.damage, damage);
+                            }
+                            break;
                     }
                 }
             }
@@ -291,7 +286,7 @@ namespace Dark_Cloud_Improved_Version
                 if (procChance < 15)
                 {
                     //Give the Stamina effect for 30 seconds (1800 = 30 seg)
-                    Player.Ungaga.SetStatus("stamina", 1800); 
+                    Player.Ungaga.SetStatus("stamina", 1800);
                 }
             }
         }
@@ -343,7 +338,7 @@ namespace Dark_Cloud_Improved_Version
         public static void Supernova()
         //Chance on hit to apply a random status
         {
-            
+
             //Get a read on all the enemies hp on the current floor
             int[] formerEnemyHpList = ReusableFunctions.GetEnemiesHp();
 

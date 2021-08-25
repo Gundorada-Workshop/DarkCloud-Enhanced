@@ -90,7 +90,7 @@
                                                          //Dark Heaven Castle = 19936
                                                          //Gallery of Time = 11824
                                                          //Demon Shaft = 21184
-
+        
         //Hide HUD
         public const int hideHud = 0x202A347C;          //0 = HUD active | 1 = HUD hidden
         public const int hideClock = 0x202A2894;
