@@ -136,28 +136,25 @@ namespace Dark_Cloud_Improved_Version
 
         public static bool CheckIsWorldMapMenu()
         {
-            if (Memory.ReadUShort(townState) == 8)
-            {
-                return true;
-            }
+            if (Memory.ReadUShort(townState) == 8) return true;
             else return false;
         }
 
         public static bool CheckIsGeoramaMode()
         {
-            if (Memory.ReadUShort(townState) == 4)
-            {
-                return true;
-            }
+            if (Memory.ReadUShort(townState) == 4) return true;
             else return false;
         }
 
         public static bool CheckIsFishingMode()
         {
-            if (Memory.ReadUShort(townState) == 16)
-            {
-                return true;
-            }
+            if (Memory.ReadUShort(townState) == 16) return true;
+            else return false;
+        }
+
+        public static bool CheckDunIsWalkingMode()
+        {
+            if (Memory.ReadUShort(Addresses.dungeonMode) == 1) return true;
             else return false;
         }
 
@@ -189,8 +186,8 @@ namespace Dark_Cloud_Improved_Version
             private const int aMetal = 0x21EA75B3;
             private const int aMimic = 0x21EA75B4;
             private const int aMage = 0x21EA75B5;
-            private const int special1 = 0x21EA75DC;     //01 unknown(default on Chronicle 2) | 02 Big bucks | 04 Poor | 08 Quench | 16 Thirst | 32 Poison | 64 Stop | 128 Steal
-            private const int special2 = 0x21EA75DD;     //02 Durable | 04 Drain | 08 Heal | 16 Critical | 32 Abs Up
+            private const int special1 = 0x21EA767E;     //01 unknown(default on Chronicle 2) | 02 Big bucks | 04 Poor | 08 Quench | 16 Thirst | 32 Poison | 64 Stop | 128 Steal
+            private const int special2 = 0x21EA767F;     //02 Durable | 04 Drain | 08 Heal | 16 Critical | 32 Abs Up
 
             public static ushort GetCurrentWeaponId()
             //Returns the current equipped weapon ID
@@ -362,18 +359,18 @@ namespace Dark_Cloud_Improved_Version
             private const int currentWeaponSlot = 0x21CDD88C;
             
 
-            public static int GetHp()
+            public static ushort GetHp()
             {
-                return Memory.ReadInt(hp);
+                return Memory.ReadUShort(hp);
             }
 
-            public static void SetHp(int newhp)
+            public static void SetHp(ushort newhp)
             {
-                Memory.WriteInt(hp, newhp);
+                Memory.WriteUShort(hp, newhp);
             }
-            public static int GetMaxHp()
+            public static ushort GetMaxHp()
             {
-                return Memory.ReadInt(maxHP);
+                return Memory.ReadUShort(maxHP);
             }
 
             public static void SetMaxHp(int newmaxhp)
@@ -445,9 +442,9 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
 
-            public static int GetWeaponSlot()
+            public static byte GetWeaponSlot()
             {
-                return Memory.ReadUShort(currentWeaponSlot);
+                return Memory.ReadByte(currentWeaponSlot);
             }
             
             //Addresses taken from https://deconstruction.fandom.com/wiki/Dark_Cloud
@@ -817,7 +814,7 @@ namespace Dark_Cloud_Improved_Version
             public const int statusTimer = 0x21CDD828;
             public const int currentWeaponSlot = 0x21CDD88D;
 
-            public static int GetHp()
+            public static ushort GetHp()
             {
                 return Memory.ReadUShort(hp);
             }
@@ -826,7 +823,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 Memory.WriteUShort(hp, newhp);
             }
-            public static int GetMaxHp()
+            public static ushort GetMaxHp()
             {
                 return Memory.ReadUShort(maxHP);
             }
@@ -1261,7 +1258,7 @@ namespace Dark_Cloud_Improved_Version
             public const int statusTimer = 0x21CDD82C;
             public const int currentWeaponSlot = 0x21CDD88E;
 
-            public static int GetHp()
+            public static ushort GetHp()
             {
                 return Memory.ReadUShort(hp);
             }
@@ -1270,7 +1267,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 Memory.WriteUShort(hp, newhp);
             }
-            public static int GetMaxHp()
+            public static ushort GetMaxHp()
             {
                 return Memory.ReadUShort(maxHP);
             }
@@ -1705,7 +1702,7 @@ namespace Dark_Cloud_Improved_Version
             public const int statusTimer = 0x21CDD830;
             public const int currentWeaponSlot = 0x21CDD88F;
 
-            public static int GetHp()
+            public static ushort GetHp()
             {
                 return Memory.ReadUShort(hp);
             }
@@ -1714,7 +1711,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 Memory.WriteUShort(hp, newhp);
             }
-            public static int GetMaxHp()
+            public static ushort GetMaxHp()
             {
                 return Memory.ReadUShort(maxHP);
             }
@@ -2148,7 +2145,7 @@ namespace Dark_Cloud_Improved_Version
             public const int status = 0x21CDD824;
             public const int statusTimer = 0x21CDD834;
             public const int currentWeaponSlot = 0x21CDD890;
-            public static int GetHp()
+            public static ushort GetHp()
             {
                 return Memory.ReadUShort(hp);
             }
@@ -2157,7 +2154,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 Memory.WriteUShort(hp, newhp);
             }
-            public static int GetMaxHp()
+            public static ushort GetMaxHp()
             {
                 return Memory.ReadUShort(maxHP);
             }
@@ -2592,7 +2589,7 @@ namespace Dark_Cloud_Improved_Version
             public const int statusTimer = 0x21CDD838;
             public const int currentWeaponSlot = 0x21CDD891;
 
-            public static int GetHp()
+            public static ushort GetHp()
             {
                 return Memory.ReadUShort(hp);
             }
@@ -2601,7 +2598,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 Memory.WriteUShort(hp, newhp);
             }
-            public static int GetMaxHp()
+            public static ushort GetMaxHp()
             {
                 return Memory.ReadUShort(maxHP);
             }

@@ -148,7 +148,7 @@ namespace Dark_Cloud_Improved_Version
 
                         //Xiao
                         case 1:
-                            switch (Player.GetCurrentWeaponId())
+                            switch (Player.Weapon.GetCurrentWeaponId())
                             {
                                 case 307: // Dragon's Y ID
                                     CustomEffects.DragonsY();
@@ -165,7 +165,7 @@ namespace Dark_Cloud_Improved_Version
 
                         //Goro
                         case 2:
-                            if (Player.GetCurrentWeaponId() == 324) //Tall Hammer ID
+                            if (Player.Weapon.GetCurrentWeaponId() == 324) //Tall Hammer ID
                             {
                                 CustomEffects.TallHammer();
                             }
@@ -173,7 +173,7 @@ namespace Dark_Cloud_Improved_Version
 
                         //Ruby
                         case 3:
-                            if (Player.GetCurrentWeaponId() == 341) //Mobius Ring ID
+                            if (Player.Weapon.GetCurrentWeaponId() == 341) //Mobius Ring ID
                             {
                                 CustomEffects.MobiusRing();
                             }
@@ -181,7 +181,7 @@ namespace Dark_Cloud_Improved_Version
 
                         //Ungaga
                         case 4:
-                            switch (Player.GetCurrentWeaponId())
+                            switch (Player.Weapon.GetCurrentWeaponId())
                             {
                                 case 356: //Hercules Wrath ID
                                     CustomEffects.HerculesWrath();
@@ -194,7 +194,7 @@ namespace Dark_Cloud_Improved_Version
 
                         //Osmond
                         case 5:
-                            if (Player.GetCurrentWeaponId() == 373) //Supernova ID
+                            if (Player.Weapon.GetCurrentWeaponId() == 373) //Supernova ID
                             {
                                 CustomEffects.Supernova();
                             }

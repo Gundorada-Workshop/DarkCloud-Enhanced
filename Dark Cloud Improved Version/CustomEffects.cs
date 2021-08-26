@@ -84,24 +84,22 @@ namespace Dark_Cloud_Improved_Version
         public static void AngelGear()
         {
             //Initialize variables
-            byte HpValueAdd = 1;
+            int HpValueAdd = 1;
             int Delay = 5000;
+            ushort XiaoHp = 0;
+            ushort XiaoMaxHp = 0;
+            bool isHealXiao = false;
 
-            //Run while Angel Gear is equipped
+            //Run while Angel Gear is equipped and Player is in a non paused state
             while (Player.Weapon.GetCurrentWeaponId() == 313 &&
                     !Player.CheckDunIsInteracting() &&
                     !Player.CheckDunIsOpeningChest() &&
-                    !Player.CheckDunIsPaused())
+                    !Player.CheckDunIsPaused() &&
+                    Player.CheckDunIsWalkingMode())
             {
                 //Fetch HP values for characters
                 int ToanHp = Player.Toan.GetHp();
                 int ToanMaxHp = Player.Toan.GetMaxHp();
-                if (Player.Weapon.GetCurrentWeaponSpecial2() % 16 >= 8 &&
-                    Player.Weapon.GetCurrentWeaponSpecial2() % 16 <= 11)
-                {
-                    int XiaoHp = Player.Xiao.GetHp();
-                    int XiaoMaxHp = Player.Xiao.GetMaxHp();
-                }
                 int GoroHp = Player.Goro.GetHp();
                 int GoroMaxHp = Player.Goro.GetMaxHp();
                 int RubyHp = Player.Ruby.GetHp();
@@ -111,19 +109,31 @@ namespace Dark_Cloud_Improved_Version
                 int OsmondHp = Player.Osmond.GetHp();
                 int OsmondMaxHp = Player.Osmond.GetMaxHp();
 
-                //Add the HP value to the characters current HP
-                if (ToanHp < ToanMaxHp) Player.Toan.SetHp(ToanHp + HpValueAdd);
-                //if (XiaoHp < XiaoMaxHp) Player.Toan.SetHp((ushort)(XiaoHp + HpValueAdd));
-                if (GoroHp < GoroMaxHp) Player.Toan.SetHp(GoroHp + HpValueAdd);
-                if (RubyHp < RubyMaxHp) Player.Toan.SetHp(RubyHp + HpValueAdd);
-                if (UngagaHp < UngagaMaxHp) Player.Toan.SetHp(UngagaHp + HpValueAdd);
-                if (OsmondHp < OsmondMaxHp) Player.Toan.SetHp(OsmondHp + HpValueAdd);
+                //Check for the Heal special attribute on the weapon
+                if (Player.Weapon.GetCurrentWeaponSpecial2() % 16 < 8 ||
+                    Player.Weapon.GetCurrentWeaponSpecial2() % 16 > 11)
+                {
+                    isHealXiao = true;
+                    XiaoHp = Player.Xiao.GetHp();
+                    XiaoMaxHp = Player.Xiao.GetMaxHp();
+                }
 
-                //Wait inbetween additions
+                //Add the HP value to the characters current HP
+                if (ToanHp < ToanMaxHp) Player.Toan.SetHp((ushort)(ToanHp + HpValueAdd));
+
+                Console.WriteLine("Toan HP add: " + (ToanHp + HpValueAdd));
+
+                if (GoroHp < GoroMaxHp) Player.Goro.SetHp((ushort)(GoroHp + HpValueAdd));
+                if (RubyHp < RubyMaxHp) Player.Ruby.SetHp((ushort)(RubyHp + HpValueAdd));
+                if (UngagaHp < UngagaMaxHp) Player.Ungaga.SetHp((ushort)(UngagaHp + HpValueAdd));
+                if (OsmondHp < OsmondMaxHp) Player.Osmond.SetHp((ushort)(OsmondHp + HpValueAdd));
+                if (isHealXiao && XiaoHp < XiaoMaxHp) Player.Xiao.SetHp((ushort)(XiaoHp + HpValueAdd));
+
+                //Wait in between additions
                 Thread.Sleep(Delay);
             }
         }
-        //Applies the Heal regeneration affect to all allies
+        //Applies the Heal regeneration effect to all allies
 
         public static void TallHammer()
         {

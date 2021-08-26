@@ -50,6 +50,13 @@
         public const int dunMessage10 = 0x20998BB8;     //The address pointing to the text of the 10th dungeon message. 157 Byte array
         public const int dunMessage11 = 0x20998C8E;     //The address pointing to the text of the 11th dungeon message. 172 Byte array
         public const int healingSpeed = 0x202A2B88;     //Counts every 10 frames when the player is inside a fountain
+        public const int dungeonMode = 0x202A355C;      //1 = Normal Mode
+                                                        //2 = On Menu
+                                                        //3 = Door Menu
+                                                        //4 = ??
+                                                        //5 = Ally Quick Select
+                                                        //6 = ??
+                                                        //7 = Next Floor Screen
 
         //Menu Stuff
         public const int menuWMIconHover = 0x202A2D4C;  //The walking mode menu icon the cursor is hovering
