@@ -57,6 +57,7 @@
                                                         //5 = Ally Quick Select
                                                         //6 = ??
                                                         //7 = Next Floor Screen
+        public const int isBypassBoneDoor = 0x20931794; //Default value is 25, change it to 5 and the bone door will open by pressing Square
 
         //Menu Stuff
         public const int menuWMIconHover = 0x202A2D4C;  //The walking mode menu icon the cursor is hovering
