@@ -2,6 +2,7 @@
 {
     class Addresses
     {
+        public const int mode = 0x202A2534; //Values: 0=Main title, 1=Intro, 2=Town, 3=Dungeon, 4=? (doesnt crash in dungeon), 5=Opening cutscene(dark shrine), 6=?, 7=Debug menu
         public const int gilda = 0x21CDD892;
         public const int magicCrystal = 0x202A35A0;
         public const int map = 0x202A359C;
@@ -50,6 +51,10 @@
         public const int dunMessage10 = 0x20998BB8;     //The address pointing to the text of the 10th dungeon message. 157 Byte array
         public const int dunMessage11 = 0x20998C8E;     //The address pointing to the text of the 11th dungeon message. 172 Byte array
         public const int healingSpeed = 0x202A2B88;     //Counts every 10 frames when the player is inside a fountain
+        public const int BoneDoorOpenType = 0x20931768; //Default value is 21, change it to 5 and the bone door will open by pressing Square
+        public const int dungDoorType = 0x21D56770;     //Tells us the type of door when interacting with X or Square
+        public const int checkFloor = 0x21CD954E;       //Tells the current floor player is on, updates when entering the floor
+        public const int checkDungeon = 0x202A3594;     //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
         public const int dungeonMode = 0x202A355C;      //1 = Normal Mode
                                                         //2 = On Menu
                                                         //3 = Door Menu
@@ -57,7 +62,6 @@
                                                         //5 = Ally Quick Select
                                                         //6 = ??
                                                         //7 = Next Floor Screen
-        public const int isBypassBoneDoor = 0x20931794; //Default value is 25, change it to 5 and the bone door will open by pressing Square
 
         //Menu Stuff
         public const int menuWMIconHover = 0x202A2D4C;  //The walking mode menu icon the cursor is hovering
@@ -104,6 +108,7 @@
         public const int hideClock = 0x202A2894;
         public const int showNPCArrows = 0x202A28A4;
 
+        //Time
         public const int timeofDayRead = 0x202A28F4;    //Same as Time of Day value but does not clear when leaving town. Only for reading
         public const int timeofDayWrite = 0x21CD4310;   //Time of Day in town 
 
@@ -139,11 +144,7 @@
         public static byte[] functionBGMPlay = { 204, 102, 5, 12 };
         public static byte[] functionBGMStop = { 232, 102, 5, 12 };
 
-        public const int mode = 0x202A2534; //Values: 0=Main title, 1=Intro, 2=Town, 3=Dungeon, 4=? (doesnt crash in dungeon), 5=Opening cutscene(dark shrine), 6=?, 7=Debug menu
-        public const int checkFloor = 0x21CD954E;  //Tells the current floor player is on, updates when entering the floor
-        public const int checkDungeon = 0x202A3594; //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
-
-        public const int firstChest = 0x21DD0260;   //first chest rolled in the floor
+        public const int firstChest = 0x21DD0260;           //first chest rolled in the floor
         public const int firstChestSize = 0x21DD0268;       //either small or big chest
         public const int backfloorFirstChest = 0x21DE0D70;
         public const int backfloorFirstChestSize = 0x21DE0D78;

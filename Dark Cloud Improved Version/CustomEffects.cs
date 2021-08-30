@@ -20,35 +20,53 @@ namespace Dark_Cloud_Improved_Version
 
         private static Random random = new Random();
 
-        public static void DragonsY()
+        public static void BoneRapierEffect(bool isActive)
         {
-            const int dunPositionZ = 0x21EA1D34;
-            const int dunPositionX = 0x21EA1D30;
-            const int dunPositionY = 0x21EA1D38;
-
-            float posX = Memory.ReadFloat(dunPositionX);
-            float posY = Memory.ReadFloat(dunPositionY);
-            //float posZ = Memory.ReadFloat(dunPositionZ);
-            ushort healspeed1 = Memory.ReadUShort(0x202A2B88);
-
-            var i = 0.15; // Acceleration modifier
-            var a = 0.000001; // Base acceleration value
-
-            while (Memory.ReadUShort(Addresses.buttonInputs) == 65        // X + L2 being pressed?
-                && Memory.ReadFloat(dunPositionZ) < 30   /*     // Height below 25 units?
-                && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
-                && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
-                && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
-                && Player.CheckDunIsPaused() == false           // Is paused?
-                && Player.CheckDunFirstPersonMode() == false    // Is in first person?
-                && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
-                && Player.CheckDunIsInteracting() == false*/)   // Is interacting with an element? (Doors, backfloor gates...))     
+            if (isActive)
             {
-                Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(a * i)));
-                i++;
+                //Set BypassBoneDoor
+                if (!DungeonThread.IsBypassBoneDoor()) DungeonThread.SetBypassBoneDoor(true);
+            }
+            //Otherwise reset BypassBoneDoor
+            else if (DungeonThread.IsBypassBoneDoor()) DungeonThread.SetBypassBoneDoor(false);
+        }
+        public static void BoneDoorTrigger()
+        {
+            while (!DungeonThread.doorIsOpen &&
+                    Player.InDungeonFloor() &&
+                    Player.Weapon.GetCurrentWeaponId() == 290)
+            {
+                //Bone door opened through Bone Rapier
+                if (Memory.ReadByte(Addresses.dungDoorType) == 250 &&
+                    DungeonThread.IsBypassBoneDoor() &&
+                    Memory.ReadInt(0x21D56800) == 15903712) //Aux address to help determine if the bone door specifically was opened)
+                {
+                    int ms = 0;
+
+                    while (Memory.ReadInt(Addresses.hideHud) == 1 && ms < 2000)
+                    {
+                        Thread.Sleep(100);
+                        ms += 100;
+                        continue;
+                    }
+
+                    //Display our custom message
+                    Dayuppy.DisplayMessage("You can hear a laughing voice\nuttering 'Rattle me bones!'", 2, 29, 4000);
+                    DungeonThread.doorIsOpen = true;
+                }
+                //Bone door opened normally without Bone Rapier
+                else if (Memory.ReadByte(Addresses.dungDoorType) == 250 &&
+                        !DungeonThread.IsBypassBoneDoor() &&
+                        Memory.ReadInt(0x21D56800) == 15903712 //Aux address to help determine if the bone door specifically was opened
+                        )
+                {
+                    DungeonThread.doorIsOpen = true;
+                }
+
+                Thread.Sleep(500);
             }
         }
-        //Grants the ability to fly upwards
+
         public static bool CheckChronicle2(bool acquired)
         {
             if (Memory.ReadInt(Player.Toan.WeaponSlot0.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.type) == 298
@@ -81,11 +99,41 @@ namespace Dark_Cloud_Improved_Version
             return acquired;
         }
 
+        public static void DragonsY()
+        {
+            const int dunPositionZ = 0x21EA1D34;
+            const int dunPositionX = 0x21EA1D30;
+            const int dunPositionY = 0x21EA1D38;
+
+            float posX = Memory.ReadFloat(dunPositionX);
+            float posY = Memory.ReadFloat(dunPositionY);
+            //float posZ = Memory.ReadFloat(dunPositionZ);
+            ushort healspeed1 = Memory.ReadUShort(0x202A2B88);
+
+            var i = 0.15; // Acceleration modifier
+            var a = 0.000001; // Base acceleration value
+
+            while (Memory.ReadUShort(Addresses.buttonInputs) == 65        // X + L2 being pressed?
+                && Memory.ReadFloat(dunPositionZ) < 30   /*     // Height below 25 units?
+                && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
+                && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
+                && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
+                && Player.CheckDunIsPaused() == false           // Is paused?
+                && Player.CheckDunFirstPersonMode() == false    // Is in first person?
+                && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
+                && Player.CheckDunIsInteracting() == false*/)   // Is interacting with an element? (Doors, backfloor gates...))     
+            {
+                Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(a * i)));
+                i++;
+            }
+        }
+        //Grants the ability to fly upwards
+
         public static void AngelGear()
         {
             //Initialize variables
-            int HpValueAdd = 1;
-            int Delay = 5000;
+            ushort HpValueAdd = 1;
+            ushort Delay = 5000;
             ushort XiaoHp = 0;
             ushort XiaoMaxHp = 0;
             bool isHealXiao = false;
@@ -98,16 +146,16 @@ namespace Dark_Cloud_Improved_Version
                     Player.CheckDunIsWalkingMode())
             {
                 //Fetch HP values for characters
-                int ToanHp = Player.Toan.GetHp();
-                int ToanMaxHp = Player.Toan.GetMaxHp();
-                int GoroHp = Player.Goro.GetHp();
-                int GoroMaxHp = Player.Goro.GetMaxHp();
-                int RubyHp = Player.Ruby.GetHp();
-                int RubyMaxHp = Player.Ruby.GetMaxHp();
-                int UngagaHp = Player.Ungaga.GetHp();
-                int UngagaMaxHp = Player.Ungaga.GetMaxHp();
-                int OsmondHp = Player.Osmond.GetHp();
-                int OsmondMaxHp = Player.Osmond.GetMaxHp();
+                ushort ToanHp = Player.Toan.GetHp();
+                ushort ToanMaxHp = Player.Toan.GetMaxHp();
+                ushort GoroHp = Player.Goro.GetHp();
+                ushort GoroMaxHp = Player.Goro.GetMaxHp();
+                ushort RubyHp = Player.Ruby.GetHp();
+                ushort RubyMaxHp = Player.Ruby.GetMaxHp();
+                ushort UngagaHp = Player.Ungaga.GetHp();
+                ushort UngagaMaxHp = Player.Ungaga.GetMaxHp();
+                ushort OsmondHp = Player.Osmond.GetHp();
+                ushort OsmondMaxHp = Player.Osmond.GetMaxHp();
 
                 //Check for the Heal special attribute on the weapon
                 if (Player.Weapon.GetCurrentWeaponSpecial2() % 16 < 8 ||

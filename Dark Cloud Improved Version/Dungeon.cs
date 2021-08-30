@@ -31,11 +31,189 @@ namespace Dark_Cloud_Improved_Version
         public static bool monsterQuestChiefActive = false;
         public static bool hasMiniBoss = false;
         public static bool enemiesSpawn = false;
+        public static bool doorIsOpen = false;
         public static List<byte> excludeFloors;
         public static Thread spawnsCheck;
         public static Thread minibossProcess;
         public static Thread miniBossMessage;
-        public static Thread AngelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
+        public static Thread angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
+        public static Thread boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
+        public static void InsideDungeonThread()
+        {
+            Console.WriteLine("Dungeon Thread Activated");
+            while (true)
+            {
+                if (Player.InDungeonFloor())
+                {
+                    switch (Player.CurrentCharacterNum())
+                    {
+                        //Toan
+                        case 0:
+                            switch (Player.Weapon.GetCurrentWeaponId())
+                            {
+                                case 290: //Bone Rapier
+                                    CustomEffects.BoneRapierEffect(true);
+
+                                    if (!boneDoorThread.IsAlive)
+                                    {
+                                        boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
+                                        boneDoorThread.Start();
+                                    }
+                                    break;
+                            }
+                            break;
+
+                        //Xiao
+                        case 1:
+                            switch (Player.Weapon.GetCurrentWeaponId())
+                            {
+                                case 307: // Dragon's Y
+                                    CustomEffects.DragonsY();
+                                    break;
+
+                                case 313: //Angel Gear
+                                    if (!angelGearThread.IsAlive)
+                                    {
+                                        angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
+                                        angelGearThread.Start();
+                                    }
+                                    break;
+                            }
+                            CustomEffects.BoneRapierEffect(false);
+                            break;
+
+                        //Goro
+                        case 2:
+                            if (Player.Weapon.GetCurrentWeaponId() == 324) //Tall Hammer
+                            {
+                                CustomEffects.TallHammer();
+                            }
+                            CustomEffects.BoneRapierEffect(false);
+                            break;
+
+                        //Ruby
+                        case 3:
+                            if (Player.Weapon.GetCurrentWeaponId() == 341) //Mobius Ring
+                            {
+                                CustomEffects.MobiusRing();
+                            }
+                            CustomEffects.BoneRapierEffect(false);
+                            break;
+
+                        //Ungaga
+                        case 4:
+                            switch (Player.Weapon.GetCurrentWeaponId())
+                            {
+                                case 356: //Hercules Wrath ID
+                                    CustomEffects.HerculesWrath();
+                                    break;
+                                case 357: //Babel Spear ID
+                                    CustomEffects.BabelSpear();
+                                    break;
+                            }
+                            CustomEffects.BoneRapierEffect(false);
+                            break;
+
+                        //Osmond
+                        case 5:
+                            if (Player.Weapon.GetCurrentWeaponId() == 373) //Supernova
+                            {
+                                CustomEffects.Supernova();
+                            }
+                            CustomEffects.BoneRapierEffect(false);
+                            break;
+                    }
+
+
+                    //Get current Dungeon
+                    currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
+
+                    //Define event and boss floors
+                    excludeFloors = GetDungeonEventFloors(currentDungeon);
+
+                    //Get current Floor
+                    currentFloor = Memory.ReadByte(Addresses.checkFloor);
+
+                    //Check if the player has entered a new floor
+                    if (currentFloor != prevFloor)
+                    {
+                        Console.WriteLine("Player has entered a new floor!");
+
+                        doorIsOpen = false;
+
+                        //Check if player is not on an event floor and call the Mini Boss
+                        if (!excludeFloors.Contains(currentFloor))
+                        {
+                            //Initialize the spawns check
+                            spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
+                            spawnsCheck.Start();
+
+                            //Initialize the mini boss thread
+                            minibossProcess = new Thread(() => DoMinibossSpawn(currentDungeon));
+
+                            chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
+                            CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
+
+                            monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
+
+                            for (int i = 0; i < monstersDead.Length; i++)
+                            {
+                                monstersDead[i] = false;
+                            }
+                        }
+                        else Console.WriteLine("Player has entered an event floor!");
+
+                        //Once everything is done, we set this so it wont reroll again in same floor
+                        prevFloor = currentFloor;
+                    }
+
+                    //Check if clown is triggered, then change loot table
+                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false)
+                    {
+                        CustomChests.ClownRandomizer(chronicle2);
+                        clownOnScreen = true;
+                    }
+                    else
+                    {
+                        if (clownOnScreen)
+                        {
+                            if (Memory.ReadByte(Addresses.clownCheck) == 0)
+                            {
+                                clownOnScreen = false;
+                            }
+                        }
+                    }
+
+                    if (monsterQuestActive)
+                    {
+                        for (int i = 0; i < monstersDead.Length; i++)
+                        {
+
+                            currentAddress = 0x21E16BC4 + (i * 0x190);
+
+                            if (Memory.ReadUShort(currentAddress) > 0)
+                            {
+                                monstersDead[i] = false;
+                            }
+                            else
+                            {
+                                if (monstersDead[i] == false)
+                                {
+                                    CheckEnemyKill(currentAddress);
+                                }
+
+                                monstersDead[i] = true;
+                            }
+                        }
+                    }
+
+                }
+                //Used to reset the floor data when going back to dungeon
+                else prevFloor = 200;
+
+                Thread.Sleep(10);
+            }
+        }
 
         public static List<byte> GetDungeonGateKey(byte dungeon)
         {
@@ -131,162 +309,6 @@ namespace Dark_Cloud_Improved_Version
                     break;
             }
             return floors;
-        }
-
-        public static void InsideDungeonThread()
-        {
-            Console.WriteLine("Dungeon Thread Activated");
-            while (true)
-            {
-                if (Player.InDungeonFloor())
-                {
-                    switch (Player.CurrentCharacterNum())
-                    {
-                        //Toan
-                        case 0:
-                            break;
-
-                        //Xiao
-                        case 1:
-                            switch (Player.Weapon.GetCurrentWeaponId())
-                            {
-                                case 307: // Dragon's Y ID
-                                    CustomEffects.DragonsY();
-                                    break;
-                                case 313: //Angel Gear ID
-                                    if (!AngelGearThread.IsAlive)
-                                    {
-                                        AngelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
-                                        AngelGearThread.Start();
-                                    }
-                                    break;
-                            }
-                            break;
-
-                        //Goro
-                        case 2:
-                            if (Player.Weapon.GetCurrentWeaponId() == 324) //Tall Hammer ID
-                            {
-                                CustomEffects.TallHammer();
-                            }
-                            break;
-
-                        //Ruby
-                        case 3:
-                            if (Player.Weapon.GetCurrentWeaponId() == 341) //Mobius Ring ID
-                            {
-                                CustomEffects.MobiusRing();
-                            }
-                            break;
-
-                        //Ungaga
-                        case 4:
-                            switch (Player.Weapon.GetCurrentWeaponId())
-                            {
-                                case 356: //Hercules Wrath ID
-                                    CustomEffects.HerculesWrath();
-                                    break;
-                                case 357: //Babel Spear ID
-                                    CustomEffects.BabelSpear();
-                                    break;
-                            }
-                            break;
-
-                        //Osmond
-                        case 5:
-                            if (Player.Weapon.GetCurrentWeaponId() == 373) //Supernova ID
-                            {
-                                CustomEffects.Supernova();
-                            }
-                            break;
-                    }
-
-                    //Get current Dungeon
-                    currentDungeon = Memory.ReadByte(Addresses.checkDungeon);
-
-                    //Define event and boss floors
-                    excludeFloors = GetDungeonEventFloors(currentDungeon);
-
-                    //Get current Floor
-                    currentFloor = Memory.ReadByte(Addresses.checkFloor);
-
-                    //Check if the player has entered a new floor
-                    if (currentFloor != prevFloor)  
-                    {
-                        Console.WriteLine("Player has entered a new floor!");
-
-                        //Check if player is not on an event floor and call the Mini Boss
-                        if (!excludeFloors.Contains(currentFloor))
-                        {
-                            //Initialize the spawns check
-                            spawnsCheck = new Thread(new ThreadStart (CheckSpawns));
-                            spawnsCheck.Start();
-
-                            //Initialize the mini boss thread
-                            minibossProcess = new Thread(() => DoMinibossSpawn(currentDungeon));
-
-                            chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
-                            CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
-
-                            monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
-
-                            for (int i = 0; i < monstersDead.Length; i++)
-                            {
-                                monstersDead[i] = false;
-                            }
-                        }
-                        else Console.WriteLine("Player has entered an event floor!");
-
-                        //Once everything is done, we initialize this so it wont reroll again in same floor
-                        prevFloor = currentFloor;
-                    }
-
-                    //Check if clown is triggered, then change loot table
-                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false)
-                    {
-                        CustomChests.ClownRandomizer(chronicle2);
-                        clownOnScreen = true;
-                    }
-                    else
-                    {
-                        if (clownOnScreen)
-                        {
-                            if (Memory.ReadByte(Addresses.clownCheck) == 0)
-                            {
-                                clownOnScreen = false;
-                            }
-                        }
-                    }
-
-                    if (monsterQuestActive)
-                    {
-                        for (int i = 0; i < monstersDead.Length; i++)
-                        {
-
-                            currentAddress = 0x21E16BC4 + (i * 0x190);
-
-                            if (Memory.ReadUShort(currentAddress) > 0)
-                            {
-                                monstersDead[i] = false;
-                            }
-                            else
-                            {
-                                if (monstersDead[i] == false)
-                                {
-                                    CheckEnemyKill(currentAddress);
-                                }
-
-                                monstersDead[i] = true;
-                            }
-                        }
-                    }
-
-                }                    
-                //Used to reset the floor data when going back to dungeon
-                else prevFloor = 200;
-
-                Thread.Sleep(10);
-            }
         }
 
         public static void CheckEnemyKill(int currentEnemyAddress)
@@ -470,5 +492,19 @@ namespace Dark_Cloud_Improved_Version
 
             miniBossMessage.Abort();
         }
+
+        public static bool IsBypassBoneDoor()
+        {
+            return Memory.ReadByte(Addresses.BoneDoorOpenType) == 5 ? true: false;
+        }
+
+        public static void SetBypassBoneDoor(bool flag)
+        {
+            byte n;
+            if (flag) n = 5;
+            else n = 21;
+            Memory.WriteByte(Addresses.BoneDoorOpenType, n);
+        }
+
     }
 }
