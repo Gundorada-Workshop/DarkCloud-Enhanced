@@ -60,6 +60,9 @@ namespace Dark_Cloud_Improved_Version
                                         boneDoorThread.Start();
                                     }
                                     break;
+                                default:
+                                    CustomEffects.BoneRapierEffect(false);
+                                    break;
                             }
                             break;
 
