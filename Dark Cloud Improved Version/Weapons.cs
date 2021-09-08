@@ -62,6 +62,10 @@ namespace Dark_Cloud_Improved_Version
         public const int ungagaoffset = 0x1AB8; //Ungaga
         public const int osmondoffset = 0x1F78; //Osmond
 
+        //Lamb sword buff
+        public const int lambTransformThreshold = 0x202A1818;
+        public const int lambStatsThreshold = 0x202A188C;
+
         public static void WeaponsBalanceChanges()
         {
             Console.WriteLine("MikeZorD weapon changes have been applied...");
@@ -99,6 +103,8 @@ namespace Dark_Cloud_Improved_Version
 
             //Lamb's Sword, id = 272
             Memory.WriteUShort((synth3 + (weaponoffset * (272 - daggerid))), 1);    //Adds a 3rd regular attachment slot
+            Memory.WriteDouble(lambTransformThreshold, 0.5);                        //Change the percent limit for when the sword should transform
+            Memory.WriteFloat(lambStatsThreshold, (float) 0.5);                     //Change the percent limit for when the sword stats should upgrade
 
             //Brave Ark, id = 274
             Memory.WriteUShort((synth3 + (weaponoffset * (274 - daggerid))), 1);    //Adds a 3rd regular attachment slot

@@ -51,7 +51,7 @@ namespace Dark_Cloud_Improved_Version
                     }
 
                     //Display our custom message
-                    Dayuppy.DisplayMessage("You can hear a laughing voice\nuttering 'Rattle me bones!'", 2, 29, 4000);
+                    Dayuppy.DisplayMessage("You can hear an ominous voice\nlaughing 'Rattle me bones!'", 2, 29, 4000);
                     DungeonThread.doorIsOpen = true;
                 }
                 //Bone door opened normally without Bone Rapier

@@ -115,8 +115,10 @@
         //The percent of damage poison does to you based on max hp, default is "0.04"
         public const int poisonDamagePercent = 0x202A1860;
 
-        //This is the percent the lamb sword needs to be to transform to wolf sword, default is "0.2"
+        //This is the percent the lamb sword needs to be to transform to wolf sword, default is "double 0.2"
         public const int lambSwordPercent = 0x202A1818;
+        //This is the percent for when the stats for the lamb sword should increase, default is "float 0.2"
+        public const int lambSwordStatsPercent = 0x202A188C;
 
         //Debug Menus
         public const int itemDebugMenu = 0x21D9EC08;
