@@ -7,6 +7,114 @@ namespace Dark_Cloud_Improved_Version
         public const int offset = 0x190;        //Offset between floor enemies
         public const int tableOffset = 0x9C;    //Offset between table enemies
 
+        //Enemy ID values
+        public const int masterjacket = 1;
+        public const int skeletonsoldier = 3;
+        public const int statue = 5;
+        public const int dasher = 6;
+        public const int werewolf = 7;
+        public const int flifli = 8;
+        public const int hornet = 9;
+        public const int halloween = 10;
+        public const int canibalplant = 11;
+        public const int earthdigger = 12;
+        public const int sunday = 14;
+        public const int monday = 15;
+        public const int tuesday = 16;
+        public const int wednesday = 17;
+        public const int friday = 18;
+        public const int saturday = 19;
+        public const int witchhellza = 21;
+        public const int witchillza = 22;
+        public const int gunny = 23;
+        public const int gyon = 24;
+        public const int pirateschariot = 25;
+        public const int auntiemedu = 26;
+        public const int captain = 27;
+        public const int corcea = 28;
+        public const int golem = 30;
+        public const int mrblare = 31;
+        public const int dune = 32;
+        public const int titan = 33;
+        public const int kingmimicdbc = 34; //Diving Beast Cave
+        public const int mimicdbc = 35;     //Diving Beast Cave
+        public const int kingmimicsmt = 36; //Sun & Moon Temple
+        public const int mimicsmt = 37;     //Sun & Moon Temple
+        public const int kingmimicms = 38;  //Moon Sea
+        public const int mimicms = 39;      //Moon Sea
+        public const int arthur = 40;
+        public const int ghost = 42;
+        public const int alexander = 43;
+        public const int heart = 44;
+        public const int club = 45;
+        public const int diamond = 46;
+        public const int spade = 47;
+        public const int joker = 48;
+        public const int bomberhead = 49;
+        public const int mummy = 50;
+        public const int lich = 51;
+        public const int cursedancer = 52;
+        public const int killersnake = 54;
+        public const int livingarmor = 55;
+        public const int whitefang = 56;
+        public const int moonbug = 57;
+        public const int phantom = 58;
+        public const int dragon = 59;
+        public const int cavebat = 60;
+        public const int evilbat = 61;
+        public const int hellpockle = 62;
+        public const int rashdasher = 63;
+        public const int steelgiant = 64;
+        public const int blizzard = 65;
+        public const int moondigger = 66;
+        public const int darkflower = 67;
+        public const int cursedrose = 68;
+        public const int billy = 69;
+        public const int vulcan = 70;
+        public const int crabbyhermit = 71;
+        public const int spacegyon = 72;
+        public const int bluedragon = 73;
+        public const int blackdragon = 74;
+        public const int maskofprajna = 75;
+        public const int crescentbaron = 76;
+        public const int rockanoff = 77;
+        public const int kingmimicwo = 78;  //Wise Owl
+        public const int mimicwo = 79;      //Wise Owl
+        public const int kingmimicsw = 80;  //Shipwreck
+        public const int mimicsw = 81;      //Shipwreck
+        public const int kingmimicgot = 82; //Gallery of Time
+        public const int mimicgot = 83;     //Gallery of Time
+        public const int icearrow = 84;
+        public const int sam = 85;
+        public const int gol = 90;
+        public const int sil = 91;
+        public const int dran = 112;
+        public const int icequeen = 113;
+        public const int masterutan = 114;
+        public const int kingscurse = 115;
+        public const int minotaurjoe = 116;
+        public const int darkgenie = 117;
+        public const int righthand = 119;
+        public const int lefthand = 120;
+        public const int blackknight = 221;
+        public const int yammich = 301;
+        public const int statuedog = 303;
+        public const int opar = 304;
+        public const int haleyholey = 305;
+        public const int kingprickly = 306;
+        public const int nikapous = 308;
+        public const int mimicds = 309;     //Demon Shaft
+        public const int kingmimicds = 310; //Demon Shaft
+        public const int gemronfire = 311;
+        public const int gemronice = 312;
+        public const int gemronthunder = 313;
+        public const int gemronwind = 314;
+        public const int gemronholy = 315;
+        public const int bishopq = 316;
+        public const int gacious = 317;
+        public const int silvergear = 318;
+        public const int hornhead = 319;
+
         public static Dictionary<ushort, string> GetNormalEnemies()
         {
             return EnemyList.enemiesNormal;
@@ -19,7 +127,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static Dictionary<ushort, string> GetOverseasEnemies()
         {
-            return EnemyList.enemiesOversea;
+            return EnemyList.enemiesOverseas;
         }
 
         public static Dictionary<ushort, string> GetBossEnemies()
@@ -51,7 +159,6 @@ namespace Dark_Cloud_Improved_Version
 
         internal class EnemyList
         {
-
             public static Dictionary<ushort, string> enemiesNormal = new Dictionary<ushort, string>()
             {
                 { 1, "Master Jacket" },
@@ -157,7 +264,7 @@ namespace Dark_Cloud_Improved_Version
                 { 61, "Evil Bat" },
             };
 
-            internal static Dictionary<ushort, string> enemiesOversea = new Dictionary<ushort, string>()
+            internal static Dictionary<ushort, string> enemiesOverseas = new Dictionary<ushort, string>()
             {
                 { 301, "Yammich" },
                 { 303, "Statue Dog" },

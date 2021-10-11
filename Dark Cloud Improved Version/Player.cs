@@ -5,6 +5,9 @@ namespace Dark_Cloud_Improved_Version
     internal class Player
     {
         public const int gilda = 0x21CDD892;
+        public const int inventorySizeItems = 0x21CDD8AC;
+        public const int inventorySizeWeapons = 60;
+        public const int inventorySizeAttachments = 40;
 
         public const int magicCrystal = 0x202A35A0;
         public const int map = 0x202A359C;
@@ -156,6 +159,330 @@ namespace Dark_Cloud_Improved_Version
         {
             if (Memory.ReadUShort(Addresses.dungeonMode) == 1) return true;
             else return false;
+        }
+
+        internal class Inventory
+        {
+            public static int GetBagCurrentCount()
+            {
+                int bagItemQuantity = 0;
+                int activeItemQuantity = GetActiveItemsQuantity();
+
+                foreach (int item in GetBagItems()){
+                    if (item != -1) bagItemQuantity++; 
+                }
+
+                return bagItemQuantity + activeItemQuantity;
+
+            }
+
+            public static int[] GetActiveItems()
+            {
+                const byte itemOffset = 0x2;
+                int[] activeItems = new int[3];
+
+                for (int slot = 0; slot < 3; slot++)
+                {
+                    int itemId = Memory.ReadUShort(Addresses.activeItem1 + (itemOffset * slot));
+
+                    //Check if the item is an inventory item
+                    if (itemId >= Items.dummy129 && itemId <= Items.dummy256)
+                    {
+                        activeItems[slot] = itemId;
+                    }
+                    else activeItems[slot] = -1;
+                }
+
+                return activeItems;
+            }
+
+            public static int GetActiveItemsQuantity()
+            {
+                const byte itemOffset = 0x2;
+                int quantityTotal = 0;
+                
+                for (int slot = 0; slot < 3; slot++)
+                {
+                    int itemQuantity = Memory.ReadUShort(Addresses.activeItem1Quantity + (itemOffset * slot));
+                    quantityTotal += itemQuantity;
+                }
+                //Console.WriteLine(quantityTotal);
+                return quantityTotal;
+            }
+
+            public static void SetActiveItem(byte activeItemSlot, int itemId, int quantity)
+            {
+
+                int inventorySize = Memory.ReadByte(inventorySizeItems);
+
+                if (GetBagCurrentCount() < inventorySize)
+                {
+                    try
+                    {
+                        switch (activeItemSlot)
+                        {
+                            case 0:
+                                Memory.WriteUShort(Addresses.activeItem1, (ushort)itemId);
+                                Memory.WriteUShort(Addresses.activeItem1Quantity, (ushort)quantity);
+                                break;
+                            case 1:
+                                Memory.WriteUShort(Addresses.activeItem2, (ushort)itemId);
+                                Memory.WriteUShort(Addresses.activeItem2Quantity, (ushort)quantity);
+                                break;
+                            case 2:
+                                Memory.WriteUShort(Addresses.activeItem3, (ushort)itemId);
+                                Memory.WriteUShort(Addresses.activeItem3Quantity, (ushort)quantity);
+                                break;
+                            default:
+                                Console.WriteLine("\nSetActiveItems: Arguments out of range!");
+                                break;
+                        }
+                    }
+                    catch { Console.WriteLine("\nInvalid inputs for SetActiveItem!"); };
+                }
+                else Console.WriteLine("\nBag inventory is full!");
+            }
+
+            public static int[] GetBagItems()
+            //Returns an array of itemIds in the players inventory bag, empty slots are displayed with -1
+            {
+                const byte itemOffset = 0x2;
+                byte inventorySize = Memory.ReadByte(inventorySizeItems);
+                int[] inventoryItems = new int[inventorySize];
+
+                //Run through the inventory bag
+                for (int slot = 0; slot < inventorySize; slot++)
+                {
+                    //Read the current item ID
+                    int itemId = Memory.ReadUShort(Addresses.firstBagItem + (itemOffset * slot));
+
+                    //Check if the item is an inventory item, store the ID if it is; -1 if it isn't (aka empty)
+                    if (itemId >= Items.dummy129  && itemId <= Items.dummy256) {
+                        inventoryItems[slot] = itemId;
+                    } else inventoryItems[slot] = -1;
+                }
+                Console.WriteLine("\nFinished GetBagItems process!");
+                //foreach(int item in inventoryItems) Console.WriteLine(item);
+                return inventoryItems;
+            }
+
+            public static int GetBagItemsFirstAvailableSlot()
+            {
+                int slot = 0;
+                int[] inventoryBag = GetBagItems();
+
+                foreach (int item in inventoryBag)
+                {
+                    //Run until you find an empty slot and return the slot number if found
+                    if (item == -1)
+                    {
+                        //Console.WriteLine("\nFinished GetBagItemsFirstAvailableSlot process: " + slot);
+                        return slot;
+                    }
+                    slot++;
+                }
+
+                //Return -1 if no empty slot was found
+                return -1;
+            }
+
+            public static void SetBagItems(int slot, int itemId)
+            {
+                const byte itemOffset = 0x2;
+
+                try
+                {
+                    if(GetBagItems()[slot] != -1) 
+                        Memory.WriteUShort(Addresses.firstBagItem + (slot * itemOffset), (ushort)itemId);
+                }
+                catch
+                {
+                    if (slot > inventorySizeItems && itemId >= Items.dummy129 || itemId <= Items.dummy256) SetBagItems(GetBagItemsFirstAvailableSlot(), itemId);
+                    else Console.WriteLine("\nInvalid inputs for SetBagItems");
+                }
+                Console.WriteLine("\nFinished SetBagItems process!");
+            }
+
+            public static int[] GetBagWeapons(int character = -1)
+            //Returns an array of itemIds in the players weapon bag, empty slots are displayed with -1
+            {
+                int slot;
+                int inventorySize;
+                const int weaponOffset = 0xF8;
+
+                //Define the correct starting values for the slot and inventory size based on the weapon's owner
+                switch (character)
+                {
+                    case 0:
+                        slot = 0;
+                        inventorySize = 10;
+                        break;
+                    case 1:
+                        slot = 10;
+                        inventorySize = 20;
+                        break;
+                    case 2:
+                        slot = 20;
+                        inventorySize = 30;
+                        break;
+                    case 3:
+                        slot = 30;
+                        inventorySize = 40;
+                        break;
+                    case 4:
+                        slot = 40;
+                        inventorySize = 50;
+                        break;
+                    case 5:
+                        slot = 50;
+                        inventorySize = 60;
+                        break;
+                    default:
+                        slot = 0;
+                        inventorySize = inventorySizeWeapons;
+                        break;
+                }
+
+                int[] inventoryWeapons = new int[inventorySize];
+
+                //Run through the weapons bag
+                while (slot < inventorySize)
+                {
+                    int itemId = Memory.ReadUShort(Addresses.firstBagWeapon + (weaponOffset * slot));
+
+                    //Check if the item is a weapon and save its ID if it is; -1 if it isn't
+                    if (itemId >= Items.brokendagger && itemId <= Items.swallow)
+                    {
+                        inventoryWeapons[slot] = itemId;
+                    }
+                    else inventoryWeapons[slot] = -1;
+
+                    slot++;
+                }
+
+                Console.WriteLine("\nFinished GetBagWeapons process:\n" + inventoryWeapons);
+                return inventoryWeapons;
+            }
+
+            public static int GetBagWeaponsFirstAvailableSlot(int character = -1)
+            {
+                int slot = 0;
+                int[] weaponsBag = GetBagWeapons(character);
+
+                foreach (int item in weaponsBag)
+                {
+                    //Run until you find an empty slot and return the slot number if found
+                    if (item == -1) return slot;
+                    slot++;
+                }
+
+                Console.WriteLine("\nFinished GetBagWeaponsFirstAvailableSlot process: " + slot);
+                //Return -1 if no empty slot was found
+                return -1;
+            }
+
+
+            public static void SetBagWeapons(int slot, int weaponId)
+            {
+                int owner = -1;
+                const int tableWeaponOffset = 0x4C;
+                const int weaponValuesRange = 0x47;
+                const int chararacterOffSet = 0x9B0;
+                const int tableDaggerFirstAddress = 0x2027A70C;
+
+                //Check to whom the weapon belongs to
+                foreach (int weapon in Toan.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 0; };
+                foreach (int weapon in Xiao.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 1; };
+                foreach (int weapon in Goro.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 2; };
+                foreach (int weapon in Ruby.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 3; };
+                foreach (int weapon in Ungaga.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 4; };
+                foreach (int weapon in Osmond.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 5; };
+
+                if (GetBagWeapons()[slot] != -1)
+                {
+                    try
+                    {
+                        //Fetch the values from the original values database
+                        byte[] weaponValues = Memory.ReadByteArray(tableDaggerFirstAddress + (tableWeaponOffset * (weaponId - Items.dagger)), weaponValuesRange);
+
+                        //Write the values on the specified location
+                        Memory.WriteByteArray(Addresses.firstBagWeapon + slot + (chararacterOffSet * owner), weaponValues);
+                    }
+                    catch
+                    {
+                        //If the provided slot is out of bounds, retry again by using the next available free slot
+                        if (slot > inventorySizeWeapons && (weaponId >= Items.brokendagger && weaponId <= Items.swallow)) SetBagItems(GetBagWeaponsFirstAvailableSlot(owner), weaponId);
+                        else Console.WriteLine("Invalid inputs for SetBagWeapons");
+                    }
+                }
+                else Console.WriteLine("\nWeapons inventory is full!");
+                Console.WriteLine("\nFinished SetBagWeapons process!");
+            }
+
+            public static int[] GetBagAttachments()
+            //Returns an array of itemIds in the players attachment bag, empty slots are displayed with -1
+            {
+                const byte itemOffset = 0x20;
+                byte inventorySize = inventorySizeAttachments;
+                int[] inventoryAttachments = new int[inventorySize];
+
+                for (int slot = 0; slot < inventorySize; slot++)
+                {
+                    int itemId = Memory.ReadUShort(Addresses.firstBagAttachment + (itemOffset * slot));
+
+                    //Check if the item is an attachment
+                    if (itemId >= Items.fire && itemId <= Items.mageslayer)
+                    {
+                        inventoryAttachments[slot] = itemId;
+                    }
+                    else inventoryAttachments[slot] = -1;
+                }
+
+                Console.WriteLine("\nInventory attachments:\n" + inventoryAttachments);
+                return inventoryAttachments;
+            }
+
+            public static int GetBagAttachmentsFirstAvailableSlot()
+            {
+                int slot = 0;
+                int[] attachmentBag = GetBagAttachments();
+
+                foreach (int item in attachmentBag)
+                {
+                    //Run until you find an empty slot and return the slot number if found
+                    if (item == -1) return slot;
+                    slot++;
+                }
+                Console.WriteLine("\nFinished GetBagAttachmentsFirstAvailableSlot process: " + slot);
+                //Return -1 if no empty slot was found
+                return -1;
+            }
+
+            public static void SetBagAttachments(int slot, int attachmentId)
+            {
+                const int attachmentOffset = 0x20;
+                const int attachmentValuesRange = 0x1F;
+                const int tableAttachmentFirstAddress = 0x2027CA60;
+
+                if (GetBagAttachments()[slot] != -1)
+                {
+                    try
+                    {
+                        //Fetch the values from the original values database
+                        byte[] attachmentValues = Memory.ReadByteArray(tableAttachmentFirstAddress + (attachmentOffset * (attachmentId - Items.fire)), attachmentValuesRange);
+
+                        //Write the values on the specified location
+                        Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValues);
+                    }
+                    catch
+                    {
+                        if (slot > inventorySizeItems && (attachmentId >= Items.fire && attachmentId <= Items.mageslayer)) SetBagAttachments(GetBagAttachmentsFirstAvailableSlot(), attachmentId);
+                        else Console.WriteLine("Invalid inputs for SetBagAttachments");
+                    }
+                }
+                else Console.WriteLine("\nWeapons inventory is full!");
+                Console.WriteLine("\nFinished SetBagAttachments process!");
+            }
         }
 
         internal class Weapon
@@ -440,6 +767,12 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(statusTimer, timer);
                         break;
                 }
+            }
+
+            public static int[] GetWeaponsList()
+            {
+                int[] swords = { Items.brokendagger, Items.dagger, Items.baselard, Items.gladius, Items.wiseowlsword, Items.crystalknife, Items.antiquesword, Items.bustersword, Items.kitchenknife, Items.tsukikage, Items.sunsword, Items.serpentsword, Items.machosword, Items.shamshir, Items.heavenscloud, Items.lambsswordnormal, Items.darkcloud, Items.braveark, Items.bigbang, Items.atlamilliasword, Items.lamsswordtransformed, Items.mardaneins, Items.mardantwei, Items.arisemardan, Items.agassword, Items.evilcise, Items.smallsword, Items.sandbreaker, Items.drainseeker, Items.chopper, Items.choora, Items.claymore, Items.maneater, Items.bonerapier, Items.sax, Items.sevenbranchsword, Items.dusack, Items.crosshinder, Items.seventhheaven, Items.swordofzeus, Items.chroniclesword, Items.chronicletwo};
+                return swords;
             }
 
             public static byte GetWeaponSlot()
@@ -896,6 +1229,13 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
             }
+
+            public static int[] GetWeaponsList()
+            {
+                int[] slingshots = { Items.brokenwoodenslingshot, Items.woodenslingshot, Items.steelslingshot, Items.banditslingshot, Items.steve, Items.boneslingshot, Items.hardshooter, Items.doubleimpact, Items.dragonsy, Items.divinebeasttitle, Items.angelshooter, Items.flamingo, Items.matador, Items.supersteve, Items.angelgear };
+                return slingshots;
+            }
+
             public static int GetWeaponSlot()
             {
                 return Memory.ReadUShort(currentWeaponSlot);
@@ -1340,6 +1680,13 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
             }
+
+            public static int[] GetWeaponsList()
+            {
+                int[] hammers = { Items.brokenmallet, Items.mallet, Items.steelhammer, Items.magicalhammer, Items.battleaxe, Items.turtleshell, Items.bigbuckshammer, Items.frozentuna, Items.gaiahammer, Items.lastjudgement, Items.tallhammer, Items.satansaxe, Items.platehammer, Items.trialhammer, Items.inferno };
+                return hammers;
+            }
+
             public static int GetWeaponSlot()
             {
                 return Memory.ReadUShort(currentWeaponSlot);
@@ -1784,6 +2131,13 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
             }
+
+            public static int[] GetWeaponsList()
+            {
+                int[] rings = { Items.brokengoldring, Items.goldring, Items.banditsring, Items.crystalring, Items.platinumring, Items.goddessring, Items.fairysring, Items.destructionring, Items.satansring, Items.athenasarmlet, Items.mobiusring, Items.pocklekul, Items.thornarmlet, Items.secretarmlet};
+                return rings;
+            }
+
             public static int GetWeaponSlot()
             {
                 return Memory.ReadUShort(currentWeaponSlot);
@@ -2227,6 +2581,13 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
             }
+
+            public static int[] GetWeaponsList()
+            {
+                int[] sticks = { Items.brokenfightingstick, Items.fightingstick, Items.javelin, Items.halberd, Items.desanga, Items.scorpion, Items.partisan, Items.mirage, Items.terrasword, Items.herculeswrath, Items.babelsspear, Items.fivefootnail, Items.cactus };
+                return sticks;
+            }
+
             public static int GetWeaponSlot()
             {
                 return Memory.ReadUShort(currentWeaponSlot);
@@ -2671,6 +3032,13 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
             }
+
+            public static int[] GetWeaponsList()
+            {
+                int[] guns = { Items.brokenmachinegun, Items.machinegun, Items.jackal, Items.blessinggun, Items.skunk, Items.gcrusher, Items.hexablaster, Items.starbreaker, Items.supernova, Items.snail, Items.swallow };
+                return guns;
+            }
+
             public static int GetWeaponSlot()
             {
                 return Memory.ReadUShort(currentWeaponSlot);

@@ -8,7 +8,7 @@ namespace Dark_Cloud_Improved_Version
 { 
     public class Weapons
     {
-        //Dagger's ID
+        //Default Weapons ID
         public const int daggerid = 258;
         public const int woodenid = 300;
         public const int malletid = 315;

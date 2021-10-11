@@ -99,6 +99,11 @@ namespace Dark_Cloud_Improved_Version
             return acquired;
         }
 
+        public static void SeventhHeaven()
+        {
+
+        }
+
         public static void DragonsY()
         {
             const int dunPositionZ = 0x21EA1D34;

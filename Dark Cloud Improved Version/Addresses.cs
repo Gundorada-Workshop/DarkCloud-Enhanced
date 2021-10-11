@@ -112,6 +112,22 @@
         public const int timeofDayRead = 0x202A28F4;    //Same as Time of Day value but does not clear when leaving town. Only for reading
         public const int timeofDayWrite = 0x21CD4310;   //Time of Day in town 
 
+        //Inventory
+        public const int activeItem1 = 0x21CDD8AE;
+        public const int activeItem1Quantity = 0x21CDD8B4;
+        public const int activeItem2 = 0x21CDD8B0;
+        public const int activeItem2Quantity = 0x21CDD8B6;
+        public const int activeItem3 = 0x21CDD8B2;
+        public const int activeItem3Quantity = 0x21CDD8B8;
+
+        public const int firstBagItem = 0x21CDD8BA;
+        public const int firstBagWeapon = 0x21CDDA58;
+        public const int firstBagAttachment = 0x21CE1A48;
+
+        public const int firstStorageItem = 0x21CE21E8; 
+        public const int firstStorageWeapon = 0x21CE22D8;
+        public const int firstStorageAttachment = 0x21CE3FE8;
+
         //The percent of damage poison does to you based on max hp, default is "0.04"
         public const int poisonDamagePercent = 0x202A1860;
 
