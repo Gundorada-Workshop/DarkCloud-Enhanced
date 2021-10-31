@@ -101,7 +101,34 @@ namespace Dark_Cloud_Improved_Version
 
         public static void SeventhHeaven()
         {
+            //Store the first empty slot
+            int slot = Player.Inventory.GetBagAttachmentsFirstAvailableSlot();
 
+            //Store the item in that slot (by default should be always empty)
+            int oldItem = Player.Inventory.GetBagAttachments()[slot];
+
+            Thread.Sleep(250);
+
+            //Re-check the item again in the same slot to see if a new item has been acquired
+            int newItem = Player.Inventory.GetBagAttachments()[slot];
+
+            //Check if a non gem attachment was obtained and proceed to make a copy of it
+            if (newItem != oldItem && (
+                (newItem >= Items.attack && newItem <= Items.magic) ||          //Is stat attachment?
+                (newItem >= Items.fire && newItem <= Items.holy) ||             //Is element attachment?
+                (newItem >= Items.dragonslayer && newItem <= Items.mageslayer)))//Is anti-stat attachment?
+            {
+                const int attachmentOffset = 0x20;
+                const int attachmentValuesRange = 0x1F;
+
+                //Store the newly obtained attachment values
+                byte[] attachmentValues = Memory.ReadByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValuesRange);
+
+                //Put a copy of the same attachment on the next available slot
+                Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+
+                Dayuppy.DisplayMessage("The 7th Heaven blessed you with a gift!", 1, 40);
+            }
         }
 
         public static void DragonsY()

@@ -38,6 +38,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread miniBossMessage;
         public static Thread angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
         public static Thread boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
+        public static Thread seventhHeavenThread = new Thread(new ThreadStart(CustomEffects.SeventhHeaven));
         public static void InsideDungeonThread()
         {
             Console.WriteLine("Dungeon Thread Activated");
@@ -45,86 +46,98 @@ namespace Dark_Cloud_Improved_Version
             {
                 if (Player.InDungeonFloor())
                 {
-                    switch (Player.CurrentCharacterNum())
+                    if (!Player.CheckDunIsPaused() && Player.CheckDunIsWalkingMode())
                     {
-                        //Toan
-                        case 0:
-                            switch (Player.Weapon.GetCurrentWeaponId())
-                            {
-                                case 290: //Bone Rapier
-                                    CustomEffects.BoneRapierEffect(true);
+                        switch (Player.CurrentCharacterNum())
+                        {
+                            //Toan
+                            case 0:
+                                switch (Player.Weapon.GetCurrentWeaponId())
+                                {
+                                    case Items.bonerapier:
+                                        CustomEffects.BoneRapierEffect(true);
 
-                                    if (!boneDoorThread.IsAlive)
-                                    {
-                                        boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
-                                        boneDoorThread.Start();
-                                    }
-                                    break;
-                                default:
-                                    CustomEffects.BoneRapierEffect(false);
-                                    break;
-                            }
-                            break;
+                                        if (!boneDoorThread.IsAlive)
+                                        {
+                                            boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
+                                            boneDoorThread.Start();
+                                        }
+                                        break;
+                                    case Items.seventhheaven:
+                                        CustomEffects.BoneRapierEffect(false);
 
-                        //Xiao
-                        case 1:
-                            switch (Player.Weapon.GetCurrentWeaponId())
-                            {
-                                case 307: // Dragon's Y
-                                    CustomEffects.DragonsY();
-                                    break;
+                                        if (!seventhHeavenThread.IsAlive)
+                                        {
+                                            seventhHeavenThread = new Thread(new ThreadStart(CustomEffects.SeventhHeaven));
+                                            seventhHeavenThread.Start();
+                                        }
+                                        break;
+                                    default:
+                                        CustomEffects.BoneRapierEffect(false);
+                                        break;
+                                }
+                                break;
 
-                                case 313: //Angel Gear
-                                    if (!angelGearThread.IsAlive)
-                                    {
-                                        angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
-                                        angelGearThread.Start();
-                                    }
-                                    break;
-                            }
-                            CustomEffects.BoneRapierEffect(false);
-                            break;
+                            //Xiao
+                            case 1:
+                                switch (Player.Weapon.GetCurrentWeaponId())
+                                {
+                                    case Items.dragonsy:
+                                        CustomEffects.DragonsY();
+                                        break;
 
-                        //Goro
-                        case 2:
-                            if (Player.Weapon.GetCurrentWeaponId() == 324) //Tall Hammer
-                            {
-                                CustomEffects.TallHammer();
-                            }
-                            CustomEffects.BoneRapierEffect(false);
-                            break;
+                                    case Items.angelgear:
+                                        if (!angelGearThread.IsAlive)
+                                        {
+                                            angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
+                                            angelGearThread.Start();
+                                        }
+                                        break;
+                                }
+                                CustomEffects.BoneRapierEffect(false);
+                                break;
 
-                        //Ruby
-                        case 3:
-                            if (Player.Weapon.GetCurrentWeaponId() == 341) //Mobius Ring
-                            {
-                                CustomEffects.MobiusRing();
-                            }
-                            CustomEffects.BoneRapierEffect(false);
-                            break;
+                            //Goro
+                            case 2:
+                                if (Player.Weapon.GetCurrentWeaponId() == Items.tallhammer)
+                                {
+                                    CustomEffects.TallHammer();
+                                }
+                                CustomEffects.BoneRapierEffect(false);
+                                break;
 
-                        //Ungaga
-                        case 4:
-                            switch (Player.Weapon.GetCurrentWeaponId())
-                            {
-                                case 356: //Hercules Wrath ID
-                                    CustomEffects.HerculesWrath();
-                                    break;
-                                case 357: //Babel Spear ID
-                                    CustomEffects.BabelSpear();
-                                    break;
-                            }
-                            CustomEffects.BoneRapierEffect(false);
-                            break;
+                            //Ruby
+                            case 3:
+                                if (Player.Weapon.GetCurrentWeaponId() == Items.mobiusring)
+                                {
+                                    CustomEffects.MobiusRing();
+                                }
+                                CustomEffects.BoneRapierEffect(false);
+                                break;
 
-                        //Osmond
-                        case 5:
-                            if (Player.Weapon.GetCurrentWeaponId() == 373) //Supernova
-                            {
-                                CustomEffects.Supernova();
-                            }
-                            CustomEffects.BoneRapierEffect(false);
-                            break;
+                            //Ungaga
+                            case 4:
+                                switch (Player.Weapon.GetCurrentWeaponId())
+                                {
+                                    case Items.herculeswrath:
+                                        CustomEffects.HerculesWrath();
+                                        break;
+                                    case Items.babelsspear:
+                                        CustomEffects.BabelSpear();
+                                        break;
+                                }
+                                CustomEffects.BoneRapierEffect(false);
+                                break;
+
+                            //Osmond
+                            case 5:
+                                if (Player.Weapon.GetCurrentWeaponId() == Items.supernova)
+                                {
+                                    CustomEffects.Supernova();
+                                }
+                                CustomEffects.BoneRapierEffect(false);
+                                break;
+                        } 
                     }
 
 

@@ -36,10 +36,10 @@ namespace Dark_Cloud_Improved_Version
         private void button2_Click(object sender, EventArgs e)      //mike
         {
             //place here the function you want to use from your .cs file
-            if (!weaponsThread.IsAlive) //If we are not already running
-            weaponsThread.Start(); //Start thread
+            //if (!weaponsThread.IsAlive) //If we are not already running
+            //weaponsThread.Start(); //Start thread
 
-            //Player.Inventory.GetActiveItemsQuantity();
+            
         }
 
         private void button3_Click(object sender, EventArgs e)      //plgue

@@ -6,7 +6,7 @@ namespace Dark_Cloud_Improved_Version
     {
         public const int gilda = 0x21CDD892;
         public const int inventorySizeItems = 0x21CDD8AC;
-        public const int inventorySizeWeapons = 60;
+        public const int inventorySizeWeapons = 65;
         public const int inventorySizeAttachments = 40;
 
         public const int magicCrystal = 0x202A35A0;
@@ -47,6 +47,20 @@ namespace Dark_Cloud_Improved_Version
                 return 5;
 
             else return 255;
+        }
+
+        public static string GetCharacterName(int character)
+        {
+            switch (character)
+            {
+                case 0: return "Toan";
+                case 1: return "Xiao";
+                case 2: return "Goro";
+                case 3: return "Ruby";
+                case 4: return "Ungaga";
+                case 5: return "Osmond";
+                default: return null;
+            }
         }
 
         public static bool InDungeonFloor()
@@ -206,7 +220,7 @@ namespace Dark_Cloud_Improved_Version
                     int itemQuantity = Memory.ReadUShort(Addresses.activeItem1Quantity + (itemOffset * slot));
                     quantityTotal += itemQuantity;
                 }
-                //Console.WriteLine(quantityTotal);
+
                 return quantityTotal;
             }
 
@@ -244,7 +258,7 @@ namespace Dark_Cloud_Improved_Version
             }
 
             public static int[] GetBagItems()
-            //Returns an array of itemIds in the players inventory bag, empty slots are displayed with -1
+            
             {
                 const byte itemOffset = 0x2;
                 byte inventorySize = Memory.ReadByte(inventorySizeItems);
@@ -273,7 +287,7 @@ namespace Dark_Cloud_Improved_Version
 
                 foreach (int item in inventoryBag)
                 {
-                    //Run until you find an empty slot and return the slot number if found
+                    //Run until it find an empty slot and return the slot number if found
                     if (item == -1)
                     {
                         //Console.WriteLine("\nFinished GetBagItemsFirstAvailableSlot process: " + slot);
@@ -304,63 +318,80 @@ namespace Dark_Cloud_Improved_Version
             }
 
             public static int[] GetBagWeapons(int character = -1)
-            //Returns an array of itemIds in the players weapon bag, empty slots are displayed with -1
+            
             {
                 int slot;
+                int maxslot;
                 int inventorySize;
                 const int weaponOffset = 0xF8;
+                const int characterWeaponOffset = 0xAA8;
 
-                //Define the correct starting values for the slot and inventory size based on the weapon's owner
-                switch (character)
+                //Define the correct slot ranges to search in
+                if (character != -1)
                 {
-                    case 0:
-                        slot = 0;
-                        inventorySize = 10;
-                        break;
-                    case 1:
-                        slot = 10;
-                        inventorySize = 20;
-                        break;
-                    case 2:
-                        slot = 20;
-                        inventorySize = 30;
-                        break;
-                    case 3:
-                        slot = 30;
-                        inventorySize = 40;
-                        break;
-                    case 4:
-                        slot = 40;
-                        inventorySize = 50;
-                        break;
-                    case 5:
-                        slot = 50;
-                        inventorySize = 60;
-                        break;
-                    default:
-                        slot = 0;
-                        inventorySize = inventorySizeWeapons;
-                        break;
+                    slot = 0;
+                    maxslot = 9;
+                    inventorySize = 10;
+                }
+                else
+                {
+                    slot = 0;
+                    maxslot = 64;
+                    inventorySize = inventorySizeWeapons;
                 }
 
+                //Initialize the array
                 int[] inventoryWeapons = new int[inventorySize];
 
-                //Run through the weapons bag
-                while (slot < inventorySize)
-                {
-                    int itemId = Memory.ReadUShort(Addresses.firstBagWeapon + (weaponOffset * slot));
+                Console.WriteLine("GetBagWeapons for character " + GetCharacterName(character) + " process started!");
 
-                    //Check if the item is a weapon and save its ID if it is; -1 if it isn't
-                    if (itemId >= Items.brokendagger && itemId <= Items.swallow)
+                //Run through the weapons bag
+                while (slot <= maxslot)
+                {
+                    if (character == -1)
                     {
-                        inventoryWeapons[slot] = itemId;
+                        //Print the slots and skip the empty gaps between characters while printing their respecting name
+                        switch (slot)
+                        {
+                            case 10: Console.WriteLine("Xiao:"); slot++; continue;
+                            case 21: Console.WriteLine("Goro:"); slot++; continue;
+                            case 32: Console.WriteLine("Ruby:"); slot++; continue;
+                            case 43: Console.WriteLine("Ungaga:"); slot++; continue;
+                            case 54: Console.WriteLine("Osmond:"); slot++; continue;
+                        }
                     }
-                    else inventoryWeapons[slot] = -1;
+                    else if (character != -1 && slot == 0) Console.WriteLine(GetCharacterName(character) + ":");
+
+                    //Store the weapon ID
+                    int weaponId = Memory.ReadUShort(Addresses.firstBagWeapon + (weaponOffset * slot) + (characterWeaponOffset * character));
+
+                    //Check if there is a weapon in the slot and store its ID or store -1 if no weapon is found
+                    if (weaponId >= Items.brokendagger && weaponId <= Items.swallow)
+                    {
+                        //Store the weapon ID
+                        inventoryWeapons[slot] = weaponId;
+                        Console.WriteLine("Slot: " + slot + " WeaponID: " + weaponId);
+                    }
+                    //Store "empty" if no weapon is found
+                    else
+                    {
+                        inventoryWeapons[slot] = -1;
+                        Console.WriteLine("Slot: " + slot + " WeaponID: -1");
+                    }
 
                     slot++;
                 }
 
-                Console.WriteLine("\nFinished GetBagWeapons process:\n" + inventoryWeapons);
+                /* Debug logs
+                Console.WriteLine("\nFinished GetBagWeapons process:");
+                foreach (int weapon in inventoryWeapons) Console.WriteLine(weapon);
+                */
+
+                Console.WriteLine("GetBagWeapons for character " + GetCharacterName(character) + " process finished!\n");
+
+                //When returning the full weapons inventory (no character specified)
+                //there will be a 0 value inbetween every character weapon set due to
+                //having an empty range of addresses there, just ignore
                 return inventoryWeapons;
             }
 
@@ -369,24 +400,32 @@ namespace Dark_Cloud_Improved_Version
                 int slot = 0;
                 int[] weaponsBag = GetBagWeapons(character);
 
+                Console.WriteLine("Started GetBagWeaponsFirstAvailableSlot process!");
+
                 foreach (int item in weaponsBag)
                 {
                     //Run until you find an empty slot and return the slot number if found
-                    if (item == -1) return slot;
+                    if (item == -1)
+                    {
+                        Console.WriteLine("Finished GetBagWeaponsFirstAvailableSlot process:\n" + slot + "\n");
+                        return slot;
+                    }
                     slot++;
                 }
 
-                Console.WriteLine("\nFinished GetBagWeaponsFirstAvailableSlot process: " + slot);
+                Console.WriteLine("Finished GetBagWeaponsFirstAvailableSlot process:\nNo empty slot found!\n");
+
                 //Return -1 if no empty slot was found
                 return -1;
             }
 
-
-            public static void SetBagWeapons(int slot, int weaponId)
+            //NEEDS REWORK! (Address stat values do not correspond between Base Table and Bag Table)
+            /*public static void SetBagWeapons(int weaponId, int slot)
             {
                 int owner = -1;
-                const int tableWeaponOffset = 0x4C;
+                const int tableWeaponOffset = Weapons.weaponoffset;
                 const int weaponValuesRange = 0x47;
+                const int weaponBagOffset = 0xF8;
                 const int chararacterOffSet = 0x9B0;
                 const int tableDaggerFirstAddress = 0x2027A70C;
 
@@ -398,47 +437,71 @@ namespace Dark_Cloud_Improved_Version
                 foreach (int weapon in Ungaga.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 4; };
                 foreach (int weapon in Osmond.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 5; };
 
-                if (GetBagWeapons()[slot] != -1)
+               
+                try
                 {
-                    try
+                    if (GetBagWeapons(owner)[slot] == -1)
                     {
                         //Fetch the values from the original values database
                         byte[] weaponValues = Memory.ReadByteArray(tableDaggerFirstAddress + (tableWeaponOffset * (weaponId - Items.dagger)), weaponValuesRange);
 
                         //Write the values on the specified location
-                        Memory.WriteByteArray(Addresses.firstBagWeapon + slot + (chararacterOffSet * owner), weaponValues);
+                        Memory.WriteByteArray(Addresses.firstBagWeapon + (chararacterOffSet * owner) + (weaponBagOffset * slot), weaponValues);
                     }
-                    catch
+                    else
                     {
-                        //If the provided slot is out of bounds, retry again by using the next available free slot
-                        if (slot > inventorySizeWeapons && (weaponId >= Items.brokendagger && weaponId <= Items.swallow)) SetBagItems(GetBagWeaponsFirstAvailableSlot(owner), weaponId);
-                        else Console.WriteLine("Invalid inputs for SetBagWeapons");
+                        Console.WriteLine("Slot is not empty!\n Retrying...\n");
+                        slot = GetBagWeaponsFirstAvailableSlot(owner);
+                        if (slot > -1)
+                        {
+                            SetBagWeapons(weaponId, slot);
+                        }
+                        else Console.WriteLine("Inventory is full!\n");
                     }
                 }
-                else Console.WriteLine("\nWeapons inventory is full!");
-                Console.WriteLine("\nFinished SetBagWeapons process!");
-            }
+                catch
+                {
+                    //If the provided slot is out of bounds, retry again by using the next available free slot
+                    Console.WriteLine("Invalid slot input for SetBagWeapons! Revoking function passing slot as GetBagWeaponsFirstAvailableSlot!\n");
+                    SetBagWeapons(weaponId, GetBagWeaponsFirstAvailableSlot(owner));
+                }
+
+                //Debug
+                Console.WriteLine("Table weapon ID: " + Memory.ReadByte(tableDaggerFirstAddress + (tableWeaponOffset * (weaponId - Items.dagger))));
+                Console.WriteLine("Weapon Bag Slot: " + Memory.ReadByte(Addresses.firstBagWeapon + (chararacterOffSet * owner) + (weaponBagOffset * slot)));
+
+                Console.WriteLine("\nFinished SetBagWeapons process!\n");
+            }*/
 
             public static int[] GetBagAttachments()
-            //Returns an array of itemIds in the players attachment bag, empty slots are displayed with -1
+            
             {
                 const byte itemOffset = 0x20;
                 byte inventorySize = inventorySizeAttachments;
                 int[] inventoryAttachments = new int[inventorySize];
 
+                Console.WriteLine("GetBagAttachments process started!\n");
+
+                //Run through the attachment bag
                 for (int slot = 0; slot < inventorySize; slot++)
                 {
+                    //Store the attachment ID
                     int itemId = Memory.ReadUShort(Addresses.firstBagAttachment + (itemOffset * slot));
 
-                    //Check if the item is an attachment
+                    //Check if there is an attachment in the slot and store its ID or store -1 if no attachment is found
                     if (itemId >= Items.fire && itemId <= Items.mageslayer)
                     {
                         inventoryAttachments[slot] = itemId;
+                        //Console.WriteLine("Slot: " + slot + " AttachmentID: " + itemId);
                     }
-                    else inventoryAttachments[slot] = -1;
+                    else
+                    {
+                        inventoryAttachments[slot] = -1;
+                        //Console.WriteLine("Slot: " + slot + " AttachmentID: -1");
+                    }
                 }
 
-                Console.WriteLine("\nInventory attachments:\n" + inventoryAttachments);
+                Console.WriteLine("\nGetBagAttachments process finished!\n");
                 return inventoryAttachments;
             }
 
@@ -447,41 +510,57 @@ namespace Dark_Cloud_Improved_Version
                 int slot = 0;
                 int[] attachmentBag = GetBagAttachments();
 
+                Console.WriteLine("GetBagAttachmentsFirstAvailableSlot process started!\n");
+
+                //Run until you find an empty slot and return the slot number if found
                 foreach (int item in attachmentBag)
                 {
-                    //Run until you find an empty slot and return the slot number if found
-                    if (item == -1) return slot;
+                    if (item == -1)
+                    {
+                        Console.WriteLine("Finished GetBagAttachmentsFirstAvailableSlot process:\nSlot " + slot + "\n");
+                        return slot;
+                    }
                     slot++;
                 }
-                Console.WriteLine("\nFinished GetBagAttachmentsFirstAvailableSlot process: " + slot);
+
                 //Return -1 if no empty slot was found
+                Console.WriteLine("Attachment bag is full!\n");
                 return -1;
             }
 
-            public static void SetBagAttachments(int slot, int attachmentId)
+            public static void SetBagAttachments(int attachmentId, int slot = -1)
             {
                 const int attachmentOffset = 0x20;
                 const int attachmentValuesRange = 0x1F;
                 const int tableAttachmentFirstAddress = 0x2027CA60;
 
-                if (GetBagAttachments()[slot] != -1)
+                if (slot > 0)
                 {
-                    try
+                    if (GetBagAttachments()[slot] == -1)
                     {
-                        //Fetch the values from the original values database
-                        byte[] attachmentValues = Memory.ReadByteArray(tableAttachmentFirstAddress + (attachmentOffset * (attachmentId - Items.fire)), attachmentValuesRange);
+                        try
+                        {
+                            //Fetch the values from the original values database
+                            byte[] attachmentValues = Memory.ReadByteArray(tableAttachmentFirstAddress + (attachmentOffset * (attachmentId - Items.fire)), attachmentValuesRange);
 
-                        //Write the values on the specified location
-                        Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValues);
+                            //Write the values on the specified location
+                            Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValues);
+                        }
+                        catch
+                        {
+                            if (slot > inventorySizeItems && (attachmentId >= Items.fire && attachmentId <= Items.mageslayer)) SetBagAttachments(attachmentId, GetBagAttachmentsFirstAvailableSlot());
+                            else Console.WriteLine("Invalid inputs for SetBagAttachments\n");
+                        }
                     }
-                    catch
-                    {
-                        if (slot > inventorySizeItems && (attachmentId >= Items.fire && attachmentId <= Items.mageslayer)) SetBagAttachments(GetBagAttachmentsFirstAvailableSlot(), attachmentId);
-                        else Console.WriteLine("Invalid inputs for SetBagAttachments");
-                    }
+                    else Console.WriteLine("Attachment bag is full!\n");
                 }
-                else Console.WriteLine("\nWeapons inventory is full!");
-                Console.WriteLine("\nFinished SetBagAttachments process!");
+                else
+                {
+                    SetBagAttachments(attachmentId, GetBagAttachmentsFirstAvailableSlot());
+                    return;
+                }
+
+                Console.WriteLine("Finished SetBagAttachments process!\n");
             }
         }
 
