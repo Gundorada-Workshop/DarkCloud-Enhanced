@@ -190,6 +190,15 @@ namespace Dark_Cloud_Improved_Version
 
             }
 
+            public static bool CheckBagItemsFull()
+            {
+                int currentCount = GetBagCurrentCount();
+                int maxCount = Memory.ReadByte(inventorySizeItems);
+
+                if (currentCount >= maxCount) return true;
+                else return false;
+            }
+
             public static int[] GetActiveItems()
             {
                 const byte itemOffset = 0x2;
@@ -534,7 +543,7 @@ namespace Dark_Cloud_Improved_Version
                 const int attachmentValuesRange = 0x1F;
                 const int tableAttachmentFirstAddress = 0x2027CA60;
 
-                if (slot > 0)
+                if (slot >= 0)
                 {
                     if (GetBagAttachments()[slot] == -1)
                     {
@@ -862,14 +871,14 @@ namespace Dark_Cloud_Improved_Version
             //Addresses taken from https://deconstruction.fandom.com/wiki/Dark_Cloud
             internal class WeaponSlot0
             {
-                public const int type = 0x21CDDA58; //257 through 298  //0x21CDDB50  F8
+                public const int id = 0x21CDDA58;
                 public const int level = 0x21CDDA5A;
                 public const int attack = 0x21CDDA5C;
                 public const int endurance = 0x21CDDA5E;
                 public const int speed = 0x21CDDA60;
                 public const int magic = 0x21CDDA62;
                 public const int whpMax = 0x21CDDA64;
-                public const int whp = 0x21CDDA68; //Float
+                public const int whp = 0x21CDDA68;
                 public const int xp = 0x21CDDA6C;
                 public const int elementHUD = 0x21CDDA6E; //00 Fire, 01 Ice, 02 Thunder, 03 Wind, 04 Holy, 05 None.
                 public const int fire = 0x21CDDA6F;
@@ -887,43 +896,50 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = 0x21CDDA7B;
                 public const int aMimic = 0x21CDDA7C;
                 public const int aMage = 0x21CDDA7D;
-                //public const int weapon1 = 0x21CDDA80; //Attached 1 Weapon Type   51 through 78.
-                //public const int weapon1 = 0x21CDDA82; //Attached 1 Former Weapon Type (2b)    Only for Synth Spheres; determines name in description.
-                //public const int weapon1 = 0x21CDDA86; //Attached 1 Former Weapon Level(2b)    Only for Synth Spheres; determines "+X" after name in description.
-                //public const int weapon1 = 0x21CDDA88; //Attached 1 Attack Bonus
-                //public const int weapon1 = 0x21CDDA8A; //Attached 1 Endurance Bonus
-                //public const int weapon1 = 0x21CDDA8C; //Attached 1 Speed Bonus
-                //public const int weapon1 = 0x21CDDA8E; //Attached 1 Magical Power Bonus
-                //public const int weapon1 = 0x21CDDA90; //Attached 1 Fire Bonus
-                //public const int weapon1 = 0x21CDDA91; //Attached 1 Ice Bonus
-                //public const int weapon1 = 0x21CDDA92; //Attached 1 Thunder Bonus
-                //public const int weapon1 = 0x21CDDA93; //Attached 1 Wind Bonus
-                //public const int weapon1 = 0x21CDDA94; //Attached 1 Holy Bonus
-                //public const int weapon1 = 0x21CDDA95; //Attached 1 Anti-Dragon Bonus
-                //public const int weapon1 = 0x21CDDA96; //Attached 1 Anti-Undead Bonus
-                //public const int weapon1 = 0x21CDDA97; //Attached 1 Anti-Marine Bonus
-                //public const int weapon1 = 0x21CDDA98; //Attached 1 Anti-Rock Bonus
-                //public const int weapon1 = 0x21CDDA99; //Attached 1 Anti-Plant Bonus
-                //public const int weapon1 = 0x21CDDA9A; //Attached 1 Anti-Beast Bonus
-                //public const int weapon1 = 0x21CDDA9B; //Attached 1 Anti-Sky Bonus
-                //public const int weapon1 = 0x21CDDA9C; //Attached 1 Anti-metal Bonus
-                //public const int weapon1 = 0x21CDDA9D; //Attached 1 Anti-mimic Bonus
-                //public const int weapon1 = 0x21CDDA9E; //Attached 1 Anti-Mage Bonus
-                //public const int weapon1 = 0x21CDDAA0; //Attached 2 Type Attribute 
                 public const int special1 = 0x21CDDB46; //Special Bitfield 1 	  01 unknown(default on Chronicle 2),
-                                                                                //02 Big bucks
-                                                                                //04 Poor
-                                                                                //08 Quench
-                                                                                //16 Thirst
-                                                                                //32 Poison
-                                                                                //64 Stop
-                                                                                //128 Steal
+                                                        //02 Big bucks
+                                                        //04 Poor
+                                                        //08 Quench
+                                                        //16 Thirst
+                                                        //32 Poison
+                                                        //64 Stop
+                                                        //128 Steal
 
                 public const int special2 = 0x21CDDB47; //Special Bitfield 2    //02 Durable
-                                                                                //04 Drain
-                                                                                //08 Heal
-                                                                                //16 Critical
-                                                                                //32 Abs Up
+                                                        //04 Drain
+                                                        //08 Heal
+                                                        //16 Critical
+                                                        //32 Abs Up
+                //Attachment slots values
+                public const int slot1_itemId = 0x21CDDA80;                //The current socketed item
+                public const int slot1_synthesisedItemId = 0x21CDDA82;     //Only for Synth Spheres; determines name in description and icon.
+                public const int slot1_synthesisedItemLevel = 0x21CDDA86;  //Only for Synth Spheres; determines "+X" after name in description.
+                public const int slot1_special1 = 0x21CDDA84;
+                public const int slot1_special2 = 0x21CDDA85;
+                public const int slot1_attack = 0x21CDDA88;
+                public const int slot1_endurance = 0x21CDDA8A;
+                public const int slot1_speed = 0x21CDDA8C;
+                public const int slot1_magic = 0x21CDDA8E;
+                public const int slot1_fire = 0x21CDDA90;
+                public const int slot1_ice = 0x21CDDA91;
+                public const int slot1_thunder = 0x21CDDA92;
+                public const int slot1_wind = 0x21CDDA93;
+                public const int slot1_holy = 0x21CDDA94;
+                public const int slot1_dragon = 0x21CDDA95;
+                public const int slot1_undead = 0x21CDDA96;
+                public const int slot1_sea = 0x21CDDA97;
+                public const int slot1_rock = 0x21CDDA98;
+                public const int slot1_plant = 0x21CDDA99;
+                public const int slot1_beast = 0x21CDDA9A;
+                public const int slot1_sky = 0x21CDDA9B;
+                public const int slot1_metal = 0x21CDDA9C;
+                public const int slot1_mimic = 0x21CDDA9D;
+                public const int slot1_mage = 0x21CDDA9E;
+                //public const int slot2_Id = 0x21CDDAA0;
+
+                //Custom attributes
+                public const int hasChangedBySynth = 0x21CDDB20;        //Serves as place to store a flag for the Weapons.WeaponListenForSynthSphere function
+                public const int weaponFormerStatsValue = 0x21CDDB22;   //Serves as place to keep track of a value used in the Weapons.WeaponListenForSynthSphere function
             }
 
             internal class WeaponSlot1
@@ -931,8 +947,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -956,6 +974,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot2
@@ -963,8 +1011,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 2;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -988,6 +1038,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot3
@@ -995,8 +1075,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 3;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1020,6 +1102,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot4
@@ -1027,8 +1139,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 4;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1052,6 +1166,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot5
@@ -1059,8 +1203,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 5;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1084,6 +1230,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot6
@@ -1091,8 +1267,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 6;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1116,6 +1294,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot7
@@ -1123,8 +1331,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 7;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1148,6 +1358,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot8
@@ -1155,8 +1395,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 8;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1180,6 +1422,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot9
@@ -1187,8 +1459,10 @@ namespace Dark_Cloud_Improved_Version
                 const byte offset = 0xF8;
                 const byte weaponSlotMultiplier = 9;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1212,6 +1486,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
         }
 
@@ -1325,8 +1629,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xAA8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = Toan.WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = Toan.WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = Toan.WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = Toan.WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = Toan.WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = Toan.WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = Toan.WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = Toan.WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1350,31 +1656,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = Toan.WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = Toan.WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = Toan.WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
-                //public const int weapon1 = 0x21CDDA80; //Attached 1 Weapon Type   51 through 78.
-                //public const int weapon1 = 0x21CDDA82; //Attached 1 Former Weapon Type (2b)    Only for Synth Spheres; determines name in description.
-                //public const int weapon1 = 0x21CDDA86; //Attached 1 Former Weapon Level(2b)    Only for Synth Spheres; determines "+X" after name in description.
-                //public const int weapon1 = 0x21CDDA88; //Attached 1 Attack Bonus
-                //public const int weapon1 = 0x21CDDA8A; //Attached 1 Endurance Bonus
-                //public const int weapon1 = 0x21CDDA8C; //Attached 1 Speed Bonus
-                //public const int weapon1 = 0x21CDDA8E; //Attached 1 Magical Power Bonus
-                //public const int weapon1 = 0x21CDDA90; //Attached 1 Fire Bonus
-                //public const int weapon1 = 0x21CDDA91; //Attached 1 Ice Bonus
-                //public const int weapon1 = 0x21CDDA92; //Attached 1 Thunder Bonus
-                //public const int weapon1 = 0x21CDDA93; //Attached 1 Wind Bonus
-                //public const int weapon1 = 0x21CDDA94; //Attached 1 Holy Bonus
-                //public const int weapon1 = 0x21CDDA95; //Attached 1 Anti-Dragon Bonus
-                //public const int weapon1 = 0x21CDDA96; //Attached 1 Anti-Undead Bonus
-                //public const int weapon1 = 0x21CDDA97; //Attached 1 Anti-Marine Bonus
-                //public const int weapon1 = 0x21CDDA98; //Attached 1 Anti-Rock Bonus
-                //public const int weapon1 = 0x21CDDA99; //Attached 1 Anti-Plant Bonus
-                //public const int weapon1 = 0x21CDDA9A; //Attached 1 Anti-Beast Bonus
-                //public const int weapon1 = 0x21CDDA9B; //Attached 1 Anti-Sky Bonus
-                //public const int weapon1 = 0x21CDDA9C; //Attached 1 Anti-metal Bonus
-                //public const int weapon1 = 0x21CDDA9D; //Attached 1 Anti-mimic Bonus
-                //public const int weapon1 = 0x21CDDA9E; //Attached 1 Anti-Mage Bonus
-                //public const int weapon1 = 0x21CDDAA0; //Attached 2 Type Attribute 
-                //public const int weapon1 = 0x21CDDB46; //Special Bitfield 1 	01 unknown(default on Chronicle 2), 02 Big bucks, 04 Poor, 08 Quench, 10 Thirst, 20 Poison, 40 Stop, 80 Steal.
-                //public const int weapon1 = 0x21CDDB47; //Special Bitfield 2 
+
+                //Attachment slots values
+                public const int slot1_itemId = Toan.WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = Toan.WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = Toan.WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = Toan.WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = Toan.WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = Toan.WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = Toan.WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = Toan.WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = Toan.WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = Toan.WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = Toan.WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = Toan.WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = Toan.WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = Toan.WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = Toan.WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = Toan.WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = Toan.WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = Toan.WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = Toan.WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = Toan.WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = Toan.WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = Toan.WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = Toan.WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = Toan.WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = Toan.WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = Toan.WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot1
@@ -1382,8 +1693,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1407,6 +1720,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot2
@@ -1414,8 +1757,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 2;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1439,6 +1784,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot3
@@ -1446,8 +1821,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 3;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1471,6 +1848,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot4
@@ -1478,8 +1885,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 4;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1503,6 +1912,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot5
@@ -1510,8 +1949,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 5;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1535,6 +1976,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot6
@@ -1542,8 +2013,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 6;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1567,6 +2040,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot7
@@ -1574,8 +2077,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 7;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1599,6 +2104,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot8
@@ -1606,8 +2141,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 8;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1631,6 +2168,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot9
@@ -1638,8 +2205,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 9;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1663,6 +2232,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
         }
 
@@ -1776,8 +2375,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xAA8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = Xiao.WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = Xiao.WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = Xiao.WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = Xiao.WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = Xiao.WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = Xiao.WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = Xiao.WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = Xiao.WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1801,31 +2402,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = Xiao.WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = Xiao.WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = Xiao.WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
-                //public const int weapon1 = 0x21CDDA80; //Attached 1 Weapon Type   51 through 78.
-                //public const int weapon1 = 0x21CDDA82; //Attached 1 Former Weapon Type (2b)    Only for Synth Spheres; determines name in description.
-                //public const int weapon1 = 0x21CDDA86; //Attached 1 Former Weapon Level(2b)    Only for Synth Spheres; determines "+X" after name in description.
-                //public const int weapon1 = 0x21CDDA88; //Attached 1 Attack Bonus
-                //public const int weapon1 = 0x21CDDA8A; //Attached 1 Endurance Bonus
-                //public const int weapon1 = 0x21CDDA8C; //Attached 1 Speed Bonus
-                //public const int weapon1 = 0x21CDDA8E; //Attached 1 Magical Power Bonus
-                //public const int weapon1 = 0x21CDDA90; //Attached 1 Fire Bonus
-                //public const int weapon1 = 0x21CDDA91; //Attached 1 Ice Bonus
-                //public const int weapon1 = 0x21CDDA92; //Attached 1 Thunder Bonus
-                //public const int weapon1 = 0x21CDDA93; //Attached 1 Wind Bonus
-                //public const int weapon1 = 0x21CDDA94; //Attached 1 Holy Bonus
-                //public const int weapon1 = 0x21CDDA95; //Attached 1 Anti-Dragon Bonus
-                //public const int weapon1 = 0x21CDDA96; //Attached 1 Anti-Undead Bonus
-                //public const int weapon1 = 0x21CDDA97; //Attached 1 Anti-Marine Bonus
-                //public const int weapon1 = 0x21CDDA98; //Attached 1 Anti-Rock Bonus
-                //public const int weapon1 = 0x21CDDA99; //Attached 1 Anti-Plant Bonus
-                //public const int weapon1 = 0x21CDDA9A; //Attached 1 Anti-Beast Bonus
-                //public const int weapon1 = 0x21CDDA9B; //Attached 1 Anti-Sky Bonus
-                //public const int weapon1 = 0x21CDDA9C; //Attached 1 Anti-metal Bonus
-                //public const int weapon1 = 0x21CDDA9D; //Attached 1 Anti-mimic Bonus
-                //public const int weapon1 = 0x21CDDA9E; //Attached 1 Anti-Mage Bonus
-                //public const int weapon1 = 0x21CDDAA0; //Attached 2 Type Attribute 
-                //public const int weapon1 = 0x21CDDB46; //Special Bitfield 1 	01 unknown(default on Chronicle 2), 02 Big bucks, 04 Poor, 08 Quench, 10 Thirst, 20 Poison, 40 Stop, 80 Steal.
-                //public const int weapon1 = 0x21CDDB47; //Special Bitfield 2 
+
+                //Attachment slots values
+                public const int slot1_itemId = Xiao.WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = Xiao.WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = Xiao.WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = Xiao.WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = Xiao.WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = Xiao.WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = Xiao.WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = Xiao.WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = Xiao.WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = Xiao.WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = Xiao.WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = Xiao.WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = Xiao.WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = Xiao.WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = Xiao.WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = Xiao.WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = Xiao.WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = Xiao.WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = Xiao.WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = Xiao.WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = Xiao.WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = Xiao.WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = Xiao.WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = Xiao.WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = Xiao.WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = Xiao.WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot1
@@ -1833,8 +2439,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1858,6 +2466,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot2
@@ -1865,8 +2503,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 2;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1890,6 +2530,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot3
@@ -1897,8 +2567,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 3;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1922,6 +2594,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot4
@@ -1929,8 +2631,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 4;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1954,6 +2658,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot5
@@ -1961,8 +2695,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 5;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -1986,6 +2722,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot6
@@ -1993,8 +2759,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 6;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2018,6 +2786,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot7
@@ -2025,8 +2823,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 7;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2050,6 +2850,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot8
@@ -2057,8 +2887,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 8;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2082,6 +2914,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot9
@@ -2089,8 +2951,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 9;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2114,6 +2978,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
         }
 
@@ -2227,8 +3121,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xAA8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = Goro.WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = Goro.WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = Goro.WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = Goro.WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = Goro.WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = Goro.WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = Goro.WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = Goro.WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2252,31 +3148,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = Goro.WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = Goro.WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = Goro.WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
-                //public const int weapon1 = 0x21CDDA80; //Attached 1 Weapon Type   51 through 78.
-                //public const int weapon1 = 0x21CDDA82; //Attached 1 Former Weapon Type (2b)    Only for Synth Spheres; determines name in description.
-                //public const int weapon1 = 0x21CDDA86; //Attached 1 Former Weapon Level(2b)    Only for Synth Spheres; determines "+X" after name in description.
-                //public const int weapon1 = 0x21CDDA88; //Attached 1 Attack Bonus
-                //public const int weapon1 = 0x21CDDA8A; //Attached 1 Endurance Bonus
-                //public const int weapon1 = 0x21CDDA8C; //Attached 1 Speed Bonus
-                //public const int weapon1 = 0x21CDDA8E; //Attached 1 Magical Power Bonus
-                //public const int weapon1 = 0x21CDDA90; //Attached 1 Fire Bonus
-                //public const int weapon1 = 0x21CDDA91; //Attached 1 Ice Bonus
-                //public const int weapon1 = 0x21CDDA92; //Attached 1 Thunder Bonus
-                //public const int weapon1 = 0x21CDDA93; //Attached 1 Wind Bonus
-                //public const int weapon1 = 0x21CDDA94; //Attached 1 Holy Bonus
-                //public const int weapon1 = 0x21CDDA95; //Attached 1 Anti-Dragon Bonus
-                //public const int weapon1 = 0x21CDDA96; //Attached 1 Anti-Undead Bonus
-                //public const int weapon1 = 0x21CDDA97; //Attached 1 Anti-Marine Bonus
-                //public const int weapon1 = 0x21CDDA98; //Attached 1 Anti-Rock Bonus
-                //public const int weapon1 = 0x21CDDA99; //Attached 1 Anti-Plant Bonus
-                //public const int weapon1 = 0x21CDDA9A; //Attached 1 Anti-Beast Bonus
-                //public const int weapon1 = 0x21CDDA9B; //Attached 1 Anti-Sky Bonus
-                //public const int weapon1 = 0x21CDDA9C; //Attached 1 Anti-metal Bonus
-                //public const int weapon1 = 0x21CDDA9D; //Attached 1 Anti-mimic Bonus
-                //public const int weapon1 = 0x21CDDA9E; //Attached 1 Anti-Mage Bonus
-                //public const int weapon1 = 0x21CDDAA0; //Attached 2 Type Attribute 
-                //public const int weapon1 = 0x21CDDB46; //Special Bitfield 1 	01 unknown(default on Chronicle 2), 02 Big bucks, 04 Poor, 08 Quench, 10 Thirst, 20 Poison, 40 Stop, 80 Steal.
-                //public const int weapon1 = 0x21CDDB47; //Special Bitfield 2 
+
+                //Attachment slots values
+                public const int slot1_itemId = Goro.WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = Goro.WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = Goro.WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = Goro.WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = Goro.WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = Goro.WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = Goro.WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = Goro.WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = Goro.WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = Goro.WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = Goro.WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = Goro.WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = Goro.WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = Goro.WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = Goro.WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = Goro.WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = Goro.WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = Goro.WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = Goro.WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = Goro.WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = Goro.WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = Goro.WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = Goro.WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = Goro.WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = Goro.WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = Goro.WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot1
@@ -2284,8 +3185,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2309,6 +3212,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot2
@@ -2316,8 +3249,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 2;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2341,6 +3276,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot3
@@ -2348,8 +3313,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 3;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2373,6 +3340,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot4
@@ -2380,8 +3377,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 4;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2405,6 +3404,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot5
@@ -2412,8 +3441,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 5;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2437,6 +3468,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot6
@@ -2444,8 +3505,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 6;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2469,6 +3532,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot7
@@ -2476,8 +3569,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 7;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2501,6 +3596,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot8
@@ -2508,8 +3633,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 8;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2533,6 +3660,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot9
@@ -2540,8 +3697,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 9;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2565,6 +3724,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
         }
 
@@ -2677,8 +3866,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xAA8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = Ruby.WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = Ruby.WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = Ruby.WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = Ruby.WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = Ruby.WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = Ruby.WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = Ruby.WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = Ruby.WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2702,31 +3893,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = Ruby.WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = Ruby.WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = Ruby.WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
-                //public const int weapon1 = 0x21CDDA80; //Attached 1 Weapon Type   51 through 78.
-                //public const int weapon1 = 0x21CDDA82; //Attached 1 Former Weapon Type (2b)    Only for Synth Spheres; determines name in description.
-                //public const int weapon1 = 0x21CDDA86; //Attached 1 Former Weapon Level(2b)    Only for Synth Spheres; determines "+X" after name in description.
-                //public const int weapon1 = 0x21CDDA88; //Attached 1 Attack Bonus
-                //public const int weapon1 = 0x21CDDA8A; //Attached 1 Endurance Bonus
-                //public const int weapon1 = 0x21CDDA8C; //Attached 1 Speed Bonus
-                //public const int weapon1 = 0x21CDDA8E; //Attached 1 Magical Power Bonus
-                //public const int weapon1 = 0x21CDDA90; //Attached 1 Fire Bonus
-                //public const int weapon1 = 0x21CDDA91; //Attached 1 Ice Bonus
-                //public const int weapon1 = 0x21CDDA92; //Attached 1 Thunder Bonus
-                //public const int weapon1 = 0x21CDDA93; //Attached 1 Wind Bonus
-                //public const int weapon1 = 0x21CDDA94; //Attached 1 Holy Bonus
-                //public const int weapon1 = 0x21CDDA95; //Attached 1 Anti-Dragon Bonus
-                //public const int weapon1 = 0x21CDDA96; //Attached 1 Anti-Undead Bonus
-                //public const int weapon1 = 0x21CDDA97; //Attached 1 Anti-Marine Bonus
-                //public const int weapon1 = 0x21CDDA98; //Attached 1 Anti-Rock Bonus
-                //public const int weapon1 = 0x21CDDA99; //Attached 1 Anti-Plant Bonus
-                //public const int weapon1 = 0x21CDDA9A; //Attached 1 Anti-Beast Bonus
-                //public const int weapon1 = 0x21CDDA9B; //Attached 1 Anti-Sky Bonus
-                //public const int weapon1 = 0x21CDDA9C; //Attached 1 Anti-metal Bonus
-                //public const int weapon1 = 0x21CDDA9D; //Attached 1 Anti-mimic Bonus
-                //public const int weapon1 = 0x21CDDA9E; //Attached 1 Anti-Mage Bonus
-                //public const int weapon1 = 0x21CDDAA0; //Attached 2 Type Attribute 
-                //public const int weapon1 = 0x21CDDB46; //Special Bitfield 1 	01 unknown(default on Chronicle 2), 02 Big bucks, 04 Poor, 08 Quench, 10 Thirst, 20 Poison, 40 Stop, 80 Steal.
-                //public const int weapon1 = 0x21CDDB47; //Special Bitfield 2 
+
+                //Attachment slots values
+                public const int slot1_itemId = Ruby.WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = Ruby.WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = Ruby.WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = Ruby.WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = Ruby.WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = Ruby.WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = Ruby.WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = Ruby.WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = Ruby.WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = Ruby.WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = Ruby.WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = Ruby.WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = Ruby.WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = Ruby.WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = Ruby.WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = Ruby.WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = Ruby.WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = Ruby.WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = Ruby.WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = Ruby.WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = Ruby.WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = Ruby.WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = Ruby.WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = Ruby.WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = Ruby.WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = Ruby.WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot1
@@ -2734,8 +3930,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2759,6 +3957,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot2
@@ -2766,8 +3994,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 2;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2791,6 +4021,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot3
@@ -2798,8 +4058,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 3;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2823,6 +4085,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot4
@@ -2830,8 +4122,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 4;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2855,6 +4149,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot5
@@ -2862,8 +4186,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 5;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2887,6 +4213,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot6
@@ -2894,8 +4250,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 6;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2919,6 +4277,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot7
@@ -2926,8 +4314,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 7;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2951,6 +4341,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot8
@@ -2958,8 +4378,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 8;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -2983,6 +4405,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot9
@@ -2990,8 +4442,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 9;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3015,6 +4469,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
         }
 
@@ -3128,8 +4612,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xAA8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = Ungaga.WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = Ungaga.WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = Ungaga.WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = Ungaga.WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = Ungaga.WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = Ungaga.WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = Ungaga.WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = Ungaga.WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3153,31 +4639,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = Ungaga.WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = Ungaga.WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = Ungaga.WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
-                //public const int weapon1 = 0x21CDDA80; //Attached 1 Weapon Type   51 through 78.
-                //public const int weapon1 = 0x21CDDA82; //Attached 1 Former Weapon Type (2b)    Only for Synth Spheres; determines name in description.
-                //public const int weapon1 = 0x21CDDA86; //Attached 1 Former Weapon Level(2b)    Only for Synth Spheres; determines "+X" after name in description.
-                //public const int weapon1 = 0x21CDDA88; //Attached 1 Attack Bonus
-                //public const int weapon1 = 0x21CDDA8A; //Attached 1 Endurance Bonus
-                //public const int weapon1 = 0x21CDDA8C; //Attached 1 Speed Bonus
-                //public const int weapon1 = 0x21CDDA8E; //Attached 1 Magical Power Bonus
-                //public const int weapon1 = 0x21CDDA90; //Attached 1 Fire Bonus
-                //public const int weapon1 = 0x21CDDA91; //Attached 1 Ice Bonus
-                //public const int weapon1 = 0x21CDDA92; //Attached 1 Thunder Bonus
-                //public const int weapon1 = 0x21CDDA93; //Attached 1 Wind Bonus
-                //public const int weapon1 = 0x21CDDA94; //Attached 1 Holy Bonus
-                //public const int weapon1 = 0x21CDDA95; //Attached 1 Anti-Dragon Bonus
-                //public const int weapon1 = 0x21CDDA96; //Attached 1 Anti-Undead Bonus
-                //public const int weapon1 = 0x21CDDA97; //Attached 1 Anti-Marine Bonus
-                //public const int weapon1 = 0x21CDDA98; //Attached 1 Anti-Rock Bonus
-                //public const int weapon1 = 0x21CDDA99; //Attached 1 Anti-Plant Bonus
-                //public const int weapon1 = 0x21CDDA9A; //Attached 1 Anti-Beast Bonus
-                //public const int weapon1 = 0x21CDDA9B; //Attached 1 Anti-Sky Bonus
-                //public const int weapon1 = 0x21CDDA9C; //Attached 1 Anti-metal Bonus
-                //public const int weapon1 = 0x21CDDA9D; //Attached 1 Anti-mimic Bonus
-                //public const int weapon1 = 0x21CDDA9E; //Attached 1 Anti-Mage Bonus
-                //public const int weapon1 = 0x21CDDAA0; //Attached 2 Type Attribute 
-                //public const int weapon1 = 0x21CDDB46; //Special Bitfield 1 	01 unknown(default on Chronicle 2), 02 Big bucks, 04 Poor, 08 Quench, 10 Thirst, 20 Poison, 40 Stop, 80 Steal.
-                //public const int weapon1 = 0x21CDDB47; //Special Bitfield 2 
+
+                //Attachment slots values
+                public const int slot1_itemId = Ungaga.WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = Ungaga.WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = Ungaga.WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = Ungaga.WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = Ungaga.WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = Ungaga.WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = Ungaga.WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = Ungaga.WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = Ungaga.WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = Ungaga.WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = Ungaga.WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = Ungaga.WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = Ungaga.WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = Ungaga.WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = Ungaga.WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = Ungaga.WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = Ungaga.WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = Ungaga.WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = Ungaga.WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = Ungaga.WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = Ungaga.WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = Ungaga.WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = Ungaga.WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = Ungaga.WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = Ungaga.WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = Ungaga.WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot1
@@ -3185,8 +4676,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 1;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3210,6 +4703,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot2
@@ -3217,8 +4740,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 2;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3242,6 +4767,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot3
@@ -3249,8 +4804,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 3;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3274,6 +4831,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot4
@@ -3281,8 +4868,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 4;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3306,6 +4895,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot5
@@ -3313,8 +4932,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 5;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3338,6 +4959,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot6
@@ -3345,8 +4996,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 6;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3370,6 +5023,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot7
@@ -3377,8 +5060,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 7;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3402,6 +5087,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot8
@@ -3409,8 +5124,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 8;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3434,6 +5151,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
 
             internal class WeaponSlot9
@@ -3441,8 +5188,10 @@ namespace Dark_Cloud_Improved_Version
                 const int offset = 0xF8;
                 const byte weaponSlotMultiplier = 9;
 
-                public const int type = WeaponSlot0.type + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
+                public const int id = WeaponSlot0.id + (offset * weaponSlotMultiplier);             //WeaponSlot0 + offset * weapon slot
                 public const int level = WeaponSlot0.level + (offset * weaponSlotMultiplier);
+                public const int special1 = WeaponSlot0.special1 + (offset * weaponSlotMultiplier);
+                public const int special2 = WeaponSlot0.special2 + (offset * weaponSlotMultiplier);
                 public const int attack = WeaponSlot0.attack + (offset * weaponSlotMultiplier);
                 public const int endurance = WeaponSlot0.endurance + (offset * weaponSlotMultiplier);
                 public const int speed = WeaponSlot0.speed + (offset * weaponSlotMultiplier);
@@ -3466,6 +5215,36 @@ namespace Dark_Cloud_Improved_Version
                 public const int aMetal = WeaponSlot0.aMetal + (offset * weaponSlotMultiplier);
                 public const int aMimic = WeaponSlot0.aMimic + (offset * weaponSlotMultiplier);
                 public const int aMage = WeaponSlot0.aMage + (offset * weaponSlotMultiplier);
+
+                //Attachment slots values
+                public const int slot1_itemId = WeaponSlot0.slot1_itemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemId = WeaponSlot0.slot1_synthesisedItemId + (offset * weaponSlotMultiplier);
+                public const int slot1_synthesisedItemLevel = WeaponSlot0.slot1_synthesisedItemLevel + (offset * weaponSlotMultiplier);
+                public const int slot1_special1 = WeaponSlot0.slot1_special1 + (offset * weaponSlotMultiplier);
+                public const int slot1_special2 = WeaponSlot0.slot1_special2 + (offset * weaponSlotMultiplier);
+                public const int slot1_attack = WeaponSlot0.slot1_attack + (offset * weaponSlotMultiplier);
+                public const int slot1_endurance = WeaponSlot0.slot1_endurance + (offset * weaponSlotMultiplier);
+                public const int slot1_speed = WeaponSlot0.slot1_speed + (offset * weaponSlotMultiplier);
+                public const int slot1_magic = WeaponSlot0.slot1_magic + (offset * weaponSlotMultiplier);
+                public const int slot1_fire = WeaponSlot0.slot1_fire + (offset * weaponSlotMultiplier);
+                public const int slot1_ice = WeaponSlot0.slot1_ice + (offset * weaponSlotMultiplier);
+                public const int slot1_thunder = WeaponSlot0.slot1_thunder + (offset * weaponSlotMultiplier);
+                public const int slot1_wind = WeaponSlot0.slot1_wind + (offset * weaponSlotMultiplier);
+                public const int slot1_holy = WeaponSlot0.slot1_holy + (offset * weaponSlotMultiplier);
+                public const int slot1_dragon = WeaponSlot0.slot1_dragon + (offset * weaponSlotMultiplier);
+                public const int slot1_undead = WeaponSlot0.slot1_undead + (offset * weaponSlotMultiplier);
+                public const int slot1_sea = WeaponSlot0.slot1_sea + (offset * weaponSlotMultiplier);
+                public const int slot1_rock = WeaponSlot0.slot1_rock + (offset * weaponSlotMultiplier);
+                public const int slot1_plant = WeaponSlot0.slot1_plant + (offset * weaponSlotMultiplier);
+                public const int slot1_beast = WeaponSlot0.slot1_beast + (offset * weaponSlotMultiplier);
+                public const int slot1_sky = WeaponSlot0.slot1_sky + (offset * weaponSlotMultiplier);
+                public const int slot1_metal = WeaponSlot0.slot1_metal + (offset * weaponSlotMultiplier);
+                public const int slot1_mimic = WeaponSlot0.slot1_mimic + (offset * weaponSlotMultiplier);
+                public const int slot1_mage = WeaponSlot0.slot1_mage + (offset * weaponSlotMultiplier);
+
+                //Custom attributes
+                public const int hasChangedBySynth = WeaponSlot0.hasChangedBySynth + (offset * weaponSlotMultiplier);
+                public const int weaponFormerStatsValue = WeaponSlot0.weaponFormerStatsValue + (offset * weaponSlotMultiplier);
             }
         }
     }

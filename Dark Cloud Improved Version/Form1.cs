@@ -38,7 +38,9 @@ namespace Dark_Cloud_Improved_Version
             //place here the function you want to use from your .cs file
             //if (!weaponsThread.IsAlive) //If we are not already running
             //weaponsThread.Start(); //Start thread
-
+            
+            //The Synthsphere Listener thread
+            Weapons.weaponsMenuListener.Start();
             
         }
 

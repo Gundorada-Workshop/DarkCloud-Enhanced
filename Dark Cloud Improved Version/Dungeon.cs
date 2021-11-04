@@ -33,12 +33,25 @@ namespace Dark_Cloud_Improved_Version
         public static bool enemiesSpawn = false;
         public static bool doorIsOpen = false;
         public static List<byte> excludeFloors;
+
+        //THREADS
+        //Runs at the start of each floor
         public static Thread spawnsCheck;
         public static Thread minibossProcess;
         public static Thread miniBossMessage;
-        public static Thread angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
+        
+        //Weapon threads, only 1 should run at a time
         public static Thread boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
         public static Thread seventhHeavenThread = new Thread(new ThreadStart(CustomEffects.SeventhHeaven));
+        public static Thread dragonsYThread = new Thread(new ThreadStart(CustomEffects.DragonsY));
+        public static Thread angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
+        public static Thread tallHammerThread = new Thread(new ThreadStart(CustomEffects.TallHammer));
+        public static Thread mobiusRingThread = new Thread(new ThreadStart(CustomEffects.MobiusRing));
+        public static Thread herculesWrathThread = new Thread(new ThreadStart(CustomEffects.HerculesWrath));
+        public static Thread babelSpearThread = new Thread(new ThreadStart(CustomEffects.BabelSpear));
+        public static Thread supernovaThread = new Thread(new ThreadStart(CustomEffects.Supernova));
+        public static Thread starBreakerThread = new Thread(new ThreadStart(CustomEffects.StarBreaker));
+
         public static void InsideDungeonThread()
         {
             Console.WriteLine("Dungeon Thread Activated");
@@ -80,10 +93,16 @@ namespace Dark_Cloud_Improved_Version
 
                             //Xiao
                             case 1:
+                                CustomEffects.BoneRapierEffect(false);
+
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
                                     case Items.dragonsy:
-                                        CustomEffects.DragonsY();
+                                        if (!dragonsYThread.IsAlive)
+                                        {
+                                            dragonsYThread = new Thread(new ThreadStart(CustomEffects.DragonsY));
+                                            dragonsYThread.Start();
+                                        }
                                         break;
 
                                     case Items.angelgear:
@@ -94,48 +113,96 @@ namespace Dark_Cloud_Improved_Version
                                         }
                                         break;
                                 }
-                                CustomEffects.BoneRapierEffect(false);
                                 break;
 
                             //Goro
                             case 2:
-                                if (Player.Weapon.GetCurrentWeaponId() == Items.tallhammer)
-                                {
-                                    CustomEffects.TallHammer();
-                                }
                                 CustomEffects.BoneRapierEffect(false);
+
+                                switch (Player.Weapon.GetCurrentWeaponId())
+                                {
+                                    case Items.tallhammer:
+                                        if (!tallHammerThread.IsAlive)
+                                        {
+                                            tallHammerThread = new Thread(new ThreadStart(CustomEffects.TallHammer));
+                                            tallHammerThread.Start();
+                                        }
+                                        break;
+
+                                    default:
+                                        break;
+                                }
                                 break;
 
                             //Ruby
                             case 3:
-                                if (Player.Weapon.GetCurrentWeaponId() == Items.mobiusring)
-                                {
-                                    CustomEffects.MobiusRing();
-                                }
                                 CustomEffects.BoneRapierEffect(false);
+
+                                switch (Player.Weapon.GetCurrentWeaponId())
+                                {
+                                    case Items.mobiusring:
+                                        if (!mobiusRingThread.IsAlive)
+                                        {
+                                            mobiusRingThread = new Thread(new ThreadStart(CustomEffects.MobiusRing));
+                                            mobiusRingThread.Start();
+                                        }
+                                        break;
+
+                                    default:
+                                        break;
+                                }
                                 break;
 
                             //Ungaga
                             case 4:
+                                CustomEffects.BoneRapierEffect(false);
+
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
                                     case Items.herculeswrath:
-                                        CustomEffects.HerculesWrath();
+                                        if (!herculesWrathThread.IsAlive)
+                                        {
+                                            herculesWrathThread = new Thread(new ThreadStart(CustomEffects.HerculesWrath));
+                                            herculesWrathThread.Start();
+                                        }
                                         break;
+
                                     case Items.babelsspear:
-                                        CustomEffects.BabelSpear();
+                                        if (!babelSpearThread.IsAlive)
+                                        {
+                                            babelSpearThread = new Thread(new ThreadStart(CustomEffects.BabelSpear));
+                                            babelSpearThread.Start();
+                                        }
+                                        break;
+                                    default:
                                         break;
                                 }
-                                CustomEffects.BoneRapierEffect(false);
                                 break;
 
                             //Osmond
                             case 5:
-                                if (Player.Weapon.GetCurrentWeaponId() == Items.supernova)
-                                {
-                                    CustomEffects.Supernova();
-                                }
                                 CustomEffects.BoneRapierEffect(false);
+
+                                switch (Player.Weapon.GetCurrentWeaponId())
+                                {
+                                    case Items.supernova:
+                                        if (!supernovaThread.IsAlive)
+                                        {
+                                            supernovaThread = new Thread(new ThreadStart(CustomEffects.Supernova));
+                                            supernovaThread.Start();
+                                        }
+                                        break;
+
+                                    case Items.starbreaker:
+                                        if (!starBreakerThread.IsAlive)
+                                        {
+                                            starBreakerThread = new Thread(new ThreadStart(CustomEffects.StarBreaker));
+                                            starBreakerThread.Start();
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
                                 break;
                         } 
                     }

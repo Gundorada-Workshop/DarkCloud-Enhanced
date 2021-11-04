@@ -136,7 +136,8 @@ namespace Dark_Cloud_Improved_Version
                                 Memory.ReadUShort(Enemies.Enemy12.hp),
                                 Memory.ReadUShort(Enemies.Enemy13.hp),
                                 Memory.ReadUShort(Enemies.Enemy14.hp),
-                                Memory.ReadUShort(Enemies.Enemy15.hp)};
+                                Memory.ReadUShort(Enemies.Enemy15.hp)
+            };
 
             return EnemiesHP;
         }
@@ -158,6 +159,42 @@ namespace Dark_Cloud_Improved_Version
             }
 
             return enemyIds;
+        }
+
+        public static List<int> GetEnemiesKilledIds(int[] formerEnemiesHp, int[] currentEnemiesHp)
+        {
+            //Create a list to store the IDs
+            List<int> enemyKilled = new List<int>();
+
+            //Fetch the enemies hit to check if they were killed
+            List<int> enemiesHit = GetEnemiesHitIds(formerEnemiesHp, currentEnemiesHp);
+
+            //Go through the enemies hit list and store the ones who died
+            foreach (int enemy in enemiesHit)
+            {
+                switch (enemy)
+                {
+                    case 0: if (Memory.ReadUShort(Enemies.Enemy0.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 1: if (Memory.ReadUShort(Enemies.Enemy1.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 2: if (Memory.ReadUShort(Enemies.Enemy2.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 3: if (Memory.ReadUShort(Enemies.Enemy3.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 4: if (Memory.ReadUShort(Enemies.Enemy4.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 5: if (Memory.ReadUShort(Enemies.Enemy5.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 6: if (Memory.ReadUShort(Enemies.Enemy6.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 7: if (Memory.ReadUShort(Enemies.Enemy7.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 8: if (Memory.ReadUShort(Enemies.Enemy8.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 9: if (Memory.ReadUShort(Enemies.Enemy9.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 10: if (Memory.ReadUShort(Enemies.Enemy10.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 11: if (Memory.ReadUShort(Enemies.Enemy11.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 12: if (Memory.ReadUShort(Enemies.Enemy12.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 13: if (Memory.ReadUShort(Enemies.Enemy13.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 14: if (Memory.ReadUShort(Enemies.Enemy14.hp) == 0) enemyKilled.Add(enemy); break;
+                    case 15: if (Memory.ReadUShort(Enemies.Enemy15.hp) == 0) enemyKilled.Add(enemy); break;
+                    default: break;
+                }
+            }
+
+            return enemyKilled;
         }
     }
 }

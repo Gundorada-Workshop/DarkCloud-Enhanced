@@ -128,6 +128,48 @@
         public const int firstStorageWeapon = 0x21CE22D8;
         public const int firstStorageAttachment = 0x21CE3FE8;
 
+        //Weapon Menu
+        public const int weaponsMode = 0x21D9EA72;  //0 = Weapon Menu
+                                                    //1 = Weapon Options
+                                                    //2 = Weapon Attribute Menu
+                                                    //3 = Weapon upgrade confirmation prompt
+                                                    //4 = Weapon status break confirmation prompt
+                                                    //5 = Buildup list
+                                                    //6 = Buildup confirmation prompt
+                                                    //7 = Buildup list inspect
+                                                    //8 = Customize menu (Cursor on weapon)
+                                                    //9 = Customize menu (Cursor on synth slots)
+                                                    //10 = Customize menu (Cursor on attachment bag)
+                                                    //11 = Customize menu (Cursor on weapon stats)
+
+        public const int weaponMenuTransitions = 0x21D9EA7C;            //0 = Default
+                                                                        //1 = Weapon menu fade in
+                                                                        //2 = Returns to the main menu
+                                                                        //5 = Triggers when "Equip" option is selected
+                                                                        //7 = In upgrade state
+                                                                        //8 = In statusbreak state
+                                                                        //9 = In buildup state
+                                                                        //10 = In repair state
+                                                                        //12 = "Dump" option is highlighted
+                                                                        //13 = "Dump" option confirmation prompt
+
+        public const int weaponMenuMessageType = 0x21D9EA78;            //The message prompts that display during various weapon menu interactions
+        public const int weaponMenuCurrentWeaponHover = 0x21D9EA74;     //Which weapon we are hovering (0-9)
+        public const int weaponMenuCurrentCharacterHover = 0x21D9EA75;  //Which character we are hovering (0-5)
+        public const int weaponMenuListIndex = 0x21D9EA90;              //Acts like an index pointer depending on the weaponsMode we are in:
+                                                                        //weaponsMode 1:                    weaponsMode 3/4/6:              weaponMode 9:
+                                                                        //              0 = Equip                             0 = "Yes"                  0 = 1st synth slot
+                                                                        //              1 = Customize                         1 = "No"                   1 = 2nd synth slot
+                                                                        //              2 = Attribute                                                    n = etc...
+                                                                        //              3 = Repair          weaponsMode 5: (Build-up)       weaponsMode 10:
+                                                                        //              4 = Upgrade                       0 = 1st choice                   0 = 1st bag slot
+                                                                        //              5 = Status Break                  1 = 2nd choice                   1 = 2nd bag slot
+                                                                        //              6 = Build-up                      n = etc...                       n = etc...
+
+        public const int weaponMenuAttributeElementHover = 0x21D9EA77;  //Which element we are hovering on the weapon attribute menu
+        public const int weaponMenuStatsTab = 0x21D9EBE8;               //Which weapon stats tab we are currently in (0-2)
+        public const int weaponMenuStatsListIndex = 0x21D9EBE9;         //Which weapon stats we are currently hovering (0-5 / 0-4 / 0-9)
+
         //The percent of damage poison does to you based on max hp, default is "0.04"
         public const int poisonDamagePercent = 0x202A1860;
 

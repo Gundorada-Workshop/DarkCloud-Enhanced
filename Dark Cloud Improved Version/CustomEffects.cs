@@ -30,6 +30,7 @@ namespace Dark_Cloud_Improved_Version
             //Otherwise reset BypassBoneDoor
             else if (DungeonThread.IsBypassBoneDoor()) DungeonThread.SetBypassBoneDoor(false);
         }
+
         public static void BoneDoorTrigger()
         {
             while (!DungeonThread.doorIsOpen &&
@@ -69,10 +70,10 @@ namespace Dark_Cloud_Improved_Version
 
         public static bool CheckChronicle2(bool acquired)
         {
-            if (Memory.ReadInt(Player.Toan.WeaponSlot0.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.type) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot3.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot4.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot5.type) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot6.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.type) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.type) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot9.type) == 298)
+            if (Memory.ReadInt(Player.Toan.WeaponSlot0.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.id) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot3.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot4.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot5.id) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot6.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.id) == 298
+                || Memory.ReadInt(Player.Toan.WeaponSlot9.id) == 298)
             {
                 Console.WriteLine("Player has Chronicle 2");
                 acquired = true;
@@ -104,7 +105,7 @@ namespace Dark_Cloud_Improved_Version
             //Store the first empty slot
             int slot = Player.Inventory.GetBagAttachmentsFirstAvailableSlot();
 
-            //Store the item in that slot (by default should be always empty)
+            //Store the item in that slot (by default should always be empty)
             int oldItem = Player.Inventory.GetBagAttachments()[slot];
 
             Thread.Sleep(250);
@@ -113,10 +114,7 @@ namespace Dark_Cloud_Improved_Version
             int newItem = Player.Inventory.GetBagAttachments()[slot];
 
             //Check if a non gem attachment was obtained and proceed to make a copy of it
-            if (newItem != oldItem && (
-                (newItem >= Items.attack && newItem <= Items.magic) ||          //Is stat attachment?
-                (newItem >= Items.fire && newItem <= Items.holy) ||             //Is element attachment?
-                (newItem >= Items.dragonslayer && newItem <= Items.mageslayer)))//Is anti-stat attachment?
+            if (newItem != oldItem && newItem >= Items.fire && newItem <= Items.mageslayer)
             {
                 const int attachmentOffset = 0x20;
                 const int attachmentValuesRange = 0x1F;
@@ -124,10 +122,25 @@ namespace Dark_Cloud_Improved_Version
                 //Store the newly obtained attachment values
                 byte[] attachmentValues = Memory.ReadByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValuesRange);
 
+                //If the item is a gem, roll for 50% chance to duplicate
+                if(newItem >= Items.garnet && newItem <= Items.turquoise)
+                {
+                    int roll = random.Next(100);
+
+                    if(roll < 50)
+                    {
+                        //Put a copy of the same attachment on the next available slot
+                        Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+
+                        Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27);
+                        return;
+                    }
+                }
+
                 //Put a copy of the same attachment on the next available slot
                 Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
 
-                Dayuppy.DisplayMessage("The 7th Heaven blessed you with a gift!", 1, 40);
+                Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27);
             }
         }
 
@@ -449,7 +462,7 @@ namespace Dark_Cloud_Improved_Version
                     int procChance = random.Next(100);    //Roll for chance to proc effect (8% chance)
                     int effect = random.Next(4);        //Roll for which effect to apply (Equal chance)
 
-                    if (procChance == 8)
+                    if (procChance <= 100)
                     {
                         switch (id)
                         {
@@ -602,6 +615,33 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
         }
+
+        public static void StarBreaker()
+        //Chance on kill to get an empty synthsphere (Breaks down any weapon)
+        {
+            //Save every enemy's HP on the current floor
+            int[] formerEnemiesHP = ReusableFunctions.GetEnemiesHp();
+
+            Thread.Sleep(250);
+
+            //Re-save every enemy's HP on the current floor
+            int[] currentEnemiesHP = ReusableFunctions.GetEnemiesHp();
+
+            List<int> enemiesKilled = ReusableFunctions.GetEnemiesKilledIds(formerEnemiesHP, currentEnemiesHP);
+
+            int roll = random.Next(100);
+
+            //Console.WriteLine("Enemies killed count: " + enemiesKilled.Count);
+
+            if(enemiesKilled.Count > 0 && roll >= 0)
+            {
+                if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() >= 0)
+                {
+                    Player.Inventory.SetBagAttachments(Items.synthsphere);
+
+                    Dayuppy.DisplayMessage("The Star Breaker sent\n you a shooting star!", 2, 22);
+                }
+            }
+        }
     }
 }
-
