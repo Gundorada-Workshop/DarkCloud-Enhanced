@@ -32,6 +32,7 @@ namespace Dark_Cloud_Improved_Version
         public static bool hasMiniBoss = false;
         public static bool enemiesSpawn = false;
         public static bool doorIsOpen = false;
+        public static bool magicCircleChanged = false;
         public static List<byte> excludeFloors;
 
         //THREADS
@@ -65,6 +66,8 @@ namespace Dark_Cloud_Improved_Version
                         {
                             //Toan
                             case 0:
+                                if(magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
+
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
                                     case Items.bonerapier:
@@ -94,6 +97,7 @@ namespace Dark_Cloud_Improved_Version
                             //Xiao
                             case 1:
                                 CustomEffects.BoneRapierEffect(false);
+                                if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
@@ -118,6 +122,7 @@ namespace Dark_Cloud_Improved_Version
                             //Goro
                             case 2:
                                 CustomEffects.BoneRapierEffect(false);
+                                if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
@@ -141,14 +146,22 @@ namespace Dark_Cloud_Improved_Version
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
                                     case Items.mobiusring:
+                                        if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
+
                                         if (!mobiusRingThread.IsAlive)
                                         {
                                             mobiusRingThread = new Thread(new ThreadStart(CustomEffects.MobiusRing));
                                             mobiusRingThread.Start();
                                         }
                                         break;
-
+                                    case Items.secretarmlet:
+                                        if (!magicCircleChanged) { 
+                                            bool executed = CustomEffects.SecretArmletEnable();
+                                            if(executed) magicCircleChanged = true;
+                                        }
+                                        break;
                                     default:
+                                        if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
                                         break;
                                 }
                                 break;
@@ -156,6 +169,8 @@ namespace Dark_Cloud_Improved_Version
                             //Ungaga
                             case 4:
                                 CustomEffects.BoneRapierEffect(false);
+                                if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
+
 
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
@@ -182,6 +197,7 @@ namespace Dark_Cloud_Improved_Version
                             //Osmond
                             case 5:
                                 CustomEffects.BoneRapierEffect(false);
+                                if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
@@ -223,6 +239,7 @@ namespace Dark_Cloud_Improved_Version
                         Console.WriteLine("Player has entered a new floor!");
 
                         doorIsOpen = false;
+                        magicCircleChanged = false;
 
                         //Check if player is not on an event floor and call the Mini Boss
                         if (!excludeFloors.Contains(currentFloor))

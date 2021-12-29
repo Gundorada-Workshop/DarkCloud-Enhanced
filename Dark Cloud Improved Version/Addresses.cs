@@ -63,6 +63,23 @@
                                                         //6 = ??
                                                         //7 = Next Floor Screen
 
+        public const int circleSpawn1 = 0x21DD56A0;     //0 = Null | 1 = Spawned | 2 = Destroy animation
+        public const int circleEffect1 = 0x21DD56A4;    //0 = Player stamina
+                                                        //1 = Funds Increased
+                                                        //2 = Abs full
+                                                        //3 = Max Whp increased
+                                                        //4 = Whp recover
+                                                        //5 = Monster stamina
+                                                        //6 = Funds Decreased
+                                                        //7 = Status changed
+                                                        //8 = Max Whp decreased
+                                                        //9 = Whp decrease
+                                                        //10 = Unused effect (item "melted" into blank)
+        public const int circleSpawn2 = 0x21DD56C0;
+        public const int circleEffect2 = 0x21DD56C4;
+        public const int circleSpawn3 = 0x21DD56E0;
+        public const int circleEffect3 = 0x21DD56E4;
+
         //Menu Stuff
         public const int menuWMIconHover = 0x202A2D4C;  //The walking mode menu icon the cursor is hovering
         public const int menuWMLastVisited = 0x202A2D48;//The last walking mode menu the player last accessed

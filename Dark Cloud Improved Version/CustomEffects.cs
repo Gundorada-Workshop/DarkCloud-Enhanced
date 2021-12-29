@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Threading;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -284,7 +284,6 @@ namespace Dark_Cloud_Improved_Version
 
         public static void MobiusRing()
         {
-
             //Check these addresses which tells us if Ruby is charging her attack either in 3rd or 1st person
             if (Memory.ReadUShort(0x21DC4484) == 14 || Memory.ReadUShort(0x21DC4488) == 14 /*&& Memory.ReadUShort(0x21DC448C) == 14*/)
             {
@@ -368,6 +367,47 @@ namespace Dark_Cloud_Improved_Version
             }
         }
         //Increases damage output the longer you charge an attack
+        
+        /// <summary>
+        /// Enables the Secret Armlet special effect:
+        /// <br></br>
+        /// <br>Makes all magic circle effects turn into positive ones.</br>
+        /// </summary>
+        /// <param name="isNewFloor">Determines if we have entered a new floor to know if we should run this code again.</param>
+        public static bool SecretArmletEnable()
+        {
+            bool changed = false;
+
+            if (Memory.ReadByte(Addresses.circleSpawn1) != 0 && Memory.ReadByte(Addresses.circleEffect1) > 4)
+                { int effectPositive1 = random.Next(5); Memory.WriteByte(Addresses.circleEffect1, (byte)effectPositive1); changed = true; }
+
+            if (Memory.ReadByte(Addresses.circleSpawn2) != 0 && Memory.ReadByte(Addresses.circleEffect2) > 4)
+                { int effectPositive2 = random.Next(5); Memory.WriteByte(Addresses.circleEffect2, (byte)effectPositive2); changed = true; }
+
+            if (Memory.ReadByte(Addresses.circleSpawn3) != 0 && Memory.ReadByte(Addresses.circleEffect3) > 4)
+                { int effectPositive3 = random.Next(5); Memory.WriteByte(Addresses.circleEffect3, (byte)effectPositive3); changed = true; }
+
+            if (changed) return true; else return false;
+        }
+
+        /// <summary>
+        /// Disables the Secret Armlet special effect and re-rolls any present magic circle outcome
+        /// </summary>
+        public static bool SecretArmletDisable()
+        {
+            bool changed = false;
+
+            if (Memory.ReadByte(Addresses.circleSpawn1) != 0)
+                { int effectPositive1 = random.Next(10); Memory.WriteByte(Addresses.circleEffect1, (byte)effectPositive1); changed = true; }
+
+            if (Memory.ReadByte(Addresses.circleSpawn2) != 0)
+                { int effectPositive2 = random.Next(10); Memory.WriteByte(Addresses.circleEffect2, (byte)effectPositive2); changed = true; }
+
+            if (Memory.ReadByte(Addresses.circleSpawn3) != 0)
+                { int effectPositive3 = random.Next(10); Memory.WriteByte(Addresses.circleEffect3, (byte)effectPositive3); changed = true; }
+
+            if (changed) return true; else return false;
+        }
 
         public static void HerculesWrath()
         //Chance on getting hit to gain Stamina
