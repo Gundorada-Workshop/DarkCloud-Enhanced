@@ -74,6 +74,16 @@ namespace Dark_Cloud_Improved_Version
         static string[] yellowdropsUngaga2 = new string[15];
         static string[] yellowdropsOsmond = new string[15];
         static string[] yellowdropsOsmond2 = new string[15];
+        static string[] brownbooXiao = new string[15];
+        static string[] brownbooXiao2 = new string[15];
+        static string[] brownbooGoro = new string[15];
+        static string[] brownbooGoro2 = new string[15];
+        static string[] brownbooRuby = new string[15];
+        static string[] brownbooRuby2 = new string[15];
+        static string[] brownbooUngaga = new string[15];
+        static string[] brownbooUngaga2 = new string[15];
+        static string[] brownbooOsmond = new string[15];
+        static string[] brownbooOsmond2 = new string[15];
         static string currentDialogue;
         static string currentDialogueOptions;
         static string prevDialogue;
@@ -97,6 +107,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] muskarackaCharacters = { 13876, 14388, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389 }; //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
         static int[] sunmoonCharacters = { 12337, 13111 };
         static int[] yellowdropsTalkableCharacterIDs = { 2, 3, 4, 5, 6, 7, 9, 10, 11, 12 };
+        static int[] brownbooTalkableCharacterIDs = { 6, 7, 8, 10, 11, 12 };
         static int[] customDialoguesCheck = new int[15];      
         static int[] noruneXiaoCheck = new int[15];
         static int[] noruneGoroCheck = new int[15];
@@ -128,6 +139,11 @@ namespace Dark_Cloud_Improved_Version
         static int[] yellowdropsRubyCheck = new int[15];
         static int[] yellowdropsUngagaCheck = new int[15];
         static int[] yellowdropsOsmondCheck = new int[15];
+        static int[] brownbooXiaoCheck = new int[15];
+        static int[] brownbooGoroCheck = new int[15];
+        static int[] brownbooRubyCheck = new int[15];
+        static int[] brownbooUngagaCheck = new int[15];
+        static int[] brownbooOsmondCheck = new int[15];
 
         static bool[] itemIDCheckList = new bool[380];
         static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
@@ -213,6 +229,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaXiao2;
                         customDialoguesCheck = muskarackaXiaoCheck;
                     }
+                    else if (currentArea == 14)
+                    {
+                        customDialogues = brownbooXiao;
+                        customDialogues2 = brownbooXiao2;
+                        customDialoguesCheck = brownbooXiaoCheck;
+                    }
                     else if (currentArea == 23)
                     {
                         customDialogues = yellowdropsXiao;
@@ -253,6 +275,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = muskarackaGoro;
                         customDialogues2 = muskarackaGoro2;
                         customDialoguesCheck = muskarackaGoroCheck;
+                    }
+                    else if (currentArea == 14)
+                    {
+                        customDialogues = brownbooGoro;
+                        customDialogues2 = brownbooGoro2;
+                        customDialoguesCheck = brownbooGoroCheck;
                     }
                     else if (currentArea == 23)
                     {
@@ -296,6 +324,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaRuby2;
                         customDialoguesCheck = muskarackaRubyCheck;
                     }
+                    else if (currentArea == 14)
+                    {
+                        customDialogues = brownbooRuby;
+                        customDialogues2 = brownbooRuby2;
+                        customDialoguesCheck = brownbooRubyCheck;
+                    }
                     else if (currentArea == 23)
                     {
                         customDialogues = yellowdropsRuby;
@@ -338,6 +372,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = muskarackaUngaga2;
                         customDialoguesCheck = muskarackaUngagaCheck;
                     }
+                    else if (currentArea == 14)
+                    {
+                        customDialogues = brownbooUngaga;
+                        customDialogues2 = brownbooUngaga2;
+                        customDialoguesCheck = brownbooUngagaCheck;
+                    }
                     else if (currentArea == 23)
                     {
                         customDialogues = yellowdropsUngaga;
@@ -379,6 +419,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = muskarackaOsmond;
                         customDialogues2 = muskarackaOsmond2;
                         customDialoguesCheck = muskarackaOsmondCheck;
+                    }
+                    else if (currentArea == 14)
+                    {
+                        customDialogues = brownbooOsmond;
+                        customDialogues2 = brownbooOsmond2;
+                        customDialoguesCheck = brownbooOsmondCheck;
                     }
                     else if (currentArea == 23)
                     {
@@ -682,7 +728,21 @@ namespace Dark_Cloud_Improved_Version
                 }
                 else
                 {
-                    currentDialogue = "Sup buddy. I don´t have a dialogue yet.";
+                    byte NPCID = Memory.ReadByte(currentAddress);
+                    if (brownbooTalkableCharacterIDs.Contains(NPCID))
+                    {
+                        if (customDialoguesCheck[NPCID] != 1)
+                        {
+                            currentDialogue = customDialogues[NPCID];
+                            savedDialogueCheck = NPCID;
+                        }
+                        else
+                        {
+                            currentDialogue = customDialogues2[NPCID];
+                            savedDialogueCheck = NPCID;
+                        }
+                    }
+                    //currentDialogue = "Sup buddy. I don´t have a dialogue yet.";
                 }
             }
             else if (currentArea == 23)
@@ -2196,6 +2256,90 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsOsmond2[10] = "It was not too long ago when we were^children, you were always the trouble^maker haha!";
             yellowdropsOsmond2[11] = "The Moon People and Blue Terra have a^lot of shared history so it´s nice that^we can reconnect!";
             yellowdropsOsmond2[12] = "Who exactly is Ӿ?^Why did Ť go through the^effort of bringing his pet cat all the^here!¤Perhaps there´s more to that cat then^meets the eye...¤Aha, Ӿ is the team´s mascot!";
+
+
+            //Storage guard, kiwi, mango, suger, natade, mousse
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            brownbooXiao[6] = "";
+            brownbooXiao[7] = "What are you doing here kitty,^are you lost? I think I saw^Ť walking over there, you^should catch up with him while you can!";
+            brownbooXiao[8] = "";
+            brownbooXiao[10] = "";
+            brownbooXiao[11] = "";
+            brownbooXiao[12] = "";
+
+            brownbooXiao2[6] = "";
+            brownbooXiao2[7] = "Ohhhhh, I can feel that^magic emanating from you.¤What´s going on, is there something^Ť is not telling us about you?";
+            brownbooXiao2[8] = "";
+            brownbooXiao2[10] = "";
+            brownbooXiao2[11] = "";
+            brownbooXiao2[12] = "";
+
+
+            brownbooGoro[6] = "";
+            brownbooGoro[7] = "";
+            brownbooGoro[8] = "";
+            brownbooGoro[10] = "";
+            brownbooGoro[11] = "";
+            brownbooGoro[12] = "";
+                    
+            brownbooGoro2[6] = "";
+            brownbooGoro2[7] = "";
+            brownbooGoro2[8] = "";
+            brownbooGoro2[10] = "";
+            brownbooGoro2[11] = "";
+            brownbooGoro2[12] = "";
+
+
+            //Storage guard, kiwi, mango, suger, natade, mousse
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            brownbooRuby[6] = "";
+            brownbooRuby[7] = "";
+            brownbooRuby[8] = "";
+            brownbooRuby[10] = "";
+            brownbooRuby[11] = "";
+            brownbooRuby[12] = "";
+                    
+            brownbooRuby2[6] = "";
+            brownbooRuby2[7] = "";
+            brownbooRuby2[8] = "";
+            brownbooRuby2[10] = "";
+            brownbooRuby2[11] = "";
+            brownbooRuby2[12] = "";
+
+
+            //Storage guard, kiwi, mango, suger, natade, mousse
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            brownbooUngaga[6] = "";
+            brownbooUngaga[7] = "";
+            brownbooUngaga[8] = "";
+            brownbooUngaga[10] = "";
+            brownbooUngaga[11] = "";
+            brownbooUngaga[12] = "";
+
+            brownbooUngaga2[6] = "";
+            brownbooUngaga2[7] = "";
+            brownbooUngaga2[8] = "";
+            brownbooUngaga2[10] = "";
+            brownbooUngaga2[11] = "";
+            brownbooUngaga2[12] = "";
+
+
+            brownbooOsmond[6] = "";
+            brownbooOsmond[7] = "";
+            brownbooOsmond[8] = "";
+            brownbooOsmond[10] = "";
+            brownbooOsmond[11] = "";
+            brownbooOsmond[12] = "";
+
+            brownbooOsmond2[6] = "";
+            brownbooOsmond2[7] = "";
+            brownbooOsmond2[8] = "";
+            brownbooOsmond2[10] = "";
+            brownbooOsmond2[11] = "";
+            brownbooOsmond2[12] = "";
         }
 
     }
