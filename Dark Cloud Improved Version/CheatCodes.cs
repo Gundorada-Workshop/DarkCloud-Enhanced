@@ -53,6 +53,8 @@ namespace Dark_Cloud_Improved_Version
             public static Button[] cheatDebugMenusPart1 = new Button[] { Button.Select, Button.R3, Button.DPad_Down, Button.Triangle, Button.DPad_Up, Button.Cross, Button.Select, Button.L3, Button.R1, Button.L1 };
             
             public static Button[] cheatDebugMenusPart2 = new Button[] { Button.Circle, Button.L1, Button.DPad_Right, Button.DPad_Left, Button.R3, Button.R1, Button.Square, Button.Cross, Button.Select, Button.Cross };
+            
+            public static Button[] cheatUnlockFloors = new Button[] { Button.R3, Button.Triangle, Button.DPad_Up, Button.Select, Button.L2, Button.R2, Button.DPad_Left, Button.Select, Button.Circle, Button.R1 };
 
             public static List<Button> inputs = new List<Button>();
 
@@ -106,6 +108,12 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (firstDebugCheatActive == true) 
                                 UnlockDebugMenus();
+                        }
+
+                        if (CheckSequence(cheatUnlockFloors))
+                        {
+                            byte currentdungeon = Memory.ReadByte(Addresses.checkDungeon);
+                            UnlockFloors(currentdungeon);
                         }
                     }
                     
@@ -220,6 +228,37 @@ namespace Dark_Cloud_Improved_Version
 
                 if (!debugThread.IsAlive)
                     debugThread.Start();
+            }
+
+            private static void UnlockFloors(byte currentDng)
+            {
+                switch (currentDng)
+                {
+                    case 0:
+                        Memory.WriteByte(0x21CDD80B, 14);
+                        break;
+                    case 1:
+                        Memory.WriteByte(0x21CDD80C, 16);
+                        break;
+                    case 2:
+                        Memory.WriteByte(0x21CDD80D, 17);
+                        break;
+                    case 3:
+                        Memory.WriteByte(0x21CDD80E, 17);
+                        break;
+                    case 4:
+                        Memory.WriteByte(0x21CDD80F, 14);
+                        break;
+                    case 5:
+                        Memory.WriteByte(0x21CDD810, 24);
+                        break;
+                    case 6:
+                        Memory.WriteByte(0x21CDD811, 99);
+                        break;
+                }
+
+                Console.WriteLine("Cheat: Unlock Floors");
+                Dayuppy.DisplayMessage("^BCheater!!\n Unlocked all floors in this dungeon!^W", 2, 40, 3500);
             }
 
             private static Button[] ShiftElements(Button[] cheatCodeArray, int amount)
