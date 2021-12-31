@@ -53,9 +53,11 @@ namespace Dark_Cloud_Improved_Version
         public static Thread supernovaThread = new Thread(new ThreadStart(CustomEffects.Supernova));
         public static Thread starBreakerThread = new Thread(new ThreadStart(CustomEffects.StarBreaker));
 
+        public static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
         public static void InsideDungeonThread()
         {
             Console.WriteLine("Dungeon Thread Activated");
+            cheatCodeThread.Start();
             while (true)
             {
                 if (Player.InDungeonFloor())

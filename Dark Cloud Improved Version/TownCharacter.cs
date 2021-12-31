@@ -50,6 +50,8 @@ namespace Dark_Cloud_Improved_Version
         static bool fishingActive = false;
         public static bool queensQuest = false;
         static bool[] fishCaught = new bool[6];
+        static bool currentlyInShop = false;
+        static bool shopDataCleared = false;
 
         static float fishSizeFloat = 0;
 
@@ -810,6 +812,31 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
+                if (!currentlyInShop)
+                {
+                    if (Memory.ReadByte(0x21DA52E4) == 1 && Memory.ReadByte(0x21DA52E8) == 11) {
+                        currentlyInShop = true;
+                        shopDataCleared = false;
+                        Console.WriteLine("Entered a shop");
+                    }
+                }
+
+                if (currentlyInShop)
+                {
+                    if (!shopDataCleared)
+                    {
+                        Console.WriteLine("Fixing broken dagger glitch...");
+                        FixBrokenDagger();
+                        shopDataCleared = true;
+                    }
+
+                    if (Memory.ReadByte(0x21DA52E4) != 1)
+                    {
+                        currentlyInShop = false;
+                        Console.WriteLine("Exited a shop");
+                    }
+                }
+
 
                 /*
                 if (dialogueWritten == false)
@@ -869,6 +896,18 @@ namespace Dark_Cloud_Improved_Version
 
             }
 
+        }
+
+        public static void FixBrokenDagger()
+        {
+            currentAddress = 0x21839528;
+
+            for (int i = 0; i < 4500; i++)
+            {
+                Memory.WriteInt(currentAddress, 0);
+                currentAddress += 0x00000004;
+            }
+            Console.WriteLine("Broken dagger fix finished");
         }
 
 

@@ -498,7 +498,7 @@ namespace Dark_Cloud_Improved_Version
                     int itemId = Memory.ReadUShort(Addresses.firstBagAttachment + (itemOffset * slot));
 
                     //Check if there is an attachment in the slot and store its ID or store -1 if no attachment is found
-                    if (itemId >= Items.fire && itemId <= Items.mageslayer)
+                    if (itemId >= Items.fire && itemId <= 1000)
                     {
                         inventoryAttachments[slot] = itemId;
                         //Console.WriteLine("Slot: " + slot + " AttachmentID: " + itemId);
