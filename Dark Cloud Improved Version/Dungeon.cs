@@ -25,6 +25,7 @@ namespace Dark_Cloud_Improved_Version
         static bool chronicle2 = false;
         static bool[] monstersDead = new bool[15];
         static bool monsterQuestActive = false;
+        static bool eventfloor = false;
         public static bool monsterQuestMachoActive = false;
         public static bool monsterQuestGobActive = false;
         public static bool monsterQuestJakeActive = false;
@@ -262,15 +263,23 @@ namespace Dark_Cloud_Improved_Version
                             {
                                 monstersDead[i] = false;
                             }
+
+                            eventfloor = false;
                         }
-                        else Console.WriteLine("Player has entered an event floor!");
+                        else
+                        {
+                            eventfloor = true;
+                            Console.WriteLine("Player has entered an event floor!");
+                        }
+
+                        FixUngagaDoors(currentDungeon);
 
                         //Once everything is done, we set this so it wont reroll again in same floor
                         prevFloor = currentFloor;
                     }
 
                     //Check if clown is triggered, then change loot table
-                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false)
+                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false && eventfloor == false)
                     {
                         CustomChests.ClownRandomizer(chronicle2);
                         clownOnScreen = true;
@@ -606,6 +615,64 @@ namespace Dark_Cloud_Improved_Version
             if (flag) n = 5;
             else n = 21;
             Memory.WriteByte(Addresses.BoneDoorOpenType, n);
+        }
+
+        public static void FixUngagaDoors(byte currentdng)
+        {
+            switch (currentdng)
+            {
+                case 3:
+                    if (Memory.ReadFloat(0x20928670) == 150)
+                    {
+                        Memory.WriteByte(0x20985E0, 30);
+                        Memory.WriteFloat(0x20928670, 50);
+                        Memory.WriteFloat(0x20928928, 50);
+                        Memory.WriteByte(0x20928B14, 30);
+                        Memory.WriteByte(0x20928AE4, 30);
+                        Console.WriteLine("Fixed Ungaga Doors");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't fix ungaga doors, or they were fixed already");
+                    }
+                    break;
+
+                case 4:
+                    if (Memory.ReadFloat(0x2092FA08) == 150)
+                    {
+                        Memory.WriteByte(0x2092F978, 30);
+                        Memory.WriteFloat(0x2092FA08, 50);
+                        Memory.WriteFloat(0x2092FCC0, 50);
+                        Memory.WriteByte(0x2092FEAC, 30);
+                        Memory.WriteByte(0x2092FE7C, 30);
+                        Console.WriteLine("Fixed Ungaga Doors");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't fix ungaga doors, or they were fixed already");
+                    }
+                    break;
+
+                case 5:
+                    if (Memory.ReadFloat(0x209244AC) == 150)
+                    {
+                        Memory.WriteByte(0x2092441C, 30);
+                        Memory.WriteFloat(0x209244AC, 50);
+                        Memory.WriteFloat(0x20924764, 50);
+                        Memory.WriteByte(0x20924920, 30);
+                        Memory.WriteByte(0x20924950, 30);
+                        Console.WriteLine("Fixed Ungaga Doors");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't fix ungaga doors, or they were fixed already");
+                    }
+                    break;
+
+                default:
+                    break;
+
+            }
         }
 
     }

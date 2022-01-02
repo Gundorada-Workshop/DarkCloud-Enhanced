@@ -297,11 +297,11 @@ namespace Dark_Cloud_Improved_Version
 
         public static void InitializeBD()
         {
-            attachmentValues[0] = 116;
-            attachmentValues[1] = 3;
-            attachmentValues[2] = 0;
+            attachmentValues[0] = 90;
+            attachmentValues[1] = 0;
+            attachmentValues[2] = 1;
             attachmentValues[3] = 0;
-            attachmentValues[4] = 98;
+            attachmentValues[4] = 226;
             attachmentValues[5] = 54;
             attachmentValues[6] = 0;
             attachmentValues[7] = 0;
