@@ -858,29 +858,29 @@ namespace Dark_Cloud_Improved_Version
         {
             if (area == 0)
             {
-                randomizedFPoints = rnd.Next(30, 61);
+                randomizedFPoints = rnd.Next(35, 66);
                 fishMultiplier = Memory.ReadByte(0x21CE441D);
                 fishingPoints = randomizedFPoints * fishMultiplier;
             }
             else if (area == 1)
             {
-                randomizedFPoints = rnd.Next(35, 66);
+                randomizedFPoints = rnd.Next(43, 74);
                 fishMultiplier = Memory.ReadByte(0x21CE4425);
                 fishingPoints = randomizedFPoints * fishMultiplier;
                 if (Memory.ReadByte(0x21CE4421) == 5 || Memory.ReadByte(0x21CE4421) == 17)
                 {
-                    fishingPoints = fishingPoints * 3;
+                    fishingPoints = fishingPoints * 2;
                 }
             }
             else if (area == 2)
             {
-                randomizedFPoints = rnd.Next(40, 71);
+                randomizedFPoints = rnd.Next(51, 82);
                 fishMultiplier = Memory.ReadByte(0x21CE442E);
                 fishingPoints = randomizedFPoints * fishMultiplier;
             }
             else if (area == 3)
             {
-                randomizedFPoints = rnd.Next(45, 76);
+                randomizedFPoints = rnd.Next(60, 91);
                 fishMultiplier = Memory.ReadByte(0x21CE4438);
                 fishingPoints = randomizedFPoints * fishMultiplier;
             }

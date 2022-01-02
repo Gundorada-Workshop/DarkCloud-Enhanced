@@ -741,6 +741,11 @@ namespace Dark_Cloud_Improved_Version
                             currentDialogue = customDialogues2[NPCID];
                             savedDialogueCheck = NPCID;
                         }
+
+                        if (isUsingAlly == false)
+                        {
+                            currentDialogue = "Hello.";
+                        }
                     }
                     //currentDialogue = "Sup buddy. I don´t have a dialogue yet.";
                 }
