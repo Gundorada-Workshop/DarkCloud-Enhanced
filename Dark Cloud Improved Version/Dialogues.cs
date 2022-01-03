@@ -155,6 +155,12 @@ namespace Dark_Cloud_Improved_Version
         static int obtainedUltWeapons = 0;
         static int obtainedSecretItems = 0;
 
+        static string[] allfish = { "Bobo", "Gobbler", "Nonky", "Kaiji", "Baku Baku", "Mardan Garayan", "Gummy", "Niler", "null", "Umadakara", "Tarton", "Piccoly", "Bon", "Hamahama", "Negie", "Den", "Heela", "Baron Garayan" };
+        static string fishToFind;
+        static bool[] fishCheckList = new bool[18];
+        static bool masterFishQuestComplete = false;
+        public static bool alreadyHasSavingBook = false;
+
         static byte[] storageOriginalDialogue;
 
         static int[] noruneSidequestIDs = { 87, 247, 207, 227, 187, 127, 67, 167, 147, 267, 47, 107, 0};
@@ -699,7 +705,7 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress = currentAddress - 0x00000005;
                 if (Memory.ReadShort(currentAddress) == 9)
                 {
-                    if (Memory.ReadByte(0x21CE4400) == 0)
+                    if (Memory.ReadByte(0x21CE43FE) == 0)
                     {
                         currentDialogue = brownbooPickle;
                     }
@@ -713,7 +719,7 @@ namespace Dark_Cloud_Improved_Version
                         }
                         else
                         {
-                            brownbooPickleExtraDialogue = "Hmm, seems like you don´t have^100% collection yet. Don´t worry,^it´s a massive achievement to have!^Good luck!";
+                            brownbooPickleExtraDialogue = "Hmm, seems like you don´t have^100% collection yet. Don´t worry,^it´s a massive achievement to reach!^Good luck!";
                         }
                         
                         currentDialogue = "You have collected:^" + obtainedItems + " / " + allitems + " obtainable items and attachments^" + obtainedUltWeapons + " / " + obtainableUltWeapons.Length +" obtainable ultimate weapons^" + obtainedSecretItems + " / " + obtainableSecretItems.Length +" secret items¤" + brownbooPickleExtraDialogue;
@@ -723,6 +729,40 @@ namespace Dark_Cloud_Improved_Version
                         for (int i = 0; i < itemIDCheckList.Length; i++)
                         {
                             itemIDCheckList[i] = false;
+                        }
+                    }
+                }
+                else if (Memory.ReadShort(currentAddress) == 5)
+                {
+                    if (Memory.ReadByte(0x21CE444B) == 0)
+                    {
+                        currentDialogue = "Do you like fishing?^I have a great challenge for you.¤Catch all 17 different types of fish,^and I will reward you with a rare item!¤You can talk to me again^to know your current progress.";
+                    }
+                    else
+                    {
+                        CheckFish();
+                        if (masterFishQuestComplete)
+                        {
+                            CheckMasterFishQuestReward();
+                            if (alreadyHasSavingBook)
+                            {
+                                currentDialogue = "I already gave you my reward,^but if you somehow lose it you^can ask for another!";
+                            }
+                            else
+                            {
+                                if (Memory.ReadByte(0x21CE4450) == 0)
+                                {
+                                    currentDialogue = "So you have completed my challenge?¤Cool, you truly are a Master of Fishing!^Here, have this rare book that^I found the other day.¤I don´t know what it does, but^maybe some people collect them.";                                    
+                                }
+                                else
+                                {
+                                    currentDialogue = "What? You lost the reward??¤Well, I have another one here,^don´t lose it again!";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentDialogue = "You still have to^find the following fish:¤" + fishToFind + "¤Come back when you have caught them!^Good luck!";
                         }
                     }
                 }
@@ -950,14 +990,14 @@ namespace Dark_Cloud_Improved_Version
             {
                 if (isUsingAlly == true)
                 {
-                    currentAddress = 0x20649004; //brownboo first dialogue option
+                    currentAddress = 0x20649000; //brownboo first dialogue option
                     defDialogue = "Hey chill, don´t come talking so fast!";
                 }
 
                 else
                 {
-                    currentAddress = 0x20649004; //brownboo first dialogue option
-                     if (Memory.ReadByte(0x21CE4400) == 0)
+                    currentAddress = 0x20649000; //brownboo first dialogue option
+                     if (Memory.ReadByte(0x21CE43FE) == 0  || Memory.ReadByte(0x21CE444B) == 0)
                         defDialogue = "Wait a second please,^I was doing something.";
                      else
                         defDialogue = "Checking your data... Please wait.";
@@ -1463,6 +1503,92 @@ namespace Dark_Cloud_Improved_Version
                 if (itemIDCheckList[obtainableSecretItems[i]] == true)
                 {
                     obtainedSecretItems++;
+                }
+            }
+        }
+
+        public static void CheckMasterFishQuestReward()
+        {
+            int itemid;
+            alreadyHasSavingBook = false;
+
+            currentAddress = 0x21CDD8BA; //first inventory slot
+            for (int i = 0; i < 100; i++) //check which items player has in bag
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid == 191)
+                {
+                    alreadyHasSavingBook = true;
+                }
+                currentAddress += 0x00000002;
+            }
+
+            currentAddress = 0x21CE21E8; //first storage slot
+            for (int i = 0; i < 60; i++) //check which items player has in storage
+            {
+                itemid = Memory.ReadUShort(currentAddress);
+                if (itemid == 191)
+                {
+                    alreadyHasSavingBook = true;
+                }
+                currentAddress += 0x00000002;
+            }
+        }
+
+        public static void GiveMasterFishQuestReward()
+        {
+            Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), 191);
+            Memory.WriteByte(0x21CE4450, 1);
+        }
+
+        public static void CheckFish()
+        {
+            currentAddress = 0x21CE4439;
+            byte fishCount = 0;
+            for (int i = 0; i < allfish.Length; i++)
+            {
+                if (i != 8)
+                {
+                    if (Memory.ReadByte(currentAddress) == 1)
+                    {
+                        fishCheckList[i] = true;
+                        fishCount++;
+                    }
+                }
+                currentAddress += 0x00000001;
+            }
+            if (fishCount == 17)
+            {
+                masterFishQuestComplete = true;
+                Memory.WriteByte(0x21CE444F, 1);
+            }
+            else
+            {
+                masterFishQuestComplete = false;
+                byte fishAmountToFind = 0;
+                fishToFind = "";
+                for (int i = 0; i < allfish.Length; i++)
+                {
+                    if (i != 8)
+                    {
+                        if (fishCheckList[i] != true)
+                        {
+                            fishToFind += allfish[i];
+                            fishAmountToFind++;
+                            if (fishAmountToFind == 4 || fishAmountToFind == 8 || fishAmountToFind == 12)
+                            {
+                                fishToFind += "¤";
+                            }
+                            else
+                            {
+                                fishToFind += "^";
+                            }
+                        }
+                    }
+                }
+                if (fishAmountToFind == 4 || fishAmountToFind == 8 || fishAmountToFind == 12)
+                {
+                    fishToFind = fishToFind.Remove(fishToFind.Length - 1, 1);
                 }
             }
         }

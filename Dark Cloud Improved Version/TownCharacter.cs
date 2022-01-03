@@ -53,6 +53,7 @@ namespace Dark_Cloud_Improved_Version
         static bool currentlyInShop = false;
         static bool shopDataCleared = false;
         static bool fishingQuestCheck = false;
+        public static bool mintTalk = false;
 
         static float fishSizeFloat = 0;
 
@@ -688,9 +689,13 @@ namespace Dark_Cloud_Improved_Version
                                 }
                                 checkNearNPC++;
                                 currentAddress = currentAddress - 0x00000024;
-                                if (Memory.ReadByte(currentAddress) == 9)
+                                if (Memory.ReadByte(currentAddress) == 5)
                                 {
-                                    Memory.WriteUShort(0x21D3D434, 200);
+                                    mintTalk = true;
+                                }
+                                else
+                                {
+                                    mintTalk = false;
                                 }
                             }
                         }
@@ -705,6 +710,16 @@ namespace Dark_Cloud_Improved_Version
                         if (Memory.ReadByte(0x21D1CC0C) == 200 && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
                         {
                             onDialogueFlag = 1;
+                            if (mintTalk)
+                            {
+                                if (Memory.ReadByte(0x21CE444F) == 1)
+                                {
+                                    if (Dialogues.alreadyHasSavingBook == false)
+                                    {
+                                        Dialogues.GiveMasterFishQuestReward();
+                                    }
+                                }
+                            }
                         }
 
                         if (onDialogueFlag == 2)
