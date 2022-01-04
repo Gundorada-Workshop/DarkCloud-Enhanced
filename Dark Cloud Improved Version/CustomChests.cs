@@ -76,6 +76,10 @@ namespace Dark_Cloud_Improved_Version
         static int[] currentItemTable;
         static int[] currentWeaponTable;
 
+        static bool itemQuestSpawn = false;
+        static bool itemQuestSpawned = false;
+        static int itemQuestitemID;
+
         static int currentFloor;
         static int prevFloor;
         static int firstChestItem;
@@ -135,6 +139,7 @@ namespace Dark_Cloud_Improved_Version
         public static void ChestRandomizer(int currentDungeon, int currentFloor, bool chronicle2)
         {
             Console.WriteLine("Custom chests activated");
+            itemQuestSpawn = false;
 
             switch (currentDungeon)
             {
@@ -162,6 +167,17 @@ namespace Dark_Cloud_Improved_Version
                         currentBackFloorBigBoxAddressArea = 0x20278290;
                         currentBackFloorSmallBoxAddressArea = 0x20278390;
                     }
+
+                    if (Memory.ReadByte(0x21CE4451) == 1) //laura quest check
+                    {
+                        int secretItemChance = rnd.Next(0, 100);
+                        if (secretItemChance > 66)
+                        {
+                            itemQuestSpawn = true;
+                            itemQuestitemID = 171;
+                            Console.WriteLine("Rolled sidequest secret item for this floor");
+                        }
+                    }                     
                     break;
 
                 case 1:
@@ -411,6 +427,8 @@ namespace Dark_Cloud_Improved_Version
 
             currentAddress = Addresses.backfloorFirstChest;
 
+            itemQuestSpawned = false;
+
             for (int i = 0; i < 7; i++)
             {
                 chestSize = rnd.Next(100);
@@ -431,6 +449,15 @@ namespace Dark_Cloud_Improved_Version
                             {
                                 storeItem = rnd.Next(0, BackfloorItems.Length);
                                 itemValue = BackfloorItems[storeItem];
+                            }
+                        }
+
+                        if (itemQuestSpawn) //check if current dng has item fetch quest unlocked & item was rolled successfully
+                        {
+                            if (itemQuestSpawned == false)
+                            {
+                                itemValue = itemQuestitemID;
+                                itemQuestSpawned = true;
                             }
                         }
 

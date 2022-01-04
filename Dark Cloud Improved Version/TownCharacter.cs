@@ -1139,6 +1139,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteOneByte(0x21CE4431, BitConverter.GetBytes(0));
                 }
             }
+            else if (characterIDData == 13360) //laura
+            {
+                if (Memory.ReadByte(0x21CE4451) == 0)
+                {
+                    Memory.WriteByte(0x21CE4451, 1);
+                }
+            }
         }
 
         public static void CheckFishingQuest(int area)

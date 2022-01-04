@@ -33,6 +33,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] MatatakiWaterfallFishIDs = { 4, 2, 6, 5, 17 };
         static int[] QueensSeaFishIDs = { 0, 3, 11, 12, 13 };
         static int[] MuskaOasisFishIDs = { 14, 15, 16, 5, 17 };
+        static int[] DBCBackFloors = { 2, 4, 5, 6, 8, 9, 11, 12, 13 };
         static int rolledDng = 0;
         static int rolledEnemy = 0;
         static int enemyID = 0;
@@ -57,6 +58,9 @@ namespace Dark_Cloud_Improved_Version
         public static int getEnemyCounter;
         public static int getFishID;
         public static int getFishCounter;
+
+        static int rolledbackfloornumber;
+        static int backfloornumber;
 
         static int currentAddress;
         static int currentAddressDungeonID;
@@ -417,6 +421,27 @@ namespace Dark_Cloud_Improved_Version
                         RollFishingQuestTwoReward(3);
                     }
                     currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
+                }
+            }
+            else if (characterID == 13360) //laura
+            {
+                TownCharacter.characterIDData = characterID;
+
+                if (Memory.ReadByte(0x21CE4451) == 0)
+                {
+                    currentDialogue = "I heard some whispers that if^you venture to the backfloors in the^Divine Beast Cave, you might^come across a rare item.¤Apparently it´s a some^kind of powder.";                  
+                }
+                else
+                {
+                    bool hasItem = CheckItemQuestReward(171);
+                    if (hasItem)
+                    {
+                        currentDialogue = "Oh, you found it? Great!^It´s a medusa powder?¤You ask me how to use it?^Sorry, I don´t know what it is.";
+                    }
+                    else
+                    {
+                        currentDialogue = "Did you find that rare item yet?^Apparently it can be found somewhere in^the backfloors of Divine Beast Cave.";
+                    }
                 }
             }
             return currentDialogue;
@@ -909,6 +934,45 @@ namespace Dark_Cloud_Improved_Version
             int currentFP = Memory.ReadUShort(currentAddress);
             currentFP = currentFP + fishingPoints;
             Memory.WriteInt(currentAddress, currentFP);
+        }
+
+        public static void GetRandomBackFloor(byte area)
+        {
+            switch (area)
+            {
+                case 0:
+                    rolledbackfloornumber = rnd.Next(0, DBCBackFloors.Length);
+                    backfloornumber = DBCBackFloors[rolledbackfloornumber] + 1;
+                    break;
+            }
+        }
+
+        public static bool CheckItemQuestReward(byte itemID)
+        {
+            int checkitemid;
+            currentAddress = 0x21CDD8BA; //first inventory slot
+            for (int i = 0; i < 100; i++) //check which items player has in bag
+            {
+                checkitemid = Memory.ReadUShort(currentAddress);
+                if (checkitemid == itemID)
+                {
+                    return true;
+                }
+                currentAddress += 0x00000002;
+            }
+
+            currentAddress = 0x21CE21E8; //first storage slot
+            for (int i = 0; i < 60; i++) //check which items player has in storage
+            {
+                checkitemid = Memory.ReadUShort(currentAddress);
+                if (checkitemid == itemID)
+                {
+                    return true;
+                }
+                currentAddress += 0x00000002;
+            }
+
+            return false;
         }
     }
 }

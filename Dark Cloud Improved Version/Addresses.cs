@@ -128,6 +128,7 @@
         //Time
         public const int timeofDayRead = 0x202A28F4;    //Same as Time of Day value but does not clear when leaving town. Only for reading
         public const int timeofDayWrite = 0x21CD4310;   //Time of Day in town 
+        public const int currentDay = 0x21CD4318;       //Current ingame day
 
         //Inventory
         public const int activeItem1 = 0x21CDD8AE;

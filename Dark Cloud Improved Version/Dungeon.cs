@@ -252,10 +252,7 @@ namespace Dark_Cloud_Improved_Version
                             spawnsCheck.Start();
 
                             //Initialize the mini boss thread
-                            minibossProcess = new Thread(() => DoMinibossSpawn(currentDungeon));
-
-                            chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
-                            CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2);
+                            minibossProcess = new Thread(() => DoMinibossSpawn(currentDungeon));                         
 
                             monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
 
@@ -542,6 +539,9 @@ namespace Dark_Cloud_Improved_Version
                 minibossProcess.Start();
             }
             else Console.WriteLine("Not enough normal enemies in floor!");
+
+            chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
+            CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2); //Randomize the chest loot
 
             Console.WriteLine("Finished spawn checking");
 
