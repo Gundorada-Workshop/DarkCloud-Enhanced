@@ -144,7 +144,7 @@ namespace Dark_Cloud_Improved_Version
         {
             List<ushort> Ids = new List<ushort>();
 
-            for (int i = 0; i <= 15; i++)
+            for (int i = 0; i < 15; i++)
             {
                 Ids.Add(Memory.ReadUShort(Enemy0.nameTag + (offset * i)));
             }

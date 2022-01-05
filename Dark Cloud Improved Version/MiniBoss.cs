@@ -67,15 +67,15 @@ namespace Dark_Cloud_Improved_Version
                             byte KeyId = Memory.ReadByte(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber));
 
                             //Re-roll for a different enemy that does not hold the key and is non flying
-                            do { newEnemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count - 1); } while (newEnemyNumber == enemyNumber &&
+                            do { newEnemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count); } while (newEnemyNumber == enemyNumber &&
                                                                                                                 Enemies.EnemyHasKey(newEnemyNumber, dungeon) &&
                                                                                                                 nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(newEnemyNumber)));
 
+                            //Remove the key from the original enemy
+                            Memory.WriteByte(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), 0);
+
                             //Set the key onto a new enemy
                             Memory.WriteByte(Enemies.Enemy0.forceItemDrop + (varOffset * newEnemyNumber), KeyId);
-
-                            //Reset enemeyNumber var
-                            enemyNumber = newEnemyNumber;
                         }
 
                         //  == Get base values from the chosen enemy ==
@@ -141,7 +141,7 @@ namespace Dark_Cloud_Improved_Version
                 //Retry if landing on a enemy with ID 0
                 else { Console.WriteLine("Chosen enemy ID must not be 0!"); MiniBossSpawn(true, dungeon, floor); }
             }
-            else Console.WriteLine("Failed to roll for Mini Boos");
+            else Console.WriteLine("Failed to roll for Mini Boss!");
             return false;
         }
     }

@@ -248,6 +248,7 @@ namespace Dark_Cloud_Improved_Version
                         if (!excludeFloors.Contains(currentFloor))
                         {
                             //Initialize the spawns check
+                            Memory.WriteInt(Enemies.Enemy0.hp, 0);
                             spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
                             spawnsCheck.Start();
 
@@ -510,9 +511,9 @@ namespace Dark_Cloud_Improved_Version
 
             int ms = 0;
 
-            //Listens for the enemy render address value to change from 0 or 10 seconds have passed
+            //Listens for the enemy render address value to change, from 0 or 10 seconds have passed
             //We use the enemy render value here because enemies spawn after chests
-            while (Memory.ReadInt(Enemies.Enemy0.renderStatus) == -1 && ms < 10000)
+            while (Memory.ReadInt(Enemies.Enemy0.hp) == 0 && ms < 10000)
             {
                 Thread.Sleep(100);
                 ms += 100;

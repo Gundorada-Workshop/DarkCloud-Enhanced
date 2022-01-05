@@ -409,7 +409,7 @@ namespace Dark_Cloud_Improved_Version
                 int slot = 0;
                 int[] weaponsBag = GetBagWeapons(character);
 
-                Console.WriteLine("Started GetBagWeaponsFirstAvailableSlot process!");
+                //Console.WriteLine("Started GetBagWeaponsFirstAvailableSlot process!");
 
                 foreach (int item in weaponsBag)
                 {
@@ -422,7 +422,7 @@ namespace Dark_Cloud_Improved_Version
                     slot++;
                 }
 
-                Console.WriteLine("Finished GetBagWeaponsFirstAvailableSlot process:\nNo empty slot found!\n");
+                //Console.WriteLine("Finished GetBagWeaponsFirstAvailableSlot process:\nNo empty slot found!\n");
 
                 //Return -1 if no empty slot was found
                 return -1;
@@ -489,7 +489,7 @@ namespace Dark_Cloud_Improved_Version
                 byte inventorySize = inventorySizeAttachments;
                 int[] inventoryAttachments = new int[inventorySize];
 
-                Console.WriteLine("GetBagAttachments process started!\n");
+                //Console.WriteLine("GetBagAttachments process started!\n");
 
                 //Run through the attachment bag
                 for (int slot = 0; slot < inventorySize; slot++)
@@ -510,7 +510,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
-                Console.WriteLine("\nGetBagAttachments process finished!\n");
+                //Console.WriteLine("\nGetBagAttachments process finished!\n");
                 return inventoryAttachments;
             }
 
@@ -519,21 +519,21 @@ namespace Dark_Cloud_Improved_Version
                 int slot = 0;
                 int[] attachmentBag = GetBagAttachments();
 
-                Console.WriteLine("GetBagAttachmentsFirstAvailableSlot process started!\n");
+                //Console.WriteLine("GetBagAttachmentsFirstAvailableSlot process started!\n");
 
                 //Run until you find an empty slot and return the slot number if found
                 foreach (int item in attachmentBag)
                 {
                     if (item == -1)
                     {
-                        Console.WriteLine("Finished GetBagAttachmentsFirstAvailableSlot process:\nSlot " + slot + "\n");
+                        //Console.WriteLine("Finished GetBagAttachmentsFirstAvailableSlot process:\nSlot " + slot + "\n");
                         return slot;
                     }
                     slot++;
                 }
 
                 //Return -1 if no empty slot was found
-                Console.WriteLine("Attachment bag is full!\n");
+                //Console.WriteLine("Attachment bag is full!\n");
                 return -1;
             }
 
