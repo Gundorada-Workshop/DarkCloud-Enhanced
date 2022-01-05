@@ -78,7 +78,7 @@ namespace Dark_Cloud_Improved_Version
 
         static bool itemQuestSpawn = false;
         static bool itemQuestSpawned = false;
-        static int itemQuestitemID;
+        static byte itemQuestitemID;
 
         static int currentFloor;
         static int prevFloor;
@@ -170,13 +170,7 @@ namespace Dark_Cloud_Improved_Version
 
                     if (Memory.ReadByte(0x21CE4451) == 1) //laura quest check
                     {
-                        int secretItemChance = rnd.Next(0, 100);
-                        if (secretItemChance > 66)
-                        {
-                            itemQuestSpawn = true;
-                            itemQuestitemID = 171;
-                            Console.WriteLine("Rolled sidequest secret item for this floor");
-                        }
+                        RollItemQuest(171);
                     }                     
                     break;
 
@@ -206,6 +200,10 @@ namespace Dark_Cloud_Improved_Version
                         currentBackFloorSmallBoxAddressArea = 0x202787A0;
                         clownCommonSmallTable[23] = 225;
                     }
+                    if (Memory.ReadByte(0x21CE4452) == 1) //ro quest check
+                    {
+                        RollItemQuest(173);
+                    }
                     break;
 
                 case 2:
@@ -234,6 +232,10 @@ namespace Dark_Cloud_Improved_Version
                         currentBackFloorSmallBoxAddressArea = 0x20278BB0;
                         clownCommonSmallTable[23] = 226;
                     }
+                    if (Memory.ReadByte(0x21CE4453) == 1) //phil quest check
+                    {
+                        RollItemQuest(243);
+                    }
                     break;
 
                 case 3:
@@ -261,6 +263,10 @@ namespace Dark_Cloud_Improved_Version
                         currentBackFloorBigBoxAddressArea = 0x20278EC0;
                         currentBackFloorSmallBoxAddressArea = 0x20278FC0;
                         clownCommonSmallTable[23] = 228;
+                    }
+                    if (Memory.ReadByte(0x21CE4454) == 1) //zabo quest check
+                    {
+                        RollItemQuest(172);
                     }
                     break;
 
@@ -632,6 +638,25 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
                 Console.WriteLine("Small box item: " + randomItemValue);
+            }
+        }
+
+        public static void RollItemQuest(byte itemQuestID)
+        {
+            int secretItemChance = rnd.Next(0, 100);
+            if (secretItemChance > 66)
+            {
+                bool alreadyhasItem = SideQuestManager.CheckItemQuestReward(itemQuestID);
+                if (alreadyhasItem == false)
+                {
+                    itemQuestSpawn = true;
+                    itemQuestitemID = itemQuestID;
+                    Console.WriteLine("Rolled sidequest secret item for this floor");
+                }
+                else
+                {
+                    Console.WriteLine("Player already has sidequest secret item");
+                }
             }
         }
     }

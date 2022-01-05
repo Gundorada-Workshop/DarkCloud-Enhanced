@@ -91,6 +91,8 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine("Towncharacter running");
 
             Dialogues.InitializeDialogues();
+            Memory.WriteByte(0x2027DD50, 0); //make shell ring discardable
+            Memory.WriteByte(0x20291CEE, 1); //make hardening powder cost 1g
 
             Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             successful = Memory.VirtualProtectEx(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
@@ -1144,6 +1146,27 @@ namespace Dark_Cloud_Improved_Version
                 if (Memory.ReadByte(0x21CE4451) == 0)
                 {
                     Memory.WriteByte(0x21CE4451, 1);
+                }
+            }
+            else if (characterIDData == 12594) //ro
+            {
+                if (Memory.ReadByte(0x21CE4452) == 0)
+                {
+                    Memory.WriteByte(0x21CE4452, 1);
+                }
+            }
+            else if (characterIDData == 12852) //phil
+            {
+                if (Memory.ReadByte(0x21CE4453) == 0)
+                {
+                    Memory.WriteByte(0x21CE4453, 1);
+                }
+            }
+            else if (characterIDData == 12341) //zabo
+            {
+                if (Memory.ReadByte(0x21CE4454) == 0)
+                {
+                    Memory.WriteByte(0x21CE4454, 1);
                 }
             }
         }

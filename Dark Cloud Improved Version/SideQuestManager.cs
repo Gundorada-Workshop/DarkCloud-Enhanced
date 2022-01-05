@@ -444,6 +444,69 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+            else if (characterID == 12594) //Ro
+            {
+                TownCharacter.characterIDData = characterID;
+
+                if (Memory.ReadByte(0x21CE4452) == 0)
+                {
+                    currentDialogue = "One of the Wise Owl Forest´s owls^told me that somewhere deep at the^backsides of the Forest, you can^find some mysterious item.¤It´s said to be an ancient item, and^of which purpose had never been^able to be fulfilled.";
+                }
+                else
+                {
+                    bool hasItem = CheckItemQuestReward(173);
+                    if (hasItem)
+                    {
+                        currentDialogue = "You have acquired the ancient item?^You say it´s a warp powder?¤Hmmm, something like that sounds too^powerful, maybe that´s why it hasn´t^been able to show its potential.";
+                    }
+                    else
+                    {
+                        currentDialogue = "Have you found the ancient item yet?^It´s said to be somewhere at the^backfloors of Wise Owl Forest.";
+                    }
+                }
+            }
+            else if ( characterID == 12852) //phil
+            {
+                TownCharacter.characterIDData = characterID;
+
+                if (Memory.ReadByte(0x21CE4453) == 0)
+                {
+                    currentDialogue = "There are some more details I^didn´t tell you about the Queen.¤It´s rumoured that when she sank^to the bottom of the Shipwreck,^her wedding ring got lost.¤The ring might still be somewhere^deep in the Shipwreck. Do you^think you can find it?";
+                }
+                else
+                {
+                    bool hasItem = CheckItemQuestReward(243);
+                    if (hasItem)
+                    {
+                        currentDialogue = "You found the Queen´s wedding ring?^I see, so the rumours were true!^Interesting.¤You can keep the ring, who knows^where you might need it^in your adventure.";
+                    }
+                    else
+                    {
+                        currentDialogue = "The Queen´s wedding ring could^be hiding somewhere at the backside^of Shipwreck. Good luck searching!";
+                    }
+                }
+            }
+            else if (characterID == 12341) //zabo
+            {
+                TownCharacter.characterIDData = characterID;
+
+                if (Memory.ReadByte(0x21CE4454) == 0)
+                {
+                    currentDialogue = "A long time ago, there used to be^this rare and mysterious yellow^powder, and no, I´m not talking^about repair powder.¤The true details of this powder are^unknown, but the ancients might have^left one at the dark side of^the Sun & Moon Temple.";
+                }
+                else
+                {
+                    bool hasItem = CheckItemQuestReward(172);
+                    if (hasItem)
+                    {
+                        currentDialogue = "I see that you have found the^mysterious powder. I believe the^ancients used to call it^a Hardening Powder.¤I wish we knew more about it.";
+                    }
+                    else
+                    {
+                        currentDialogue = "Did you find the powder yet?^There might still be one somewhere at^the dark side of Sun & Moon Temple.";
+                    }
+                }
+            }
             return currentDialogue;
         }
 

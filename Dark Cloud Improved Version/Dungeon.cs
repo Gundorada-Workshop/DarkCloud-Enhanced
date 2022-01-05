@@ -277,7 +277,7 @@ namespace Dark_Cloud_Improved_Version
                     }
 
                     //Check if clown is triggered, then change loot table
-                    if (Memory.ReadByte(Addresses.clownCheck) == 1 && clownOnScreen == false && eventfloor == false)
+                    if (Memory.ReadInt(Addresses.clownCheck) == 30707852 && clownOnScreen == false && eventfloor == false)
                     {
                         CustomChests.ClownRandomizer(chronicle2);
                         clownOnScreen = true;
@@ -286,7 +286,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (clownOnScreen)
                         {
-                            if (Memory.ReadByte(Addresses.clownCheck) == 0)
+                            if (Memory.ReadInt(Addresses.clownCheck) != 30707852)
                             {
                                 clownOnScreen = false;
                             }

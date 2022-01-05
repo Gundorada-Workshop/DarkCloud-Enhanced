@@ -99,9 +99,9 @@ namespace Dark_Cloud_Improved_Version
         static int savedDialogueCheck;
         static int[] noruneCharacters = { 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12849, 13105, 13361 };   //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
         static int[] norunesidequestCharacters = { 12592, 13872, 13360 };
-        static int[] matatakisidequestCharacters = { 13618, 13362 };
-        static int[] queenssidequestCharacters = { 13108, 13363 };
-        static int[] muskarackasidequestCharacters = { 14388, 13109 };
+        static int[] matatakisidequestCharacters = { 13618, 13362, 12594 };
+        static int[] queenssidequestCharacters = { 13108, 13363, 12852 };
+        static int[] muskarackasidequestCharacters = { 14388, 13109, 12341 };
         static int[] matatakiCharacters = { 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851 }; //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
         static int[] queensCharacters = { 13107, 13363, 13619, 13875, 14131, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 14644 }; //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
         static int[] muskarackaCharacters = { 13876, 14388, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389 }; //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke

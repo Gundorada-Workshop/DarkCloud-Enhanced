@@ -226,7 +226,7 @@
         public const int firstChestSize = 0x21DD0268;       //either small or big chest
         public const int backfloorFirstChest = 0x21DE0D70;
         public const int backfloorFirstChestSize = 0x21DE0D78;
-        public const int clownCheck = 0x202A3608;
+        public const int clownCheck = 0x202A2684;
 
         public const int ItemTbl0 = 0x20270C18;
         public const int ItemTbl0_1 = 0x20270E20;
