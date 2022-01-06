@@ -1010,29 +1010,35 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static bool CheckItemQuestReward(byte itemID)
+        public static bool CheckItemQuestReward(byte itemID, bool checkinv = true, bool checkstorage = true)
         {
             int checkitemid;
-            currentAddress = 0x21CDD8BA; //first inventory slot
-            for (int i = 0; i < 100; i++) //check which items player has in bag
+            if (checkinv)
             {
-                checkitemid = Memory.ReadUShort(currentAddress);
-                if (checkitemid == itemID)
+                currentAddress = 0x21CDD8BA; //first inventory slot
+                for (int i = 0; i < 100; i++) //check which items player has in bag
                 {
-                    return true;
+                    checkitemid = Memory.ReadUShort(currentAddress);
+                    if (checkitemid == itemID)
+                    {
+                        return true;
+                    }
+                    currentAddress += 0x00000002;
                 }
-                currentAddress += 0x00000002;
             }
 
-            currentAddress = 0x21CE21E8; //first storage slot
-            for (int i = 0; i < 60; i++) //check which items player has in storage
+            if (checkstorage)
             {
-                checkitemid = Memory.ReadUShort(currentAddress);
-                if (checkitemid == itemID)
+                currentAddress = 0x21CE21E8; //first storage slot
+                for (int i = 0; i < 60; i++) //check which items player has in storage
                 {
-                    return true;
+                    checkitemid = Memory.ReadUShort(currentAddress);
+                    if (checkitemid == itemID)
+                    {
+                        return true;
+                    }
+                    currentAddress += 0x00000002;
                 }
-                currentAddress += 0x00000002;
             }
 
             return false;

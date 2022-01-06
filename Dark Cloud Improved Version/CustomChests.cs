@@ -351,6 +351,11 @@ namespace Dark_Cloud_Improved_Version
                     }
                     //Demon shaft F1-50 0x202732D0
 
+                    if (Memory.ReadByte(0x21CE4455) == 1) //demon shaft quest check
+                    {
+                        RollItemQuest(241, 85);
+                    }
+
                     break;
 
             }
@@ -641,10 +646,10 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static void RollItemQuest(byte itemQuestID)
+        public static void RollItemQuest(byte itemQuestID, byte currentItemChance = 66)
         {
             int secretItemChance = rnd.Next(0, 100);
-            if (secretItemChance > 66)
+            if (secretItemChance > currentItemChance)
             {
                 bool alreadyhasItem = SideQuestManager.CheckItemQuestReward(itemQuestID);
                 if (alreadyhasItem == false)

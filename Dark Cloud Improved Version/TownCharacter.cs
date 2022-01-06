@@ -92,6 +92,7 @@ namespace Dark_Cloud_Improved_Version
 
             Dialogues.InitializeDialogues();
             Memory.WriteByte(0x2027DD50, 0); //make shell ring discardable
+            Memory.WriteByte(0x2037DD28, 0); //make magical lamp discardable
             Memory.WriteByte(0x20291CEE, 1); //make hardening powder cost 1g
 
             Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
@@ -673,6 +674,37 @@ namespace Dark_Cloud_Improved_Version
                             sidequestonDialogueFlag = 0;
                         }
                     }
+                    else if (currentArea == 23)
+                    {
+                        if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 12)
+                        {
+                            sidequestOptionFlag = true;
+                        }
+                        else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                        {
+                            sidequestOptionFlag = false;
+                        }
+
+                        if (sidequestOptionFlag == true)
+                        {
+                            Memory.WriteInt(0x21D3D43C, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                            SetSideQuestDialogue();
+
+                            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
+                            {
+                                CheckSideQuestDialogue();
+                                isSideQuestDialogueActive = true;
+                            }
+                            else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
+                            {
+                                isSideQuestDialogueActive = false;
+                            }
+                        }
+                        else
+                        {
+                            sidequestonDialogueFlag = 0;
+                        }
+                    }
                     else if (currentArea == 14)
                     {
                         int checkNearNPC = 0;
@@ -744,6 +776,15 @@ namespace Dark_Cloud_Improved_Version
                         CheckAllyFishing();
                         if (currentArea == 42) Dialogues.SetDefaultDialogue(42);
                         else if (currentArea == 14) Dialogues.SetDefaultDialogue(14);
+
+                        if (currentArea == 23) 
+                        {
+                            if (Dialogues.storageOriginalDialogue != null)
+                            {
+                                Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
+                                Console.WriteLine("Cleared storage original dialogue");
+                            }
+                        }
                     }
                 }
                 else
@@ -762,10 +803,23 @@ namespace Dark_Cloud_Improved_Version
                 }
                 else if (buildingCheck == 1 && checkBuildingFlag == false)
                 {
-                    Console.WriteLine("Currently inside building");
-                    Dialogues.SetDialogueOptions(currentArea, true);
-                    Dialogues.SetStorageDialogue(currentArea, true);
-                    checkBuildingFlag = true;
+                    if (currentArea != 23)
+                    {
+                        Console.WriteLine("Currently inside building");
+                        Dialogues.SetDialogueOptions(currentArea, true);
+                        Dialogues.SetStorageDialogue(currentArea, true);
+                        checkBuildingFlag = true;
+                    }
+                    else
+                    {
+                        if (Memory.ReadByte(0x21D26FD4) == 0 || Memory.ReadByte(0x21D26FD4) == 1)
+                        {
+                            Console.WriteLine("Currently inside building");
+                            Dialogues.SetDialogueOptions(currentArea, true);
+                            Dialogues.SetStorageDialogue(currentArea, true);
+                            checkBuildingFlag = true;
+                        }
+                    }
                 }
 
                 if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan

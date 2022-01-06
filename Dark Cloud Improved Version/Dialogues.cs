@@ -149,7 +149,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
         static int[] obtainableItemsList = { 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 185, 186, 187, 188, 189, 190, 192, 193, 197, 199, 224, 225, 226, 227, 228, 229, 230, 231, 235, 245, 246, 247, 253 };
         static int[] obtainableUltWeapons = { 280, 295, 296, 297, 298, 312, 313, 324, 329, 341, 345, 356, 357, 372, 373 };
-        static int[] obtainableSecretItems = { 171, 172, 173, 191, 241, 243, 248 };
+        static int[] obtainableSecretItems = { 171, 172, 173, 191, 241, 243 };
         static int obtainedItems = 0;
         static int obtainedAttachments = 0;
         static int obtainedUltWeapons = 0;
@@ -161,7 +161,7 @@ namespace Dark_Cloud_Improved_Version
         static bool masterFishQuestComplete = false;
         public static bool alreadyHasSavingBook = false;
 
-        static byte[] storageOriginalDialogue;
+        public static byte[] storageOriginalDialogue;
 
         static int[] noruneSidequestIDs = { 87, 247, 207, 227, 187, 127, 67, 167, 147, 267, 47, 107, 0};
         static int[] noruneSidequestDialogueAddresses = { 0x2064B36C, 0x206507BE, 0x2064F350, 0x2064FC66, 0x2064EAC2, 0x2064CB04, 0x2064A36A, 0x2064DFB0, 0x2064D6C2, 0x206519EE, 0x20649916, 0x2064C088, 0 };
@@ -597,6 +597,18 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
                                 }
+                                else if (characterIdData == 13107)
+                                {
+                                    bool hasLamp = SideQuestManager.CheckItemQuestReward(241, true, false);
+                                    if (hasLamp)
+                                    {
+                                        currentDialogue = "What do you want?¤Wait... that lamp...¤...that cursed lamp...¤NO! Get it away from me!";
+                                    }
+                                    else
+                                    {
+                                        currentDialogue = "I don´t need you to do sidequests,^those are for my henchmen.";
+                                    }
+                                }
                                 else
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
@@ -703,7 +715,8 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 14)
             {
                 currentAddress = currentAddress - 0x00000005;
-                if (Memory.ReadShort(currentAddress) == 9)
+                byte currentNPCID = Memory.ReadByte(currentAddress);
+                if (currentNPCID == 9)
                 {
                     if (Memory.ReadByte(0x21CE43FE) == 0)
                     {
@@ -715,7 +728,12 @@ namespace Dark_Cloud_Improved_Version
                         int allitems = obtainableItemsList.Length + obtainableAttachmentsList.Length;
                         if (obtainedItems == allitems && obtainedUltWeapons == obtainableUltWeapons.Length && obtainedSecretItems == obtainableSecretItems.Length)
                         {
-                            brownbooPickleExtraDialogue = "WOW! You´ve done it!^You collected everything!^Amazing, I have my highest^respect for you.";
+                            brownbooPickleExtraDialogue = "WOW! Congratulations,^you´ve actually done it!^You collected everything!¤As a present, have this old key.^You should totally try^if you can use it somewhere!";
+                            bool hasKey = SideQuestManager.CheckItemQuestReward(248);
+                            if (hasKey == false)
+                            {
+                                Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), 248);
+                            }
                         }
                         else
                         {
@@ -732,7 +750,7 @@ namespace Dark_Cloud_Improved_Version
                         }
                     }
                 }
-                else if (Memory.ReadShort(currentAddress) == 5)
+                else if (currentNPCID == 5)
                 {
                     if (Memory.ReadByte(0x21CE444B) == 0)
                     {
@@ -763,6 +781,32 @@ namespace Dark_Cloud_Improved_Version
                         else
                         {
                             currentDialogue = "You still have to^find the following fish:¤" + fishToFind + "¤Come back when you have caught them!^Good luck!";
+                        }
+                    }
+                }
+                else if (currentNPCID == 3)
+                {
+                    if (Memory.ReadByte(0x21CE4455) == 0)
+                    {
+                        if (Memory.ReadByte(0x21CDD811) == 255)
+                        {
+                            currentDialogue = "Have you heard about this?¤There is a legend that somewhere at^north-east of the Matataki Village,^you can find an very long evil tower.¤If you happen to find it, come back^to me. I might have more to tell.";
+                        }
+                        else
+                        {
+                            currentDialogue = "According to a legend, there is a^rare artifact hidden somewhere in^the darkness of the Demon Shaft.¤I heard it´s so valuable that^not even money can buy it.";
+                        }
+                    }
+                    else
+                    {
+                        bool hasItem = SideQuestManager.CheckItemQuestReward(241);
+                        if (hasItem)
+                        {
+                            currentDialogue = "What´s that?^You found the rare artifact?¤Magical lamp... hmmm....¤If you don´t know what to do with it,^you should try speaking to someone^in Queens, there´s plenty of^artifact merchandise.";
+                        }
+                        else
+                        {
+                            currentDialogue = "Have you found the Demon Shaft´s^legendary artifact yet? Try searching^behind every stone and WALL.";
                         }
                     }
                 }
@@ -807,6 +851,20 @@ namespace Dark_Cloud_Improved_Version
                         savedDialogueCheck = NPCID;
                     }
                 }
+                else if (NPCID == 0)
+                {
+                    if (isSidequest)
+                    {
+                        currentDialogue = "No quests atm sry";
+                    }
+                }
+                else if (NPCID == 1)
+                {
+                    if (isSidequest)
+                    {
+                        currentDialogue = "No quests atm sry";
+                    }
+                }
 
                 if (NPCID == 0 || NPCID == 1)
                 {
@@ -816,6 +874,8 @@ namespace Dark_Cloud_Improved_Version
                 {
                     TownCharacter.shopkeeper = false;
                 }
+
+                TownCharacter.sidequestDialogueID = 262;
 
             }
             else if (currentArea == 42)
@@ -881,6 +941,10 @@ namespace Dark_Cloud_Improved_Version
             else if (currentArea == 23)
             {
                 currentAddress = 0x2064AE4A; //Aily's 1st message (id 240)
+                if (isSidequest)
+                {
+                    currentAddress = 0x2064B11C; //yellow drops last message
+                }
             }
             else if (currentArea == 42)
             {
@@ -1165,6 +1229,26 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+            else if (currentArea == 23)
+            {
+                if (buildingCheck == true)
+                {
+                    if (Memory.ReadByte(0x21D26FD4) == 0)
+                    {
+                        currentAddress = 0x20649004;
+                        dialogueOptions = "Can I shop here?^  Hello.^  Do you have any sidequests?";
+                        Console.WriteLine("Entered building (shop)");
+                        dialogueSet = true;
+                    }
+                    else if (Memory.ReadByte(0x21D26FD4) == 1)
+                    {
+                        currentAddress = 0x20649004;
+                        dialogueOptions = "Can I check in some items?^  Hello.^  Do you have any sidequests?";
+                        Console.WriteLine("Entered building (storage)");
+                        dialogueSet = true;
+                    }
+                }
+            }
             if (dialogueSet)
             {
                 for (int i = 0; i < dialogueOptions.Length; i++)
@@ -1287,6 +1371,10 @@ namespace Dark_Cloud_Improved_Version
                         Console.WriteLine("Storage dialogue written");
                     }
                 }
+                else if (currentArea == 23)
+                {
+                    storageOriginalDialogue = Memory.ReadByteArray(0x2064B11C, 300);
+                }
             }
             else
             {
@@ -1297,7 +1385,19 @@ namespace Dark_Cloud_Improved_Version
                 else if (currentArea == 2)  storageOriginalDialogue = Memory.ReadByteArray(0x2064DB3A, 1000);
 
                 else if (currentArea == 3)  storageOriginalDialogue = Memory.ReadByteArray(0x2064DDB8, 1000);
-                
+
+                else if (currentArea == 23)
+                {
+                    if (storageOriginalDialogue != null)
+                    {
+                        if (storageOriginalDialogue.Length != 0)
+                        {
+                            Memory.WriteByteArray(0x2064B11C, storageOriginalDialogue);
+                            Console.WriteLine("Storage dialogue written");
+                        }
+                    }
+                }
+
                 Console.WriteLine("Storage dialogue stored");
             }
         }
