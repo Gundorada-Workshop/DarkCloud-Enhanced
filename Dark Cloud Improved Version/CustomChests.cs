@@ -97,6 +97,9 @@ namespace Dark_Cloud_Improved_Version
         static int bigChestChance;
         static int luckyTableChance;
 
+        static bool hasMap;
+        static bool hasMC;
+
         static int loop = 1;
 
         static Random rnd = new Random();
@@ -365,69 +368,117 @@ namespace Dark_Cloud_Improved_Version
             else
                 bigChestChance = 88;
 
+            hasMap = SideQuestManager.CheckItemQuestReward(233, true, false);
+            hasMC = SideQuestManager.CheckItemQuestReward(234, true, false);
+
             firstChestItem = Memory.ReadByte(Addresses.firstChest);
             int offset;
 
             if (firstChestItem == 233)  //We check if first chest has the dungeon map. This is because if the floor has a locked door, the game would always place the key on first chest. Doing this check avoids player getting softlocked without the door key.
             {
-                offset = 0x00000080;
+                if (hasMap || hasMC)
+                {
+                    offset = 0x00000000;
+                }
+                else
+                {
+                    offset = 0x00000080;
+                }
             }
             else
             {
-                offset = 0x000000C0;
+                if (hasMap || hasMC)
+                {
+                    offset = 0x00000040;
+                }
+                else
+                {
+                    offset = 0x000000C0;
+                }
             }
 
 
             currentAddress = Addresses.firstChest + offset;     //using the offset to reach 2nd chest
 
-            for (int i = 0; i < 7; i++)     //going through rest of chests using offsets
+            
+            for (int i = 0; i < 8; i++)     //going through rest of chests using offsets
             {
-                checkMimic = Memory.ReadShort(currentAddress);
+                bool spawnItem = true;
 
-                if (checkMimic > 40)    //for some reason, when game spawns mimics it gives them really low item ID, and low ID's are only used in JP version. This checks for potential mimic spawns.
+                if (i == 0 || i == 1)
                 {
-                    chestSize = rnd.Next(100);
-
-                    if (chestSize < bigChestChance)
+                    if (hasMap || hasMC)
                     {
-                        storeItem = rnd.Next(0, currentItemTable.Length);
-                        itemValue = currentItemTable[storeItem];
-
-                        if (itemValue == 178 && !chronicle2)
+                        if (i == 0 && hasMap)
                         {
-                            int successrate = rnd.Next(100);
-                            if (successrate < 80)
-                            {
-                                storeItem = rnd.Next(0, currentItemTable.Length);
-                                itemValue = currentItemTable[storeItem];
-                            }
+                            spawnItem = true;
                         }
-
-                        Memory.Write(currentAddress, BitConverter.GetBytes(itemValue));
-                        currentAddress += 0x00000008;
-                        Memory.WriteByte(currentAddress, 1);
-                        currentAddress += 0x00000038;
-
-                        Console.WriteLine("Spawned item:" + itemValue);
+                        else if (i == 1 && hasMC)
+                        {
+                            spawnItem = true;
+                        }
+                        else
+                        {
+                            spawnItem = false;
+                        }
                     }
-                    else    //if rolled for weapon
+                }
+
+
+
+                if (spawnItem)
+                {
+                    checkMimic = Memory.ReadShort(currentAddress);
+
+                    if (checkMimic > 40)    //for some reason, when game spawns mimics it gives them really low item ID, and low ID's are only used in JP version. This checks for potential mimic spawns.
                     {
-                        storeItem = rnd.Next(0, currentWeaponTable.Length);
-                        itemValue = currentWeaponTable[storeItem];
+                        chestSize = rnd.Next(100);
+
+                        if (chestSize < bigChestChance)
+                        {
+                            storeItem = rnd.Next(0, currentItemTable.Length);
+                            itemValue = currentItemTable[storeItem];
+
+                            if (itemValue == 178 && !chronicle2)
+                            {
+                                int successrate = rnd.Next(100);
+                                if (successrate < 80)
+                                {
+                                    storeItem = rnd.Next(0, currentItemTable.Length);
+                                    itemValue = currentItemTable[storeItem];
+                                }
+                            }
+
+                            Memory.Write(currentAddress, BitConverter.GetBytes(itemValue));
+                            currentAddress += 0x00000008;
+                            Memory.WriteByte(currentAddress, 1);
+                            currentAddress += 0x00000038;
+
+                            Console.WriteLine("Spawned item:" + itemValue);
+                        }
+                        else    //if rolled for weapon
+                        {
+                            storeItem = rnd.Next(0, currentWeaponTable.Length);
+                            itemValue = currentWeaponTable[storeItem];
 
 
-                        Memory.Write(currentAddress, BitConverter.GetBytes(itemValue));
-                        currentAddress += 0x00000008;
-                        Memory.WriteByte(currentAddress, 0);
+                            Memory.Write(currentAddress, BitConverter.GetBytes(itemValue));
+                            currentAddress += 0x00000008;
+                            Memory.WriteByte(currentAddress, 0);
 
-                        currentAddress += 0x00000008;
+                            currentAddress += 0x00000008;
 
-                        trapRoll = rnd.Next(6); //roll for big chest trap/clown
-                        Memory.Write(currentAddress, BitConverter.GetBytes(trapRoll));
+                            trapRoll = rnd.Next(6); //roll for big chest trap/clown
+                            Memory.Write(currentAddress, BitConverter.GetBytes(trapRoll));
 
-                        currentAddress += 0x00000030;
+                            currentAddress += 0x00000030;
 
-                        Console.WriteLine("Spawned weapon:" + itemValue);
+                            Console.WriteLine("Spawned weapon:" + itemValue);
+                        }
+                    }
+                    else
+                    {
+                        currentAddress += 0x00000040;
                     }
                 }
                 else
@@ -506,8 +557,17 @@ namespace Dark_Cloud_Improved_Version
                 {
                     currentAddress += 0x00000040;
                 }
+            }
 
-
+            if (hasMap)
+            {
+                Memory.WriteByte(Addresses.map, 1);
+                Console.WriteLine("Player has Map item");
+            }
+            if (hasMC)
+            {
+                Memory.WriteByte(Addresses.magicCrystal, 1);
+                Console.WriteLine("Player has Magical Crystal item");
             }
         }
 

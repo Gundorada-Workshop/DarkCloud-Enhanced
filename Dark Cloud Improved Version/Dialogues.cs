@@ -149,7 +149,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
         static int[] obtainableItemsList = { 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 185, 186, 187, 188, 189, 190, 192, 193, 197, 199, 224, 225, 226, 227, 228, 229, 230, 231, 235, 245, 246, 247, 253 };
         static int[] obtainableUltWeapons = { 280, 295, 296, 297, 298, 312, 313, 324, 329, 341, 345, 356, 357, 372, 373 };
-        static int[] obtainableSecretItems = { 171, 172, 173, 191, 241, 243 };
+        static int[] obtainableSecretItems = { 171, 172, 173, 191, 233, 234, 241, 243 };
         static int obtainedItems = 0;
         static int obtainedAttachments = 0;
         static int obtainedUltWeapons = 0;
