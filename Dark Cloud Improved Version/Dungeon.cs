@@ -30,6 +30,9 @@ namespace Dark_Cloud_Improved_Version
         public static bool monsterQuestGobActive = false;
         public static bool monsterQuestJakeActive = false;
         public static bool monsterQuestChiefActive = false;
+        public static bool sambaChallengeQuest = false;
+        public static bool sambaChallengeQuestActive = false;
+        public static bool sambaChallengeQuestCheck = false;
         public static bool hasMiniBoss = false;
         public static bool enemiesSpawn = false;
         public static bool doorIsOpen = false;
@@ -248,7 +251,7 @@ namespace Dark_Cloud_Improved_Version
                         if (!excludeFloors.Contains(currentFloor))
                         {
                             //Initialize the spawns check
-                            Memory.WriteInt(Enemies.Enemy0.hp, 0);
+                            Memory.WriteInt(Enemies.Enemy0.hp, 1);
                             spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
                             spawnsCheck.Start();
 
@@ -314,6 +317,11 @@ namespace Dark_Cloud_Improved_Version
                                 monstersDead[i] = true;
                             }
                         }
+                    }
+
+                    if (sambaChallengeQuest)
+                    {
+                        SambaChallengeQuest();             
                     }
 
                 }
@@ -513,7 +521,7 @@ namespace Dark_Cloud_Improved_Version
 
             //Listens for the enemy render address value to change, from 0 or 10 seconds have passed
             //We use the enemy render value here because enemies spawn after chests
-            while (Memory.ReadInt(Enemies.Enemy0.hp) == 0 && ms < 10000)
+            while (Memory.ReadInt(Enemies.Enemy0.hp) == 1 && ms < 10000)
             {
                 Thread.Sleep(100);
                 ms += 100;
@@ -543,6 +551,16 @@ namespace Dark_Cloud_Improved_Version
 
             chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
             CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2); //Randomize the chest loot
+
+            if (currentDungeon == 4 && currentFloor == 6 && Memory.ReadByte(0x21CE445E) == 1)
+            {
+                Console.WriteLine("Yellow drops challenge active");
+                sambaChallengeQuest = true;
+            }
+            else
+            {
+                sambaChallengeQuest = false;
+            }
 
             Console.WriteLine("Finished spawn checking");
 
@@ -673,6 +691,68 @@ namespace Dark_Cloud_Improved_Version
                 default:
                     break;
 
+            }
+        }
+
+        public static void SambaChallengeQuest()
+        {
+            if (sambaChallengeQuestCheck == false && Memory.ReadByte(0x202A34CC) == 1)
+            {
+                Thread.Sleep(2500);
+                if (Memory.ReadByte(0x202A3570) == 0 && Memory.ReadUShort(0x21EA7590) == 258)
+                {
+                    Memory.WriteInt(0x21CE205C, 0);
+                    Dayuppy.DisplayMessage("Samba's quest started!\nClear all enemies using only Dagger!\nUsing a throwable also\ncancels the mission.", 4, 40, 8000);
+                    sambaChallengeQuestActive = true;
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        monstersDead[i] = false;
+                    }
+                }
+                else if (Memory.ReadByte(0x202A3570) == 0 && Memory.ReadUShort(0x21EA7590) != 258)
+                {
+                    Dayuppy.DisplayMessage("Samba's quest did not start.\nRe-enter with Dagger equipped.", 2, 30, 4000);
+                    sambaChallengeQuestActive = false;
+                }
+                sambaChallengeQuestCheck = true;
+            }
+            else if (sambaChallengeQuestCheck == true && Memory.ReadByte(0x202A34CC) == 0)
+            {
+                sambaChallengeQuestCheck = false;
+                sambaChallengeQuestActive = false;
+            }
+
+            if (sambaChallengeQuestActive)
+            {
+                if (Memory.ReadUShort(0x21EA7590) != 258 || Memory.ReadByte(0x21DC4484) == 26 || Memory.ReadByte(0x21DC4484) == 27)
+                {
+                    Thread.Sleep(500);
+                    Dayuppy.DisplayMessage("Samba's challenge has been cancelled.\nYou need to re-enter.", 2, 40, 4000);
+                    sambaChallengeQuestActive = false;
+                }
+                byte enemieskilled = 0;
+                for (int i = 0; i < 8; i++)
+                {
+                    currentAddress = 0x21E16BC4 + (i * 0x190);
+
+                    if (Memory.ReadUShort(currentAddress) > 0)
+                    {
+                        monstersDead[i] = false;
+                    }
+                    else
+                    {
+                        monstersDead[i] = true;
+                        enemieskilled++;
+                    }
+                }
+
+                if (enemieskilled == 8)
+                {
+                    Dayuppy.DisplayMessage("Samba's challenge completed!\nWell done!", 2, 30, 4000);
+                    Memory.WriteByte(0x21CE4462, 1);
+                    sambaChallengeQuest = false;
+                }
             }
         }
 

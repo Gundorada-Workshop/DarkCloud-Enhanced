@@ -1043,5 +1043,44 @@ namespace Dark_Cloud_Improved_Version
 
             return false;
         }
+        
+        public static bool CheckItemsForMCQuest()
+        {
+            currentAddress = 0x21CDD8BA;
+            if (Memory.ReadShort(currentAddress) == 167)
+            {
+                currentAddress += 0x00000002;
+                if (Memory.ReadShort(currentAddress) == 175)
+                {
+                    currentAddress += 0x00000002;
+                    if (Memory.ReadShort(currentAddress) == 150)
+                    {
+                        currentAddress += 0x00000002;
+                        if (Memory.ReadShort(currentAddress) == 159)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+                   
+        }
     }
 }

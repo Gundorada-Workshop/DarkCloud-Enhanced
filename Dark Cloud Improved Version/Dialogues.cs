@@ -479,6 +479,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
                                 }
+                                else if (characterIdData == 12849)
+                                {
+                                    currentDialogue = "I needed your help earlier,^but I´m okay now.¤You see, I slipped on this^pink thing which made me all^slow and slimey.¤Well, I survived from that disaster.";
+                                }
                                 else
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
@@ -497,6 +501,10 @@ namespace Dark_Cloud_Improved_Version
                                 if (norunesidequestCharacters.Contains(characterIdData))
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else if (characterIdData == 12849)
+                                {
+                                    currentDialogue = "I needed your help earlier,^but I´m okay now.¤You see, I slipped on this^pink thing which made me all^slow and slimey.¤Well, I survived from that disaster.";
                                 }
                                 else
                                 {
@@ -538,6 +546,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
                                 }
+                                else if (characterIdData == 14386)
+                                {
+                                    currentDialogue = "I wish you happened to be there.¤One day I accidentally ventured^too deep into the forest and^was surronded by monsters.¤Luckily, I had this red pouch which^allowed me to get back to safety.";
+                                }
                                 else
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
@@ -556,6 +568,10 @@ namespace Dark_Cloud_Improved_Version
                                 if (matatakisidequestCharacters.Contains(characterIdData))
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else if (characterIdData == 14386)
+                                {
+                                    currentDialogue = "I wish you happened to be there.¤One day I accidentally ventured^too deep into the forest and^was surronded by monsters.¤Luckily, I had this red pouch which^allowed me to get back to safety.";
                                 }
                                 else
                                 {
@@ -609,6 +625,10 @@ namespace Dark_Cloud_Improved_Version
                                         currentDialogue = "I don´t need you to do sidequests,^those are for my henchmen.";
                                     }
                                 }
+                                else if (characterIdData == 13364)
+                                {
+                                    currentDialogue = "There was a large fight a while ago.¤I almost wanted to call you for help.^There was this thief who suddenly^took a sip of something and^became more powerful.¤Thanks to the strength of Macho^Brothers´s bloodline, I was able^to deal with him myself.";
+                                }
                                 else
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
@@ -627,6 +647,22 @@ namespace Dark_Cloud_Improved_Version
                                 if (queenssidequestCharacters.Contains(characterIdData))
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else if (characterIdData == 13107)
+                                {
+                                    bool hasLamp = SideQuestManager.CheckItemQuestReward(241, true, false);
+                                    if (hasLamp)
+                                    {
+                                        currentDialogue = "What do you want?¤Wait... that lamp...¤...that cursed lamp...¤NO! Get it away from me!";
+                                    }
+                                    else
+                                    {
+                                        currentDialogue = "I don´t need you to do sidequests,^those are for my henchmen.";
+                                    }
+                                }
+                                else if (characterIdData == 13364)
+                                {
+                                    currentDialogue = "There was a large fight a while ago.¤I almost wanted to call you for help.^There was this thief who suddenly^took a sip of something and^became more powerful.¤Thanks to the strength of Macho^Brothers´s bloodline, I was able^to deal with him myself.";
                                 }
                                 else
                                 {
@@ -668,6 +704,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
                                 }
+                                else if (characterIdData == 13877)
+                                {
+                                    currentDialogue = "How about you get me out of here?¤I wish I had something to^blow up this darn door.¤Oh wait, I probably shouldn´t^be in the cell then.";
+                                }
                                 else
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
@@ -686,6 +726,10 @@ namespace Dark_Cloud_Improved_Version
                                 if (muskarackasidequestCharacters.Contains(characterIdData))
                                 {
                                     currentDialogue = SideQuestManager.GetQuestDialogue(currentDialogue, characterIdData);
+                                }
+                                else if (characterIdData == 13877)
+                                {
+                                    currentDialogue = "How about you get me out of here?¤I wish I had something to^blow up this darn door.¤Oh wait, I probably shouldn´t^be in the cell then.";
                                 }
                                 else
                                 {
@@ -855,14 +899,71 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (isSidequest)
                     {
-                        currentDialogue = "No quests atm sry";
+                        if (Memory.ReadByte(0x21CE4459) == 0)
+                        {
+                            if (Memory.ReadByte(0x21CD9551) != 6)
+                            {
+                                currentDialogue = "Have you seen our Boss anywhere?¤Go search for him first.^Come back to me if you find him.";
+                            }
+                            else
+                            {
+                                currentDialogue = "I have an extremely valuable crystal.¤I know you are strong,^but if you want my crystal, you need^to proof that you are smart as well!¤I have a puzzle for you.^Talk to me again if you^wish to know more.";
+                            }
+                            
+                        }
+                        else if (Memory.ReadByte(0x21CE4459) == 1)
+                        {
+                            bool hasCorrect = SideQuestManager.CheckItemsForMCQuest();
+                            if (hasCorrect)
+                            {
+                                Memory.WriteByte(0x21CE445D, 1);
+                                currentDialogue = "That´s correct, well done!^You solved the puzzle!¤As a reward, have this^ultra-rare Magical Crystal.¤While this is in your inventory,^it works similar to the^Magical Crystal you find in the^dungeons, but it is always activated!¤Also, the Magical Crystal you^find in dungeons gets replaced^with extra loot. Worth it, right?";
+                            }
+                            else
+                            {
+                                Memory.WriteByte(0x21CE445D, 0);
+                                currentDialogue = "I want you to show me certain^four items in a correct order. Place^those items in the first four slots^of your inventory.¤What are the items?^I´m not straight up telling them!^However...¤In the Blue Terra, your homeworld,^you might have met some people^who needed something.¤Perhaps they are the^clue to the right answer?";
+                            }
+                        }
+                        else 
+                        {
+                            currentDialogue = "I already gave you my reward,^you don´t need a second crystal!";
+                        }
+                        
                     }
                 }
                 else if (NPCID == 1)
                 {
                     if (isSidequest)
                     {
-                        currentDialogue = "No quests atm sry";
+                        if (Memory.ReadByte(0x21CE445E) == 0)
+                        {
+                            if (Memory.ReadByte(0x21CD9551) != 6)
+                            {
+                                currentDialogue = "Have you seen our Boss anywhere?¤Go search for him first.^Come back to me if you find him.";
+                            }
+                            else
+                            {
+                                Memory.WriteByte(0x21CDD7C6, 255);
+                                currentDialogue = "I have a challenge to test^your true strength.¤If you can conquer Moon Sea Floor 7´s^backside only with Ť and^only using Dagger, you can have^my reward.¤The healing fountains are also^disabled there, so be sure to stock up.";
+                            }
+                        }
+                        else if (Memory.ReadByte(0x21CE445E) == 1)
+                        {
+                            if (Memory.ReadByte(0x21CE4462) == 0)
+                            {
+                                currentDialogue = "If you can conquer Moon Sea Floor 7´s^backside only with Ť and^only using Dagger, you can have^my reward.¤The healing fountains are also^disabled there, so be sure to stock up.";
+                            }
+                            else
+                            {
+                                currentDialogue = "You completed the challenge? Extraordinary!¤Here, you can have this special Map.¤While this is in your inventory,^it works similar to the Map you find^in the dungeons, but it is^always activated!¤Also, the Map you find in dungeons^gets replaced with extra loot.^Pretty cool, huh?";
+                            }
+                            
+                        }
+                        else
+                        {
+                            currentDialogue = "I already gave you my reward,^you don´t need a second map!";
+                        }
                     }
                 }
 
@@ -1374,6 +1475,7 @@ namespace Dark_Cloud_Improved_Version
                 else if (currentArea == 23)
                 {
                     storageOriginalDialogue = Memory.ReadByteArray(0x2064B11C, 300);
+                    Console.WriteLine("Storage dialogue stored");
                 }
             }
             else

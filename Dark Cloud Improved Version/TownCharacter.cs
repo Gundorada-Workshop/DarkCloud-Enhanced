@@ -92,7 +92,9 @@ namespace Dark_Cloud_Improved_Version
 
             Dialogues.InitializeDialogues();
             Memory.WriteByte(0x2027DD50, 0); //make shell ring discardable
-            Memory.WriteByte(0x2037DD28, 0); //make magical lamp discardable
+            Memory.WriteByte(0x2027DD28, 0); //make magical lamp discardable
+            Memory.WriteByte(0x2027DC80, 8); //change map ordering
+            Memory.WriteByte(0x2027DC94, 8); //change magical crystal ordering
             Memory.WriteByte(0x20291CEE, 1); //make hardening powder cost 1g
 
             Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
@@ -599,6 +601,37 @@ namespace Dark_Cloud_Improved_Version
                         if (currentArea != 23)
                         {
                             Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
+                        }
+                        else
+                        {
+                            if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 12)
+                            {
+                                sidequestOptionFlag = true;
+                            }
+                            else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                            {
+                                sidequestOptionFlag = false;
+                            }
+
+                            if (sidequestOptionFlag == true)
+                            {
+                                Memory.WriteInt(0x21D3D43C, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                                SetSideQuestDialogue();
+
+                                if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
+                                {
+                                    CheckSideQuestDialogue();
+                                    isSideQuestDialogueActive = true;
+                                }
+                                else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
+                                {
+                                    isSideQuestDialogueActive = false;
+                                }
+                            }
+                            else
+                            {
+                                sidequestonDialogueFlag = 0;
+                            }
                         }
                     }
                     else
@@ -1221,6 +1254,28 @@ namespace Dark_Cloud_Improved_Version
                 if (Memory.ReadByte(0x21CE4454) == 0)
                 {
                     Memory.WriteByte(0x21CE4454, 1);
+                }
+            }
+
+            if (currentArea == 23)
+            {
+                if (Memory.ReadByte(0x21D26FD4) == 0)
+                {
+                    if (Memory.ReadByte(0x21CE445D) == 1)
+                    {
+                        Memory.WriteByte(0x21CE445D, 2);
+                        Memory.WriteByte(0x21CE4459, 2);
+                        Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), 234);
+                    }                 
+                }
+                if (Memory.ReadByte(0x21D26FD4) == 1)
+                {
+                    if (Memory.ReadByte(0x21CE4462) == 1)
+                    {
+                        Memory.WriteByte(0x21CE445E, 2);
+                        Memory.WriteByte(0x21CE4462, 2);
+                        Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), 233);
+                    }
                 }
             }
         }
