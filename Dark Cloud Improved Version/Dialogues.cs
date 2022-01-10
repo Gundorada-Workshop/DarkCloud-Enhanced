@@ -1243,6 +1243,12 @@ namespace Dark_Cloud_Improved_Version
                         Console.WriteLine("Entered hag's");
                         dialogueSet = true;
                     }
+                    else if (Memory.ReadInt(0x202A2820) == -1) 
+                    {
+                        currentAddress = 0x206492F6; //norune dialogueoptions after event finish
+                        dialogueOptions = "Hello.^  Do you have any sidequests?";
+                        dialogueSet = true;
+                    }
                     else
                     {
                         currentAddress = 0x206492F6; //norune dialogueoptions after event finish
@@ -1474,7 +1480,7 @@ namespace Dark_Cloud_Improved_Version
                 }
                 else if (currentArea == 23)
                 {
-                    storageOriginalDialogue = Memory.ReadByteArray(0x2064B11C, 300);
+                    storageOriginalDialogue = Memory.ReadByteArray(0x2064B11C, 200);
                     Console.WriteLine("Storage dialogue stored");
                 }
             }
@@ -1492,7 +1498,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (storageOriginalDialogue != null)
                     {
-                        if (storageOriginalDialogue.Length != 0)
+                        if (storageOriginalDialogue[0] != 0)
                         {
                             Memory.WriteByteArray(0x2064B11C, storageOriginalDialogue);
                             Console.WriteLine("Storage dialogue written");
@@ -2591,88 +2597,88 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsOsmond2[12] = "Who exactly is Ӿ?^Why did Ť go through the^effort of bringing his pet cat all the^here!¤Perhaps there´s more to that cat then^meets the eye...¤Aha, Ӿ is the team´s mascot!";
 
 
-            //Storage guard, kiwi, mango, suger, natade, mousse
-            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
-            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            brownbooXiao[6] = "";
+             //Storage guard, kiwi, mango, suger, natade, mousse
+             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            brownbooXiao[6] = "Make sure to watch your step when^walking around Brownboo, I´ve seen many^slip into the water below but^a cat!¤They say there´s a first time for^everything but for your sake I hope^that´s not true!";
             brownbooXiao[7] = "What are you doing here kitty,^are you lost? I think I saw^Ť walking over there, you^should catch up with him while you can!";
-            brownbooXiao[8] = "";
-            brownbooXiao[10] = "";
-            brownbooXiao[11] = "";
-            brownbooXiao[12] = "";
+            brownbooXiao[8] = "I think you would love to live here,^there are all sorts of fun activities^for a cat to partake in here at Brownboo^Village!¤You could look for fish in the streams^or even search for some delicious moon^fruit!";
+            brownbooXiao[10] = "Agh it's the legendary white tiger, you^destroyed Matataki and now you´ve come^for us!¤Please, spare this village, why not go^to Queens I hear they have all sorts of^tasty fish!¤Just don´t eat me *sobs*";
+            brownbooXiao[11] = "Did you come from the hunter´s village^of Matataki?¤You better be careful, I saw a villager^wearing a cat as a scarf.¤Knowing your luck you´d probably end up^on a dinner plate or in someone´s closet^as a fashion accessory!";
+            brownbooXiao[12] = "Are you Ť´s pet cat? You are so^lucky he seems like such a nice guy!¤I hope he´s feeding you well during this^adventure!";
 
-            brownbooXiao2[6] = "";
+            brownbooXiao2[6] = "Sorry to disappoint you but no fish can^be found in our waters, sorry!";
             brownbooXiao2[7] = "Ohhhhh, I can feel that^magic emanating from you.¤What´s going on, is there something^Ť is not telling us about you?";
-            brownbooXiao2[8] = "";
-            brownbooXiao2[10] = "";
-            brownbooXiao2[11] = "";
-            brownbooXiao2[12] = "";
+            brownbooXiao2[8] = "Maybe when your done adventuring with^Ť you can come back and play^with me!";
+            brownbooXiao2[10] = "Oh wait, you are definitely not the^white tiger!¤Please don´t tell anyone about this,^I´ll never stop hearing about it from^the others!";
+            brownbooXiao2[11] = "I´m sure that people often discredit you^because you are a small cat but I bet you^are quite the fighter.¤If Ť and the allies ever need^back up I´m sure you´ll be the first one^to answer that call to arms!";
+            brownbooXiao2[12] = "I know it´s hard to believe but you are^helping Ť and the rest of the^allies in your own way, by providing the^best kind of support!¤I bet if you actually saw the Dark Genie^you would claw his eyes out!";
 
 
-            brownbooGoro[6] = "";
-            brownbooGoro[7] = "";
-            brownbooGoro[8] = "";
-            brownbooGoro[10] = "";
-            brownbooGoro[11] = "";
-            brownbooGoro[12] = "";
-                    
-            brownbooGoro2[6] = "";
-            brownbooGoro2[7] = "";
-            brownbooGoro2[8] = "";
-            brownbooGoro2[10] = "";
-            brownbooGoro2[11] = "";
-            brownbooGoro2[12] = "";
+            brownbooGoro[6] = "You look like a strong hunter, if you^ever need to store anything come to me!";
+            brownbooGoro[7] = "We almost never get any visitors from^Matataki, I´m pleased to meet you!¤Welcome to Brownboo Village, make^yourself at home neighbor!¤Just make sure not to hunt any of our^villagers. Just because we look like^beasts doesn´t mean we should be hunted^like them.";
+            brownbooGoro[8] = "Over the years the Moon People of^Brownboo have forgotten how to use^magic.¤Since ancient times we were the^guardians of Terra but things have been^pretty easygoing!¤The carefree life was a good fit for us.^That is until the Dark Genie returned.^Now we´re rethinking our way of life...";
+            brownbooGoro[10] = "We would often visit Matataki Village at^night when all the hunters were asleep!¤We´d tip toe all throughout the night!¤There was one villager who was pretty^friendly, a rather large fellow named^Cous Cous! We´d often visit their house^to get treats!";
+            brownbooGoro[11] = "There was once a time where Sugar and^Mango went exploring into the Wise Owl^Forest but they were scared off by a^giant silver serpent.¤This beast´s scales were as pale as the^two moons and it´s fangs looked like^something from our worst nightmares.¤Poor Mango couldn´t go to bed for weeks!";
+            brownbooGoro[12] = "Once upon a time, long long ago the^Dark Genie ravaged all of Terra. That is^all except for Brownboo Village.¤This tiny village was the only surviving^bastion from the influence of the Dark^Genie.¤The remaining survivors from all over^Terra journeyed to this village as a^safe haven.¤Many years have since passed and the^Dark Clouds have once again begun to^stir.¤It´s time to make a stand brave Hunter,^like all of those who came before you,^and for the sake of those who will come^after you.¤For the sake of all the life on Terra.";
 
-
-            //Storage guard, kiwi, mango, suger, natade, mousse
-            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
-            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            brownbooRuby[6] = "";
-            brownbooRuby[7] = "";
-            brownbooRuby[8] = "";
-            brownbooRuby[10] = "";
-            brownbooRuby[11] = "";
-            brownbooRuby[12] = "";
-                    
-            brownbooRuby2[6] = "";
-            brownbooRuby2[7] = "";
-            brownbooRuby2[8] = "";
-            brownbooRuby2[10] = "";
-            brownbooRuby2[11] = "";
-            brownbooRuby2[12] = "";
+            brownbooGoro2[6] = "Keep an eye on that Ӿ she´s^quite the mischievous little cat but I^get an odd vibe from her.¤I can´t quite put my paw on it but^something tells me she is not like other^cats...";
+            brownbooGoro2[7] = "Keep this between us but some of the^other villagers of Brownboo were afraid^of the hunters of Matataki.¤We believed that if you found our quiet^village you would hunt us all down^mercilessly.¤I´m glad that we we´re wrong about that.";
+            brownbooGoro2[8] = "Unlike most of the other villagers of^Brownboo, I still remember how to use^some magic!¤Yes my friend, you are in the presence^of  the amazingly legendary Mango the^Magician!¤For the first trick I will make your^nose disappear!¤Wait, was your nose always that tiny or^did my magic actually work?";
+            brownbooGoro2[10] = "Mr.Mustache´s shop was our go to spot^for late night snacks!¤I think we ever ran into a laughapockle^there once!";
+            brownbooGoro2[11] = "If you ever outgrow that boring old^wooden mallet can I have it?¤Picture this, the great hunter Natade of^Brownboo Village!¤That mean old genie better look out^because I´d give him a good bonk on the^head!";
+            brownbooGoro2[12] = "The culture of Matataki is fascinating,^it seems like you´re people have always^valued hunting and community.¤It seems like the hunt is what brings^you together as a community, both are^intertwined! That´s so interesting to^think about, the most we do here in¤Brownboo is pick Moon Fruit and share^jokes!";
 
 
             //Storage guard, kiwi, mango, suger, natade, mousse
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            brownbooUngaga[6] = "";
-            brownbooUngaga[7] = "";
-            brownbooUngaga[8] = "";
-            brownbooUngaga[10] = "";
-            brownbooUngaga[11] = "";
-            brownbooUngaga[12] = "";
+            brownbooRuby[6] = "I´m glad that you are indeed a friendly^Genie!¤Unless you are waiting for the right^moment to trick us!¤I really hope that´s not the case...";
+            brownbooRuby[7] = "Genie´s can't be all bad, I mean here^you are helping out Ť and his^friends.¤You don´t have to do that, but here you^are!¤I guess it´s proof that you can´t always^judge a book by it´s cover, only in this^case don´t judge a Genie haha!";
+            brownbooRuby[8] = "We´ve been living in the village of^Brownboo for generations!¤Initially, the Moon People used to^maintain a good relationship with the^humans of Terra who live out in the far¤away village of Muska Laka but we wanted^an easier life!";
+            brownbooRuby[10] = "Brownboo has always been a village of^solitude, the Dark Genie didn´t think of^attacking us!¤We´ve been living in secret for many^lifetimes so they probably didn´t know^where we were.¤It was so sad, we all heard the voices^of Terra cry out for help, only to be^silenced in unison...¤I´m glad that Ť answered that^call for help.¤Life on Terra can still be saved.";
+            brownbooRuby[11] = "The village of Matataki hunts down^beasts, a stark contrast to it´s^neighboring village of Norune where^people live in harmony with the beasts¤such as Dran. Meanwhile Queens is a^bustling port town that doesn´t have any^relationship with beasts at all!¤Terra is such an interesting place when^you think about it!";
+            brownbooRuby[12] = "I found a witch parfait the other day^and it was delicious, I can see why they^are your favorite food!";
 
-            brownbooUngaga2[6] = "";
-            brownbooUngaga2[7] = "";
-            brownbooUngaga2[8] = "";
-            brownbooUngaga2[10] = "";
-            brownbooUngaga2[11] = "";
-            brownbooUngaga2[12] = "";
+            brownbooRuby2[6] = "I hope I didn´t hurt your feelings.¤If Ť and his friends trusts^you, then I trust you. You are always^welcome in Brownboo.";
+            brownbooRuby2[7] = "I wonder how your magical armband works^in combat?¤Perhaps it´s magic older than anyone of^us, magic from a by gone era...¤Just how old are you Ʀ?";
+            brownbooRuby2[8] = "The Moon People of Brownboo haven´t^visited Yellow Drops for countless^years.¤Sometimes I would gaze up at the two^moons and wonder what´s out there.¤Can you be homesick for a place that you^have never been to? A culture you've^never really known?¤Who knows, one things for sure when all^this is over we need to pay them a^visit.¤You can join us Ʀ as long as^you take responsibility of that^mischievous Ӿ!";
+            brownbooRuby2[10] = "Thank you Ʀ for fighting^against the Dark Genie.";
+            brownbooRuby2[11] = "Mango was talking about you the other^day, they said that you were trying to^be the best genie in history!¤I think they´d love to be your student^one day, of course once this whole Dark^Genie fiasco is over!";
+            brownbooRuby2[12] = "I´d really appreciate it if you could^bring us some Witch Parfaits from Queens^if you ever get the chance!";
 
 
-            brownbooOsmond[6] = "";
-            brownbooOsmond[7] = "";
-            brownbooOsmond[8] = "";
-            brownbooOsmond[10] = "";
-            brownbooOsmond[11] = "";
-            brownbooOsmond[12] = "";
+            //Storage guard, kiwi, mango, suger, natade, mousse
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            brownbooUngaga[6] = "I think if you gave up scorpion jerky,^you would probably be stronger.¤Why not eat Moon Fruit instead?";
+            brownbooUngaga[7] = "I wonder how you got so tall, maybe it´s^all of the scorpion jerky you´ve been^eating!";
+            brownbooUngaga[8] = "We´ve been living in Brownboo for^generations!¤Initially the Moon People used to^maintain a good working relationship^with the humans of Terra in Muska Laka^but it started being too much of a¤commitment and we wanted an easier life!^It´s not like we made the promise,^rather it was our ancestors.¤Should we be held responsible for the^decisions of our forebears, that doesn´t^seem very fair does it.";
+            brownbooUngaga[10] = "I always have been curious, why did you^choose to use a fighting stick as your^weapon of choice?¤I think the weapon that someone chooses^says a lot about their personality.¤Perhaps you like to keep the enemy at a^distance because you don´t want to get^hurt, but you don´t seem like the overly^defensive type...¤Is there someone you care for, aha that^is probably it!¤Make sure you finish this journey in one^piece, make that special person proud!";
+            brownbooUngaga[11] = "Sometimes I like to sit along the pier^and just listen to the waves.¤I think about a lot of things like all^of my friends here in Brownboo and even^life on Terra.¤Do you think that we´ll get rid of the^Dark Genie for good?¤I just want us all to live in peace^without the fear of being trapped in^Atla!";
+            brownbooUngaga[12] = "Some of you lost loved ones from the^Dark Genie´s attack, we can live here in^protection and comfort but we are not^numb to the suffering of the outside¤world. We, the people of Brownboo, are^here for you.";
 
-            brownbooOsmond2[6] = "";
-            brownbooOsmond2[7] = "";
-            brownbooOsmond2[8] = "";
-            brownbooOsmond2[10] = "";
-            brownbooOsmond2[11] = "";
-            brownbooOsmond2[12] = "";
+            brownbooUngaga2[6] = "I don´t do well in fighting but one^thing I always excelled at was hording^items!¤If you ever need to store items bring^them to me!";
+            brownbooUngaga2[7] = "If the Dark Genie could grant me one^wish I would ask to be taller...";
+            brownbooUngaga2[8] = "I had a dream the other day that humans,^moon people and monsters all lived in^harmony.¤Everything was peaceful until the Opars^attacked.¤Never turn your back on the Opars...";
+            brownbooUngaga2[10] = "Mousse and I were enjoying a relaxing^walking through the Wise Owl Forest when^a giant orange King Prickly landed on^Mousse´s head!¤It was the funniest thing ever!";
+            brownbooUngaga2[11] = "I don´t get how the Dark Genie was freed^from his prison...";
+            brownbooUngaga2[12] = "The important thing is that you are all^healthy and safe, to be able to fight^means you must first have your health.¤Don´t forget that Ų, health^always comes first.";
+
+
+            brownbooOsmond[6] = "I don´t think Brownboo will ever adopt^the technology that is used in Yellow^Drops, although having a machine to pick¤all of the Moon Fruit for us would be^really handy!";
+            brownbooOsmond[7] = "Wow, are you serious?¤I´ve never seen an outsider who is a^Moon Person before! This is actually^surreal...¤I hope you enjoy your time at Brownboo,^tell everyone back home we say hello!";
+            brownbooOsmond[8] = "The Moon People are well known for their^skills in magic here on Terra, but^Yellow Drops has been leading the way in^technology.¤It makes me wonder, will technology^replace magic one day?";
+            brownbooOsmond[10] = "For an outsider, you are very polite!^It´s hard to believe that you are the^boss of the Moon Factory, we can use a^good leader here in Brownboo!¤Our leader is a bit of an odd duck to^say the least but we value his guidance^all the same haha!";
+            brownbooOsmond[11] = "Against all odds, Ť and his^allies have been fighting against the^Genie´s nefarious work.¤What´s even better is that they are^actually making a difference!";
+            brownbooOsmond[12] = "Usually whenever we get an outsider in^the village, we tie them up and put them^through a trial of questions.¤It´s pretty fun!";
+
+            brownbooOsmond2[6] = "Thanks for visiting Brownboo Ō^we don´t get very many outsiders here!";
+            brownbooOsmond2[7] = "If only we knew that the Genie would^come back, we would have maintained^better contact with our people back^home...¤I guess there’s nothing that could be^done about that now.¤Moving forward, we can make a change for^the better and stay in contact.¤Life is too short to stay distant from^one another.";
+            brownbooOsmond2[8] = "You may think we live a primitive life^here in Brownboo compared to the^technologically rich society of Yellow^Drops.¤In reality, we value the simple things^in life...¤Although, having a heli-pack like that^would be pretty cool!";
+            brownbooOsmond2[10] = "Yikes, is that a gun?! Watch where you^point that thing, you´ll poke someone´s^eye out!";
+            brownbooOsmond2[11] = "I don´t think we did a good job staying^in touch with everyone in Yellow Drops,^make sure you tell them that we´re all^doing well and that we can handle any¤challenge that comes our way. Dark Genie^or otherwise!";
+            brownbooOsmond2[12] = "I saw you walking side by side with^Ų and boy did he make you look^tiny!¤Don´t get me wrong, Moon People are not^known for their towering heights but^standing next to someone taller than you^didn´t do any favours!";
         }
 
     }

@@ -803,7 +803,7 @@ namespace Dark_Cloud_Improved_Version
 
                 if (Memory.ReadInt(0x202A2880) < 50) //check player duration in new area (to check if its a new/changed area)
                 {
-                    if (Memory.ReadInt(0x202A2880) > 30)
+                    if (Memory.ReadInt(0x202A2880) > 30 && areaChanged == false)
                     {
                         areaChanged = true;
                         CheckAllyFishing();
@@ -814,8 +814,11 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (Dialogues.storageOriginalDialogue != null)
                             {
-                                Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
-                                Console.WriteLine("Cleared storage original dialogue");
+                                if (Dialogues.storageOriginalDialogue.Length > 0)
+                                {
+                                    Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
+                                    Console.WriteLine("Cleared storage original dialogue");
+                                }
                             }
                         }
                     }

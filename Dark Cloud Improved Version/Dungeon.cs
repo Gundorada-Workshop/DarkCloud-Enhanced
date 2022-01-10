@@ -696,10 +696,11 @@ namespace Dark_Cloud_Improved_Version
 
         public static void SambaChallengeQuest()
         {
+            ushort currentweaponID = Memory.ReadUShort(0x21EA7590);
             if (sambaChallengeQuestCheck == false && Memory.ReadByte(0x202A34CC) == 1)
             {
                 Thread.Sleep(2500);
-                if (Memory.ReadByte(0x202A3570) == 0 && Memory.ReadUShort(0x21EA7590) == 258)
+                if (Memory.ReadByte(0x202A3570) == 0 && (currentweaponID == 258 || currentweaponID == 257))
                 {
                     Memory.WriteInt(0x21CE205C, 0);
                     Dayuppy.DisplayMessage("Samba's quest started!\nClear all enemies using only Dagger!\nUsing a throwable also\ncancels the mission.", 4, 40, 8000);
@@ -710,7 +711,7 @@ namespace Dark_Cloud_Improved_Version
                         monstersDead[i] = false;
                     }
                 }
-                else if (Memory.ReadByte(0x202A3570) == 0 && Memory.ReadUShort(0x21EA7590) != 258)
+                else if (Memory.ReadByte(0x202A3570) == 0 && currentweaponID != 258 && currentweaponID != 257)
                 {
                     Dayuppy.DisplayMessage("Samba's quest did not start.\nRe-enter with Dagger equipped.", 2, 30, 4000);
                     sambaChallengeQuestActive = false;
@@ -725,7 +726,7 @@ namespace Dark_Cloud_Improved_Version
 
             if (sambaChallengeQuestActive)
             {
-                if (Memory.ReadUShort(0x21EA7590) != 258 || Memory.ReadByte(0x21DC4484) == 26 || Memory.ReadByte(0x21DC4484) == 27)
+                if ((currentweaponID != 258 && currentweaponID != 257) || Memory.ReadByte(0x21DC4484) == 26 || Memory.ReadByte(0x21DC4484) == 27)
                 {
                     Thread.Sleep(500);
                     Dayuppy.DisplayMessage("Samba's challenge has been cancelled.\nYou need to re-enter.", 2, 40, 4000);
