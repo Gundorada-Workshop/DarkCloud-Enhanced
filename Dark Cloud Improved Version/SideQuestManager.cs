@@ -507,6 +507,35 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+            else if (characterID == 13361)
+            {
+                TownCharacter.characterIDData = characterID;
+
+                if (Memory.ReadByte(0x21CE4464) == 0)
+                {
+                    bool hasWeapon = CheckWeapon(298);
+                    if (Memory.ReadByte(0x21CE4463) == 1)
+                    {
+                        currentDialogue = "Woah, you truly are something!¤You know what?^Since you proved your power of will^to collect everything, how about^doing some bonus sidequests?¤You already got so far, so why not^keep going, right?";
+                    }
+                    else if (hasWeapon == true)
+                    {
+                        currentDialogue = "You conquered the Demon Shaft?^Well done!¤Unfortunately you´re still not^ready for my quests.¤Come back when you´ve obtained^everything in this world.";
+                    }
+                    else
+                    {
+                        currentDialogue = "I might have some quests for you later.¤But for now, come back when^you´re more experienced.";
+                    }
+                }
+                else if (Memory.ReadByte(0x21CE4464) == 1)
+                {
+                    currentDialogue = "After you left Norune, I happened^to collect a bunch of Fruit of Edens,^Gourds and Defence items.¤I´ll assign you some slightly^challenging Dungeon quests, and for^the reward you´ll get one of the^random boost items, as long as^you´re not maxed on them.¤All your party members´s maximum^health has increased to 250,^maximum thirst to 12 and^maximum defence to 99.¤Do you have what it takes^to max your abilities?";
+                }
+                else
+                {
+                    currentDialogue = "The quest is...";
+                }
+            }
             return currentDialogue;
         }
 
@@ -1043,7 +1072,42 @@ namespace Dark_Cloud_Improved_Version
 
             return false;
         }
-        
+
+        public static bool CheckWeapon(int weaponID, bool checkinv = true, bool checkstorage = true)
+        {
+            int checkitemid;
+            if (checkinv)
+            {
+                currentAddress = 0x21CDDA58; //first weapon slot
+                for (int i = 0; i < 10; i++) //check which weapons player has in bag
+                {
+                    checkitemid = Memory.ReadUShort(currentAddress);
+                    if (checkitemid == weaponID)
+                    {
+                        return true;
+                    }
+                    currentAddress += 0x000000F8;
+                }
+            }
+
+            if (checkstorage)
+            {
+                currentAddress = 0x21CE22D8; //first storage weapon slot
+                for (int i = 0; i < 30; i++) //check which weapons player has in storage
+                {
+                    checkitemid = Memory.ReadUShort(currentAddress);
+                    if (checkitemid == weaponID)
+                    {
+                        return true;
+                    }
+                    currentAddress += 0x000000F8;
+                }
+            }
+
+            return false;
+        }
+
+
         public static bool CheckItemsForMCQuest()
         {
             currentAddress = 0x21CDD8BA;
