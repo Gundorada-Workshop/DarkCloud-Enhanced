@@ -97,6 +97,10 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(0x2027DC80, 8); //change map ordering
             Memory.WriteByte(0x2027DC94, 8); //change magical crystal ordering
             Memory.WriteByte(0x20291CEE, 1); //make hardening powder cost 1g
+            Memory.WriteByte(0x2027D808, 0); //make escape powder equippable+stackable
+            Memory.WriteByte(0x2027D81C, 0); //make revival powder stackable
+            Memory.WriteByte(0x2027D830, 0); //make repair powder equipable+stackable
+            Memory.WriteByte(0x2027D8A8, 0); //make auto-repair powder stackable
 
             if (Memory.ReadByte(0x21CE446B) != 0) //max hps for mayor quest
             {

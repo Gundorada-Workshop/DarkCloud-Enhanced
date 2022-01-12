@@ -26,6 +26,11 @@ namespace Dark_Cloud_Improved_Version
         static bool[] monstersDead = new bool[15];
         static bool monsterQuestActive = false;
         static bool eventfloor = false;
+        static bool squareActive = false;
+        static bool dunEscapeConfirm = false;
+        static bool dunEscapeConfirmSpamCheck = false;
+        static bool dunUsedActiveEscape = false;
+        static bool dunUsedEscapeCheck = false;
         public static bool monsterQuestMachoActive = false;
         public static bool monsterQuestGobActive = false;
         public static bool monsterQuestJakeActive = false;
@@ -59,6 +64,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread babelSpearThread = new Thread(new ThreadStart(CustomEffects.BabelSpear));
         public static Thread supernovaThread = new Thread(new ThreadStart(CustomEffects.Supernova));
         public static Thread starBreakerThread = new Thread(new ThreadStart(CustomEffects.StarBreaker));
+        public static Thread dunEscapeConfirmThread;
 
         public static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
         public static void InsideDungeonThread()
@@ -229,7 +235,9 @@ namespace Dark_Cloud_Improved_Version
                                         break;
                                 }
                                 break;
-                        } 
+                        }
+
+                        CheckActiveItems();
                     }
 
 
@@ -249,6 +257,8 @@ namespace Dark_Cloud_Improved_Version
 
                         doorIsOpen = false;
                         magicCircleChanged = false;
+                        dunUsedActiveEscape = false;
+                        dunUsedEscapeCheck = false;
 
                         //Check if player is not on an event floor and call the Mini Boss
                         if (!excludeFloors.Contains(currentFloor))
@@ -284,6 +294,7 @@ namespace Dark_Cloud_Improved_Version
 
                     CheckClown();
                     CheckCurrentSidequests();
+                    CheckDungeonLeaving();
                   
 
                 }
@@ -867,6 +878,175 @@ namespace Dark_Cloud_Improved_Version
                     Dayuppy.DisplayMessage("Mayor's quest completed!\nWell done!", 2, 28, 4000);
                     Memory.WriteByte(0x21CE4468, 2);
                     mayorQuest = false;
+                }
+            }
+        }
+
+        public static void CheckActiveItems()
+        {
+            if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Square)
+            {
+                int currentSlot = Memory.ReadInt(0x202A3598);
+                int currentActiveItem = 0x21CDD8AC + (0x2 * currentSlot);
+
+                if (Memory.ReadShort(currentActiveItem) == 175)
+                {
+                    if (Memory.ReadByte(0x21DC4484) == 0 || Memory.ReadByte(0x21DC4484) == 1 || Memory.ReadByte(0x21DC4484) == 2)
+                    {
+                        if (squareActive == false)
+                        {
+                            if (dunEscapeConfirm == false)
+                            {
+                                squareActive = true;
+                                Dayuppy.DisplayMessage("^RAre you sure you want to leave?\n^WPress square to use Escape Powder.", 2, 36, 3000);
+                                dunEscapeConfirmThread = new Thread(() => DunEscapeConfirmTimer());
+                                dunEscapeConfirmThread.Start();
+                                dunEscapeConfirm = true;
+                                dunEscapeConfirmSpamCheck = false;
+                            }
+                            else if (dunEscapeConfirm)
+                            {
+                                if (dunEscapeConfirmSpamCheck == true)
+                                {
+                                    if (Memory.ReadByte(0x202A35EC) == 0)
+                                    {
+                                        squareActive = true;
+                                        dunUsedActiveEscape = true;
+                                        Console.WriteLine("Activated escape powder!");
+                                        Memory.WriteByte(0x202A35EC, 170);
+                                        byte currentPowders = Memory.ReadByte(0x21CDD8B2 + (0x2 * currentSlot));
+                                        currentPowders--;
+                                        Memory.WriteByte(0x21CDD8B2 + (0x2 * currentSlot), currentPowders);
+                                        if (currentPowders == 0)
+                                        {
+                                            Memory.WriteUShort(currentActiveItem, 0);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (Memory.ReadShort(currentActiveItem) == 177)
+                {
+                    if (Memory.ReadByte(0x21DC4484) == 0 || Memory.ReadByte(0x21DC4484) == 1 || Memory.ReadByte(0x21DC4484) == 2)
+                    {
+                        if (squareActive == false)
+                        {
+                            ushort currentmaxWHP = Player.Weapon.GetCurrentWeaponMaxWhp();
+                            float currentWHP = Player.Weapon.GetCurrentWeaponWhp();
+                            if (currentWHP < currentmaxWHP)
+                            {
+                                int currentChar = Memory.ReadByte(0x21CD9550);
+                                int currentWepNum = Memory.ReadByte(0x21CDD88C + (0x1 * currentChar));
+                                int whp;
+
+                                if (currentChar == 0)
+                                {
+                                    whp = Player.Toan.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                                }
+                                else if (currentChar == 1)
+                                {
+                                    whp = Player.Xiao.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                                }
+                                else if (currentChar == 2)
+                                {
+                                    whp = Player.Goro.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                                }
+                                else if (currentChar == 3)
+                                {
+                                    whp = Player.Ruby.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                                }
+                                else if (currentChar == 4)
+                                {
+                                    whp = Player.Ungaga.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                                }
+                                else
+                                {
+                                    whp = Player.Osmond.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                                }
+
+
+                                Memory.WriteFloat(whp, currentmaxWHP);
+                                Dayuppy.DisplayMessage("Used Repair Powder!", 1, 20, 2000);
+                                byte currentPowders = Memory.ReadByte(0x21CDD8B2 + (0x2 * currentSlot));
+                                currentPowders--;
+                                Memory.WriteByte(0x21CDD8B2 + (0x2 * currentSlot), currentPowders);
+                                squareActive = true;
+                                if (currentPowders == 0)
+                                {
+                                    Memory.WriteUShort(currentActiveItem, 0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                squareActive = false;
+            }          
+        }
+
+        public static void DunEscapeConfirmTimer()
+        {
+            Thread.Sleep(500);
+            dunEscapeConfirmSpamCheck = true;
+            Thread.Sleep(2500);
+            dunEscapeConfirm = false;
+        }
+
+        public static void CheckDungeonLeaving()
+        {
+            if (dunUsedActiveEscape == false && dunUsedEscapeCheck == false)
+            {
+                if (Memory.ReadByte(0x202A35EC) == 171)
+                {
+                    CheckEscapePowders();
+                    dunUsedEscapeCheck = true;
+                }
+            }
+        }
+
+        public static void CheckEscapePowders()
+        {
+            bool hasEscapeP = SideQuestManager.CheckItemQuestReward(175, true, false);
+
+            if (hasEscapeP == false)
+            {
+                if (Memory.ReadByte(0x21CDD8AE) == 175)
+                {
+                    byte currentPowders = Memory.ReadByte(0x21CDD8B4);
+                    currentPowders--;
+                    Memory.WriteByte(0x21CDD8B4, currentPowders);
+                    if (currentPowders == 0)
+                    {
+                        Memory.WriteUShort(0x21CDD8AE, 0);
+                    }
+                    Console.WriteLine("Consumed escape powder from active slots");
+                }
+                else if (Memory.ReadByte(0x21CDD8B0) == 175) 
+                {
+                    byte currentPowders = Memory.ReadByte(0x21CDD8B6);
+                    currentPowders--;
+                    Memory.WriteByte(0x21CDD8B6, currentPowders);
+                    if (currentPowders == 0)
+                    {
+                        Memory.WriteUShort(0x21CDD8B0, 0);
+                    }
+                    Console.WriteLine("Consumed escape powder from active slots");
+
+                }
+                else if (Memory.ReadByte(0x21CDD8B2) == 175)
+                {
+                    byte currentPowders = Memory.ReadByte(0x21CDD8B8);
+                    currentPowders--;
+                    Memory.WriteByte(0x21CDD8B8, currentPowders);
+                    if (currentPowders == 0)
+                    {
+                        Memory.WriteUShort(0x21CDD8B2, 0);
+                    }
+                    Console.WriteLine("Consumed escape powder from active slots");
                 }
             }
         }
