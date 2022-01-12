@@ -772,7 +772,13 @@ namespace Dark_Cloud_Improved_Version
                         int allitems = obtainableItemsList.Length + obtainableAttachmentsList.Length;
                         if (obtainedItems == allitems && obtainedUltWeapons == obtainableUltWeapons.Length && obtainedSecretItems == obtainableSecretItems.Length)
                         {
-                            brownbooPickleExtraDialogue = "WOW! Congratulations,^you´ve actually done it!^You collected everything!¤As a present, have this old key.^You should totally try^if you can use it somewhere!";
+                            string cheatdialogue = "";
+                            if (Memory.ReadByte(0x21CE446C) == 1)
+                            {
+                                cheatdialogue = "¤I hope you didn´t^use any cheats!... right?";
+                            }
+
+                            brownbooPickleExtraDialogue = "WOW! Congratulations,^you´ve actually done it!^You collected everything!¤As a present, have this old key.^You should totally try^if you can use it somewhere!" + cheatdialogue;
                             bool hasKey = SideQuestManager.CheckItemQuestReward(248);
                             if (hasKey == false)
                             {

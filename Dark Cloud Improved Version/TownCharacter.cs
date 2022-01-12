@@ -54,6 +54,7 @@ namespace Dark_Cloud_Improved_Version
         static bool shopDataCleared = false;
         static bool fishingQuestCheck = false;
         public static bool mintTalk = false;
+        public static byte mayorReward;
 
         static float fishSizeFloat = 0;
 
@@ -96,6 +97,16 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(0x2027DC80, 8); //change map ordering
             Memory.WriteByte(0x2027DC94, 8); //change magical crystal ordering
             Memory.WriteByte(0x20291CEE, 1); //make hardening powder cost 1g
+
+            if (Memory.ReadByte(0x21CE446B) != 0) //max hps for mayor quest
+            {
+                Memory.WriteByte(0x20293978, 250);
+                Memory.WriteByte(0x2029397A, 250);
+                Memory.WriteByte(0x2029397C, 250);
+                Memory.WriteByte(0x2029397E, 250);
+                Memory.WriteByte(0x20293980, 250);
+                Memory.WriteByte(0x20293982, 250);
+            }
 
             Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             successful = Memory.VirtualProtectEx(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
@@ -1276,6 +1287,22 @@ namespace Dark_Cloud_Improved_Version
                 else if (Memory.ReadByte(0x21CE4464) == 1)
                 {
                     Memory.WriteByte(0x21CE4464, 2);
+                }
+                else if (Memory.ReadByte(0x21CE4464) == 2)
+                {
+                    if (Memory.ReadByte(0x21CE4468) == 0)
+                    {
+                        Memory.WriteByte(0x21CE4468, 1);
+                    }
+                    else if (Memory.ReadByte(0x21CE4468) == 2)
+                    {
+                        Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), mayorReward);
+                        Memory.WriteByte(0x21CE4468, 0);
+                        if (Memory.ReadByte(0x21CE446B) == 1)
+                        {
+                            Memory.WriteByte(0x21CE4464, 3);
+                        }
+                    }
                 }
             }
 

@@ -22,6 +22,7 @@ namespace Dark_Cloud_Improved_Version
         static string[] QueensSeaFish = { "Bobos", "Kajis", "Piccolys", "Bons", "Hamahamas" };
         static string[] MuskaOasisFish = { "Negies", "Dens", "Heelas", "Mardan Garayans", "Baron Garayan" };
         //fish ID list:  0 = bobo, 1 = gobbler, 2 = nonky, 3 = kaiji, 4 = baku baku, 5 = mardan, 6 = gummy, 7 = niler , 8 = NULL , 9 = umadakara , 10 = tarton , 11 = piccoly , 12 = bon, 13 = hamahama , 14 = negie, 15 = den , 16 = heela, 17 = baron
+        static string[] alliesChar = { "Ť", "Ӿ", "Ʊ", "Ʀ", "Ų", "Ō" };
         static int[] DBCEnemyIDs = { 1, 6, 35, 59 };
         static int[] WOFEnemyIDs = { 8, 12, 79, 7 };
         static int[] ShipwreckEnemyIDs = { 23, 24, 81, 25 };
@@ -58,6 +59,23 @@ namespace Dark_Cloud_Improved_Version
         public static int getEnemyCounter;
         public static int getFishID;
         public static int getFishCounter;
+
+        static int demonshaftfloor;
+        static int demonshaftally;
+
+        static bool checkHPs;
+        static bool checkDEFs;
+        static bool checkThirsts;
+        static bool HPreward;
+        static bool DEFreward;
+        static bool Thirstreward;
+
+        static bool checkToanDEF;
+        static bool checkXiaoDEF;
+        static bool checkGoroDEF;
+        static bool checkRubyDEF;
+        static bool checkUngagaDEF;
+        static bool checkOsmondDEF;
 
         static int rolledbackfloornumber;
         static int backfloornumber;
@@ -529,11 +547,32 @@ namespace Dark_Cloud_Improved_Version
                 }
                 else if (Memory.ReadByte(0x21CE4464) == 1)
                 {
+                    Memory.WriteByte(0x20293978, 250);
+                    Memory.WriteByte(0x2029397A, 250);
+                    Memory.WriteByte(0x2029397C, 250);
+                    Memory.WriteByte(0x2029397E, 250);
+                    Memory.WriteByte(0x20293980, 250);
+                    Memory.WriteByte(0x20293982, 250);
                     currentDialogue = "After you left Norune, I happened^to collect a bunch of Fruit of Edens,^Gourds and Defence items.¤I´ll assign you some slightly^challenging Dungeon quests, and for^the reward you´ll get one of the^random boost items, as long as^you´re not maxed on them.¤All your party members´s maximum^health has increased to 250,^maximum thirst to 12 and^maximum defence to 99.¤Do you have what it takes^to max your abilities?";
+                }
+                else if (Memory.ReadByte(0x21CE4464) == 2)
+                {
+                    if (Memory.ReadByte(0x21CE4468) == 0)
+                    {
+                        currentDialogue = SetMayorSidequest();
+                    }
+                    else if (Memory.ReadByte(0x21CE4468) == 1)
+                    {
+                        currentDialogue = GetMayorSidequest();
+                    }
+                    else
+                    {
+                        currentDialogue = GetMayorSidequestReward();
+                    }
                 }
                 else
                 {
-                    currentDialogue = "The quest is...";
+                    currentDialogue = "I have no more quests to give.^Perhaps you´ve finally^achieved everything?";
                 }
             }
             return currentDialogue;
@@ -1142,9 +1181,225 @@ namespace Dark_Cloud_Improved_Version
             else
             {
                 return false;
+            }                  
+        }
+
+        public static string SetMayorSidequest()
+        {
+            string dialogue = "";
+            int rollquest = rnd.Next(100);
+            if (rollquest < 100)
+            {
+                demonshaftfloor = rnd.Next(1, 100);
+                demonshaftally = rnd.Next(0, 6);
+                Memory.WriteOneByte(0x21CE4469, BitConverter.GetBytes(demonshaftfloor));
+                Memory.WriteOneByte(0x21CE446A, BitConverter.GetBytes(demonshaftally));
+
+                dialogue = "Clear the backside of the floor " + demonshaftfloor + "^in Demon Shaft, using only " + alliesChar[demonshaftally] + ".¤You can buy backfloor keys from Fairy King.";
+
             }
 
-                   
+            return dialogue;
+        }
+
+        public static string GetMayorSidequest()
+        {
+            string dialogue = "";
+
+            demonshaftfloor = Memory.ReadByte(0x21CE4469);
+            demonshaftally = Memory.ReadByte(0x21CE446A);
+
+            dialogue = "Clear the backside of the floor " + demonshaftfloor + "^in Demon Shaft, using only " + alliesChar[demonshaftally] + ".¤You can buy backfloor keys from Fairy King.";
+
+            return dialogue;
+        }
+
+        public static string GetMayorSidequestReward()
+        {
+            string dialogue = "";
+            string rewardItem = "";
+
+            checkHPs = false;
+            checkDEFs = false;
+            checkThirsts = false;
+            HPreward = false;
+            DEFreward = false;
+            Thirstreward = false;
+
+            if (Memory.ReadByte(0x21CD9552) < 250 || Memory.ReadByte(0x21CD9554) < 250 || Memory.ReadByte(0x21CD9556) < 250 || Memory.ReadByte(0x21CD9558) < 250 || Memory.ReadByte(0x21CD955A) < 250 || Memory.ReadByte(0x21CD955C) < 250)
+            {
+                checkHPs = true;
+            }
+
+            if (Memory.ReadByte(0x21CDD894) < 99 || Memory.ReadByte(0x21CDD898) < 99 || Memory.ReadByte(0x21CDD89C) < 99 || Memory.ReadByte(0x21CDD8A0) < 99 || Memory.ReadByte(0x21CDD8A4) < 99 || Memory.ReadByte(0x21CDD8A8) < 99)
+            {
+                checkDEFs = true;
+            }
+
+            if (Memory.ReadFloat(0x21CDD838) < 120 || Memory.ReadFloat(0x21CDD83C) < 120 || Memory.ReadFloat(0x21CDD840) < 120 || Memory.ReadFloat(0x21CDD844) < 120 || Memory.ReadFloat(0x21CDD848) < 120 || Memory.ReadFloat(0x21CDD84C) < 120)
+            {
+                checkThirsts = true;
+            }
+
+            if (checkHPs == false && checkDEFs == false && checkThirsts == false)
+            {
+                dialogue = "I can´t believe it!¤You actually went and^maxed all the stats!¤Thank you for completing all^my quests, and also...¤Thank you for playing the Enchanted Mod!";
+                Memory.WriteByte(0x21CE446B, 1);
+                return dialogue;
+            }
+
+            int rewardType = rnd.Next(300);
+
+            if (rewardType > 200)
+            {
+                if (checkHPs)
+                {
+                    HPreward = true;
+                }
+                else if (checkDEFs)
+                {
+                    DEFreward = true;
+                }
+                else
+                {
+                    Thirstreward = true;
+                }
+            }
+            else if (rewardType > 100)
+            {
+                if (checkDEFs)
+                {
+                    DEFreward = true;
+                }
+                else if (checkThirsts)
+                {
+                    Thirstreward = true;
+                }
+                else
+                {
+                    HPreward = true;
+                }
+            }
+            else
+            {
+                if (checkThirsts)
+                {
+                    Thirstreward = true;
+                }
+                else
+                {
+                    int rollRew = rnd.Next(100);
+                    if (rollRew > 50)
+                    {
+                        if (checkHPs)
+                        {
+                            HPreward = true;
+                        }
+                        else
+                        {
+                            DEFreward = true;
+                        }
+                    }
+                    else
+                    {
+                        if (checkDEFs)
+                        {
+                            DEFreward = true;
+                        }
+                        else
+                        {
+                            HPreward = true;
+                        }
+                    }
+                }
+            }
+            if (HPreward)
+            {
+                TownCharacter.mayorReward = 180;
+                rewardItem = "Fruit of Eden";
+            }
+            else if (Thirstreward)
+            {
+                TownCharacter.mayorReward = 182;
+                rewardItem = "Gourd";
+            }
+            else
+            {
+                checkToanDEF = false;
+                checkXiaoDEF = false;
+                checkGoroDEF = false;
+                checkRubyDEF = false;
+                checkUngagaDEF = false;
+                checkOsmondDEF = false;
+
+                if (Memory.ReadByte(0x21CDD894) < 99)
+                    checkToanDEF = true;
+                if (Memory.ReadByte(0x21CDD898) < 99)
+                    checkXiaoDEF = true;
+                if (Memory.ReadByte(0x21CDD89C) < 99)
+                    checkGoroDEF = true;
+                if (Memory.ReadByte(0x21CDD8A0) < 99)
+                    checkRubyDEF = true;
+                if (Memory.ReadByte(0x21CDD8A4) < 99)
+                    checkUngagaDEF = true;
+                if (Memory.ReadByte(0x21CDD8A8) < 99)
+                    checkOsmondDEF = true;
+
+                bool rolledAlly = false;
+                int count = 0;
+                int rollAlly;
+                while (rolledAlly == false && count < 1000)
+                {
+                    rollAlly = rnd.Next(6);
+
+                    if (rollAlly == 0 && checkToanDEF == true)
+                    {
+                        TownCharacter.mayorReward = 136;
+                        rewardItem = "Fluffy Doughnut";
+                        rolledAlly = true;
+                    }
+                    else if (rollAlly == 1 && checkXiaoDEF == true)
+                    {
+                        TownCharacter.mayorReward = 137;
+                        rewardItem = "Fish Candy";
+                        rolledAlly = true;
+                    }
+                    else if (rollAlly == 2 && checkGoroDEF == true)
+                    {
+                        TownCharacter.mayorReward = 138;
+                        rewardItem = "Grass Cake";
+                        rolledAlly = true;
+                    }
+                    else if (rollAlly == 3 && checkRubyDEF == true)
+                    {
+                        TownCharacter.mayorReward = 139;
+                        rewardItem = "Witch Parfait";
+                        rolledAlly = true;
+                    }
+                    else if (rollAlly == 4 && checkUngagaDEF == true)
+                    {
+                        TownCharacter.mayorReward = 140;
+                        rewardItem = "Scorpion Jerky";
+                        rolledAlly = true;
+                    }
+                    else if (rollAlly == 5 && checkOsmondDEF == true)
+                    {
+                        TownCharacter.mayorReward = 141;
+                        rewardItem = "Carrot Cookie";
+                        rolledAlly = true;
+                    }
+                    count++;
+                    if (count == 1000)
+                    {
+                        TownCharacter.mayorReward = 0;
+                        rewardItem = "Nothing!";
+                    }
+                }
+            }
+
+            dialogue = "Nicely done!^Here´s your reward: " + rewardItem + ".";
+
+            return dialogue;
         }
     }
 }

@@ -33,6 +33,9 @@ namespace Dark_Cloud_Improved_Version
         public static bool sambaChallengeQuest = false;
         public static bool sambaChallengeQuestActive = false;
         public static bool sambaChallengeQuestCheck = false;
+        public static bool mayorQuest = false;
+        public static bool mayorQuestCheck = false;
+        public static bool mayorQuestActive = false;
         public static bool hasMiniBoss = false;
         public static bool enemiesSpawn = false;
         public static bool doorIsOpen = false;
@@ -279,50 +282,9 @@ namespace Dark_Cloud_Improved_Version
                         prevFloor = currentFloor;
                     }
 
-                    //Check if clown is triggered, then change loot table
-                    if (Memory.ReadInt(Addresses.clownCheck) == 30707852 && clownOnScreen == false && eventfloor == false)
-                    {
-                        CustomChests.ClownRandomizer(chronicle2);
-                        clownOnScreen = true;
-                    }
-                    else
-                    {
-                        if (clownOnScreen)
-                        {
-                            if (Memory.ReadInt(Addresses.clownCheck) != 30707852)
-                            {
-                                clownOnScreen = false;
-                            }
-                        }
-                    }
-
-                    if (monsterQuestActive)
-                    {
-                        for (int i = 0; i < monstersDead.Length; i++)
-                        {
-
-                            currentAddress = 0x21E16BC4 + (i * 0x190);
-
-                            if (Memory.ReadUShort(currentAddress) > 0)
-                            {
-                                monstersDead[i] = false;
-                            }
-                            else
-                            {
-                                if (monstersDead[i] == false)
-                                {
-                                    CheckEnemyKill(currentAddress);
-                                }
-
-                                monstersDead[i] = true;
-                            }
-                        }
-                    }
-
-                    if (sambaChallengeQuest)
-                    {
-                        SambaChallengeQuest();             
-                    }
+                    CheckClown();
+                    CheckCurrentSidequests();
+                  
 
                 }
                 //Used to reset the floor data when going back to dungeon
@@ -552,15 +514,7 @@ namespace Dark_Cloud_Improved_Version
             chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
             CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2); //Randomize the chest loot
 
-            if (currentDungeon == 4 && currentFloor == 6 && Memory.ReadByte(0x21CE445E) == 1)
-            {
-                Console.WriteLine("Yellow drops challenge active");
-                sambaChallengeQuest = true;
-            }
-            else
-            {
-                sambaChallengeQuest = false;
-            }
+            CheckSidequests();
 
             Console.WriteLine("Finished spawn checking");
 
@@ -694,29 +648,123 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        public static void CheckClown()
+        {
+            //Check if clown is triggered, then change loot table
+            if (Memory.ReadInt(Addresses.clownCheck) == 30707852 && clownOnScreen == false && eventfloor == false)
+            {
+                CustomChests.ClownRandomizer(chronicle2);
+                clownOnScreen = true;
+            }
+            else
+            {
+                if (clownOnScreen)
+                {
+                    if (Memory.ReadInt(Addresses.clownCheck) != 30707852)
+                    {
+                        clownOnScreen = false;
+                    }
+                }
+            }
+        }
+
+        public static void CheckSidequests()
+        {
+            if (currentDungeon == 4 && currentFloor == 6 && Memory.ReadByte(0x21CE445E) == 1)
+            {
+                Console.WriteLine("Yellow drops challenge active");
+                sambaChallengeQuest = true;
+            }
+            else
+            {
+                sambaChallengeQuest = false;
+            }
+
+            if (currentDungeon == 6)
+            {
+                if (Memory.ReadByte(0x21CE4468) == 1) //Mayor quest flag
+                {
+                    if (currentFloor == Memory.ReadByte(0x21CE4469) -1)
+                    {
+                        mayorQuest = true;
+                        Console.WriteLine("Mayor quest active in this floor");
+                    }
+                    else
+                    {
+                        mayorQuest = false;
+                    }
+                }
+                else
+                {
+                    mayorQuest = false;
+                }
+            }
+            else
+            {
+                mayorQuest = false;
+            }
+        }
+
+        public static void CheckCurrentSidequests()
+        {
+            if (monsterQuestActive)
+            {
+                for (int i = 0; i < monstersDead.Length; i++)
+                {
+                    currentAddress = 0x21E16BC4 + (i * 0x190);
+
+                    if (Memory.ReadUShort(currentAddress) > 0)
+                    {
+                        monstersDead[i] = false;
+                    }
+                    else
+                    {
+                        if (monstersDead[i] == false)
+                        {
+                            CheckEnemyKill(currentAddress);
+                        }
+
+                        monstersDead[i] = true;
+                    }
+                }
+            }
+
+            if (sambaChallengeQuest)
+            {
+                SambaChallengeQuest();
+            }
+
+            if (mayorQuest)
+            {
+                MayorQuest();
+            }
+        }
+
         public static void SambaChallengeQuest()
         {
             ushort currentweaponID = Memory.ReadUShort(0x21EA7590);
             if (sambaChallengeQuestCheck == false && Memory.ReadByte(0x202A34CC) == 1)
             {
-                Thread.Sleep(2500);
-                if (Memory.ReadByte(0x202A3570) == 0 && (currentweaponID == 258 || currentweaponID == 257))
+                if (Memory.ReadByte(Addresses.hideHud) == 0)
                 {
-                    Memory.WriteInt(0x21CE205C, 0);
-                    Dayuppy.DisplayMessage("Samba's quest started!\nClear all enemies using only Dagger!\nUsing a throwable also\ncancels the mission.", 4, 40, 8000);
-                    sambaChallengeQuestActive = true;
-
-                    for (int i = 0; i < 8; i++)
+                    if (Memory.ReadByte(0x202A3570) == 0 && (currentweaponID == 258 || currentweaponID == 257))
                     {
-                        monstersDead[i] = false;
+                        Memory.WriteInt(0x21CE205C, 0);
+                        Dayuppy.DisplayMessage("Samba's quest started!\nClear all enemies using only Dagger!\nUsing a throwable also\ncancels the mission.", 4, 40, 8000);
+                        sambaChallengeQuestActive = true;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            monstersDead[i] = false;
+                        }
                     }
+                    else if (Memory.ReadByte(0x202A3570) == 0 && currentweaponID != 258 && currentweaponID != 257)
+                    {
+                        Dayuppy.DisplayMessage("Samba's quest did not start.\nRe-enter with Dagger equipped.", 2, 30, 4000);
+                        sambaChallengeQuestActive = false;
+                    }
+                    sambaChallengeQuestCheck = true;
                 }
-                else if (Memory.ReadByte(0x202A3570) == 0 && currentweaponID != 258 && currentweaponID != 257)
-                {
-                    Dayuppy.DisplayMessage("Samba's quest did not start.\nRe-enter with Dagger equipped.", 2, 30, 4000);
-                    sambaChallengeQuestActive = false;
-                }
-                sambaChallengeQuestCheck = true;
             }
             else if (sambaChallengeQuestCheck == true && Memory.ReadByte(0x202A34CC) == 0)
             {
@@ -729,7 +777,7 @@ namespace Dark_Cloud_Improved_Version
                 if ((currentweaponID != 258 && currentweaponID != 257) || Memory.ReadByte(0x21DC4484) == 26 || Memory.ReadByte(0x21DC4484) == 27)
                 {
                     Thread.Sleep(500);
-                    Dayuppy.DisplayMessage("Samba's challenge has been cancelled.\nYou need to re-enter.", 2, 40, 4000);
+                    Dayuppy.DisplayMessage("Samba's quest has been cancelled.\nYou need to re-enter.", 2, 40, 4000);
                     sambaChallengeQuestActive = false;
                 }
                 byte enemieskilled = 0;
@@ -750,9 +798,75 @@ namespace Dark_Cloud_Improved_Version
 
                 if (enemieskilled == 8)
                 {
-                    Dayuppy.DisplayMessage("Samba's challenge completed!\nWell done!", 2, 30, 4000);
+                    Dayuppy.DisplayMessage("Samba's quest completed!\nWell done!", 2, 28, 4000);
                     Memory.WriteByte(0x21CE4462, 1);
                     sambaChallengeQuest = false;
+                }
+            }
+        }
+
+        public static void MayorQuest()
+        {
+            if (mayorQuestCheck == false && Memory.ReadByte(0x202A34CC) == 1)
+            {
+                if (Memory.ReadByte(Addresses.hideHud) == 0)
+                {
+                    if (Memory.ReadByte(0x202A3570) == Memory.ReadByte(0x21CE446A)) //check if correct ally for quest
+                    {
+                        Memory.WriteInt(0x21CE205C, 0);
+                        Dayuppy.DisplayMessage("Mayor's quest started!\nClear all enemies.\nCannot change character.\nThrowables are not allowed.", 4, 26, 5000);
+
+                        mayorQuestActive = true;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            monstersDead[i] = false;
+                        }
+                    }
+                    else
+                    {
+                        Dayuppy.DisplayMessage("Mayor's quest did not start.\nRe-enter with correct ally.", 2, 30, 4000);
+                        mayorQuestActive = false;
+                    }
+                    mayorQuestCheck = true;
+                }
+            }
+            else if (mayorQuestCheck == true && Memory.ReadByte(0x202A34CC) == 0)
+            {
+                mayorQuestCheck = false;
+                mayorQuestActive = false;
+            }
+
+            if (mayorQuestActive)
+            {
+                if (Memory.ReadByte(0x21DC4484) == 26 || Memory.ReadByte(0x21DC4484) == 27)
+                {
+                    Thread.Sleep(500);
+                    Dayuppy.DisplayMessage("Mayor's quest has been cancelled.\nYou need to re-enter.", 2, 40, 4000);
+                    mayorQuestActive = false;
+                }
+
+                byte enemieskilled = 0;
+                for (int i = 0; i < 8; i++)
+                {
+                    currentAddress = 0x21E16BC4 + (i * 0x190);
+
+                    if (Memory.ReadUShort(currentAddress) > 0)
+                    {
+                        monstersDead[i] = false;
+                    }
+                    else
+                    {
+                        monstersDead[i] = true;
+                        enemieskilled++;
+                    }
+                }
+
+                if (enemieskilled == 8)
+                {
+                    Dayuppy.DisplayMessage("Mayor's quest completed!\nWell done!", 2, 28, 4000);
+                    Memory.WriteByte(0x21CE4468, 2);
+                    mayorQuest = false;
                 }
             }
         }

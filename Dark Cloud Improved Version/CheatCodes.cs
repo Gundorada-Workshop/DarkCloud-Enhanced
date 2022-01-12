@@ -81,21 +81,25 @@ namespace Dark_Cloud_Improved_Version
                         if (CheckSequence(cheatGodmode))
                         {
                             toggleGodMode(true);
+                            Memory.WriteByte(0x21CE446C, 1);
                         }
 
                         if (CheckSequence(cheatBrokenDagger))
                         {
                             SpawnBrokenDagger();
+                            Memory.WriteByte(0x21CE446C, 1);
                         }
 
                         if (CheckSequence(cheatPowerupPowders))
                         {
                             SpawnPowerupPowders();
+                            Memory.WriteByte(0x21CE446C, 1);
                         }
 
                         if (CheckSequence(cheatMaxMoney))
                         {
                             GiveMaxGilda();
+                            Memory.WriteByte(0x21CE446C, 1);
                         }
 
                         if (CheckSequence(cheatDebugMenusPart1))
@@ -106,14 +110,18 @@ namespace Dark_Cloud_Improved_Version
 
                         if (CheckSequence(cheatDebugMenusPart2))
                         {
-                            if (firstDebugCheatActive == true) 
+                            if (firstDebugCheatActive == true)
+                            {
                                 UnlockDebugMenus();
+                                Memory.WriteByte(0x21CE446C, 1);
+                            }
                         }
 
                         if (CheckSequence(cheatUnlockFloors))
                         {
                             byte currentdungeon = Memory.ReadByte(Addresses.checkDungeon);
                             UnlockFloors(currentdungeon);
+                            Memory.WriteByte(0x21CE446C, 1);
                         }
                     }
                     
