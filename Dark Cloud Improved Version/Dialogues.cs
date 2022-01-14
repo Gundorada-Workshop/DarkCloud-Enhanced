@@ -84,6 +84,16 @@ namespace Dark_Cloud_Improved_Version
         static string[] brownbooUngaga2 = new string[15];
         static string[] brownbooOsmond = new string[15];
         static string[] brownbooOsmond2 = new string[15];
+        static string darkheavenXiao;
+        static string darkheavenXiao2;
+        static string darkheavenGoro;
+        static string darkheavenGoro2;
+        static string darkheavenRuby;
+        static string darkheavenRuby2;
+        static string darkheavenUngaga;
+        static string darkheavenUngaga2;
+        static string darkheavenOsmond;
+        static string darkheavenOsmond2;
         static string currentDialogue;
         static string currentDialogueOptions;
         static string prevDialogue;
@@ -144,6 +154,11 @@ namespace Dark_Cloud_Improved_Version
         static int[] brownbooRubyCheck = new int[15];
         static int[] brownbooUngagaCheck = new int[15];
         static int[] brownbooOsmondCheck = new int[15];
+        static int[] darkheavenXiaoCheck = new int[5];
+        static int[] darkheavenGoroCheck = new int[5];
+        static int[] darkheavenRubyCheck = new int[5];
+        static int[] darkheavenUngagaCheck = new int[15];
+        static int[] darkheavenOsmondCheck = new int[15];
 
         static bool[] itemIDCheckList = new bool[380];
         static int[] obtainableAttachmentsList = { 81, 82, 83, 84, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
@@ -247,6 +262,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = yellowdropsXiao2;
                         customDialoguesCheck = yellowdropsXiaoCheck;
                     }
+                    else if (currentArea == 38)
+                    {
+                        customDialogues[0] = darkheavenXiao;
+                        customDialogues2[0] = darkheavenXiao2;
+                        customDialoguesCheck = darkheavenXiaoCheck;
+                    }
                     else if (currentArea == 42)
                     {
                         customDialogues = sunmoonXiao;
@@ -293,6 +314,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = yellowdropsGoro;
                         customDialogues2 = yellowdropsGoro2;
                         customDialoguesCheck = yellowdropsGoroCheck;
+                    }
+                    else if (currentArea == 38)
+                    {
+                        customDialogues[0] = darkheavenGoro;
+                        customDialogues2[0] = darkheavenGoro2;
+                        customDialoguesCheck = darkheavenGoroCheck;
                     }
                     else if (currentArea == 42)
                     {
@@ -342,6 +369,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = yellowdropsRuby2;
                         customDialoguesCheck = yellowdropsRubyCheck;
                     }
+                    else if (currentArea == 38)
+                    {
+                        customDialogues[0] = darkheavenRuby;
+                        customDialogues2[0] = darkheavenRuby2;
+                        customDialoguesCheck = darkheavenRubyCheck;
+                    }
                     else if (currentArea == 42)
                     {
                         customDialogues = sunmoonRuby;
@@ -390,6 +423,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues2 = yellowdropsUngaga2;
                         customDialoguesCheck = yellowdropsUngagaCheck;
                     }
+                    else if (currentArea == 38)
+                    {
+                        customDialogues[0] = darkheavenUngaga;
+                        customDialogues2[0] = darkheavenUngaga2;
+                        customDialoguesCheck = darkheavenUngagaCheck;
+                    }
                     else if (currentArea == 42)
                     {
                         customDialogues = sunmoonUngaga;
@@ -437,6 +476,12 @@ namespace Dark_Cloud_Improved_Version
                         customDialogues = yellowdropsOsmond;
                         customDialogues2 = yellowdropsOsmond2;
                         customDialoguesCheck = yellowdropsOsmondCheck;
+                    }
+                    else if (currentArea == 38)
+                    {
+                        customDialogues[0] = darkheavenOsmond;
+                        customDialogues2[0] = darkheavenOsmond2;
+                        customDialoguesCheck = darkheavenOsmondCheck;
                     }
                     else if (currentArea == 42)
                     {
@@ -986,6 +1031,19 @@ namespace Dark_Cloud_Improved_Version
                 TownCharacter.sidequestDialogueID = 262;
 
             }
+            else if (currentArea == 38)
+            {
+                if (customDialoguesCheck[0] != 1)
+                {
+                    currentDialogue = customDialogues[0];
+                    savedDialogueCheck = 0;
+                }
+                else
+                {
+                    currentDialogue = customDialogues2[0];
+                    savedDialogueCheck = 0;
+                }
+            }
             else if (currentArea == 42)
             {
                 for (int i = 0; i < sunmoonCharacters.Length; i++)   //search through array to find character match
@@ -1053,6 +1111,10 @@ namespace Dark_Cloud_Improved_Version
                 {
                     currentAddress = 0x2064B11C; //yellow drops last message
                 }
+            }
+            else if (currentArea == 38)
+            {
+                currentAddress = 0x20649784;
             }
             else if (currentArea == 42)
             {
@@ -1179,9 +1241,14 @@ namespace Dark_Cloud_Improved_Version
             {
                 currentAddress = 0x20648F50;
             }
+            else if (area == 38)
+            {
+                currentAddress = 0x20649710; //ID 100, 54 characters
+                defDialogue = "Wait a second please,^I was doing something.";
+            }
             else if (area == 42)
             {
-                currentAddress = 0x20648EC8;
+                currentAddress = 0x20648EC8;           
             }
 
             for (int i = 0; i < defDialogue.Length; i++)
@@ -2686,7 +2753,24 @@ namespace Dark_Cloud_Improved_Version
             brownbooOsmond2[10] = "Yikes, is that a gun?! Watch where you^point that thing, you´ll poke someone´s^eye out!";
             brownbooOsmond2[11] = "I don´t think we did a good job staying^in touch with everyone in Yellow Drops,^make sure you tell them that we´re all^doing well and that we can handle any¤challenge that comes our way. Dark Genie^or otherwise!";
             brownbooOsmond2[12] = "I saw you walking side by side with^Ų and boy did he make you look^tiny!¤Don´t get me wrong, Moon People are not^known for their towering heights but^standing next to someone taller than you^didn´t do any favours!";
-        }
 
+
+            //Storage guard, kiwi, mango, suger, natade, mousse
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+
+            darkheavenXiao = "I must admit that prior to this^cataclysm, I had a hard time^trusting humans.¤However, I watched from afar how each^of the villagers of Norune did their^part to look after a stray like you,^as if you were one of their own.¤Their actions and kindness opened^my eyes to the great potential that^humanity holds. Perhaps that is what^led me to trust your friend Ť.¤Thank you for teaching this old^fairy a valuable lesson Ӿ.";
+            darkheavenXiao2 = "This is the final act Ӿ.^Although you grew up as a stray, know^that Ť and his allies cared^for you as if you were family.¤In order for peace to return to Terra,^the threat of the Dark Genie^must be vanquished.¤Take caution as there is no guarantee^that you will all survive this battle...¤Be Strong Ӿ, fight hard and^defend your allies: your family.";
+            darkheavenGoro = "Once upon a time, long long ago the^Dark Genie ravaged all of Terra: that^is all except your neighbouring^village of Brownboo.¤This tiny village hidden away deep^in the Forest was once the only^surviving bastion from the influence^of the Dark Genie.¤The remaining survivors from all over^Terra journeyed to that village^as a safe haven.¤Many years have since passed and the^Dark Clouds have once again begun to^stir, the black winds have begun to howl^to the two moons on this night^of our final act.¤We must make haste Ʊ.";
+            darkheavenGoro2 = "It´s time to make a stand brave Hunter,^like all of those hunters who came^before you: in the name of the young^who will come after you.¤For the sake of all the life on^Terra... For the sake of your Father.¤Make him proud Ʊ,^he´ll always be watching you.¤May the Spirits guide your way.";
+            darkheavenRuby = "Whether it truly be for the personal^glory of proving that you are the best^Genie or a genuine concern for the^fate of Terra, it was very admirable^of you to aid Ť on his quest.¤To involve yourself in the affairs of^others, let alone aiding human, you^now have your chance to prove you are^indeed the most powerful genie in^all of the land.¤But know this, the Dark Genie will^not go out without a fight...";
+            darkheavenRuby2 = "This is the final battle Ʀ,^Genie against Genie, magic against magic,^the Spirits cry out as you clash.¤The fate of Terra depends on which^side will prevail!¤This perilous journey has taken you^and your allies all around Terra and^now it´s finally met it´s end.";
+            darkheavenUngaga = "On that tragic night when the Genie^ravaged Terra, you fought to protect^your village.¤You fought to protect the^village you called home.¤As fate would have it you lost^everything, even the will to live...¤Despite the Genie´s best efforts to^destroy life on Terra, here you stand.¤That´s a testimate to the strength^you and your allies wield and the will^to succeed.¤Know that you are not fighting to^defend just your kinsfolk but also^those who you matter to you:^for Mikara.";
+            darkheavenUngaga2 = "The warriors of Muska Racka have^always been renowned for their bravery.¤The Spirits and I have watched from^afar for generations as the desert^tribes clashed on the battlefield.¤Ų, you possess a skill which^many warriors do not: compassion.¤Perhaps after the threat of the Genie^has been vanquished you can use that^compassion to unify the tribes and^bring peace to the desert.";
+            darkheavenOsmond = "I must say, when Ť and I^travelled to Yellow Drops I took the^opportunity to look down upon Terra^from the Moons.¤Looking at our world, our home, the^joy and suffering, it was a sobering^experience.¤Mankind has often dealt with an issue^of self-importance, Flagg Gilgister^is proof of that, but when I look¤at Ť and his allies I see a^band of brave adventurers taking^a stand to defend all life.¤I humbly thank you for involving^yourself in the affairs of Terra.¤Like it or not but for the moment,^this is where we make our stand.¤To preserve and cherish all life^in our world.";
+            darkheavenOsmond2 = "I wonder how the magical power of the^Dark Genie will compare with the cutting^edge technology of Yellow Drops´^greatest inventor.¤I must say that strange weapon you^wield scares me ohohohohoho!";
+
+
+        }
     }
 }
