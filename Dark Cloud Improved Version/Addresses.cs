@@ -2,14 +2,23 @@
 {
     class Addresses
     {
-        public const int mode = 0x202A2534; //Values: 0=Main title, 1=Intro, 2=Town, 3=Dungeon, 4=? (doesnt crash in dungeon), 5=Opening cutscene(dark shrine), 6=?, 7=Debug menu
+        public const int mode = 0x202A2534; //0=Main title;
+                                            //1=Intro;
+                                            //2=Town;
+                                            //3=Dungeon;
+                                            //4=? (doesnt crash in dungeon);
+                                            //5=Opening cutscene(dark shrine);
+                                            //6=?
+                                            //7=Debug menu
+
         public const int gilda = 0x21CDD892;
         public const int magicCrystal = 0x202A35A0;
         public const int map = 0x202A359C;
         public const int miniMap = 0x202A35B0;
         public const int visibility = 0x202A359C;
 
-        public const int ingameTimer = 0x21CD4314; //4 Bytes address that counts the time ingame
+        public const int sessionTimer = 0x202A2400; //Timer that runs from boot and does not stop;
+        public const int ingameTimer = 0x21CD4314;  //Timer that runs from boot/resumes from load and stops whenever the game is paused or not rendering anything;
 
         //Coordinates
         public const int positionX = 0x21D331D8;
@@ -31,7 +40,7 @@
                                                 //4 = Georama Mode
                                                 //5 = Last Menu accessed
                                                 //6 = Georama Menu
-                                                //7 = Transitioning to a menu
+                                                //7 = Transitioning to the last previous menu
                                                 //8 = Is on a menu (If forcing it while on a menu, goes to state 1, if on state 1 already it just gives a blank screen)
                                                 //9 = Pause
                                                 //10 = Pause without character models on the background
@@ -40,14 +49,24 @@
                                                 //14 = Time Transition (Cannot Set)
                                                 //16 = Fishing Mode
 
-        //Dungeon Stuff
+        public const int interiorMode = 0x202A2A84; //0 = Walking Mode
+                                                    //1 = Transitioning to the outside
+                                                    //2 = Finished unloading the interior
+                                                    //3 = Talking to NPC
+                                                    //4 = ???
+                                                    //5 = Pause the game
+                                                    //6 = Transitioning to the last previous menu
+                                                    //7 = Last previous menu
+                                                    //8+ = Freeze (CAN UNDO)
+                                                    //14 = Camera Zoom (still freeze, CAN UNDO)
+
         public const int dungeonClear = 0x21DF881C;     //If this int = 4294967281, the dungeon is likely cleared. No idea why.
         public const int dunPauseTitle = 0x202A35C4;    //Show the "PAUSE" title on screen (0 = OFF/1 = ON)
         public const int dunPausePlayer = 0x202A3564;   //Is the player model in the pause state (0 = OFF/1 = ON)
         public const int dunPauseEnemy = 0x202A34DC;    //Are the enemy models in the pause state (0 = OFF/1 = ON)
         public const int dunMessage = 0x21EA76B4;       //Message box to display while in dungeon - 4294967295 shows nothing
-        public const int dunMessageWidth = 0x21EB6438;
-        public const int dunMessageHeight = 0x21EB643C;
+        public const int dunMessageWidth = 0x21EB6438;  // Value is equal to the number of chars in a string (Ex: 5 -> width of a 5 char string)
+        public const int dunMessageHeight = 0x21EB643C; // Value is equal to the number of lines of a string paragraph (Ex: 2 -> paragraph with 2 lines)
         public const int dunMessage10 = 0x20998BB8;     //The address pointing to the text of the 10th dungeon message. 157 Byte array
         public const int dunMessage11 = 0x20998C8E;     //The address pointing to the text of the 11th dungeon message. 172 Byte array
         public const int healingSpeed = 0x202A2B88;     //Counts every 10 frames when the player is inside a fountain
@@ -55,7 +74,7 @@
         public const int dungDoorType = 0x21D56770;     //Tells us the type of door when interacting with X or Square
         public const int checkFloor = 0x21CD954E;       //Tells the current floor player is on, updates when entering the floor
         public const int checkDungeon = 0x202A3594;     //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
-        public const int dungeonMode = 0x202A355C;      //1 = Normal Mode
+        public const int dungeonMode = 0x202A355C;      //1 = Walking Mode
                                                         //2 = On Menu
                                                         //3 = Door Menu
                                                         //4 = ??

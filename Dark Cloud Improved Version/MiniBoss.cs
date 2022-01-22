@@ -36,6 +36,13 @@ namespace Dark_Cloud_Improved_Version
         static ushort[] itemTableLucky = { 150, 178, 235 };        //Stam Pot + Feather + PP
         static ushort[] itemTableUnlucky = { 132, 133, 134, 135 }; //Amulets
 
+        /// <summary>
+        /// Picks and transforms an enemy on the current floor to become a Champion (Miniboss).
+        /// </summary>
+        /// <param name="skipFirstRoll">To skip the spawning chance roll.</param>
+        /// <param name="dungeon">The number of the current dungeon.</param>
+        /// <param name="floor">The number of the current floor.</param>
+        /// <returns></returns>
         public static bool MiniBossSpawn(bool skipFirstRoll = false, byte dungeon = 255, byte floor = 255)
         {
             //Rolls for a 30% chance to spawn the miniboss
@@ -66,7 +73,7 @@ namespace Dark_Cloud_Improved_Version
                             //Get the enemy key ID
                             byte KeyId = Memory.ReadByte(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber));
 
-                            //Re-roll for a different enemy that does not hold the key and is non flying
+                            //Re-roll for a different enemy that does not hold the key (due to Wise Owl) and is non flying
                             do { newEnemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count); } while (newEnemyNumber == enemyNumber &&
                                                                                                                 Enemies.EnemyHasKey(newEnemyNumber, dungeon) &&
                                                                                                                 nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(newEnemyNumber)));

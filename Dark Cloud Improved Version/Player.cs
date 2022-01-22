@@ -5,7 +5,8 @@ namespace Dark_Cloud_Improved_Version
     internal class Player
     {
         public const int gilda = 0x21CDD892;
-        public const int inventorySizeItems = 0x21CDD8AC;
+        public const int inventoryCurrentSize = 0x21CDD8AD;
+        public const int inventoryTotalSize = 0x21CDD8AC;
         public const int inventorySizeWeapons = 65;
         public const int inventorySizeAttachments = 40;
 
@@ -65,7 +66,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static bool InDungeonFloor()
         {
-            if (Memory.ReadByte(0x21CD954F) != 255)         //Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
+            if (Memory.ReadByte(0x21CD954F) != 255)  //Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
                 return true;
 
             else
@@ -179,21 +180,23 @@ namespace Dark_Cloud_Improved_Version
         {
             public static int GetBagCurrentCount()
             {
-                int bagItemQuantity = 0;
+                /*int bagItemQuantity = 0;
                 int activeItemQuantity = GetActiveItemsQuantity();
 
                 foreach (int item in GetBagItems()){
                     if (item != -1) bagItemQuantity++; 
                 }
 
-                return bagItemQuantity + activeItemQuantity;
+                return bagItemQuantity + activeItemQuantity;*/
+
+                return Memory.ReadByte(inventoryCurrentSize);
 
             }
 
             public static bool CheckBagItemsFull()
             {
                 int currentCount = GetBagCurrentCount();
-                int maxCount = Memory.ReadByte(inventorySizeItems);
+                int maxCount = Memory.ReadByte(inventoryTotalSize);
 
                 if (currentCount >= maxCount) return true;
                 else return false;
@@ -236,7 +239,7 @@ namespace Dark_Cloud_Improved_Version
             public static void SetActiveItem(byte activeItemSlot, int itemId, int quantity)
             {
 
-                int inventorySize = Memory.ReadByte(inventorySizeItems);
+                int inventorySize = Memory.ReadByte(inventoryTotalSize);
 
                 if (GetBagCurrentCount() < inventorySize)
                 {
@@ -270,8 +273,8 @@ namespace Dark_Cloud_Improved_Version
             
             {
                 const byte itemOffset = 0x2;
-                byte inventorySize = Memory.ReadByte(inventorySizeItems);
-                int[] inventoryItems = new int[inventorySize];
+                byte inventorySize = Memory.ReadByte(inventoryTotalSize);
+                int[] inventoryItems = new int[inventorySize + 2]; //The 2 is to account for 2 extra yellow item slots
 
                 //Run through the inventory bag
                 for (int slot = 0; slot < inventorySize; slot++)
@@ -320,7 +323,7 @@ namespace Dark_Cloud_Improved_Version
                 }
                 catch
                 {
-                    if (slot > inventorySizeItems && itemId >= Items.dummy129 || itemId <= Items.dummy256) SetBagItems(GetBagItemsFirstAvailableSlot(), itemId);
+                    if (slot > inventoryTotalSize && itemId >= Items.dummy129 || itemId <= Items.dummy256) SetBagItems(GetBagItemsFirstAvailableSlot(), itemId);
                     else Console.WriteLine("\nInvalid inputs for SetBagItems");
                 }
                 Console.WriteLine("\nFinished SetBagItems process!");
@@ -557,7 +560,7 @@ namespace Dark_Cloud_Improved_Version
                         }
                         catch
                         {
-                            if (slot > inventorySizeItems && (attachmentId >= Items.fire && attachmentId <= Items.mageslayer)) SetBagAttachments(attachmentId, GetBagAttachmentsFirstAvailableSlot());
+                            if (slot > inventoryTotalSize && (attachmentId >= Items.fire && attachmentId <= Items.mageslayer)) SetBagAttachments(attachmentId, GetBagAttachmentsFirstAvailableSlot());
                             else Console.WriteLine("Invalid inputs for SetBagAttachments\n");
                         }
                     }
