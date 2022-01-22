@@ -64,6 +64,8 @@ namespace Dark_Cloud_Improved_Version
         public static bool fishingQuestPaoActive = false;
         public static bool fishingQuestSamActive = false;
         public static bool fishingQuestDeviaActive = false;
+        public static bool hasMardanSword = false;
+        public static byte mardanMultiplier;
         
         public static int onDialogueFlag = 0;
         public static int sidequestonDialogueFlag = 0;
@@ -935,6 +937,7 @@ namespace Dark_Cloud_Improved_Version
                     fishingQuestSamActive = false;
                     fishingQuestDeviaActive = false;
                     fishingQuestCheck = false;
+                    CheckMardanSword();
                 }
 
                 if (fishingActive == true)
@@ -1359,6 +1362,37 @@ namespace Dark_Cloud_Improved_Version
                         minFishSize = Memory.ReadByte(0x21CE441B);
                         maxFishSize = Memory.ReadByte(0x21CE441C);
                     }
+                    if (hasMardanSword)
+                    {
+                        Thread.Sleep(300);
+                        currentAddress = 0x214798E0;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (fishArray[i] != 5)
+                            {
+                                if (fishArray[i] != 17)
+                                {
+                                    int FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x00000004;
+                                    FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x0000240C;
+                                    Console.WriteLine("Mardan multiplied FP's");
+                                }
+                                else
+                                {
+                                    currentAddress += 0x00002410;
+                                }
+                            }
+                            else
+                            {
+                                currentAddress += 0x00002410;
+                            }
+                        }
+                    }
                     fishingQuestCheck = true;
                 }
                 else
@@ -1435,6 +1469,37 @@ namespace Dark_Cloud_Improved_Version
                         minFishSize = Memory.ReadByte(0x21CE4423);
                         maxFishSize = Memory.ReadByte(0x21CE4424);                    
                     }
+                    if (hasMardanSword)
+                    {
+                        Thread.Sleep(300);
+                        currentAddress = 0x214D9920;
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (fishArray[i] != 5)
+                            {
+                                if (fishArray[i] != 17)
+                                {
+                                    int FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x00000004;
+                                    FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x0000240C;
+                                    Console.WriteLine("Mardan multiplied FP's");
+                                }
+                                else
+                                {
+                                    currentAddress += 0x00002410;
+                                }
+                            }
+                            else
+                            {
+                                currentAddress += 0x00002410;
+                            }
+                        }
+                    }
                     fishingQuestCheck = true;
                 }
                 else
@@ -1510,6 +1575,37 @@ namespace Dark_Cloud_Improved_Version
 
                         minFishSize = Memory.ReadByte(0x21CE442C);
                         maxFishSize = Memory.ReadByte(0x21CE442D);                      
+                    }
+                    if (hasMardanSword)
+                    {
+                        Thread.Sleep(300);
+                        currentAddress = 0x20DE0720;
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (fishArray[i] != 5)
+                            {
+                                if (fishArray[i] != 17)
+                                {
+                                    int FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x00000004;
+                                    FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x0000240C;
+                                    Console.WriteLine("Mardan multiplied FP's");
+                                }
+                                else
+                                {
+                                    currentAddress += 0x00002410;
+                                }
+                            }
+                            else
+                            {
+                                currentAddress += 0x00002410;
+                            }
+                        }
                     }
                     fishingQuestCheck = true;
                 }
@@ -1604,6 +1700,37 @@ namespace Dark_Cloud_Improved_Version
                         minFishSize = Memory.ReadByte(0x21CE4436);
                         maxFishSize = Memory.ReadByte(0x21CE4437);                      
                     }
+                    if (hasMardanSword)
+                    {
+                        Thread.Sleep(300);
+                        currentAddress = 0x213C3160;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (fishArray[i] != 5)
+                            {
+                                if (fishArray[i] != 17)
+                                {
+                                    int FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x00000004;
+                                    FPavg = Memory.ReadInt(currentAddress);
+                                    FPavg = FPavg * mardanMultiplier;
+                                    Memory.WriteInt(currentAddress, FPavg);
+                                    currentAddress += 0x0000240C;
+                                    Console.WriteLine("Mardan multiplied FP's");
+                                }
+                                else
+                                {
+                                    currentAddress += 0x00002410;
+                                }
+                            }
+                            else
+                            {
+                                currentAddress += 0x00002410;
+                            }
+                        }
+                    }
                     fishingQuestCheck = true;
                 }
                 else
@@ -1670,6 +1797,35 @@ namespace Dark_Cloud_Improved_Version
                 fishflag += 0x00000001;
             }
             Memory.WriteByte(fishflag, 1);
+        }
+
+        public static void CheckMardanSword()
+        {
+            int slot = Player.Toan.GetWeaponSlot();
+            int currentwepID = Memory.ReadUShort(0x21CDDA58 + (slot * 0xF8));
+
+            if (currentwepID == 278)
+            {
+                hasMardanSword = true;
+                mardanMultiplier = 2;
+                Console.WriteLine("Player has Mardan Eins");
+            }
+            else if (currentwepID == 279)
+            {
+                hasMardanSword = true;
+                mardanMultiplier = 3;
+                Console.WriteLine("Player has Mardan Twei");
+            }
+            else if (currentwepID == 280)
+            {
+                hasMardanSword = true;
+                mardanMultiplier = 5;
+                Console.WriteLine("Player has Arise Mardan");
+            }
+            else
+            {
+                hasMardanSword = false;
+            }
         }
     }
 }
