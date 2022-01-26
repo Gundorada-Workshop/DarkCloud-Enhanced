@@ -1038,12 +1038,16 @@ namespace Dark_Cloud_Improved_Version
         public static void FixBrokenDagger()
         {
             currentAddress = 0x21839528;
+            byte[] arrayy = new byte[18000];
 
-            for (int i = 0; i < 4500; i++)
+            Memory.WriteByteArray(currentAddress, arrayy);
+
+            /*for (int i = 0; i < 4500; i++)
             {
                 Memory.WriteInt(currentAddress, 0);
                 currentAddress += 0x00000004;
             }
+            */
             Console.WriteLine("Broken dagger fix finished");
         }
 

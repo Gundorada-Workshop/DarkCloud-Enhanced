@@ -64,6 +64,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread babelSpearThread = new Thread(new ThreadStart(CustomEffects.BabelSpear));
         public static Thread supernovaThread = new Thread(new ThreadStart(CustomEffects.Supernova));
         public static Thread starBreakerThread = new Thread(new ThreadStart(CustomEffects.StarBreaker));
+        public static Thread elementSwapThread = new Thread(new ThreadStart(Dayuppy.ElementSwapping)); //Create a new thread to run monitorElementSwapping()
         public static Thread dunEscapeConfirmThread;
 
         public static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
@@ -71,6 +72,7 @@ namespace Dark_Cloud_Improved_Version
         {
             Console.WriteLine("Dungeon Thread Activated");
             cheatCodeThread.Start();
+            elementSwapThread.Start();
             while (true)
             {
                 if (Player.InDungeonFloor())
