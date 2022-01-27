@@ -73,6 +73,7 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine("Dungeon Thread Activated");
             cheatCodeThread.Start();
             elementSwapThread.Start();
+            Resources.initiateRubyMemeFix();
             while (true)
             {
                 if (Player.InDungeonFloor())
@@ -921,7 +922,7 @@ namespace Dark_Cloud_Improved_Version
                                         Memory.WriteByte(0x21CDD8B2 + (0x2 * currentSlot), currentPowders);
                                         if (currentPowders == 0)
                                         {
-                                            Memory.WriteUShort(currentActiveItem, 0);
+                                            Memory.WriteUShort(currentActiveItem, 65535);
                                         }
                                     }
                                 }
@@ -936,39 +937,38 @@ namespace Dark_Cloud_Improved_Version
                         if (squareActive == false)
                         {
                             ushort currentmaxWHP = Player.Weapon.GetCurrentWeaponMaxWhp();
-                            float currentWHP = Player.Weapon.GetCurrentWeaponWhp();
-                            if (currentWHP < currentmaxWHP)
+
+                            int currentChar = Memory.ReadByte(0x21CD9550);
+                            int currentWepNum = Memory.ReadByte(0x21CDD88C + (0x1 * currentChar));
+                            int whp;
+
+                            if (currentChar == 0)
                             {
-                                int currentChar = Memory.ReadByte(0x21CD9550);
-                                int currentWepNum = Memory.ReadByte(0x21CDD88C + (0x1 * currentChar));
-                                int whp;
-
-                                if (currentChar == 0)
-                                {
-                                    whp = Player.Toan.WeaponSlot0.whp + (0xF8 * currentWepNum);
-                                }
-                                else if (currentChar == 1)
-                                {
-                                    whp = Player.Xiao.WeaponSlot0.whp + (0xF8 * currentWepNum);
-                                }
-                                else if (currentChar == 2)
-                                {
-                                    whp = Player.Goro.WeaponSlot0.whp + (0xF8 * currentWepNum);
-                                }
-                                else if (currentChar == 3)
-                                {
-                                    whp = Player.Ruby.WeaponSlot0.whp + (0xF8 * currentWepNum);
-                                }
-                                else if (currentChar == 4)
-                                {
-                                    whp = Player.Ungaga.WeaponSlot0.whp + (0xF8 * currentWepNum);
-                                }
-                                else
-                                {
-                                    whp = Player.Osmond.WeaponSlot0.whp + (0xF8 * currentWepNum);
-                                }
-
-
+                                whp = Player.Toan.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                            }
+                            else if (currentChar == 1)
+                            {
+                                whp = Player.Xiao.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                            }
+                            else if (currentChar == 2)
+                            {
+                                whp = Player.Goro.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                            }
+                            else if (currentChar == 3)
+                            {
+                                whp = Player.Ruby.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                            }
+                            else if (currentChar == 4)
+                            {
+                                whp = Player.Ungaga.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                            }
+                            else
+                            {
+                                whp = Player.Osmond.WeaponSlot0.whp + (0xF8 * currentWepNum);
+                            }
+                            float currentWHP = Memory.ReadFloat(whp);
+                            if (currentWHP < currentmaxWHP)
+                            {                         
                                 Memory.WriteFloat(whp, currentmaxWHP);
                                 Dayuppy.DisplayMessage("Used Repair Powder!", 1, 20, 2000);
                                 byte currentPowders = Memory.ReadByte(0x21CDD8B2 + (0x2 * currentSlot));
@@ -977,7 +977,7 @@ namespace Dark_Cloud_Improved_Version
                                 squareActive = true;
                                 if (currentPowders == 0)
                                 {
-                                    Memory.WriteUShort(currentActiveItem, 0);
+                                    Memory.WriteUShort(currentActiveItem, 65535);
                                 }
                             }
                         }

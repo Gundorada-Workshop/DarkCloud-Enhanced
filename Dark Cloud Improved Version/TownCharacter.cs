@@ -100,6 +100,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(0x2027DC94, 8); //change magical crystal ordering
             Memory.WriteByte(0x20291CEE, 1); //make hardening powder cost 1g
             Memory.WriteByte(0x2027D808, 0); //make escape powder equippable+stackable
+            Memory.WriteByte(0x2027D7F8, 2); //make escape powder have arrow point to active slots
             Memory.WriteByte(0x2027D81C, 0); //make revival powder stackable
             Memory.WriteByte(0x2027D830, 0); //make repair powder equipable+stackable
             Memory.WriteByte(0x2027D8A8, 0); //make auto-repair powder stackable
@@ -538,9 +539,16 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteByte(0x21F10000, 0);
                     }
 
+
                     if (Memory.ReadByte(0x21CDD80D) != 255)
                     {
                         Memory.WriteByte(0x21F10004, 1); //enable yaya
+                    }
+
+                    if (Memory.ReadByte(0x21F10014) == 1)
+                    {
+                        Memory.WriteByte(0x20415508, 0); //disable mayor door event
+                        Memory.WriteByte(0x20415538, 0); //disable mayor door event mark
                     }
 
                     int checkNearNPC = 0;
@@ -668,7 +676,14 @@ namespace Dark_Cloud_Improved_Version
 
                         if (sidequestOptionFlag == true)
                         {
-                            Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                            if (Memory.ReadByte(0x21F10014) == 1)
+                            {
+                                Memory.WriteInt(0x21D3D438, sidequestDialogueID);                             
+                            }
+                            else
+                            {
+                                Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                            }
                             SetSideQuestDialogue();
 
                             if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
@@ -1113,6 +1128,8 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Memory.WriteOneByte(0x2041495E, BitConverter.GetBytes(1)); //disable fishing
                     Dialogues.SetFishingDisabledDialogue(currentArea);
+                    Memory.WriteByte(0x20420B6C, 0); //disable submarine
+                    Memory.WriteByte(0x20420B7C, 0); //disable submarine
                 }
                 else if (currentArea == 3)
                 {
