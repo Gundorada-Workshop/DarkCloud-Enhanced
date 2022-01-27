@@ -110,9 +110,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\PNACH\A5C05C78.pnach">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PNACH\A5C05C78.pnach" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Fire" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Holy" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Ice" />
