@@ -681,36 +681,45 @@ namespace Dark_Cloud_Improved_Version
 
         public static void CheckElements(byte currentElem)
         {
+
             string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            byte[] bytes;
             int addressPointer = Memory.ReadInt(0x202A2DDC);
+            
             addressPointer += 0x20000000;
 
             switch (currentElem)
             {
                 case 0:
-                    var bytes = File.ReadAllBytes(path + @"\fire.txt");
+                    bytes = Resources.rubyFireTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    Console.WriteLine("Wrote fire texture");
+                    //Console.WriteLine("Wrote fire texture");
+
                     break;
                 case 1:
-                    bytes = File.ReadAllBytes(path + @"\ice.txt");
+                    bytes = Resources.rubyIceTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    Console.WriteLine("Wrote ice texture");
+                    //Console.WriteLine("Wrote ice texture");
+
                     break;
                 case 2:
-                    bytes = File.ReadAllBytes(path + @"\thunder.txt");
+                    bytes = Resources.rubyThunderTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    Console.WriteLine("Wrote thunder texture");
+                    //Console.WriteLine("Wrote thunder texture");
+
                     break;
                 case 3:
-                    bytes = File.ReadAllBytes(path + @"\wind.txt");
+                    bytes = Resources.rubyWindTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    Console.WriteLine("Wrote wind texture");
+                    //Console.WriteLine("Wrote wind texture");
+
                     break;
                 case 4:
-                    bytes = File.ReadAllBytes(path + @"\holy.txt");
+                    bytes = Resources.rubyHolyTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    Console.WriteLine("Wrote holy texture");
+                    //Console.WriteLine("Wrote holy texture");
+
                     break;
             }
         }
@@ -1024,6 +1033,8 @@ namespace Dark_Cloud_Improved_Version
 
         public static void Testing()
         {
+            Resources.initiateRubyMemeFix(); //Load the texture resources to fix the Ruby Meme into memory.
+
             //CheatCodes.InputBuffer.Monitor();
 
             //List<int> results = Memory.StringSearch(0x20000000, 0x22000000, "TIM2");
