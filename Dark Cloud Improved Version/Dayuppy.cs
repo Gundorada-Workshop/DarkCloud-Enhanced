@@ -532,7 +532,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (elemSwitching == false)
                         {
-                            if (Player.InDungeonFloor() == true && Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0)
+                            if (Player.InDungeonFloor() == true && (Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0 || Memory.ReadUInt(Addresses.dungeonDebugMenu) == 10))
                             {
                                 byte currentSlot = Memory.ReadByte(0x21CDD88C + (currentCharacter * 0x1));
                                 int currentWepElemAddr;
@@ -682,32 +682,34 @@ namespace Dark_Cloud_Improved_Version
         public static void CheckElements(byte currentElem)
         {
             string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            int addressPointer = Memory.ReadInt(0x202A2DDC);
+            addressPointer += 0x20000000;
 
             switch (currentElem)
             {
                 case 0:
                     var bytes = File.ReadAllBytes(path + @"\fire.txt");
-                    Memory.WriteByteArray(0x217FD840, bytes);
+                    Memory.WriteByteArray(addressPointer, bytes);
                     Console.WriteLine("Wrote fire texture");
                     break;
                 case 1:
                     bytes = File.ReadAllBytes(path + @"\ice.txt");
-                    Memory.WriteByteArray(0x217FD840, bytes);
+                    Memory.WriteByteArray(addressPointer, bytes);
                     Console.WriteLine("Wrote ice texture");
                     break;
                 case 2:
                     bytes = File.ReadAllBytes(path + @"\thunder.txt");
-                    Memory.WriteByteArray(0x217FD840, bytes);
+                    Memory.WriteByteArray(addressPointer, bytes);
                     Console.WriteLine("Wrote thunder texture");
                     break;
                 case 3:
                     bytes = File.ReadAllBytes(path + @"\wind.txt");
-                    Memory.WriteByteArray(0x217FD840, bytes);
+                    Memory.WriteByteArray(addressPointer, bytes);
                     Console.WriteLine("Wrote wind texture");
                     break;
                 case 4:
                     bytes = File.ReadAllBytes(path + @"\holy.txt");
-                    Memory.WriteByteArray(0x217FD840, bytes);
+                    Memory.WriteByteArray(addressPointer, bytes);
                     Console.WriteLine("Wrote holy texture");
                     break;
             }
@@ -860,7 +862,7 @@ namespace Dark_Cloud_Improved_Version
 
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
-            Thread.Sleep(50);
+            //Thread.Sleep(50);
             Memory.WriteInt(Addresses.dunMessageHeight, height);
             Memory.WriteInt(Addresses.dunMessageWidth, width);
             Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
@@ -877,7 +879,7 @@ namespace Dark_Cloud_Improved_Version
         {
             Thread.Sleep(displayTime);
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-            Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
+            //Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
             //messageThread.Abort();
         }
 
