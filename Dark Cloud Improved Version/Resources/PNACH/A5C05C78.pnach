@@ -1,0 +1,269 @@
+gametitle=Dark Cloud [SCUS 97111] (U) [A5C05C78]
+
+patch=1,EE,E1010003,extended,002A2534 //check if in dungeon
+patch=1,EE,201F7600,extended,0C08B44C //write jal MenuTexDel
+patch=1,EE,E1010003,extended,102A2534 //check if not dungeon
+patch=1,EE,201F7600,extended,0C05DEFC //write jal EditSave
+
+//Ally Switching in Town
+patch=1,EE,E1040001,extended,01D90470 //cursor on Xiao
+patch=1,EE,E1010002,extended,21CD9551 //if ally amount < 2
+patch=1,EE,201F7DB4,extended,0C08B3BC //write jal coMeSePlay
+patch=1,EE,E1010001,extended,31CD9551 //if ally amount > 1
+patch=1,EE,201F7DB4,extended,0C05E0E0 //write jal EditInit (reload map) 
+
+patch=1,EE,E1040002,extended,01D90470 //cursor on Goro
+patch=1,EE,E1010003,extended,21CD9551 //if ally amount < 3
+patch=1,EE,201F7DB4,extended,0C08B3BC //write jal coMeSePlay
+patch=1,EE,E1010002,extended,31CD9551 //if ally amount > 2
+patch=1,EE,201F7DB4,extended,0C05E0E0 //write jal EditInit (reload map)
+
+patch=1,EE,E1040003,extended,01D90470 //cursor on Ruby
+patch=1,EE,E1010004,extended,21CD9551 //if ally amount < 4
+patch=1,EE,201F7DB4,extended,0C08B3BC //write jal coMnuSPlay
+patch=1,EE,E1010003,extended,31CD9551 //if ally amount > 3
+patch=1,EE,201F7DB4,extended,0C05E0E0 //write jal EditInit (reload map)
+
+patch=1,EE,E1040004,extended,01D90470 //cursor on Ungaga
+patch=1,EE,E1010005,extended,21CD9551 //if ally amount < 5
+patch=1,EE,201F7DB4,extended,0C08B3BC //write jal coMeSePlay
+patch=1,EE,E1010004,extended,31CD9551 //if ally amount > 4
+patch=1,EE,201F7DB4,extended,0C05E0E0 //write jal EditInit (reload map)
+
+patch=1,EE,E1040005,extended,01D90470 //cursor on Osmond
+patch=1,EE,E1010006,extended,21CD9551
+patch=1,EE,201F7DB4,extended,0C08B3BC
+patch=1,EE,E1010005,extended,31CD9551
+patch=1,EE,201F7DB4,extended,0C05E0E0
+
+patch=1,EE,E1010000,extended,01D90470 //if cursor on toan
+patch=1,EE,201F7DB4,extended,0C05E0E0 //write jal EditInit
+
+
+patch=1,EE,E1066135,extended,01909B63 //check if ruby enabled
+patch=1,EE,E1053130,extended,01909B65 //check if ruby enabled
+patch=1,EE,21909C4D,extended,2C303609 //fix animation
+patch=1,EE,21909C51,extended,2C303809 //fix animation
+patch=1,EE,21909C55,extended,342E3009 //fix animation
+patch=1,EE,21909C6F,extended,2C303309 //fix animation
+patch=1,EE,21909C73,extended,2C303509 //fix animation
+
+
+//Handling event cutscenes, talk dialogues etc.
+patch=1,EE,E1453063,extended,1029AA0E //check if not toan
+patch=1,EE,2016C0A4,extended,24020008 //disable stairs
+patch=1,EE,2016C0B0,extended,24020008 //disable stairs
+patch=1,EE,2017A24C,extended,00000000 //disable cutscenes
+patch=1,EE,2017A27C,extended,00000000 //disable cutscenes
+patch=1,EE,E1050003,extended,002A2518 //check if muska lacka
+patch=1,EE,E1040001,extended,002A2820 //check if jibubu house
+patch=1,EE,E1010001,extended,002A281C //check if inside
+patch=1,EE,2019DEA8,extended,00000000 //disable talk event
+patch=1,EE,E1010000,extended,002A281C //check if outside
+patch=1,EE,2019DEA8,extended,0C066F10 //re-enable events
+patch=1,EE,E10B0002,extended,002A2518 //check if queens
+patch=1,EE,E1040007,extended,002A2820 //check if basker
+patch=1,EE,E1010001,extended,002A281C //check if inside
+patch=1,EE,20173008,extended,00000000 //disable itemmenu event
+patch=1,EE,E1010000,extended,002A281C //check if outside
+patch=1,EE,20173008,extended,0C089050 //re-enable item menu
+patch=1,EE,E1050005,extended,002A2820 //check if yaya
+patch=1,EE,E1040000,extended,01F10004 //check sun/moon flag
+patch=1,EE,E1010001,extended,002A281C //check if inside
+patch=1,EE,2019DEA8,extended,00000000 //disable talk event
+patch=1,EE,E1010000,extended,002A281C //check if outside
+patch=1,EE,2019DEA8,extended,0C066F10 //re-enable events
+patch=1,EE,E1050001,extended,002A2518 //check if matataki
+patch=1,EE,E1040002,extended,002A2820 //check if bunbuku
+patch=1,EE,E1010001,extended,002A281C //check if inside
+patch=1,EE,2019DEA8,extended,00000000 //disable talk event
+patch=1,EE,E1010000,extended,002A281C //check if outside
+patch=1,EE,2019DEA8,extended,0C066F10 //re-enable events
+patch=1,EE,E1050000,extended,002A2518 //check if norune
+patch=1,EE,E1010001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,240200F7 //change dialogue ID
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,24020015 //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1050001,extended,002A2518 //check if matataki
+patch=1,EE,E1010001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,240200A7 //change dialogue ID
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402001B //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1050002,extended,002A2518 //check if queens
+patch=1,EE,E1010001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,24020057 //change dialogue ID
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402001B //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1050003,extended,002A2518 //check if muska
+patch=1,EE,E1010001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402001B //change dialogue ID
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402011F //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1050017,extended,002A2518 //check if yellowdrops
+patch=1,EE,E1010001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,240200F0 //change dialogue ID
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000A //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E105000E,extended,002A2518 //check if brownboo
+patch=1,EE,E1010001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,240200C8 //change dialogue ID
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000A //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1040026,extended,002A2518 //check if darkheaven
+patch=1,EE,E1010001,extended,01F10008 //check nearNPC flag
+patch=1,EE,21D3D434,extended,00000065 //change dialogue ID
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,21D3D434,extended,00000064 //change dialogue ID
+
+
+
+patch=1,EE,E1060000,extended,002A2518 //check if norune
+patch=1,EE,E105FFFF,extended,002A2820 //check if mayor
+patch=1,EE,E1030001,extended,002A281C //check if inside
+patch=1,EE,20199048,extended,24020000 //give dialogueoptions
+patch=1,EE,21D3D474,extended,0000000B //dialogueoptions ID
+patch=1,EE,21F10014,extended,00000001 //inside mayor flag
+patch=1,EE,E1020000,extended,002A281C //check if not inside
+patch=1,EE,20199048,extended,2402FFFF //del dialogueoptions
+patch=1,EE,21F10014,extended,00000000 //outside mayor flag
+
+patch=1,EE,E10B3063,extended,0029AA0E //check if toan
+patch=1,EE,2016C0A4,extended,24020004 //re-enable stairs
+patch=1,EE,2016C0B0,extended,24020005 //re-enable stairs
+patch=1,EE,2017A24C,extended,0C062604 //re-enable cutscenes
+patch=1,EE,2017A27C,extended,0C05DE7C //re-enable cutscenes
+patch=1,EE,E102000E,extended,102A2518 //check if not brownboo
+patch=1,EE,20199388,extended,3C0101D4 //return dialogues
+patch=1,EE,2019938C,extended,8C22D434 //return dialogues
+patch=1,EE,20173008,extended,0C089050 //re-enable item menu
+patch=1,EE,E1020017,extended,102A2518 //check if not yeldrops
+patch=1,EE,2019939C,extended,3C0101D4 //return dialogues
+patch=1,EE,201993A0,extended,8C22D474 //return dialogues
+
+//patch=1=EE,E1010001,extended,01F10008 //check nearNPCflag
+//patch=1,EE,20199388,extended,24020066 //change dialogue ID
+//patch=1,EE,E1010000,extended,01F10008 //check nearNPCflag
+//patch=1,EE,20199388,extended,24020015 //change dialogue ID
+//patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+
+patch=1,EE,E130000E,extended,002A2518 //check if brownboo
+patch=1,EE,E1253063,extended,0029AA0E //check if toan
+patch=1,EE,E1090001,extended,01D29938 //check if near pickle
+patch=1,EE,E1050001,extended,01F10010 //check nearNPC flag
+patch=1,EE,20199388,extended,240200C8 //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1020000,extended,01CE43FE //check talkhistory flag
+patch=1,EE,E10100C8,extended,01D1CC0C //check current dialogue
+patch=1,EE,21CE43FE,extended,00000001 //set talked flag
+patch=1,EE,E1020000,extended,01F10010 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000A //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E10A0005,extended,01D28474 //check for mint ID
+patch=1,EE,E1090001,extended,01D28498 //check if near mint
+patch=1,EE,E1050001,extended,01F10010 //check nearNPC flag
+patch=1,EE,20199388,extended,240200C8 //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1020000,extended,01CE444B //check talkhistory flag
+patch=1,EE,E10100C8,extended,01D1CC0C //check current dialogue
+patch=1,EE,21CE444B,extended,00000001 //set talked flag
+patch=1,EE,E1020000,extended,01F10010 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000A //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E10A0003,extended,01D28474 //check for cool ID
+patch=1,EE,E1090001,extended,01D28498 //check if near cool
+patch=1,EE,E1050001,extended,01F10010 //check nearNPC flag
+patch=1,EE,20199388,extended,240200C8 //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E10200FF,extended,11CDD811 //check if DS not 255
+patch=1,EE,E10100C8,extended,01D1CC0C //check current dialogue
+patch=1,EE,21CE4455,extended,00000001 //set sidequest start
+patch=1,EE,E1020000,extended,01F10010 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000A //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1040000,extended,01D28498 //check if notnear cool
+patch=1,EE,E1030000,extended,01D29938 //check ifnotnear pickle
+patch=1,EE,E1020000,extended,01D28498 //check ifnotnear mint
+patch=1,EE,20199388,extended,3C0101D4 //return dialogues
+patch=1,EE,2019938C,extended,8C22D434 //return dialogues
+patch=1,EE,E1093063,extended,1029AA0E //check if not toan
+patch=1,EE,E1050001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,240200C8 //change dialogue ID
+patch=1,EE,E1030001,extended,01D29938 //check if near pickle
+patch=1,EE,E1020000,extended,01CE43FE //check talkhistory flag
+patch=1,EE,E10100C8,extended,01D1CC0C //check current dialogue
+patch=1,EE,21CE43FE,extended,00000001 //set talked flag
+patch=1,EE,E1010000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000A //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+
+patch=1,EE,E10B0017,extended,002A2518 //check if yellowdrops
+patch=1,EE,2019939C,extended,2402000C //change dialogue ID
+patch=1,EE,201993A0,extended,00000000 //change dialogue ID
+patch=1,EE,E1080001,extended,002A281C //check if inside house
+patch=1,EE,E1070106,extended,01D1CC0C //check current dialogue
+patch=1,EE,E1060006,extended,01CD9551 //if ally amount > 5
+patch=1,EE,E1020000,extended,01D26FD4 //check NPC ID (shop)
+patch=1,EE,E1010000,extended,01CE4459 //check talkhistory
+patch=1,EE,21CE4459,extended,00000001 //set talked flag
+patch=1,EE,E1020001,extended,01D26FD4 //check NPC ID (storage)
+patch=1,EE,E1010000,extended,01CE445E //check talkhistory
+patch=1,EE,21CE445E,extended,00000001 //set talked flag
+
+patch=1,EE,E10A002A,extended,002A2518 //check if SM-entrance
+patch=1,EE,E1063063,extended,1029AA0E //check if not toan
+patch=1,EE,E1020001,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000C //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1020000,extended,01F10008 //check nearNPC flag
+patch=1,EE,20199388,extended,2402000A //change dialogue ID
+patch=1,EE,2019938C,extended,00000000 //change dialogue ID
+patch=1,EE,E1023063,extended,0029AA0E //check if toan
+patch=1,EE,20199388,extended,3C0101D4 //return dialogues
+patch=1,EE,2019938C,extended,8C22D434 //return dialogues
+
+patch=1,EE,E1020000,extended,01CE205C //check lim zone
+patch=1,EE,201AFA10,extended,8C235040 //disable heal
+patch=1,EE,202A2B88,extended,0000000A //disable heal
+patch=1,EE,E1010000,extended,11CE205C //check lim zone
+patch=1,EE,201AFA10,extended,8C235050 //enable heal
+
+patch=1,EE,E1020000,extended,01F10018 //check elementFlag
+patch=1,EE,2012D080,extended,0C04B084 //jal getvsync
+patch=1,EE,2012D08C,extended,10000004 //beq thing
+patch=1,EE,E1030001,extended,01F10018 //check elementFlag
+patch=1,EE,2012D080,extended,0C08345C //jal dngwep
+patch=1,EE,2012D08C,extended,0C08342C //jal menuweaponeff
+patch=1,EE,21F10018,extended,00000000 //reset elementFlag
+
+
+
+
+patch=1,EE,E1010000,extended,11CE4464 //check mayorquest flag
+patch=1,EE,2020C8E4,extended,3C0242DC //change max thirst
+
+
+//patch=1,EE,2016BED8,extended,104000E6 //disable events
+
+//patch=1,EE,2016C084,extended,24020004
+
+patch=1,EE,E1020003,extended,002A2518 //check if muska lacka
+patch=1,EE,21D3CB68,extended,00000001 //force jibubu inside
+patch=1,EE,21D3CB6C,extended,00000001
+
+patch=1,EE,E1010001,extended,01F10000 //check eventpoint flag
+patch=1,EE,20184020,extended,00000000 //disable eventpoints
+patch=1,EE,E1010000,extended,01F10000
+patch=1,EE,20184020,extended,8E830010 //re-enable eventpoints
+
+patch=1,EE,E1010001,extended,01F1000C //check xiaoFlag
+patch=1,EE,2016A094,extended,3C0240A0 //change 1st person cam
+patch=1,EE,E1010000,extended,01F1000C //check if not xiaoFlag
+patch=1,EE,2016A094,extended,3C024160 //change 1st person cam
+
+patch=1,EE,201714A8,extended,3C024110 //start town bgm earlier

@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Addresses.cs" />
     <Compile Include="CheatCodes.cs" />
+    <Compile Include="Resources.cs" />
     <Compile Include="SideQuestManager.cs" />
     <Compile Include="MiniBoss.cs" />
     <Compile Include="TASThread.cs" />
@@ -109,12 +110,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\PNACH\A5C05C78.pnach">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\RubyMemeFix\Fire" />
+    <EmbeddedResource Include="Resources\RubyMemeFix\Holy" />
+    <EmbeddedResource Include="Resources\RubyMemeFix\Ice" />
+    <EmbeddedResource Include="Resources\RubyMemeFix\Thunder" />
+    <EmbeddedResource Include="Resources\RubyMemeFix\Wind" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\thunder.txt" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
