@@ -86,7 +86,7 @@ namespace Dark_Cloud_Improved_Version
         public static int characterIDData;
         public static int sidequestDialogueID = 0;
         
-        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014
+        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014, 21F10018 (element check), 21F1001C (clock check)
 
         public static void InitializeChrOffsets()
         {
@@ -843,9 +843,19 @@ namespace Dark_Cloud_Improved_Version
 
                 buildingCheck = Memory.ReadByte(0x202A281C); //is player inside house
 
-                if (Memory.ReadInt(0x202A2880) < 50) //check player duration in new area (to check if its a new/changed area)
+                int currentAreaFrames = Memory.ReadInt(0x202A2880);
+
+                if (currentAreaFrames < 25)
                 {
-                    if (Memory.ReadInt(0x202A2880) > 30 && areaChanged == false)
+                    if (currentAreaFrames > 5)
+                    {
+                        CheckClockAdvancement(currentArea);
+                    }
+                }
+
+                if (currentAreaFrames < 50) //check player duration in new area (to check if its a new/changed area)
+                {
+                    if (currentAreaFrames > 30 && areaChanged == false)
                     {
                         areaChanged = true;
                         CheckAllyFishing();
@@ -905,7 +915,9 @@ namespace Dark_Cloud_Improved_Version
                     changingLocation = true;
                     Console.WriteLine("changing location");
                     chrFilePath = "chara/c01d.chr";
-                    Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled
+                    Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled'
+
+                    
 
                     currentAddress = Addresses.chrFileLocation;
 
@@ -936,6 +948,18 @@ namespace Dark_Cloud_Improved_Version
                         currentAddress += 0x00000001;
 
                     }
+
+                    Thread.Sleep(350);
+                    if (Memory.ReadByte(0x21D2DA4C) < 61)
+                    {
+                        int timerCheck = 0;
+                        while (Memory.ReadByte(0x21D2DA4C) < 58 || timerCheck == 25)
+                        {
+                            Thread.Sleep(50);
+                            timerCheck++;
+                        }
+                    }
+                    Memory.WriteByte(0x21F1001C, 0);
                 }
 
                 if (Memory.ReadByte(0x202A1E90) == 255)
@@ -1357,6 +1381,22 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), 233);
                     }
                 }
+            }
+        }
+
+        public static void CheckClockAdvancement(int area)
+        {
+            if (area == 23 || area == 40 || area == 38)
+            {
+                float currentClock = Memory.ReadFloat(0x21CD4310);
+
+                Memory.WriteByte(0x21F1001C, 1);
+                Thread.Sleep(10);
+
+                Memory.WriteByte(0x203A3920, 0); //enable clock
+                Memory.WriteFloat(0x202A28F4, currentClock);
+
+                Console.WriteLine("Enabled clock");
             }
         }
 
