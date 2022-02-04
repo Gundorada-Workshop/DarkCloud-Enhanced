@@ -1121,6 +1121,9 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress = 0x20648FBA;
             }
 
+            byte[] dialogueArray = new byte[currentDialogue.Length * 2];
+            int currentByte = 0;
+            int dialogueAddress = currentAddress;
             for (int i = 0; i < currentDialogue.Length; i++)
             {
                 char character = currentDialogue[i];
@@ -1170,28 +1173,36 @@ namespace Dark_Cloud_Improved_Version
                 }
 
 
-                Memory.WriteByte(currentAddress, value1[0]);
+                //Memory.WriteByte(currentAddress, value1[0]);
+                dialogueArray[currentByte] = value1[0];
 
                 currentAddress += 0x00000001;
+                currentByte++;
 
                 if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
                 {
                     value1 = BitConverter.GetBytes(255);
-                    Memory.WriteByte(currentAddress, value1[0]);
+                    //Memory.WriteByte(currentAddress, value1[0]);
+                    dialogueArray[currentByte] = value1[0];
                 }
                 else if (value1[0] == 250 || value1[0] == 251 || value1[0] == 252 || value1[0] == 253 || value1[0] == 254 || value1[0] == 255)
                 {
                     value1 = BitConverter.GetBytes(250);
-                    Memory.WriteByte(currentAddress, value1[0]);
+                    //Memory.WriteByte(currentAddress, value1[0]);
+                    dialogueArray[currentByte] = value1[0];
                 }
                 else
                 {
                     value1 = BitConverter.GetBytes(253);
-                    Memory.WriteByte(currentAddress, value1[0]);
+                    //Memory.WriteByte(currentAddress, value1[0]);
+                    dialogueArray[currentByte] = value1[0];
                 }
 
                 currentAddress += 0x00000001;
+                currentByte++;
             }
+
+            Memory.WriteByteArray(dialogueAddress, dialogueArray);
 
             Memory.WriteByte(currentAddress, 1);
             currentAddress += 0x00000001;
