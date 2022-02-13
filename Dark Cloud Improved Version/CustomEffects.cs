@@ -8,6 +8,7 @@ namespace Dark_Cloud_Improved_Version
     public class CustomEffects
     {
         static int currentAddress;
+        public static bool evilciseNewFloor = false;
         public const int mode = 0x202A2534; //Values:
                                             //0=Main title
                                             //1=Intro
@@ -98,6 +99,32 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
             return acquired;
+        }
+
+        public static void Evilcise() //Currently unused effect due to memes happening
+        {
+            if (evilciseNewFloor == true)
+            {
+                Thread.Sleep(500);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (Memory.ReadByte(0x21E16BC8 + (i * 0x190)) == 8) 
+                    {
+                        Memory.WriteUShort(0x21E16C74 + (i * 0x190), 1);
+                    }
+                }
+
+                for (int i = 0; i < 20; i++)
+                {
+                    if (Memory.ReadUShort(0x21DD0360 + (i * 0x40)) < 40)
+                    {
+                        Memory.WriteByte(0x21DD0380 + (i * 0x40), 0);
+                    }
+                }
+
+                evilciseNewFloor = false;
+                Console.WriteLine("Evilcise effect activated!");
+            }
         }
 
         public static void SeventhHeaven()
@@ -281,6 +308,46 @@ namespace Dark_Cloud_Improved_Version
             }
         }
         //Reduces enemies size on hit
+
+        public static void Inferno()
+        {
+            float goroMaxHP = Memory.ReadUShort(0x21CD9556);
+            float goroCurrentHP = Memory.ReadUShort(0x21CD9562);
+
+            float hpPercentage = 100 - ((goroCurrentHP / goroMaxHP) * 100);
+            //Console.WriteLine("hpPercentage: " + hpPercentage);
+
+            float goroMaxThirst = Memory.ReadFloat(0x21CDD840);
+            float goroCurrentThirst = Memory.ReadFloat(0x21CDD858);
+
+            float thirstPercentage = 100 - ((goroCurrentThirst / goroMaxThirst) * 100);
+            //Console.WriteLine("thirstPercentage: " + thirstPercentage);
+
+            byte currentWepNum = Memory.ReadByte(0x21CDD88E);
+
+            ushort currentBaseAttack = Memory.ReadUShort(Player.Goro.WeaponSlot0.attack + (0xF8 * currentWepNum));
+
+            ushort attachmentsAttack = 0;
+
+            for (int i = 0; i < 4; i++)
+            {
+                attachmentsAttack += Memory.ReadUShort(0x21EA75C0 + (i * 0x20));
+            }
+
+            ushort currentTotalAttack = (ushort)(currentBaseAttack + attachmentsAttack);
+
+            if (currentTotalAttack > 350)
+            {
+                currentTotalAttack = 350;
+            }
+
+            ushort hpAttackBoost = (ushort)((currentTotalAttack / 100) * hpPercentage);
+
+            ushort thirstAttackBoost = (ushort)((currentTotalAttack / 100) * (thirstPercentage / 2));
+
+            Memory.WriteUShort(0x21EA7594, (ushort)(currentTotalAttack + hpAttackBoost + thirstAttackBoost));
+        }
+        //Increase attack power depending on health and thirst
 
         public static void MobiusRing()
         {

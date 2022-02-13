@@ -31,6 +31,9 @@ namespace Dark_Cloud_Improved_Version
         static bool dunEscapeConfirmSpamCheck = false;
         static bool dunUsedActiveEscape = false;
         static bool dunUsedEscapeCheck = false;
+        static bool wepMenuOpen = false;
+        static bool PPowdermenuOpen = false;
+        static byte[] wepLevelArray = new byte[10];
         public static bool monsterQuestMachoActive = false;
         public static bool monsterQuestGobActive = false;
         public static bool monsterQuestJakeActive = false;
@@ -56,9 +59,11 @@ namespace Dark_Cloud_Improved_Version
         //Weapon threads, only 1 should run at a time
         public static Thread boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
         public static Thread seventhHeavenThread = new Thread(new ThreadStart(CustomEffects.SeventhHeaven));
+        public static Thread evilciseThread = new Thread(new ThreadStart(CustomEffects.Evilcise));
         public static Thread dragonsYThread = new Thread(new ThreadStart(CustomEffects.DragonsY));
         public static Thread angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
         public static Thread tallHammerThread = new Thread(new ThreadStart(CustomEffects.TallHammer));
+        public static Thread infernoHammerThread = new Thread(new ThreadStart(CustomEffects.Inferno));
         public static Thread mobiusRingThread = new Thread(new ThreadStart(CustomEffects.MobiusRing));
         public static Thread herculesWrathThread = new Thread(new ThreadStart(CustomEffects.HerculesWrath));
         public static Thread babelSpearThread = new Thread(new ThreadStart(CustomEffects.BabelSpear));
@@ -106,6 +111,7 @@ namespace Dark_Cloud_Improved_Version
                                             seventhHeavenThread.Start();
                                         }
                                         break;
+
                                     default:
                                         CustomEffects.BoneRapierEffect(false);
                                         break;
@@ -149,6 +155,13 @@ namespace Dark_Cloud_Improved_Version
                                         {
                                             tallHammerThread = new Thread(new ThreadStart(CustomEffects.TallHammer));
                                             tallHammerThread.Start();
+                                        }
+                                        break;
+                                    case Items.inferno:
+                                        if (!infernoHammerThread.IsAlive)
+                                        {
+                                            infernoHammerThread = new Thread(new ThreadStart(CustomEffects.Inferno));
+                                            infernoHammerThread.Start();
                                         }
                                         break;
 
@@ -295,6 +308,7 @@ namespace Dark_Cloud_Improved_Version
                         prevFloor = currentFloor;
                     }
 
+                    CheckWepLvlUp();
                     CheckClown();
                     CheckCurrentSidequests();
                     CheckDungeonLeaving();
@@ -529,6 +543,8 @@ namespace Dark_Cloud_Improved_Version
             CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2); //Randomize the chest loot
 
             CheckSidequests();
+
+            //CustomEffects.evilciseNewFloor = true;
 
             Console.WriteLine("Finished spawn checking");
 
@@ -1051,6 +1067,146 @@ namespace Dark_Cloud_Improved_Version
                     Console.WriteLine("Consumed escape powder from active slots");
                 }
             }
+        }
+
+        public static void CheckWepLvlUp()
+        {
+            byte menuMode = Memory.ReadByte(0x202A2010);
+            if (menuMode == 2 || menuMode == 1)
+            {
+
+                if (wepMenuOpen == false)
+                {
+                    for (int i = 0; i < wepLevelArray.Length; i++)
+                    {
+                        wepLevelArray[i] = Memory.ReadByte(0x21CDDA5A + (i * 0xF8));
+                    }
+                    wepMenuOpen = true;
+                }
+                else
+                {
+                    if (menuMode == 1) 
+                    {
+                        if (Memory.ReadByte(0x21D9EC08) == 6)
+                        {
+                            for (int i = 0; i < wepLevelArray.Length; i++)
+                            {
+                                wepLevelArray[i] = Memory.ReadByte(0x21CDDA5A + (i * 0xF8));
+                            }
+                            PPowdermenuOpen = true;
+                        }
+                        else
+                        {
+                            if (PPowdermenuOpen == true)
+                            {
+                                for (int i = 0; i < wepLevelArray.Length; i++)
+                                {
+                                    if (Memory.ReadByte(0x21CDDA5A + (i * 0xF8)) > wepLevelArray[i])
+                                    {
+                                        CheckSoZEffect(i);
+                                        wepLevelArray[i] = Memory.ReadByte(0x21CDDA5A + (i * 0xF8));
+                                    }
+                                }
+                            }
+                            PPowdermenuOpen = false;
+                        }                                            
+                    }
+                    else if (menuMode == 2)
+                    {
+                        for (int i = 0; i < wepLevelArray.Length; i++)
+                        {
+                            if (Memory.ReadByte(0x21CDDA5A + (i * 0xF8)) > wepLevelArray[i])
+                            {
+                                Console.WriteLine("Weapon(sword) leveled up!");
+                                CheckSoZEffect(i);
+                                wepLevelArray[i] = Memory.ReadByte(0x21CDDA5A + (i * 0xF8));
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                wepMenuOpen = false;
+            }
+        }
+
+        public static void CheckSoZEffect(int wepOffset)
+        {
+            ushort wepID = Memory.ReadUShort(Player.Toan.WeaponSlot0.id + (0xF8 * wepOffset));
+
+            if (wepID == 296)
+            {
+                Console.WriteLine("SoZ leveled up!");
+                byte currentThunder = Memory.ReadByte(Player.Toan.WeaponSlot0.thunder + (0xF8 * wepOffset));
+                ushort storedThunder = (ushort)(Memory.ReadUShort(0x21CE446D) + currentThunder);
+                if (storedThunder > 30000)
+                {
+                    storedThunder = 30000;
+                }
+                Memory.WriteByte(Player.Toan.WeaponSlot0.thunder + (0xF8 * wepOffset), 0);
+                if (Memory.ReadByte(Player.Toan.WeaponSlot0.elementHUD + (0xF8 * wepOffset)) == 2)
+                {
+                    Memory.WriteByte(Player.Toan.WeaponSlot0.elementHUD + (0xF8 * wepOffset), 5);
+                }
+                Memory.WriteUShort(0x21CE446D, storedThunder);
+                ChangeSoZMaxAtt(storedThunder);
+
+            }
+        }
+
+        public static void ChangeSoZMaxAtt(ushort storedThunder)
+        {
+            ushort maxAttack = 199;
+            if (storedThunder > 200)
+            {
+                if (storedThunder > 500)
+                {
+                    if (storedThunder > 1000)
+                    {
+                        if (storedThunder > 2000)
+                        {
+                            maxAttack = 599;
+                            storedThunder -= 2000;
+
+                            ushort attackboost = (ushort)(storedThunder / 20);
+                            maxAttack = (ushort)(maxAttack + attackboost);
+                        }
+                        else
+                        {
+                            maxAttack = 499;
+                            storedThunder -= 1000;
+
+                            ushort attackboost = (ushort)(storedThunder / 10);
+                            maxAttack = (ushort)(maxAttack + attackboost);
+                        }
+                    }
+                    else
+                    {
+                        maxAttack = 399;
+                        storedThunder -= 500;
+
+                        ushort attackboost = (ushort)(storedThunder / 5);
+                        maxAttack = (ushort)(maxAttack + attackboost);
+                    }
+                }
+                else
+                {
+                    maxAttack = 299;
+                    storedThunder -= 200;
+
+                    ushort attackboost = (ushort)(storedThunder / 3);
+                    maxAttack = (ushort)(maxAttack + attackboost);
+                }
+            }
+            else
+            {
+                ushort attackboost = (ushort)(storedThunder / 2);
+                maxAttack = (ushort)(maxAttack + attackboost);
+                Console.WriteLine("maxattack: " + maxAttack);
+            }
+            Console.WriteLine("SoZ max attack changed!");
+            Memory.WriteUShort(0x2027B298, maxAttack);
         }
 
     }

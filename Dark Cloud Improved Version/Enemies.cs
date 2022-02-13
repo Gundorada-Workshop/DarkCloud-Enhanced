@@ -323,6 +323,12 @@ namespace Dark_Cloud_Improved_Version
             public const int itemDropId = 0x21E16FA4;       //The item dropped by weapon kill
             public const int renderStatus = 0x21E16BA0;     //Determines the enemy status (-1 = Not spawned | 1 = Spawned but not rendered | 2 = Spawned and being rendered)
 
+            public const float flashColorRed = 0x21E16CD0;
+            public const float flashColorGreen = 0x21E16CD4;
+            public const float flashColorBlue = 0x21E16CD8;
+            public const int flashActivation = 0x21E16D04;
+            public const int flashDuration = 0x21E16D08;
+
             //Add this to here later 21E17D74 (enemy 12 render distance default 300 float)
         }
 
@@ -347,6 +353,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy2
@@ -370,6 +381,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy3
@@ -393,6 +409,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy4
@@ -417,6 +438,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy5
@@ -441,6 +467,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy6
@@ -465,6 +496,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy7
@@ -489,6 +525,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy8
@@ -513,6 +554,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy9
@@ -537,6 +583,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy10
@@ -561,6 +612,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy11
@@ -585,6 +641,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy12
@@ -609,6 +670,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy13
@@ -633,6 +699,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy14
@@ -657,6 +728,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Enemy15
@@ -681,6 +757,11 @@ namespace Dark_Cloud_Improved_Version
             public const int itemResistance = Enemy0.itemResistance + (offset * EnemyMultiplier);
             public const int itemDropId = Enemy0.itemDropId + (offset * EnemyMultiplier);
             public const int renderStatus = Enemy0.renderStatus + (offset * EnemyMultiplier);
+            public const float flashColorRed = Enemy0.flashColorRed + (offset * EnemyMultiplier);
+            public const float flashColorGreen = Enemy0.flashColorGreen + (offset * EnemyMultiplier);
+            public const float flashColorBlue = Enemy0.flashColorBlue + (offset * EnemyMultiplier);
+            public const int flashActivation = Enemy0.flashActivation + (offset * EnemyMultiplier);
+            public const int flashDuration = Enemy0.flashDuration + (offset * EnemyMultiplier);
         }
 
         internal class Digger

@@ -115,6 +115,8 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteByte(0x20293982, 250);
             }
 
+            DungeonThread.ChangeSoZMaxAtt(Memory.ReadUShort(0x21CE446D)); //NEEDS TO BE APPLIED AFTER SAVE LOAD!
+
             Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             successful = Memory.VirtualProtectEx(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             
@@ -200,36 +202,178 @@ namespace Dark_Cloud_Improved_Version
 
             while (1 == 1)
             {
-                //jal editinit = e0 e0 05 0c / 224 224 5 12
-                if (Memory.ReadByte(Addresses.mode) == 0x3)
+                if (Memory.ReadByte(Addresses.mode) == 2)
                 {
-                    indungeon = true;
-                }
-                else
-                {
-                    indungeon = false;
-                }
-
-
-                if (indungeon == true && charaSwitchFunctionsRestored == false)     //check if player is on DUNGEON, change/restore ingame functions
-                {
-                    
-
-                    charaSwitchFunctionsRestored = true;
-                }
-                else if (indungeon == false && charaSwitchFunctionsRestored == true)        //check if player is on TOWN, change ingame functions
-                {
-
-                    charaSwitchFunctionsRestored = false;
-                }
-
-                if (Memory.ReadByte(Addresses.mode) == 0x2 && Memory.ReadByte(Addresses.selectedMenu) == 0x3)
-                {
-                    if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Cross)
+                    //jal editinit = e0 e0 05 0c / 224 224 5 12
+                    if (Memory.ReadByte(Addresses.mode) == 0x3)
                     {
-                        if (charSelected == true)
+                        indungeon = true;
+                    }
+                    else
+                    {
+                        indungeon = false;
+                    }
+
+
+                    if (indungeon == true && charaSwitchFunctionsRestored == false)     //check if player is on DUNGEON, change/restore ingame functions
+                    {
+
+
+                        charaSwitchFunctionsRestored = true;
+                    }
+                    else if (indungeon == false && charaSwitchFunctionsRestored == true)        //check if player is on TOWN, change ingame functions
+                    {
+
+                        charaSwitchFunctionsRestored = false;
+                    }
+
+                    if (Memory.ReadByte(Addresses.mode) == 0x2 && Memory.ReadByte(Addresses.selectedMenu) == 0x3)
+                    {
+                        if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Cross)
                         {
-                            Console.WriteLine("Chara selected");
+                            if (charSelected == true)
+                            {
+                                Console.WriteLine("Chara selected");
+
+                                currentAddress = Addresses.chrFileLocation;
+
+                                for (int i = 0; i < chrFilePath.Length; i++)
+                                {
+                                    char character = chrFilePath[i];
+
+                                    for (int a = 0; a < characters.Length; a++)
+                                    {
+                                        if (character.Equals(characters[a]))
+                                        {
+                                            value1 = BitConverter.GetBytes(a + 32);
+                                        }
+                                    }
+
+                                    Memory.WriteByte(currentAddress, value1[0]);
+
+                                    currentAddress += 0x00000001;
+
+                                }
+
+                                Memory.WriteInt(0x202A2524, -1);
+
+                                //Memory.WriteByte(Addresses.activateCharacter, 4);
+
+                                charSelected = true;
+                            }
+                        }
+
+                        if (Memory.ReadInt(0x202A28F4) == 0)    //set currentCharacter after switching ally
+                        {
+                            currentCharacter = chrFilePath;
+                        }
+
+                        charNumber = Memory.ReadByte(0x21D90470);
+
+                        if (prevCharNumber != charNumber)
+                        {
+                            allyCount = Memory.ReadByte(0x21CD9551);
+                            Console.WriteLine(charNumber);
+                            Console.WriteLine("different char");
+                            currentAddress = Addresses.chrFileLocation;
+
+                            for (int i = 0; i < 30; i++)
+                            {
+                                Memory.WriteByte(currentAddress, 0);
+                                currentAddress += 0x00000001;
+                            }
+
+                            /*
+                            Memory.VirtualProtect(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
+                            successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
+
+                            if (successful == false) //There was an error
+                                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
+                                */
+
+                            if (charNumber == 0)
+                            {
+                                chrFilePath = "chara/c01d.chr";
+                            }
+                            else if (charNumber == 1)
+                            {
+                                /*
+                                if (allyCount > 1)
+                                {
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                                }
+                                else
+                                {
+                                    Console.WriteLine("not enough allies");
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                                }
+                                */
+                                chrFilePath = "gedit/e01/chara/c04pcat.chr";
+                            }
+                            else if (charNumber == 2)
+                            {
+                                /*
+                                if (allyCount > 2)
+                                {
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                                }
+                                else
+                                {
+                                    Console.WriteLine("not enough allies");
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                                }
+                                */
+                                chrFilePath = "gedit/s01/chara/c06p.chr";
+
+                            }
+                            else if (charNumber == 3)
+                            {
+                                /*
+                                if (allyCount > 3)
+                                {
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                                }
+                                else
+                                {
+                                    Console.WriteLine("not enough allies");
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                                }
+                                */
+                                chrFilePath = "gedit/e03/chara/c05a.chr";
+                            }
+                            else if (charNumber == 4)
+                            {
+                                /*
+                                if (allyCount > 4)
+                                {
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                                }
+                                else
+                                {
+                                    Console.WriteLine("not enough allies");
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                                }*/
+
+                                chrFilePath = "gedit/s79/chara/c10a.chr";
+                            }
+                            else if (charNumber == 5)
+                            {
+                                /*
+                                if (allyCount > 5)
+                                {
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
+                                }
+                                else
+                                {
+                                    Console.WriteLine("not enough allies");
+                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
+                                }*/
+                                chrFilePath = "gedit/e05/chara/c18p.chr";
+                            }
+                            else
+                            {
+                                chrFilePath = "chara/c01d.chr";
+                            }
 
                             currentAddress = Addresses.chrFileLocation;
 
@@ -245,131 +389,29 @@ namespace Dark_Cloud_Improved_Version
                                     }
                                 }
 
+                                /*Memory.VirtualProtect(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+                                successful = Memory.VirtualProtectEx(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+
+                                if (successful == false) //There was an error
+                                    Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
+                                    */
+
                                 Memory.WriteByte(currentAddress, value1[0]);
+
 
                                 currentAddress += 0x00000001;
 
                             }
 
-                            Memory.WriteInt(0x202A2524, -1);
 
-                            //Memory.WriteByte(Addresses.activateCharacter, 4);
-
-                            charSelected = true;
+                            prevCharNumber = charNumber;
+                            menuExited = false;
                         }
                     }
-
-                    if (Memory.ReadInt(0x202A28F4) == 0)    //set currentCharacter after switching ally
+                    else if (menuExited == false && Memory.ReadByte(0x202A1E90) == 255)   //if player exits allies menu without switching character, write the current character back
                     {
-                        currentCharacter = chrFilePath;
-                    }
-
-                    charNumber = Memory.ReadByte(0x21D90470);
-
-                    if (prevCharNumber != charNumber)
-                    {
-                        allyCount = Memory.ReadByte(0x21CD9551);
-                        Console.WriteLine(charNumber);
-                        Console.WriteLine("different char");
-                        currentAddress = Addresses.chrFileLocation;
-
-                        for (int i = 0; i < 30; i++)
-                        {
-                            Memory.WriteByte(currentAddress, 0);
-                            currentAddress += 0x00000001;
-                        }
-
-                        /*
-                        Memory.VirtualProtect(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-                        successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-                        if (successful == false) //There was an error
-                            Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
-                            */
-
-                        if (charNumber == 0)
-                        {
-                            chrFilePath = "chara/c01d.chr";
-                        }
-                        else if (charNumber == 1)
-                        {
-                            /*
-                            if (allyCount > 1)
-                            {
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                            }
-                            else
-                            {
-                                Console.WriteLine("not enough allies");
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                            }
-                            */
-                            chrFilePath = "gedit/e01/chara/c04pcat.chr";
-                        }
-                        else if (charNumber == 2)
-                        {
-                            /*
-                            if (allyCount > 2)
-                            {
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                            }
-                            else
-                            {
-                                Console.WriteLine("not enough allies");
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                            }
-                            */
-                            chrFilePath = "gedit/s01/chara/c06p.chr";
-
-                        }
-                        else if (charNumber == 3)
-                        {
-                            /*
-                            if (allyCount > 3)
-                            {
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                            }
-                            else
-                            {
-                                Console.WriteLine("not enough allies");
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                            }
-                            */
-                            chrFilePath = "gedit/e03/chara/c05a.chr";
-                        }
-                        else if (charNumber == 4)
-                        {
-                            /*
-                            if (allyCount > 4)
-                            {
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                            }
-                            else
-                            {
-                                Console.WriteLine("not enough allies");
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                            }*/
-
-                            chrFilePath = "gedit/s79/chara/c10a.chr";
-                        }
-                        else if (charNumber == 5)
-                        {
-                            /*
-                            if (allyCount > 5)
-                            {
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                            }
-                            else
-                            {
-                                Console.WriteLine("not enough allies");
-                                Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                            }*/
-                            chrFilePath = "gedit/e05/chara/c18p.chr";
-                        }
-                        else
-                        {
-                            chrFilePath = "chara/c01d.chr";
-                        }
+                        chrFilePath = currentCharacter;
+                        Console.WriteLine("re-writing current character back...");
 
                         currentAddress = Addresses.chrFileLocation;
 
@@ -385,12 +427,6 @@ namespace Dark_Cloud_Improved_Version
                                 }
                             }
 
-                            /*Memory.VirtualProtect(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
-                            successful = Memory.VirtualProtectEx(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-                            if (successful == false) //There was an error
-                                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
-                                */
 
                             Memory.WriteByte(currentAddress, value1[0]);
 
@@ -398,236 +434,326 @@ namespace Dark_Cloud_Improved_Version
                             currentAddress += 0x00000001;
 
                         }
-
-                        
-                        prevCharNumber = charNumber;
-                        menuExited = false;
+                        menuExited = true;
+                        prevCharNumber = 99;
                     }
-                }
-                else if (menuExited == false && Memory.ReadByte(0x202A1E90) == 255)   //if player exits allies menu without switching character, write the current character back
-                {
-                    chrFilePath = currentCharacter;
-                    Console.WriteLine("re-writing current character back...");
 
-                    currentAddress = Addresses.chrFileLocation;
-
-                    for (int i = 0; i < chrFilePath.Length; i++)
+                    if (Memory.ReadByte(0x21D33E28) == 9 && fishingActive == false)   //cancel landing animation to avoid being stuck
                     {
-                        char character = chrFilePath[i];
-
-                        for (int a = 0; a < characters.Length; a++)
-                        {
-                            if (character.Equals(characters[a]))
-                            {
-                                value1 = BitConverter.GetBytes(a + 32);
-                            }
-                        }
-
-
-                        Memory.WriteByte(currentAddress, value1[0]);
-
-
-                        currentAddress += 0x00000001;
-
+                        Memory.WriteByte(0x21D33E30, 3);
                     }
-                    menuExited = true;
-                    prevCharNumber = 99;
-                }
 
-                if (Memory.ReadByte(0x21D33E28) == 9 && fishingActive == false)   //cancel landing animation to avoid being stuck
-                {
-                    Memory.WriteByte(0x21D33E30, 3);
-                }
-
-                if (Memory.ReadInt(0x2029AA0E) != 1680945251)   //If not using Toan, force any house event to be cancelled
-                {
-                    isUsingAlly = true;
-                    currentHouseID = Memory.ReadByte(0x202A2820);
-
-                    if (currentHouseID != 255)  //check if its actual georama house
+                    if (Memory.ReadInt(0x2029AA0E) != 1680945251)   //If not using Toan, force any house event to be cancelled
                     {
-                        checkCompletion = 0xE8 * currentHouseID + 0x21D19C58;
+                        isUsingAlly = true;
+                        currentHouseID = Memory.ReadByte(0x202A2820);
 
-                        if (Memory.ReadByte(checkCompletion) == 0)  //checks if house has been completed when opening the door
+                        if (currentHouseID != 255)  //check if its actual georama house
                         {
-                            int parts = 4;
-                            checkCompletion = 0xE8 * currentHouseID + 0x21D19C80;
+                            checkCompletion = 0xE8 * currentHouseID + 0x21D19C58;
 
-                            if (Memory.ReadByte(0x202A2518) == 0) //check if claude's house
+                            if (Memory.ReadByte(checkCompletion) == 0)  //checks if house has been completed when opening the door
                             {
-                                if (currentHouseID == 4)
+                                int parts = 4;
+                                checkCompletion = 0xE8 * currentHouseID + 0x21D19C80;
+
+                                if (Memory.ReadByte(0x202A2518) == 0) //check if claude's house
                                 {
-                                    parts = 5;
+                                    if (currentHouseID == 4)
+                                    {
+                                        parts = 5;
+                                    }
                                 }
-                            }
-                            else if (Memory.ReadByte(0x202A2518) == 1) //check if cacaos house
-                            {
-                                if (currentHouseID == 1)
+                                else if (Memory.ReadByte(0x202A2518) == 1) //check if cacaos house
                                 {
-                                    parts = 5;
+                                    if (currentHouseID == 1)
+                                    {
+                                        parts = 5;
+                                    }
                                 }
-                            }
 
 
-                            for (int i = 0; i < parts; i++)
-                            {
-                                partsCollected += Memory.ReadByte(checkCompletion);
-                                checkCompletion += 0x20;
-                            }
+                                for (int i = 0; i < parts; i++)
+                                {
+                                    partsCollected += Memory.ReadByte(checkCompletion);
+                                    checkCompletion += 0x20;
+                                }
 
-                            if ((parts == 4 && partsCollected == 4) || (parts == 5 && partsCollected == 5))
-                            {
-                                Memory.WriteByte(0x202A282C, 0);
+                                if ((parts == 4 && partsCollected == 4) || (parts == 5 && partsCollected == 5))
+                                {
+                                    Memory.WriteByte(0x202A282C, 0);
+                                }
+                                else
+                                {
+                                    Memory.WriteByte(0x202A282C, 128);
+                                }
+                                partsCollected = 0;
                             }
                             else
                             {
                                 Memory.WriteByte(0x202A282C, 128);
                             }
-                            partsCollected = 0;
+
+                            if (Memory.ReadByte(0x202A2518) == 2)
+                            {
+                                if (Memory.ReadByte(0x21D196A4) == 4)
+                                {
+                                    if (Memory.ReadByte(0x21D19FF8) != 1)
+                                    {
+                                        if (Memory.ReadByte(0x21D19710) == 1 && jokerHouse == false) //check if at joker's house door
+                                        {
+                                            Console.WriteLine("entered jokerssss");
+                                            Memory.WriteByte(0x202A2A08, 0);
+                                            jokerHouse = true;
+                                        }
+                                        else if (Memory.ReadByte(0x21D19710) == 0 && jokerHouse == true)
+                                        {
+                                            Console.WriteLine("left jokerss");
+                                            Memory.WriteByte(0x202A2A08, 1);
+                                            jokerHouse = false;
+                                        }
+                                    }
+                                }
+                            }
+
                         }
                         else
                         {
                             Memory.WriteByte(0x202A282C, 128);
                         }
 
-                        if (Memory.ReadByte(0x202A2518) == 2)
+                        if (Memory.ReadByte(0x202A2518) == 23)
                         {
-                            if (Memory.ReadByte(0x21D196A4) == 4)
+                            if (Memory.ReadByte(0x21D28474) == 8)
                             {
-                                if (Memory.ReadByte(0x21D19FF8) != 1)
-                                {
-                                    if (Memory.ReadByte(0x21D19710) == 1 && jokerHouse == false) //check if at joker's house door
-                                    {
-                                        Console.WriteLine("entered jokerssss");
-                                        Memory.WriteByte(0x202A2A08, 0);
-                                        jokerHouse = true;
-                                    }
-                                    else if (Memory.ReadByte(0x21D19710) == 0 && jokerHouse == true)
-                                    {
-                                        Console.WriteLine("left jokerss");
-                                        Memory.WriteByte(0x202A2A08, 1);
-                                        jokerHouse = false;
-                                    }
-                                }
+                                Memory.WriteByte(0x21D2849C, 0); //despawn trade quest bunny
+                            }
+                            else
+                            {
+                                Memory.WriteByte(0x21D2849C, 1);
                             }
                         }
-
-                    }
-                    else
-                    {
-                        Memory.WriteByte(0x202A282C, 128);
-                    }
-
-                    if (Memory.ReadByte(0x202A2518) == 23)
-                    {
-                        if (Memory.ReadByte(0x21D28474) == 8)
+                        currentArea = Memory.ReadByte(0x202A2518);
+                        if (currentArea == 11 || currentArea == 13 || currentArea == 13 || currentArea == 33 || currentArea == 35 || currentArea == 37 || currentArea == 14)
                         {
-                            Memory.WriteByte(0x21D2849C, 0); //despawn trade quest bunny
+                            Memory.WriteByte(0x21F10000, 1); //disable eventpoints/triggers, pnach does rest
                         }
                         else
                         {
-                            Memory.WriteByte(0x21D2849C, 1);
+                            Memory.WriteByte(0x21F10000, 0);
                         }
-                    }
-                    currentArea = Memory.ReadByte(0x202A2518);
-                    if (currentArea == 11 || currentArea == 13 || currentArea == 13 || currentArea == 33 || currentArea == 35 || currentArea == 37 || currentArea == 14)
-                    {
-                        Memory.WriteByte(0x21F10000, 1); //disable eventpoints/triggers, pnach does rest
-                    }
-                    else
-                    {
-                        Memory.WriteByte(0x21F10000, 0);
-                    }
 
 
-                    if (Memory.ReadByte(0x21CDD80D) != 255)
-                    {
-                        Memory.WriteByte(0x21F10004, 1); //enable yaya
-                    }
-
-                    if (Memory.ReadByte(0x21F10014) == 1)
-                    {
-                        Memory.WriteByte(0x20415508, 0); //disable mayor door event
-                        Memory.WriteByte(0x20415538, 0); //disable mayor door event mark
-                    }
-
-                    int checkNearNPC = 0;
-
-                    for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
-                    {
-                        currentAddress = i * 0x14A0 + 0x21D26FF8;
-                        if (Memory.ReadByte(currentAddress) == 1)
+                        if (Memory.ReadByte(0x21CDD80D) != 255)
                         {
-                            if (nearNPC == false || onDialogueFlag == 1)
+                            Memory.WriteByte(0x21F10004, 1); //enable yaya
+                        }
+
+                        if (Memory.ReadByte(0x21F10014) == 1)
+                        {
+                            Memory.WriteByte(0x20415508, 0); //disable mayor door event
+                            Memory.WriteByte(0x20415538, 0); //disable mayor door event mark
+                        }
+
+                        int checkNearNPC = 0;
+
+                        for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
+                        {
+                            currentAddress = i * 0x14A0 + 0x21D26FF8;
+                            if (Memory.ReadByte(currentAddress) == 1)
                             {
-                                Dialogues.SetDialogue(i, true, false);
-                                if (talkableNPC != false) //check if NPC is not llama
+                                if (nearNPC == false || onDialogueFlag == 1)
                                 {
-                                    Memory.WriteByte(0x21F10008, 1); //nearNPC flag for PNACH to use
+                                    Dialogues.SetDialogue(i, true, false);
+                                    if (talkableNPC != false) //check if NPC is not llama
+                                    {
+                                        Memory.WriteByte(0x21F10008, 1); //nearNPC flag for PNACH to use
+                                    }
+                                    talkableNPC = true;
+                                    nearNPC = true;
+                                    if (onDialogueFlag == 1) onDialogueFlag = 2;    //if player was already on a dialogue, the next one was written ready
                                 }
-                                talkableNPC = true;
-                                nearNPC = true;
-                                if (onDialogueFlag == 1) onDialogueFlag = 2;    //if player was already on a dialogue, the next one was written ready
+                                checkNearNPC++;
                             }
-                            checkNearNPC++;
                         }
-                    }
-                    if (checkNearNPC == 0)
-                    {
-                        nearNPC = false;
-                        Memory.WriteByte(0x21F10008, 0); //nearNPC flag for PNACH to use
-                        onDialogueFlag = 0;
-                    }
+                        if (checkNearNPC == 0)
+                        {
+                            nearNPC = false;
+                            Memory.WriteByte(0x21F10008, 0); //nearNPC flag for PNACH to use
+                            onDialogueFlag = 0;
+                        }
 
-                    if (Memory.ReadByte(0x21D1CC0C) == townDialogueIDs[currentArea] && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
-                    {
-                        onDialogueFlag = 1;
-                        Dialogues.ChangeDialogue(); //when we detect that player activates a dialogue, change the flag
-                    }
-                    else if (Memory.ReadByte(0x21D1CC0C) == townDialogueIDs[currentArea] && onDialogueFlag == 3) //check if current dialogue is our custom dialogue, set a flag
-                    {
-                        onDialogueFlag = 0;
-                    }
+                        if (Memory.ReadByte(0x21D1CC0C) == townDialogueIDs[currentArea] && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
+                        {
+                            onDialogueFlag = 1;
+                            Dialogues.ChangeDialogue(); //when we detect that player activates a dialogue, change the flag
+                        }
+                        else if (Memory.ReadByte(0x21D1CC0C) == townDialogueIDs[currentArea] && onDialogueFlag == 3) //check if current dialogue is our custom dialogue, set a flag
+                        {
+                            onDialogueFlag = 0;
+                        }
 
-                    if (onDialogueFlag == 2)
-                    {
-                        if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
+                        if (onDialogueFlag == 2)
                         {
-                            onDialogueFlag = 3;
+                            if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
+                            {
+                                onDialogueFlag = 3;
+                            }
                         }
-                    }
 
-                    if (Memory.ReadInt(0x2029AA18) == 1882468451)   //if using Xiao, change talk camera
-                    {
-                        if (currentArea == 0)
+                        if (Memory.ReadInt(0x2029AA18) == 1882468451)   //if using Xiao, change talk camera
                         {
-                            Memory.WriteByte(0x202A2A6C, 0);
-                            Memory.WriteByte(0x202A2A6E, 9);
+                            if (currentArea == 0)
+                            {
+                                Memory.WriteByte(0x202A2A6C, 0);
+                                Memory.WriteByte(0x202A2A6E, 9);
+                            }
+                            else if (currentArea == 1)
+                            {
+                                Memory.WriteUShort(0x202A2A6C, 2544);
+                                Memory.WriteByte(0x202A2A6E, 9);
+                            }
+                            else if (currentArea == 2)
+                            {
+                                Memory.WriteUShort(0x202A2A6C, 2306);
+                                Memory.WriteByte(0x202A2A6E, 9);
+                            }
+                            Memory.WriteByte(0x21F1000C, 1); //xiaoFlag for PNACH
                         }
-                        else if (currentArea == 1)
+                        else
                         {
-                            Memory.WriteUShort(0x202A2A6C, 2544);
-                            Memory.WriteByte(0x202A2A6E, 9);
+                            Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
                         }
-                        else if (currentArea == 2)
+
+                        if (shopkeeper == true)     //check shopkeeper and change dialogue ID
                         {
-                            Memory.WriteUShort(0x202A2A6C, 2306);
-                            Memory.WriteByte(0x202A2A6E, 9);
+                            if (currentArea != 23)
+                            {
+                                Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
+                            }
+                            else
+                            {
+                                if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 12)
+                                {
+                                    sidequestOptionFlag = true;
+                                }
+                                else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                                {
+                                    sidequestOptionFlag = false;
+                                }
+
+                                if (sidequestOptionFlag == true)
+                                {
+                                    Memory.WriteInt(0x21D3D43C, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                                    SetSideQuestDialogue();
+
+                                    if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
+                                    {
+                                        CheckSideQuestDialogue();
+                                        isSideQuestDialogueActive = true;
+                                    }
+                                    else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
+                                    {
+                                        isSideQuestDialogueActive = false;
+                                    }
+                                }
+                                else
+                                {
+                                    sidequestonDialogueFlag = 0;
+                                }
+                            }
                         }
-                        Memory.WriteByte(0x21F1000C, 1); //xiaoFlag for PNACH
+                        else
+                        {
+                            if (currentArea != 38)
+                            {
+                                Memory.WriteUShort(0x21D3D434, townDialogueIDs[currentArea]);
+                            }
+                            if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
+                            {
+                                sidequestOptionFlag = true;
+                            }
+                            else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                            {
+                                sidequestOptionFlag = false;
+                            }
+
+                            if (sidequestOptionFlag == true)
+                            {
+                                if (Memory.ReadByte(0x21F10014) == 1)
+                                {
+                                    Memory.WriteInt(0x21D3D438, sidequestDialogueID);
+                                }
+                                else
+                                {
+                                    Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                                }
+                                SetSideQuestDialogue();
+
+                                if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
+                                {
+                                    CheckSideQuestDialogue();
+                                    isSideQuestDialogueActive = true;
+                                }
+                                else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
+                                {
+                                    isSideQuestDialogueActive = false;
+                                }
+                            }
+                            else
+                            {
+                                sidequestonDialogueFlag = 0;
+                            }
+                        }
+
                     }
                     else
                     {
+                        isUsingAlly = false;
+                        Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
                         Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
-                    }
 
-                    if (shopkeeper == true)     //check shopkeeper and change dialogue ID
-                    {
-                        if (currentArea != 23)
+                        //if (Memory.ReadByte(0x21D1CC0C) == 12)
+
+                        currentArea = Memory.ReadByte(0x202A2518);
+                        if (currentArea == 0 || currentArea == 1 || currentArea == 2 || currentArea == 3)
                         {
-                            Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
+                            if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
+                            {
+                                sidequestOptionFlag = true;
+                            }
+                            else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                            {
+                                sidequestOptionFlag = false;
+                            }
+                            if (sidequestOptionFlag == true)
+                            {
+                                if (Memory.ReadByte(0x21F10014) == 1)
+                                {
+                                    Memory.WriteInt(0x21D3D438, sidequestDialogueID);
+                                }
+                                else
+                                {
+                                    Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                                }
+                                SetSideQuestDialogue();
+
+                                if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
+                                {
+                                    CheckSideQuestDialogue();
+                                    isSideQuestDialogueActive = true;
+                                }
+                                else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
+                                {
+                                    isSideQuestDialogueActive = false;
+                                }
+                            }
+                            else
+                            {
+                                sidequestonDialogueFlag = 0;
+                            }
                         }
-                        else
+                        else if (currentArea == 23)
                         {
                             if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 12)
                             {
@@ -658,418 +784,298 @@ namespace Dark_Cloud_Improved_Version
                                 sidequestonDialogueFlag = 0;
                             }
                         }
-                    }
-                    else
-                    {
-                        if (currentArea != 38)
+                        else if (currentArea == 14)
                         {
-                            Memory.WriteUShort(0x21D3D434, townDialogueIDs[currentArea]);
-                        }
-                        if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
-                        {
-                            sidequestOptionFlag = true;
-                        }
-                        else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
-                        {
-                            sidequestOptionFlag = false;
-                        }
-
-                        if (sidequestOptionFlag == true)
-                        {
-                            if (Memory.ReadByte(0x21F10014) == 1)
+                            int checkNearNPC = 0;
+                            for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
                             {
-                                Memory.WriteInt(0x21D3D438, sidequestDialogueID);                             
-                            }
-                            else
-                            {
-                                Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
-                            }
-                            SetSideQuestDialogue();
-
-                            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
-                            {
-                                CheckSideQuestDialogue();
-                                isSideQuestDialogueActive = true;
-                            }
-                            else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
-                            {
-                                isSideQuestDialogueActive = false;
-                            }
-                        }
-                        else
-                        {
-                            sidequestonDialogueFlag = 0;
-                        }
-                    }
-
-                }
-                else
-                {
-                    isUsingAlly = false;
-                    Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
-                    Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
-
-                    //if (Memory.ReadByte(0x21D1CC0C) == 12)
-
-                    currentArea = Memory.ReadByte(0x202A2518);
-                    if (currentArea == 0 || currentArea == 1 || currentArea == 2 || currentArea == 3)
-                    {
-                        if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
-                        {
-                            sidequestOptionFlag = true;
-                        }
-                        else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
-                        {
-                            sidequestOptionFlag = false;
-                        }
-                        if (sidequestOptionFlag == true)
-                        {
-                            if (Memory.ReadByte(0x21F10014) == 1)
-                            {
-                                Memory.WriteInt(0x21D3D438, sidequestDialogueID);
-                            }
-                            else
-                            {
-                                Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
-                            }
-                            SetSideQuestDialogue();
-
-                            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
-                            {
-                                CheckSideQuestDialogue();
-                                isSideQuestDialogueActive = true;
-                            }
-                            else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
-                            {
-                                isSideQuestDialogueActive = false;
-                            }
-                        }
-                        else
-                        {
-                            sidequestonDialogueFlag = 0;
-                        }
-                    }
-                    else if (currentArea == 23)
-                    {
-                        if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 12)
-                        {
-                            sidequestOptionFlag = true;
-                        }
-                        else if (sidequestOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
-                        {
-                            sidequestOptionFlag = false;
-                        }
-
-                        if (sidequestOptionFlag == true)
-                        {
-                            Memory.WriteInt(0x21D3D43C, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
-                            SetSideQuestDialogue();
-
-                            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
-                            {
-                                CheckSideQuestDialogue();
-                                isSideQuestDialogueActive = true;
-                            }
-                            else if (Memory.ReadUShort(0x21D1CC0C) != sidequestDialogueID)
-                            {
-                                isSideQuestDialogueActive = false;
-                            }
-                        }
-                        else
-                        {
-                            sidequestonDialogueFlag = 0;
-                        }
-                    }
-                    else if (currentArea == 14)
-                    {
-                        int checkNearNPC = 0;
-                        for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
-                        {
-                            currentAddress = i * 0x14A0 + 0x21D26FF8;
-                            if (Memory.ReadByte(currentAddress) == 1)
-                            {
-                                if (nearNPC == false || onDialogueFlag == 1)
+                                currentAddress = i * 0x14A0 + 0x21D26FF8;
+                                if (Memory.ReadByte(currentAddress) == 1)
                                 {
-
-                                    Dialogues.SetDialogue(i, false, false);
-                                    Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
-                                    nearNPC = true;
-                                    if (onDialogueFlag == 1) onDialogueFlag = 2;
-                                }
-                                checkNearNPC++;
-                                currentAddress = currentAddress - 0x00000024;
-                                if (Memory.ReadByte(currentAddress) == 5)
-                                {
-                                    mintTalk = true;
-                                }
-                                else
-                                {
-                                    mintTalk = false;
-                                }
-                            }
-                        }
-
-                        if (checkNearNPC == 0)
-                        {
-                            nearNPC = false;
-                            Memory.WriteByte(0x21F10010, 0); //nearNPC flag for PNACH to use
-                            onDialogueFlag = 0;
-                        }
-
-                        if (Memory.ReadByte(0x21D1CC0C) == 200 && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
-                        {
-                            onDialogueFlag = 1;
-                            if (mintTalk)
-                            {
-                                if (Memory.ReadByte(0x21CE444F) == 1)
-                                {
-                                    if (Dialogues.alreadyHasSavingBook == false)
+                                    if (nearNPC == false || onDialogueFlag == 1)
                                     {
-                                        Dialogues.GiveMasterFishQuestReward();
+
+                                        Dialogues.SetDialogue(i, false, false);
+                                        Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
+                                        nearNPC = true;
+                                        if (onDialogueFlag == 1) onDialogueFlag = 2;
+                                    }
+                                    checkNearNPC++;
+                                    currentAddress = currentAddress - 0x00000024;
+                                    if (Memory.ReadByte(currentAddress) == 5)
+                                    {
+                                        mintTalk = true;
+                                    }
+                                    else
+                                    {
+                                        mintTalk = false;
+                                    }
+                                }
+                            }
+
+                            if (checkNearNPC == 0)
+                            {
+                                nearNPC = false;
+                                Memory.WriteByte(0x21F10010, 0); //nearNPC flag for PNACH to use
+                                onDialogueFlag = 0;
+                            }
+
+                            if (Memory.ReadByte(0x21D1CC0C) == 200 && onDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
+                            {
+                                onDialogueFlag = 1;
+                                if (mintTalk)
+                                {
+                                    if (Memory.ReadByte(0x21CE444F) == 1)
+                                    {
+                                        if (Dialogues.alreadyHasSavingBook == false)
+                                        {
+                                            Dialogues.GiveMasterFishQuestReward();
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (onDialogueFlag == 2)
+                            {
+                                if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
+                                {
+                                    onDialogueFlag = 0;
+                                }
+                            }
+                        }
+                    }
+
+                    buildingCheck = Memory.ReadByte(0x202A281C); //is player inside house
+
+                    int currentAreaFrames = Memory.ReadInt(0x202A2880);
+
+                    if (currentAreaFrames < 25)
+                    {
+                        if (currentAreaFrames > 5)
+                        {
+                            CheckClockAdvancement(currentArea);
+                        }
+                    }
+
+                    if (currentAreaFrames < 50) //check player duration in new area (to check if its a new/changed area)
+                    {
+                        if (currentAreaFrames > 30 && areaChanged == false)
+                        {
+                            areaChanged = true;
+                            CheckAllyFishing();
+                            if (currentArea == 42) Dialogues.SetDefaultDialogue(42);
+                            else if (currentArea == 14) Dialogues.SetDefaultDialogue(14);
+
+                            if (currentArea == 23)
+                            {
+                                if (Dialogues.storageOriginalDialogue != null)
+                                {
+                                    if (Dialogues.storageOriginalDialogue.Length > 0)
+                                    {
+                                        Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
+                                        Console.WriteLine("Cleared storage original dialogue");
                                     }
                                 }
                             }
                         }
-
-                        if (onDialogueFlag == 2)
-                        {
-                            if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
-                            {
-                                onDialogueFlag = 0;
-                            }
-                        }
-                    }
-                }
-
-                buildingCheck = Memory.ReadByte(0x202A281C); //is player inside house
-
-                int currentAreaFrames = Memory.ReadInt(0x202A2880);
-
-                if (currentAreaFrames < 25)
-                {
-                    if (currentAreaFrames > 5)
-                    {
-                        CheckClockAdvancement(currentArea);
-                    }
-                }
-
-                if (currentAreaFrames < 50) //check player duration in new area (to check if its a new/changed area)
-                {
-                    if (currentAreaFrames > 30 && areaChanged == false)
-                    {
-                        areaChanged = true;
-                        CheckAllyFishing();
-                        if (currentArea == 42) Dialogues.SetDefaultDialogue(42);
-                        else if (currentArea == 14) Dialogues.SetDefaultDialogue(14);
-
-                        if (currentArea == 23) 
-                        {
-                            if (Dialogues.storageOriginalDialogue != null)
-                            {
-                                if (Dialogues.storageOriginalDialogue.Length > 0)
-                                {
-                                    Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
-                                    Console.WriteLine("Cleared storage original dialogue");
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    areaChanged = false;
-                }
-
-                if ((buildingCheck == 0 && checkBuildingFlag == true) || areaChanged == true) //check if player is not inside a house
-                {
-                    Console.WriteLine("Currently in outside area");
-                    Dialogues.SetDialogueOptions(currentArea, false);
-                    Dialogues.SetStorageDialogue(currentArea, false);
-                    checkBuildingFlag = false;
-                    CheckAllyFishing();
-
-                }
-                else if (buildingCheck == 1 && checkBuildingFlag == false)
-                {
-                    if (currentArea != 23)
-                    {
-                        Console.WriteLine("Currently inside building");
-                        Dialogues.SetDialogueOptions(currentArea, true);
-                        Dialogues.SetStorageDialogue(currentArea, true);
-                        checkBuildingFlag = true;
                     }
                     else
                     {
-                        if (Memory.ReadByte(0x21D26FD4) == 0 || Memory.ReadByte(0x21D26FD4) == 1)
+                        areaChanged = false;
+                    }
+
+                    if ((buildingCheck == 0 && checkBuildingFlag == true) || areaChanged == true) //check if player is not inside a house
+                    {
+                        Console.WriteLine("Currently in outside area");
+                        Dialogues.SetDialogueOptions(currentArea, false);
+                        Dialogues.SetStorageDialogue(currentArea, false);
+                        checkBuildingFlag = false;
+                        CheckAllyFishing();
+
+                    }
+                    else if (buildingCheck == 1 && checkBuildingFlag == false)
+                    {
+                        if (currentArea != 23)
                         {
                             Console.WriteLine("Currently inside building");
                             Dialogues.SetDialogueOptions(currentArea, true);
                             Dialogues.SetStorageDialogue(currentArea, true);
                             checkBuildingFlag = true;
                         }
-                    }
-                }
-
-                if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
-                {
-                    changingLocation = true;
-                    Console.WriteLine("changing location");
-                    chrFilePath = "chara/c01d.chr";
-                    Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled'
-
-                    
-
-                    currentAddress = Addresses.chrFileLocation;
-
-                    for (int i = 0; i < 30; i++)
-                    {
-                        Memory.WriteByte(currentAddress, 0);
-                        currentAddress += 0x00000001;
-                    }
-
-                    currentAddress = Addresses.chrFileLocation;
-
-                    for (int i = 0; i < chrFilePath.Length; i++)
-                    {
-                        char character = chrFilePath[i];
-
-                        for (int a = 0; a < characters.Length; a++)
-                        {
-                            if (character.Equals(characters[a]))
-                            {
-                                value1 = BitConverter.GetBytes(a + 32);
-                            }
-                        }
-
-
-                        Memory.WriteByte(currentAddress, value1[0]);
-
-
-                        currentAddress += 0x00000001;
-
-                    }
-
-                    Thread.Sleep(350);
-                    if (Memory.ReadByte(0x21D2DA4C) < 61)
-                    {
-                        int timerCheck = 0;
-                        while (Memory.ReadByte(0x21D2DA4C) < 58 || timerCheck == 25)
-                        {
-                            Thread.Sleep(50);
-                            timerCheck++;
-                        }
-                    }
-                    Memory.WriteByte(0x21F1001C, 0);
-                }
-
-                if (Memory.ReadByte(0x202A1E90) == 255)
-                {
-                    changingLocation = false;
-                }
-
-                int checkFishing = Memory.ReadByte(0x21D19714);
-                if (fishingActive == false & checkFishing == 1)
-                {
-                    fishingActive = true;
-                    fishingQuestPikeActive = false;
-                    fishingQuestPaoActive = false;
-                    fishingQuestSamActive = false;
-                    fishingQuestDeviaActive = false;
-                    fishingQuestCheck = false;
-                    CheckMardanSword();
-                }
-
-                if (fishingActive == true)
-                {
-                    CheckFishingQuest(currentArea);
-                    if (checkFishing == 0)
-                    {                      
-                        fishingActive = false;
-                    }
-                }
-
-                if (!currentlyInShop)
-                {
-                    if (Memory.ReadByte(0x21DA52E4) == 1 && Memory.ReadByte(0x21DA52E8) == 11) {
-                        currentlyInShop = true;
-                        shopDataCleared = false;
-                        Console.WriteLine("Entered a shop");
-                    }
-                }
-
-                if (currentlyInShop)
-                {
-                    if (!shopDataCleared)
-                    {
-                        Console.WriteLine("Fixing broken dagger glitch...");
-                        FixBrokenDagger();
-                        shopDataCleared = true;
-                    }
-
-                    if (Memory.ReadByte(0x21DA52E4) != 1)
-                    {
-                        currentlyInShop = false;
-                        Console.WriteLine("Exited a shop");
-                    }
-                }
-
-
-                /*
-                if (dialogueWritten == false)
-                {
-                    currentAddress = 0x21D3D434; //Dialogue ID for the first chat option
-
-                    for (int s = 0; s < 4; s++)
-                    {
-                        Memory.WriteByte(currentAddress, 46);
-                        currentAddress += 0x4;
-                    }
-
-                    string circletext = "I´ll have two number 9s, a number 9 large,^a number 6 with extra dip,^a number 7, two number 45s,^one with cheese, and a large soda.";
-
-                    currentAddress = 0x206498A0;
-
-                    for (int i = 0; i < circletext.Length; i++)
-                    {
-                        char character = circletext[i];
-
-                        for (int a = 0; a < gameCharacters.Length; a++)
-                        {
-                            if (character.Equals(gameCharacters[a]))
-                            {
-                                value1 = BitConverter.GetBytes(a);
-                            }
-                        }
-
-
-                        Memory.WriteByte(currentAddress, value1[0]);
-
-                        currentAddress += 0x00000001;
-
-                        if (value1[0] == 0 || value1[0] == 2)
-                        {
-                            value1 = BitConverter.GetBytes(255);
-                            Memory.WriteByte(currentAddress, value1[0]);
-                        }
                         else
                         {
-                            value1 = BitConverter.GetBytes(253);
-                            Memory.WriteByte(currentAddress, value1[0]);
+                            if (Memory.ReadByte(0x21D26FD4) == 0 || Memory.ReadByte(0x21D26FD4) == 1)
+                            {
+                                Console.WriteLine("Currently inside building");
+                                Dialogues.SetDialogueOptions(currentArea, true);
+                                Dialogues.SetStorageDialogue(currentArea, true);
+                                checkBuildingFlag = true;
+                            }
                         }
-
-                        currentAddress += 0x00000001;
                     }
 
-                    Memory.WriteByte(currentAddress, 1);
-                    currentAddress += 0x00000001;
-                    Memory.WriteByte(currentAddress, 255);
-                    dialogueWritten = true;
+                    if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
+                    {
+                        changingLocation = true;
+                        Console.WriteLine("changing location");
+                        chrFilePath = "chara/c01d.chr";
+                        Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled'
+
+
+
+                        currentAddress = Addresses.chrFileLocation;
+
+                        for (int i = 0; i < 30; i++)
+                        {
+                            Memory.WriteByte(currentAddress, 0);
+                            currentAddress += 0x00000001;
+                        }
+
+                        currentAddress = Addresses.chrFileLocation;
+
+                        for (int i = 0; i < chrFilePath.Length; i++)
+                        {
+                            char character = chrFilePath[i];
+
+                            for (int a = 0; a < characters.Length; a++)
+                            {
+                                if (character.Equals(characters[a]))
+                                {
+                                    value1 = BitConverter.GetBytes(a + 32);
+                                }
+                            }
+
+
+                            Memory.WriteByte(currentAddress, value1[0]);
+
+
+                            currentAddress += 0x00000001;
+
+                        }
+
+                        Thread.Sleep(350);
+                        if (Memory.ReadByte(0x21D2DA4C) < 61)
+                        {
+                            int timerCheck = 0;
+                            while (Memory.ReadByte(0x21D2DA4C) < 58 || timerCheck == 25)
+                            {
+                                Thread.Sleep(50);
+                                timerCheck++;
+                            }
+                        }
+                        Memory.WriteByte(0x21F1001C, 0);
+                    }
+
+                    if (Memory.ReadByte(0x202A1E90) == 255)
+                    {
+                        changingLocation = false;
+                    }
+
+                    int checkFishing = Memory.ReadByte(0x21D19714);
+                    if (fishingActive == false & checkFishing == 1)
+                    {
+                        fishingActive = true;
+                        fishingQuestPikeActive = false;
+                        fishingQuestPaoActive = false;
+                        fishingQuestSamActive = false;
+                        fishingQuestDeviaActive = false;
+                        fishingQuestCheck = false;
+                        CheckMardanSword();
+                    }
+
+                    if (fishingActive == true)
+                    {
+                        CheckFishingQuest(currentArea);
+                        if (checkFishing == 0)
+                        {
+                            fishingActive = false;
+                        }
+                    }
+
+                    if (!currentlyInShop)
+                    {
+                        if (Memory.ReadByte(0x21DA52E4) == 1 && Memory.ReadByte(0x21DA52E8) == 11)
+                        {
+                            currentlyInShop = true;
+                            shopDataCleared = false;
+                            Console.WriteLine("Entered a shop");
+                        }
+                    }
+
+                    if (currentlyInShop)
+                    {
+                        if (!shopDataCleared)
+                        {
+                            Console.WriteLine("Fixing broken dagger glitch...");
+                            FixBrokenDagger();
+                            shopDataCleared = true;
+                        }
+
+                        if (Memory.ReadByte(0x21DA52E4) != 1)
+                        {
+                            currentlyInShop = false;
+                            Console.WriteLine("Exited a shop");
+                        }
+                    }
+
+                    DungeonThread.CheckWepLvlUp();
+
+
+                    /*
+                    if (dialogueWritten == false)
+                    {
+                        currentAddress = 0x21D3D434; //Dialogue ID for the first chat option
+
+                        for (int s = 0; s < 4; s++)
+                        {
+                            Memory.WriteByte(currentAddress, 46);
+                            currentAddress += 0x4;
+                        }
+
+                        string circletext = "I´ll have two number 9s, a number 9 large,^a number 6 with extra dip,^a number 7, two number 45s,^one with cheese, and a large soda.";
+
+                        currentAddress = 0x206498A0;
+
+                        for (int i = 0; i < circletext.Length; i++)
+                        {
+                            char character = circletext[i];
+
+                            for (int a = 0; a < gameCharacters.Length; a++)
+                            {
+                                if (character.Equals(gameCharacters[a]))
+                                {
+                                    value1 = BitConverter.GetBytes(a);
+                                }
+                            }
+
+
+                            Memory.WriteByte(currentAddress, value1[0]);
+
+                            currentAddress += 0x00000001;
+
+                            if (value1[0] == 0 || value1[0] == 2)
+                            {
+                                value1 = BitConverter.GetBytes(255);
+                                Memory.WriteByte(currentAddress, value1[0]);
+                            }
+                            else
+                            {
+                                value1 = BitConverter.GetBytes(253);
+                                Memory.WriteByte(currentAddress, value1[0]);
+                            }
+
+                            currentAddress += 0x00000001;
+                        }
+
+                        Memory.WriteByte(currentAddress, 1);
+                        currentAddress += 0x00000001;
+                        Memory.WriteByte(currentAddress, 255);
+                        dialogueWritten = true;
+                    }
+                    */
+
                 }
-                */
-
                 Thread.Sleep(1);
-
-
             }
 
         }

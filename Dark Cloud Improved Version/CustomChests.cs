@@ -143,6 +143,7 @@ namespace Dark_Cloud_Improved_Version
         {
             Console.WriteLine("Custom chests activated");
             itemQuestSpawn = false;
+            Thread.Sleep(100);
 
             switch (currentDungeon)
             {
