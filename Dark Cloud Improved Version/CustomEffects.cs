@@ -9,6 +9,11 @@ namespace Dark_Cloud_Improved_Version
     {
         static int currentAddress;
         public static bool evilciseNewFloor = false;
+        public static bool chronicleNewFloor = false;
+        static float chronicleCurrentWHP = 0;
+        static float chronicleFormerWHP = 0;
+        static int[] chronicleCurrentEnemyHP;
+        static int[] chronicleFormerEnemyHP;
         public const int mode = 0x202A2534; //Values:
                                             //0=Main title
                                             //1=Intro
@@ -20,6 +25,8 @@ namespace Dark_Cloud_Improved_Version
                                             //7=Debug menu
 
         private static Random random = new Random();
+        public static Thread damageFadeoutThread = new Thread(new ThreadStart(DamageFadeout));
+
 
         public static void BoneRapierEffect(bool isActive)
         {
@@ -169,6 +176,222 @@ namespace Dark_Cloud_Improved_Version
 
                 Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27);
             }
+        }
+
+        public static void ChronicleSword()
+        {
+            if (chronicleNewFloor == true)
+            {
+                for (int i = 0; i < 7; i++ )
+                {                   
+                    Memory.WriteInt(0x21EC828C + (0x60 * i), 0);
+                    Memory.WriteInt(0x21EC8290 + (0x60 * i), 158);
+                    Memory.WriteInt(0x21EC8294 + (0x60 * i), 12);
+                    Memory.WriteInt(0x21EC8298 + (0x60 * i), 18);
+                }
+                chronicleNewFloor = false;
+            }
+
+            Thread.Sleep(50);
+
+            //Save weapon Whp
+            chronicleCurrentWHP = ReusableFunctions.GetCurrentEquippedWhp(Player.CurrentCharacterNum(), Player.Toan.GetWeaponSlot());
+
+            //Save every enemy's HP on the current floor
+            chronicleCurrentEnemyHP = ReusableFunctions.GetEnemiesHp();
+
+            int damagedEnemyNum = 0;
+            if (chronicleCurrentWHP < chronicleFormerWHP && chronicleCurrentEnemyHP.Average() < chronicleFormerEnemyHP.Average())
+            {
+                float flashRGB_R = 0;
+                float flashRGB_G = 0;
+                float flashRGB_B = 0;
+                float damageDealt = 0;
+                for (int i = 0; i < 15; i++)
+                {
+                    if (chronicleCurrentEnemyHP[i] < chronicleFormerEnemyHP[i])
+                    {
+                        Console.WriteLine("Damaged enemy number: " + i);
+                        damagedEnemyNum = i;
+                        flashRGB_R = Memory.ReadFloat(Enemies.Enemy0.flashColorRed + (i * 0x190));
+                        flashRGB_G = Memory.ReadFloat(Enemies.Enemy0.flashColorGreen + (i * 0x190));
+                        flashRGB_B = Memory.ReadFloat(Enemies.Enemy0.flashColorBlue + (i * 0x190));
+                        damageDealt = Memory.ReadInt(0x21DC452C);
+                        break; 
+                    }
+                }
+
+                float[] enemiesDistance = ReusableFunctions.GetEnemiesDistance();
+                List<int> enemiesinRange = new List<int>();
+                float[] enemiescoordinateX = new float[15];
+                float[] enemiescoordinateY = new float[15];
+                float[] enemiescoordinateZ = new float[15];
+                float[] effectDamage = new float[15];
+                int[] effectDamageDigit1 = new int[15];
+                int[] effectDamageDigit2 = new int[15];
+                int[] effectDamageDigit3 = new int[15];
+                int[] effectDamageDigit4 = new int[15];
+                int[] effectDamageDigit5 = new int[15];
+                //List<float> enemiescoordinateZ = new List<float>();
+                //List<float> enemiescoordinateY = new List<float>();
+
+                for (int i= 0; i < 15; i++)
+                {
+                    if (i != damagedEnemyNum)
+                    {
+                        if (chronicleCurrentEnemyHP[i] > 0 && enemiesDistance[i] < 300)
+                        {
+                            Console.WriteLine("Enemy " + i + " is in range");
+                            enemiesinRange.Add(i);
+                        }
+                    }
+                }
+
+                if (enemiesinRange.Count > 0) 
+                {
+                    for (int i = 0; i < enemiesinRange.Count; i++)
+                    {
+                        Memory.WriteFloat(Enemies.Enemy0.flashColorRed + (0x190 * enemiesinRange[i]), flashRGB_R);
+                        Memory.WriteFloat(Enemies.Enemy0.flashColorGreen + (0x190 * enemiesinRange[i]), flashRGB_G);
+                        Memory.WriteFloat(Enemies.Enemy0.flashColorBlue + (0x190 * enemiesinRange[i]), flashRGB_B);
+                        Memory.WriteFloat(Enemies.Enemy0.flashDuration + (0x190 * enemiesinRange[i]), (float)(0.1));
+                        
+
+                        enemiescoordinateX[i] = Memory.ReadFloat(Enemies.Enemy0.locationCoordinateX + (0x190 * enemiesinRange[i]));
+                        enemiescoordinateZ[i] = Memory.ReadFloat(Enemies.Enemy0.locationCoordinateZ + (0x190 * enemiesinRange[i]));
+                        enemiescoordinateY[i] = Memory.ReadFloat(Enemies.Enemy0.locationCoordinateY + (0x190 * enemiesinRange[i]));
+
+                        Console.WriteLine("Enemy " + enemiesinRange[i] + " XZY coordinates: " + enemiescoordinateX[i] + " " + enemiescoordinateZ[i] + " " + enemiescoordinateY[i]);
+
+                        if (enemiesDistance[enemiesinRange[i]] < 50)
+                        {
+                            effectDamage[i] = (float)System.Math.Floor(damageDealt / 2);
+                        }
+                        else
+                        {
+                            float effectDamagePercent = ((300 - enemiesDistance[enemiesinRange[i]]) / 5); 
+                            if (effectDamagePercent < 1)
+                            {
+                                effectDamagePercent = 1;
+                            }
+                            effectDamage[i] = (float)System.Math.Floor(damageDealt * (effectDamagePercent / 100));
+                        }
+                        Console.WriteLine("Enemy " + enemiesinRange[i] + " effect dmg: " + effectDamage[i]);
+                        
+                    }
+
+                    for (int i = 0; i < enemiesinRange.Count; i++)
+                    {
+                        int[] digitArray = GetIntArray((int)effectDamage[i]);
+
+                        effectDamageDigit2[i] = -1;
+                        effectDamageDigit3[i] = -1;
+                        effectDamageDigit4[i] = -1;
+                        effectDamageDigit5[i] = -1;
+                        if (digitArray.Length > 0)
+                        {
+                            effectDamageDigit1[i] = digitArray[0];
+                        }
+                        if (digitArray.Length > 1)
+                        {
+                            effectDamageDigit2[i] = digitArray[1];
+                        }
+                        if (digitArray.Length > 2)
+                        {
+                            effectDamageDigit3[i] = digitArray[2];
+                        }
+                        if (digitArray.Length > 3)
+                        {
+                            effectDamageDigit4[i] = digitArray[3];
+                        }
+                        if (digitArray.Length > 4)
+                        {
+                            effectDamageDigit5[i] = digitArray[4];
+                        }
+                    }
+
+                    for (int i = 0; i < enemiesinRange.Count; i++)
+                    {
+                        Memory.WriteFloat(0x21EC8240 + (0x60 * i), enemiescoordinateX[i]);
+                        Memory.WriteFloat(0x21EC8244 + (0x60 * i), enemiescoordinateZ[i] - 3);
+                        Memory.WriteFloat(0x21EC8248 + (0x60 * i), enemiescoordinateY[i]);
+                        Memory.WriteFloat(0x21EC824C + (0x60 * i), 1);
+
+                        Memory.WriteFloat(0x21EC8254 + (0x60 * i), 0);
+                        Memory.WriteFloat(0x21EC8258 + (0x60 * i), 0);
+                        Memory.WriteFloat(0x21EC825C + (0x60 * i), 0);
+                        Memory.WriteFloat(0x21EC8260 + (0x60 * i), 0);
+                        Memory.WriteFloat(0x21EC8264 + (0x60 * i), 0);
+
+                        Memory.WriteInt(0x21EC8268 + (0x60 * i), effectDamageDigit1[i]);
+                        Memory.WriteInt(0x21EC826C + (0x60 * i), effectDamageDigit2[i]);
+                        Memory.WriteInt(0x21EC8270 + (0x60 * i), effectDamageDigit3[i]);
+                        Memory.WriteInt(0x21EC8274 + (0x60 * i), effectDamageDigit4[i]);
+                        Memory.WriteInt(0x21EC8278 + (0x60 * i), effectDamageDigit5[i]);
+
+                        Memory.WriteFloat(0x21EC827C + (0x60 * i), 0);
+                        Memory.WriteFloat(0x21EC8280 + (0x60 * i), 3);
+                        Memory.WriteInt(0x21EC8284 + (0x60 * i), -1);
+
+                        if (i == 7)
+                        {
+                            break;
+                        }
+                    }
+
+                    for (int i = 0; i < enemiesinRange.Count; i++)
+                    {
+                        Memory.WriteInt(0x21EC829C + (0x60 * i), 1);
+                        Memory.WriteByte(Enemies.Enemy0.flashActivation + (0x190 * enemiesinRange[i]), 1);
+
+                        int enemyHP = Memory.ReadInt(Enemies.Enemy0.hp + (0x190 * enemiesinRange[i]));
+                        int newEnemyHP = (int)(enemyHP - effectDamage[i]);
+                        if (newEnemyHP < 1)
+                        {
+                            newEnemyHP = 1;
+                            Memory.WriteByte(Enemies.Enemy0.poisonPeriod + (0x190 * enemiesinRange[i]), 1);
+                        }
+                        Memory.WriteInt(Enemies.Enemy0.hp + (0x190 * enemiesinRange[i]), newEnemyHP);
+                    }
+
+                    if (!damageFadeoutThread.IsAlive)
+                    {
+                        damageFadeoutThread = new Thread(new ThreadStart(DamageFadeout));
+                        damageFadeoutThread.Start();
+                    }
+                }
+
+
+            }
+
+            chronicleFormerWHP = chronicleCurrentWHP;
+            chronicleFormerEnemyHP = chronicleCurrentEnemyHP;
+        }
+
+        public static void DamageFadeout()
+        {
+            Thread.Sleep(500);
+            for (int i = 0; i < 7; i++)
+            {
+                Memory.WriteInt(0x21EC8284 + (0x60 * i), 1);
+            }
+            Thread.Sleep(200);
+            for (int i = 0; i < 7; i++)
+            {
+                Memory.WriteInt(0x21EC829C + (0x60 * i), 0);
+            }
+        }
+
+        public static int[] GetIntArray(int num)
+        {
+            List<int> listOfInts = new List<int>();
+            while (num > 0)
+            {
+                listOfInts.Add(num % 10);
+                num = num / 10;
+            }
+            //listOfInts.Reverse();
+            return listOfInts.ToArray();
         }
 
         public static void DragonsY()

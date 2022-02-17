@@ -59,6 +59,7 @@ namespace Dark_Cloud_Improved_Version
         //Weapon threads, only 1 should run at a time
         public static Thread boneDoorThread = new Thread(new ThreadStart(CustomEffects.BoneDoorTrigger));
         public static Thread seventhHeavenThread = new Thread(new ThreadStart(CustomEffects.SeventhHeaven));
+        public static Thread chronicleSwordThread = new Thread(new ThreadStart(CustomEffects.ChronicleSword));
         public static Thread evilciseThread = new Thread(new ThreadStart(CustomEffects.Evilcise));
         public static Thread dragonsYThread = new Thread(new ThreadStart(CustomEffects.DragonsY));
         public static Thread angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
@@ -111,6 +112,17 @@ namespace Dark_Cloud_Improved_Version
                                             seventhHeavenThread.Start();
                                         }
                                         break;
+                                    case Items.chroniclesword:
+                                        CustomEffects.BoneRapierEffect(false);
+
+                                        if (!chronicleSwordThread.IsAlive)
+                                        {
+                                            chronicleSwordThread = new Thread(new ThreadStart(CustomEffects.ChronicleSword));
+                                            chronicleSwordThread.Start();
+                                        }
+                                        break;
+
+
 
                                     default:
                                         CustomEffects.BoneRapierEffect(false);
@@ -511,7 +523,7 @@ namespace Dark_Cloud_Improved_Version
 
             //Listens for the enemy render address value to change, from 0 or 10 seconds have passed
             //We use the enemy render value here because enemies spawn after chests
-            while (Memory.ReadInt(Enemies.Enemy0.hp) == 1 && ms < 10000)
+            while (Memory.ReadInt(Enemies.Enemy0.hp) == 1 && ms < 1000)
             {
                 Thread.Sleep(100);
                 ms += 100;
@@ -545,6 +557,7 @@ namespace Dark_Cloud_Improved_Version
             CheckSidequests();
 
             //CustomEffects.evilciseNewFloor = true;
+            CustomEffects.chronicleNewFloor = true;
 
             Console.WriteLine("Finished spawn checking");
 

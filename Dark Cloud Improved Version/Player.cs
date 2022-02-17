@@ -15,6 +15,9 @@ namespace Dark_Cloud_Improved_Version
         public const int miniMap = 0x202A35B0;
         public const int visibility = 0x202A359C;
 
+        public const int mostRecentDamage = 0x21DC452C; //most recent damage caused by the player, either with character or throwable
+        public const int damageSource = 0x21DC4530; //source of damage, either character ID or throwable (-1)
+
         public const int positionX = 0x21D331D8;
         public const int positionY = 0x21D331D0;
         public const int positionZ = 0x21D331D4;

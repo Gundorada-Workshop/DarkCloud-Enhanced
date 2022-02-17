@@ -142,6 +142,32 @@ namespace Dark_Cloud_Improved_Version
             return EnemiesHP;
         }
 
+        public static float[] GetEnemiesDistance()
+        {
+
+            //Save every current distance
+            float[] distance = { Memory.ReadFloat(Enemies.Enemy0.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy1.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy2.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy3.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy4.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy5.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy6.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy7.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy8.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy9.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy10.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy11.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy12.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy13.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy14.distanceToPlayer),
+                                Memory.ReadFloat(Enemies.Enemy15.distanceToPlayer),
+
+            };
+
+            return distance;
+        }
+
         public static List<int> GetEnemiesHitIds(int[] formerEnemiesHp, int[] currentEnemiesHp)
         {
             //Create a list to store the IDs
