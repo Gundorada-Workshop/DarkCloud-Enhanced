@@ -17,6 +17,7 @@ namespace Dark_Cloud_Improved_Version
         private static Thread dayEnemyThread = new Thread(new ThreadStart(EnemyDropRandomizer)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
         public static Thread messageThread;
+        public static Thread messageThreadTimer;
 
         private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210); //Read 210 bytes of byte array that stores dungeon message 10
 
@@ -724,8 +725,55 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static byte[] DisplayMessage(string message, int height = 4, int width = 27, int displayTime = 2000)
+        /// <summary>
+        /// Processes the dungeon message information and displays it onscreen
+        /// </summary>
+        /// <param name="message">The contents of the message.</param>
+        /// <param name="height">The height of the message window. Each value represents a line, ie 2 = paragrah with 2 lines.</param>
+        /// <param name="width">The width of the message window. Each value represents a character in the string, ie 24 = 24 characters wide.</param>
+        /// <param name="displayTime">The amount of time to display the message. Keep in mind there is a 5 second timeout threshold in place.</param>
+        /// <returns>An array of bytes with the output message.</returns>
+        public static void DisplayMessage(string message, int height = 4, int width = 27, int displayTime = 2000)
         {
+            messageThread = new Thread(() => DisplayMessageProcess(message, height, width, displayTime));
+            messageThread.Start();
+        }
+
+        /// <summary>
+        /// Returns true if no message is being displayed on screen, await a set amount of time if it is. 
+        /// </summary>
+        /// <param name="timeout">Set a timeout in miliseconds (Default is 5 seconds)</param>
+        /// <returns></returns>
+        internal static bool CheckDisplayMessageAvailable(int timeout = 5000)
+        {
+            int ms;
+
+            //Check if a dungeon message is displaying
+            if (Memory.ReadInt(Addresses.dunMessage) != -1)
+            {
+                //Reset timer
+                ms = 0;
+
+                //Wait for whatever message is currently displaying
+                while (Memory.ReadInt(Addresses.dunMessage) != -1 && ms < timeout)
+                {
+                    Thread.Sleep(100);
+                    ms += 100;
+                    continue;
+                }
+                //if(ms < timeout) return true; else return false;
+                return true;
+            }
+            else return true;
+        }
+
+        static byte[] DisplayMessageProcess(string message, int height, int width, int displayTime)
+        {
+            while (!CheckDisplayMessageAvailable())
+            {
+                continue;
+            }
+
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
             byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210);
             byte[] outputMessage = new byte[customMessage.Length * 2];
@@ -787,13 +835,14 @@ namespace Dark_Cloud_Improved_Version
             {
                 dungeonMessage[i] = 0xFD;
             }
-
+            
             for (int i = 0; i < dungeonMessage.Length; i += 27) //Initialize Dungeon message with three lines.
             {
                 //newLine
                 dungeonMessage[i] = 0x00;
                 dungeonMessage[i + 1] = 0xFF;
             }
+
             Memory.WriteByteArray(Addresses.dunMessage10, dungeonMessage);
 
             for (int i = 0; i < customMessage.Length; i++)
@@ -871,15 +920,14 @@ namespace Dark_Cloud_Improved_Version
 
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
-            //Thread.Sleep(50);
             Memory.WriteInt(Addresses.dunMessageHeight, height);
             Memory.WriteInt(Addresses.dunMessageWidth, width);
             Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
             Thread.Sleep(18);
             Memory.WriteInt(Addresses.dunMessageHeight, height);
             Memory.WriteInt(Addresses.dunMessageWidth, width);
-            messageThread = new Thread(() => DisplayMessageCustomTime(displayTime));
-            messageThread.Start();
+            messageThreadTimer = new Thread(() => DisplayMessageCustomTime(displayTime));
+            messageThreadTimer.Start();
 
             return outputMessage;
         }
@@ -1132,7 +1180,7 @@ namespace Dark_Cloud_Improved_Version
                             CallGameFunction(Addresses.functionBGMStop);
                             Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
                             TestElementFunctionStuff();
-                            Memory.WriteByteArray(Addresses.dunMessage10, DisplayMessage("Background music stopped."));
+                            Memory.WriteByteArray(Addresses.dunMessage10, DisplayMessageProcess("Background music stopped.", 1, 36, 3000));
                         }
                     }
                 }

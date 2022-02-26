@@ -655,7 +655,7 @@ namespace Dark_Cloud_Improved_Version
             public static ushort GetCurrentWeaponAbs()
             //Returns the current equipped weapon Abs
             {
-                return Memory.ReadUShort(maxWhp);
+                return Memory.ReadUShort(abs);
             }
 
             public static byte GetCurrentWeaponElement()
