@@ -507,12 +507,12 @@ namespace Dark_Cloud_Improved_Version
         {
             string[] elementName = new string[6];
 
-            elementName[0] = "Fire";
-            elementName[1] = "Ice";
-            elementName[2] = "Thunder";
-            elementName[3] = "Wind";
-            elementName[4] = "Holy";
-            elementName[5] = "None";
+            elementName[0] = "Fire";    //33
+            elementName[1] = "Ice";     //32
+            elementName[2] = "Thunder"; //36
+            elementName[3] = "Wind";    //33
+            elementName[4] = "Holy";    //33
+            elementName[5] = "None";    //33
 
             byte elementSelected;
             elemRGBs[0] = elemRGBFire;
@@ -521,6 +521,8 @@ namespace Dark_Cloud_Improved_Version
             elemRGBs[3] = elemRGBWind;
             elemRGBs[4] = elemRGBHoly;
             elemRGBs[5] = elemRGBNone;
+
+            int width;
 
             while (1 == 1)
             {
@@ -663,7 +665,15 @@ namespace Dark_Cloud_Improved_Version
 
                                         Memory.WriteByteArray(0x21E59450, elemRGBs[elementSelected]);
 
-                                        DisplayMessage("Changed current attribute to " + elementName[elementSelected], 1, 35, 1000);
+                                        //Dynamically change the message width acording to the selected element word
+                                        switch (elementSelected)
+                                        {
+                                            case 1: width = 32; break;
+                                            case 2: width = 36; break;
+                                            default: width = 33; break;
+                                        }
+
+                                        DisplayMessage("Changed current attribute to " + elementName[elementSelected], 1, width, 1000);
                                         Thread.Sleep(1100);
                                     }
                                 }
@@ -749,7 +759,7 @@ namespace Dark_Cloud_Improved_Version
             int ms;
 
             //Check if a dungeon message is displaying
-            if (Memory.ReadInt(Addresses.dunMessage) != -1)
+            if (Memory.ReadInt(Addresses.dunMessage) != -1 && Memory.ReadInt(Addresses.dunMessage) != 171) //Thirst Message
             {
                 //Reset timer
                 ms = 0;
