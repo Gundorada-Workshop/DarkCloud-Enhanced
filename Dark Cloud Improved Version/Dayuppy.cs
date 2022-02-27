@@ -743,7 +743,7 @@ namespace Dark_Cloud_Improved_Version
         /// <param name="width">The width of the message window. Each value represents a character in the string, ie 24 = 24 characters wide.</param>
         /// <param name="displayTime">The amount of time to display the message. Keep in mind there is a 5 second timeout threshold in place.</param>
         /// <returns>An array of bytes with the output message.</returns>
-        public static void DisplayMessage(string message, int height = 4, int width = 27, int displayTime = 2000)
+        public static void DisplayMessage(string message, int height = 4, int width = 40, int displayTime = 2000)
         {
             messageThread = new Thread(() => DisplayMessageProcess(message, height, width, displayTime));
             messageThread.Start();
@@ -785,7 +785,7 @@ namespace Dark_Cloud_Improved_Version
             }
 
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
-            byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210);
+            byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, message.Length);
             byte[] outputMessage = new byte[customMessage.Length * 2];
 
             byte[] normalCharTable =
@@ -834,6 +834,7 @@ namespace Dark_Cloud_Improved_Version
               0x8,       0x6,
             };
 
+            
             //Initialize outputMessage to 0xFD
             for (int i = 0; i < outputMessage.Length; i++)
             {
@@ -845,13 +846,15 @@ namespace Dark_Cloud_Improved_Version
             {
                 dungeonMessage[i] = 0xFD;
             }
-            
-            for (int i = 0; i < dungeonMessage.Length; i += 27) //Initialize Dungeon message with three lines.
+
+            /*
+            for (int i = 0; i < dungeonMessage.Length; i += width) //Initialize Dungeon message with three lines.
             {
                 //newLine
                 dungeonMessage[i] = 0x00;
                 dungeonMessage[i + 1] = 0xFF;
             }
+            */
 
             Memory.WriteByteArray(Addresses.dunMessage10, dungeonMessage);
 
@@ -926,16 +929,26 @@ namespace Dark_Cloud_Improved_Version
                             outputMessage[i * 2] = dcCharTable[t];
                     }
                 }
+
+                if(i == customMessage.Length)
+                {
+                    int aux = Addresses.dunMessage10 + outputMessage.Length + 0x2;
+
+                    Memory.WriteByte(aux, 1);
+                    Memory.WriteByte(aux + 0x1, 255);
+                    /*outputMessage[i] = 0x1;
+                    outputMessage[i + 1] = 0xFF;*/
+                }
             }
 
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
-            Memory.WriteInt(Addresses.dunMessageHeight, height);
-            Memory.WriteInt(Addresses.dunMessageWidth, width);
+            //Memory.WriteInt(Addresses.dunMessageHeight, height);
+            //Memory.WriteInt(Addresses.dunMessageWidth, width);
             Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
             Thread.Sleep(18);
-            Memory.WriteInt(Addresses.dunMessageHeight, height);
-            Memory.WriteInt(Addresses.dunMessageWidth, width);
+            //Memory.WriteInt(Addresses.dunMessageHeight, height);
+            //Memory.WriteInt(Addresses.dunMessageWidth, width);
             messageThreadTimer = new Thread(() => DisplayMessageCustomTime(displayTime));
             messageThreadTimer.Start();
 
