@@ -930,25 +930,18 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
-                if(i == customMessage.Length)
+                if(i == customMessage.Length - 1)
                 {
-                    int aux = Addresses.dunMessage10 + outputMessage.Length + 0x2;
+                    int aux = Addresses.dunMessage10 + outputMessage.Length;
 
                     Memory.WriteByte(aux, 1);
                     Memory.WriteByte(aux + 0x1, 255);
-                    /*outputMessage[i] = 0x1;
-                    outputMessage[i + 1] = 0xFF;*/
                 }
             }
 
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
-            //Memory.WriteInt(Addresses.dunMessageHeight, height);
-            //Memory.WriteInt(Addresses.dunMessageWidth, width);
             Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
-            Thread.Sleep(18);
-            //Memory.WriteInt(Addresses.dunMessageHeight, height);
-            //Memory.WriteInt(Addresses.dunMessageWidth, width);
             messageThreadTimer = new Thread(() => DisplayMessageCustomTime(displayTime));
             messageThreadTimer.Start();
 
