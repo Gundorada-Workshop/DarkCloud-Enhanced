@@ -222,5 +222,21 @@ namespace Dark_Cloud_Improved_Version
 
             return enemyKilled;
         }
+
+        public static int GetRecentDamageDealtByPlayer()
+        {
+            int damage = Memory.ReadInt(Player.mostRecentDamage);
+            return damage;
+        }
+        public static int GetDamageSourceCharacterID()
+        {
+            int character = Memory.ReadInt(Player.damageSource);
+            return character;
+        }
+        public static void ClearRecentDamageAndDamageSource()
+        {
+            Memory.WriteInt(Player.mostRecentDamage, -1);
+            Memory.WriteInt(Player.damageSource, -1);
+        }
     }
 }

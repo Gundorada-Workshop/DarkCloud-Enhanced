@@ -201,7 +201,7 @@ namespace Dark_Cloud_Improved_Version
             chronicleCurrentEnemyHP = ReusableFunctions.GetEnemiesHp();
 
             int damagedEnemyNum = 0;
-            if (chronicleCurrentWHP < chronicleFormerWHP && chronicleCurrentEnemyHP.Average() < chronicleFormerEnemyHP.Average())
+            if (chronicleCurrentWHP < chronicleFormerWHP && ReusableFunctions.GetRecentDamageDealtByPlayer() > 0)
             {
                 float flashRGB_R = 0;
                 float flashRGB_G = 0;
@@ -241,8 +241,11 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (chronicleCurrentEnemyHP[i] > 0 && enemiesDistance[i] < 300)
                         {
-                            Console.WriteLine("Enemy " + i + " is in range");
-                            enemiesinRange.Add(i);
+                            if (enemiesDistance[i] > 0)
+                            {
+                                Console.WriteLine("Enemy " + i + " is in range");
+                                enemiesinRange.Add(i);
+                            }
                         }
                     }
                 }
@@ -359,11 +362,9 @@ namespace Dark_Cloud_Improved_Version
                         damageFadeoutThread = new Thread(new ThreadStart(DamageFadeout));
                         damageFadeoutThread.Start();
                     }
-                }
-
-
+                }            
             }
-
+            ReusableFunctions.ClearRecentDamageAndDamageSource();
             chronicleFormerWHP = chronicleCurrentWHP;
             chronicleFormerEnemyHP = chronicleCurrentEnemyHP;
         }

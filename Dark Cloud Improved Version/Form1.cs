@@ -79,5 +79,19 @@ namespace Dark_Cloud_Improved_Version
             }
 
         }
+
+        private void buttonLaunchMod(object sender, EventArgs e) //Launch Mod as normal User
+        {
+            tabControl2.Visible = true;
+            button7.Visible = false;
+            button8.Visible = false;
+        }
+
+        private void buttonLaunchModAsDev(object sender, EventArgs e) //Launch Mod with dev buttons
+        {
+            tabControl1.Visible = true;
+            button7.Visible = false;
+            button8.Visible = false;
+        }
     }
 }

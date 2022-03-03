@@ -104,6 +104,12 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(0x2027D81C, 0); //make revival powder stackable
             Memory.WriteByte(0x2027D830, 0); //make repair powder equipable+stackable
             Memory.WriteByte(0x2027D8A8, 0); //make auto-repair powder stackable
+            Memory.WriteUShort(0x20292A3E, 2000); //make matador fishing cost to 2k
+            Memory.WriteByte(0x21CB6AEC, 50); //fix matador model in chest loot
+            Memory.WriteByte(0x21CB6AF7, 50); //
+            Memory.WriteByte(0x21CB6B02, 51); //
+            Memory.WriteByte(0x21CB6B0D, 51); //
+
 
             if (Memory.ReadByte(0x21CE446B) != 0) //max hps for mayor quest
             {

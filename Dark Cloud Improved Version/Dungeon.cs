@@ -558,6 +558,7 @@ namespace Dark_Cloud_Improved_Version
 
             //CustomEffects.evilciseNewFloor = true;
             CustomEffects.chronicleNewFloor = true;
+            ReusableFunctions.ClearRecentDamageAndDamageSource();
 
             Console.WriteLine("Finished spawn checking");
 

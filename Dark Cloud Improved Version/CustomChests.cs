@@ -33,7 +33,7 @@ namespace Dark_Cloud_Improved_Version
         static int[] moonseaFirstHalfWeapons = { 272, 288, 281, 307, 322, 334, 344, 351, 352, 353 };
         static int[] moonseaSecondHalfWeapons = { 272, 288, 281, 307, 322, 334, 344, 351, 352, 353, 365, 374 };
         static int[] galleryWeapons = { 274, 281, 285, 292, 294, 308, 322, 336, 338, 339, 354, 360, 368, 375 };
-        static int[] demonshaftWeapons = { 276, 273, 275, 281, 285, 309, 323, 325, 340, 338, 355, 359, 370, 371 };
+        static int[] demonshaftWeapons = { 276, 273, 275, 281, 285, 309, 311, 323, 325, 340, 338, 355, 359, 370, 371 };
 
         //backfloor loot table same in all dungeons from DBC to gallery (need to check demon shaft)
         static int[] BackfloorItems = { 91, 92, 93, 94, 81, 82, 83, 84, 85, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 161, 162, 163, 164, 165, 150, 151, 152, 153, 154, 132, 133, 134, 135, 235, 166, 167, 168, 169, 170, 178 };
@@ -364,10 +364,17 @@ namespace Dark_Cloud_Improved_Version
 
             }
 
+            int bigChestModifier = 15 * currentDungeon;
+
+            bigChestChance = 880 + bigChestModifier;
+
             if (chronicle2)
-                bigChestChance = 84;
-            else
-                bigChestChance = 88;
+            {
+                bigChestModifier = (1000 - bigChestChance);
+                bigChestChance -= bigChestModifier;   
+            }
+
+            Console.WriteLine("Big chest chance: " + bigChestChance);
 
             hasMap = SideQuestManager.CheckItemQuestReward(233, true, false);
             hasMC = SideQuestManager.CheckItemQuestReward(234, true, false);
@@ -433,7 +440,7 @@ namespace Dark_Cloud_Improved_Version
 
                     if (checkMimic > 40)    //for some reason, when game spawns mimics it gives them really low item ID, and low ID's are only used in JP version. This checks for potential mimic spawns.
                     {
-                        chestSize = rnd.Next(100);
+                        chestSize = rnd.Next(1000);
 
                         if (chestSize < bigChestChance)
                         {
@@ -494,7 +501,7 @@ namespace Dark_Cloud_Improved_Version
 
             for (int i = 0; i < 7; i++)
             {
-                chestSize = rnd.Next(100);
+                chestSize = rnd.Next(1000);
 
                 checkMimic = Memory.ReadShort(currentAddress);
 

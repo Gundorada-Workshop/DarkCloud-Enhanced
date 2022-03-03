@@ -34,7 +34,7 @@ namespace Dark_Cloud_Improved_Version
 
             else
             {
-                Patcher.ApplyPatches();
+                //Patcher.ApplyPatches();
             }
             PressEntertoContinue();
         }
