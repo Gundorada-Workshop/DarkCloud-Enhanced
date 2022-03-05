@@ -69,6 +69,7 @@ namespace Dark_Cloud_Improved_Version
         
         public static int onDialogueFlag = 0;
         public static int sidequestonDialogueFlag = 0;
+        public static int itsfinishedonDialogueFlag = 0;
         static int[] originalFunctions1 = { 201865816, 0, 201653168, 0, 201653040, 0, 604241921, 201865772 };
         static int[] originalFunctions2 = { 604241921, 201865856, 0, 209125176, 0, 604241921, 201840320 };
         static int charNumber;
@@ -85,6 +86,7 @@ namespace Dark_Cloud_Improved_Version
         static int fishSizeAddress = 0;
         public static int characterIDData;
         public static int sidequestDialogueID = 0;
+        public static int itsfinishedDialogueID = 0;
         
         //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014, 21F10018 (element check), 21F1001C (clock check)
 
@@ -636,6 +638,8 @@ namespace Dark_Cloud_Improved_Version
                             if (currentArea != 23)
                             {
                                 Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
+                                Memory.WriteInt(0x21D3D440, itsfinishedDialogueID); //its finished dialogue ID setup
+                                SetItsFinishedDialogue();
                             }
                             else
                             {
@@ -666,6 +670,7 @@ namespace Dark_Cloud_Improved_Version
                                 else
                                 {
                                     sidequestonDialogueFlag = 0;
+                                    itsfinishedonDialogueFlag = 0;
                                 }
                             }
                         }
@@ -693,8 +698,10 @@ namespace Dark_Cloud_Improved_Version
                                 else
                                 {
                                     Memory.WriteInt(0x21D3D440, sidequestDialogueID); //THIS IS USED FOR POSSIBLE 4TH DIALOGUE OPTION (sidequests)
+                                    Memory.WriteInt(0x21D3D43C, itsfinishedDialogueID); //its finished dialogue ID setup
                                 }
                                 SetSideQuestDialogue();
+                                SetItsFinishedDialogue();
 
                                 if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && isSideQuestDialogueActive == false)
                                 {
@@ -709,6 +716,7 @@ namespace Dark_Cloud_Improved_Version
                             else
                             {
                                 sidequestonDialogueFlag = 0;
+                                itsfinishedonDialogueFlag = 0;
                             }
                         }
 
@@ -1144,6 +1152,28 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
             */
+        }
+
+        public static void SetItsFinishedDialogue()
+        {
+            int checkNearNPC = 0;
+            for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
+            {
+                currentAddress = i * 0x14A0 + 0x21D26FF8;
+                if (Memory.ReadByte(currentAddress) == 1)
+                {
+                    if (itsfinishedonDialogueFlag == 0)
+                    {
+
+                        Dialogues.SetDialogue(i, false, false, true);
+                        Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
+                        nearNPCSD = true;
+                        Console.WriteLine("sidequestdialogue set");
+                        itsfinishedonDialogueFlag = 1;
+                    }
+                    checkNearNPC++;
+                }
+            }
         }
 
         public static void CheckAllyFishing()

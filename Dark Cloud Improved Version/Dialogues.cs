@@ -11,6 +11,7 @@ namespace Dark_Cloud_Improved_Version
         static string[] customDialogues = new string[15];
         static string[] customDialogues2 = new string[15];
         static string[] sideQuestDialogueOption = new string[15];
+        static string[] itsfinishedDialogue = new string[15];
         static string brownbooPickle;
         static string brownbooPickleData;
         static string brownbooPickleExtraDialogue;
@@ -98,6 +99,11 @@ namespace Dark_Cloud_Improved_Version
         static string currentDialogueOptions;
         static string prevDialogue;
         static string dialogueOptions;
+
+        static string[] norunefinishedDialogue = new string[15];
+        static string[] matatakifinishedDialogue = new string[15];
+        static string[] queensfinishedDialogue = new string[15];
+        static string[] muskafinishedDialogue = new string[15];
 
         static bool isUsingAlly;
 
@@ -196,7 +202,7 @@ namespace Dark_Cloud_Improved_Version
                                             105, 0, 106, 0, 2, 0, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 103, 100, 104, 2 };
 
 
-        public static void SetDialogue(int offset, bool isAlly, bool isSidequest)
+        public static void SetDialogue(int offset, bool isAlly, bool isSidequest, bool finishedDialogue = false)
         {
             isUsingAlly = isAlly;
             currentAddress = Addresses.chrFileLocation + 0x6;
@@ -218,6 +224,11 @@ namespace Dark_Cloud_Improved_Version
             }
 
             currentAddress = Addresses.chrFileLocation + 0x6;
+
+            if (finishedDialogue == true)
+            {
+                GetCurrentAreaFinishedDialogues(currentArea);
+            }
 
             if (currentChar != Memory.ReadInt(currentAddress) && isAlly == true)  //if using different ally, switch dialogue data
             {              
@@ -533,6 +544,10 @@ namespace Dark_Cloud_Improved_Version
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
                             }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
+                            }
                             else
                             {
                                 currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
@@ -555,6 +570,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
+                            }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
                             }
                             else
                             {
@@ -600,6 +619,10 @@ namespace Dark_Cloud_Improved_Version
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
                             }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
+                            }
                             else
                             {
                                 currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
@@ -622,6 +645,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
+                            }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
                             }
                             else
                             {
@@ -679,6 +706,10 @@ namespace Dark_Cloud_Improved_Version
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
                             }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
+                            }
                             else
                             {
                                 currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
@@ -713,6 +744,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
+                            }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
                             }
                             else
                             {
@@ -758,6 +793,10 @@ namespace Dark_Cloud_Improved_Version
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
                             }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
+                            }
                             else
                             {
                                 currentDialogue = customDialogues[i];    //gets the correct dialogue and stores it
@@ -780,6 +819,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
                                 }
+                            }
+                            else if (finishedDialogue)
+                            {
+                                currentDialogue = itsfinishedDialogue[i];
                             }
                             else
                             {
@@ -1074,6 +1117,11 @@ namespace Dark_Cloud_Improved_Version
                 if (isSidequest)
                 {
                     currentAddress = currentsidequestAddress;
+                }
+                else if (finishedDialogue)
+                {
+                    currentAddress = 0x206519EE; //renee first normal hello (267)
+                    TownCharacter.itsfinishedDialogueID = 267;
                 }
             }
             else if (currentArea == 1)
@@ -1684,6 +1732,26 @@ namespace Dark_Cloud_Improved_Version
             else
             {
                 customDialoguesCheck[savedDialogueCheck] = 0;
+            }
+        }
+
+        public static void GetCurrentAreaFinishedDialogues(int area)
+        {
+            switch (area)
+            {
+                case 0:
+                    itsfinishedDialogue = norunefinishedDialogue;
+                    break;
+                case 1:
+                    itsfinishedDialogue = matatakifinishedDialogue;
+                    break;
+                case 2:
+                    itsfinishedDialogue = queensfinishedDialogue;
+                    break;
+                case 3:
+                    itsfinishedDialogue = muskafinishedDialogue;
+                    break;
+
             }
         }
 
@@ -2782,6 +2850,72 @@ namespace Dark_Cloud_Improved_Version
             darkheavenOsmond2 = "I wonder how the magical power of the^Dark Genie will compare with the cutting^edge technology of Yellow Drops´^greatest inventor.¤I must say that strange weapon you^wield scares me ohohohohoho!";
 
 
+
+            //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            norunefinishedDialogue[0] = "Fighting is what a person lives for,^sometimes we forget this and lose^our way. The most important thing is^that we pick ourselves up^and continue the fight.¤Never lose your smile my friend.";
+            norunefinishedDialogue[1] = "Being a merchant as long as I have,^you see some pretty amazing things.^Never would have thought I would^see a gem like Ť´s.";
+            norunefinishedDialogue[2] = "Gina had a dream that the Dark Genie^came to the village to say sorry,^we all had food and played.^It was so much fun.";
+            norunefinishedDialogue[3] = "Maybe with the Dark Genie out, it^will give the Mayor second thoughts^about being noisy!¤For all we know the Genie could^have targeted us because of that^awful commotion caused by the mayor!";
+            norunefinishedDialogue[4] = "Thank you for helping the village^everyone, make sure Ť doesn´t^fall for anyone else on his travels or^else it would break poor Paige´s heart.";
+            norunefinishedDialogue[5] = "You know, once this is all said and^done, I´ll have to reward you all with^a fishing trip as long as you make^sure everyone behaves.";
+            norunefinishedDialogue[6] = "It´s hard to believe that in an instant^the Genie was able to destroy our^village, everything we hold dear.¤You all brought it back,^we´re in your debt.";
+            norunefinishedDialogue[7] = "Don´t tell my older sister but I´m^secretly planning on joining your^adventure, I don´t tell Alnet or^she will get angry!";
+            norunefinishedDialogue[8] = "It´s hard to believe that Norune Village´s^Ť is leading a band of warriors^that are going to stop the Dark Genie.¤You´re all special in your own way^but Ť is special to me...^Take care of him.";
+            norunefinishedDialogue[9] = "Even after the Genie destroyed our^village, the morning sun continued^to rise each day: that never changed.¤I can´t imagine losing my son or our^loved ones like that again. Thank you^for helping restore the world.";
+            norunefinishedDialogue[10] = "Do you think if we gave the Dark Genie^a box full of candies he would leave^us all alone? I mean, that works^for me all the time.";
+            norunefinishedDialogue[11] = "I´ve been gifted by the Spirits with^the ability to foresee the future,^however for the first time I´m^afraid to use this gift.¤I´m afraid of what I will see.^This Genie is a fearsome opponent^indeed, be sure to take caution.";
+            norunefinishedDialogue[12] = "Nothing here.";
+
+
+            //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            matatakifinishedDialogue[0] = "Nothing here.";
+            matatakifinishedDialogue[1] = "Nothing here.";
+            matatakifinishedDialogue[2] = "Nothing here.";
+            matatakifinishedDialogue[3] = "Nothing here.";
+            matatakifinishedDialogue[4] = "Nothing here.";
+            matatakifinishedDialogue[5] = "Nothing here.";
+            matatakifinishedDialogue[6] = "Nothing here.";
+            matatakifinishedDialogue[7] = "Nothing here.";
+            matatakifinishedDialogue[8] = "Nothing here.";
+            matatakifinishedDialogue[9] = "Nothing here.";
+            matatakifinishedDialogue[10] = "Nothing here.";
+            matatakifinishedDialogue[11] = "Nothing here.";
+
+            //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            queensfinishedDialogue[0] = "Nothing here.";
+            queensfinishedDialogue[1] = "Nothing here.";
+            queensfinishedDialogue[2] = "Nothing here.";
+            queensfinishedDialogue[3] = "Nothing here.";
+            queensfinishedDialogue[4] = "Nothing here.";
+            queensfinishedDialogue[5] = "Nothing here.";
+            queensfinishedDialogue[6] = "Nothing here.";
+            queensfinishedDialogue[7] = "Nothing here.";
+            queensfinishedDialogue[8] = "Nothing here.";
+            queensfinishedDialogue[9] = "Nothing here.";
+            queensfinishedDialogue[10] = "Nothing here.";
+            queensfinishedDialogue[11] = "Nothing here.";
+            queensfinishedDialogue[12] = "Nothing here.";
+
+            //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
+            //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+            // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
+            muskafinishedDialogue[0] = "Nothing here.";
+            muskafinishedDialogue[1] = "Nothing here.";
+            muskafinishedDialogue[2] = "Nothing here.";
+            muskafinishedDialogue[3] = "Nothing here.";
+            muskafinishedDialogue[4] = "Nothing here.";
+            muskafinishedDialogue[5] = "Nothing here.";
+            muskafinishedDialogue[6] = "Nothing here.";
+            muskafinishedDialogue[7] = "Nothing here.";
+            muskafinishedDialogue[8] = "Nothing here.";
+            muskafinishedDialogue[9] = "Nothing here.";
+            muskafinishedDialogue[10] = "Nothing here.";
         }
     }
 }
