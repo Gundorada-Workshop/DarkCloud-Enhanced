@@ -3520,14 +3520,11 @@ namespace Dark_Cloud_Improved_Version
                 {
                     int CurrWeaponAttack = Memory.ReadUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));          //Reads the current weapon Attack value
                     int CurrWeaponMaxAttack = Memory.ReadUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));    //Reads the current weapon Max Attack value
-                    int CurrWeaponMagic = Memory.ReadUShort((magic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));            //Reads the current weapon Magic value
-                    int CurrWeaponMaxMagic = Memory.ReadUShort((maxmagic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));      //Reads the current weapon Max Magic value
+                    int CurrWeaponEndurance = Memory.ReadUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));    //Reads the current weapon Endurance value
 
                     Memory.WriteUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponAttack + 10));       //Adds +10 Attack to the current weapon being looped through
                     Memory.WriteUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMaxAttack + 10)); //Adds +10 Max Attack to the current weapon being looped through
-                    Memory.WriteUShort((magic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMagic + 15));         //Adds +15 Magic to the current weapon being looped through
-                    Memory.WriteUShort((maxmagic + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMaxMagic + 15));   //Adds +15 Max Magic to the current weapon being looped through
-
+                    Memory.WriteUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponEndurance + 15));         //Adds +15 Endurance to the current weapon being looped through
                 }
             }
 
