@@ -23,19 +23,14 @@ namespace Dark_Cloud_Improved_Version
         {
             PrintInfo();
 
-            if (Memory.PID != 0) //If we actually found a running instance of PCSX2, continue
-            {
+            
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
 
-                Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
-            }
+                //Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
+            
 
-            else
-            {
-                //Patcher.ApplyPatches();
-            }
             PressEntertoContinue();
         }
     }

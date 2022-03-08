@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Addresses.cs" />
     <Compile Include="CheatCodes.cs" />
+    <Compile Include="MainMenuThread.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="SideQuestManager.cs" />
     <Compile Include="MiniBoss.cs" />

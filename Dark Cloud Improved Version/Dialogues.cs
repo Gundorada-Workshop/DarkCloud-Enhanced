@@ -1131,6 +1131,11 @@ namespace Dark_Cloud_Improved_Version
                 {
                     currentAddress = currentsidequestAddress;
                 }
+                else if (finishedDialogue)
+                {
+                    currentAddress = 0x2064F7BC; //kye first normal hello (187)
+                    TownCharacter.itsfinishedDialogueID = 187;
+                }
             }
             else if (currentArea == 2)
             {
@@ -2171,15 +2176,15 @@ namespace Dark_Cloud_Improved_Version
             matatakiGoro[10] = "The Spirits told me all about you^Ʊ¤I know the loneliness that comes with^being all alone.¤I´m happy that you found your purpose^and overcame that challenge.";
             matatakiGoro[11] = "Look whooo decided to come out of^hiding! It´s about time, buy something^will ya!";
 
-            matatakiGoro2[0] = "I remember seeing your father Fudo^teaching you how to hunt when you were^young, you were a natural.¤You definitely take after your old man^but you are a little chubby haha!";
+            matatakiGoro2[0] = "I remember seeing your father Fudoh^teaching you how to hunt when you were^young, you were a natural.¤You definitely take after your old man^but you are a little chubby haha!";
             matatakiGoro2[1] = "No matter how much you´ve grown you´ll^always be little Ʊ to me!";
             matatakiGoro2[2] = "Once you and your friends are done^saving the world, we should go shopping^sometime!";
             matatakiGoro2[3] = "I could tell that you´ve been training,^you´ve grown!¤Be careful when you are in the forest,^I heard there is a monster named King^Prickly that jumps out at you when you^least expect it!";
             matatakiGoro2[4] = "Regardless of how I feel, men must put^their feelings aside. Best of luck on^your journey my friend.¤When you defeat that Dark Genie, I´ll^make a manly cooking feast in your^honor!";
-            matatakiGoro2[5] = "Ʊ I had a great respect for^your father Fudo but he did leave one^thing undone...¤That man still owes me five Gilda, how^uncivilized leaving this world without^paying me!¤Feel free to pay your fathers debt at^your convenience son.";
-            matatakiGoro2[6] = "Grow strong Ʊ and rid this^world of the evil that plagues it.¤My time in this world is limited, this^village will require a new chief...¤Grow strong and make Fudo proud, he will^always watch over you. May you watch^over us Legendary Hunter Ʊ.";
-            matatakiGoro2[7] = "Stay strong Ʊ all of^Matataki is cheering you on! One day you^will surpass even your father Fudo,^always believe in yourself and never¤give up.^Let your might trample the eternal^forest beasts in your way brave hunter.";
-            matatakiGoro2[8] = "......I miss Fudo, thank you for saving^us Ʊ......";
+            matatakiGoro2[5] = "Ʊ I had a great respect for^your father Fudoh but he did leave one^thing undone...¤That man still owes me five Gilda, how^uncivilized leaving this world without^paying me!¤Feel free to pay your fathers debt at^your convenience son.";
+            matatakiGoro2[6] = "Grow strong Ʊ and rid this^world of the evil that plagues it.¤My time in this world is limited, this^village will require a new chief...¤Grow strong and make Fudoh proud, he will^always watch over you. May you watch^over us Legendary Hunter Ʊ.";
+            matatakiGoro2[7] = "Stay strong Ʊ all of^Matataki is cheering you on! One day you^will surpass even your father Fudoh,^always believe in yourself and never¤give up.^Let your might trample the eternal^forest beasts in your way brave hunter.";
+            matatakiGoro2[8] = "......I miss Fudoh, thank you for saving^us Ʊ......";
             matatakiGoro2[9] = "Say, can I borrow that mallet you got^there?¤It would be handy for squashing those^pesky Earth Diggers!";
             matatakiGoro2[10] = "Remember, if you ever need somewhere to^store your mallet collection come to me.";
             matatakiGoro2[11] = "I wonder how much you would sell that^bear fur, it would make a nice rug.";
@@ -2872,18 +2877,18 @@ namespace Dark_Cloud_Improved_Version
             //ro, annie, momo, pao, gob, kye, baron, cacao, kululu, bunbuku, couscous, mr mustache
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            matatakifinishedDialogue[0] = "Nothing here.";
-            matatakifinishedDialogue[1] = "Nothing here.";
-            matatakifinishedDialogue[2] = "Nothing here.";
-            matatakifinishedDialogue[3] = "Nothing here.";
-            matatakifinishedDialogue[4] = "Nothing here.";
-            matatakifinishedDialogue[5] = "Nothing here.";
-            matatakifinishedDialogue[6] = "Nothing here.";
-            matatakifinishedDialogue[7] = "Nothing here.";
-            matatakifinishedDialogue[8] = "Nothing here.";
-            matatakifinishedDialogue[9] = "Nothing here.";
-            matatakifinishedDialogue[10] = "Nothing here.";
-            matatakifinishedDialogue[11] = "Nothing here.";
+            matatakifinishedDialogue[0] = "I lived long enough to know that^it´s not easy for people to put aside^their differences to solve a problem,^but here we are.¤The people of Matataki are^forever in your debt.";
+            matatakifinishedDialogue[1] = "It brings a tear to my eye seeing^young people band together for a single^cause, to help save the world^from this cataclysm.¤Thank you for fixing our^home and our lives.";
+            matatakifinishedDialogue[2] = "Thanks for finishing our home,^do you think you can build^a few more stores?¤Mr.Mustache´s shop can be a little^expensive and I only have so much^Gilda in my wallet!";
+            matatakifinishedDialogue[3] = "This village is full of the strongest^hunters, but you are by far the^best builders here.";
+            matatakifinishedDialogue[4] = "I bet you would have finished^rebuilding my home if you had^a better diet.¤Haha, I´m only kidding.^Any time you feel hungry,^my cooking services are yours!";
+            matatakifinishedDialogue[5] = "Just you wait, in the future we´ll^be building houses with giant flying^robots with huge eyes and hands, it´ll^even be piloted by dwarves!¤You´ll see, you´ll all see!";
+            matatakifinishedDialogue[6] = "Congratulations young warriors,^you´ve made the hunters of Matataki^very proud.";
+            matatakifinishedDialogue[7] = "My home is whole once again and^I´m able to write music again.¤Perhaps I´ll write a song about the^young hunter Ʊ, son of Fudoh.";
+            matatakifinishedDialogue[8] = "You helped me when I was scared...^thank you very much.";
+            matatakifinishedDialogue[9] = "Wow, my house is better then it´s^ever been. Maybe being attacked by^the Genie was a blessing!¤Don´t tell the others I said that!";
+            matatakifinishedDialogue[10] = "Thank you so much friend, I wish^I could give you a hug but I don´t^want to hurt you!";
+            matatakifinishedDialogue[11] = "Don´t think that I owe you anything^for rebuilding my shop, you were^doing your civic duty for the^people of Matataki.";
 
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond

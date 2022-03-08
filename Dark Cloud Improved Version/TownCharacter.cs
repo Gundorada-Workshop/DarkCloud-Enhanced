@@ -88,7 +88,7 @@ namespace Dark_Cloud_Improved_Version
         public static int sidequestDialogueID = 0;
         public static int itsfinishedDialogueID = 0;
         
-        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014, 21F10018 (element check), 21F1001C (clock check)
+        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014, 21F10018 (element check), 21F1001C (clock check), 21F10020 (PNACH flag)
 
         public static void InitializeChrOffsets()
         {
@@ -450,6 +450,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         Memory.WriteByte(0x21D33E30, 3);
                     }
+
 
                     if (Memory.ReadInt(0x2029AA0E) != 1680945251)   //If not using Toan, force any house event to be cancelled
                     {
@@ -1089,6 +1090,12 @@ namespace Dark_Cloud_Improved_Version
                     */
 
                 }
+
+                if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                {
+                    Console.WriteLine("Not ingame anymore! Exited from Towncharacter!");
+                    break;
+                }
                 Thread.Sleep(1);
             }
 
@@ -1168,7 +1175,7 @@ namespace Dark_Cloud_Improved_Version
                         Dialogues.SetDialogue(i, false, false, true);
                         Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
                         nearNPCSD = true;
-                        Console.WriteLine("sidequestdialogue set");
+                        Console.WriteLine("itsfinished dialogue set");
                         itsfinishedonDialogueFlag = 1;
                     }
                     checkNearNPC++;
@@ -1928,6 +1935,80 @@ namespace Dark_Cloud_Improved_Version
             else
             {
                 hasMardanSword = false;
+            }
+        }
+
+        public static void InitializeCharacterOffsetValues()
+        {
+            Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+            successful = Memory.VirtualProtectEx(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+
+            if (successful == false) //There was an error
+                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+
+            Memory.Write(Addresses.chrConfigFileOffset, BitConverter.GetBytes(608545264)); //this changes the offset value in game's code to make it read the file in right location
+
+
+            currentAddress = Addresses.chrConfigFileLocation;
+
+            for (int i = 0; i < 15; i++)    //clear the previous values in config file location
+            {
+                Memory.WriteByte(currentAddress, 0);
+                currentAddress += 0x00000001;
+            }
+
+            currentAddress = 0x2029AA18;
+
+            for (int i = 0; i < 9; i++)    //clear the previous values in config file location
+            {
+                Memory.WriteByte(currentAddress, 0);
+                currentAddress += 0x00000001;
+            }
+
+            cfgFile = "info.cfg";
+
+            currentAddress = Addresses.chrConfigFileLocation;
+
+            for (int i = 0; i < cfgFile.Length; i++)
+            {
+                char character = cfgFile[i];
+
+                for (int a = 0; a < characters.Length; a++)
+                {
+                    if (character.Equals(characters[a]))
+                    {
+                        value1 = BitConverter.GetBytes(a + 32);
+                    }
+                }
+
+                Memory.WriteByte(currentAddress, value1[0]);
+
+                currentAddress += 0x00000001;
+
+            }
+
+
+
+            chrFilePath = "chara/c01d.chr"; //the path to the character file that should be loaded
+
+            currentAddress = Addresses.chrFileLocation;
+
+            for (int i = 0; i < chrFilePath.Length; i++)
+            {
+                char character = chrFilePath[i];
+
+                for (int a = 0; a < characters.Length; a++)
+                {
+                    if (character.Equals(characters[a]))
+                    {
+                        value1 = BitConverter.GetBytes(a + 32);
+                    }
+                }
+
+                Memory.WriteByte(currentAddress, value1[0]);
+
+                currentAddress += 0x00000001;
+
             }
         }
     }

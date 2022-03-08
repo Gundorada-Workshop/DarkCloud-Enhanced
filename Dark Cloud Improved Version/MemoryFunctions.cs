@@ -80,7 +80,7 @@ namespace Dark_Cloud_Improved_Version
             return sRet;
         }
 
-        private static int GetProcessID(string procName) //Function for retrieving processID from running processes.
+        public static int GetProcessID(string procName) //Function for retrieving processID from running processes.
         {
             Process[] Processes = Process.GetProcessesByName(procName); //Search the list of running processes for procName - ex. (pcsx2)
             if (Processes.Length > 0) //If we found the process, continue.
@@ -107,7 +107,12 @@ namespace Dark_Cloud_Improved_Version
         internal static readonly int PID = GetProcessID("pcsx2");   //Case sensitive
 
         //Open process with Read and Write permissions
-        internal static readonly IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
+        internal static IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
+
+        public static void GetProcess(int PID)
+        {
+            processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
+        }
 
         internal static byte ReadByte(int address)  //Read byte from address
         {

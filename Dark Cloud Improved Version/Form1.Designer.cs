@@ -42,8 +42,9 @@
             this.button8 = new System.Windows.Forms.Button();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -192,6 +193,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -200,6 +202,14 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "General";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(40, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(204, 65);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Welcome to the Enhanced Mod!";
             // 
             // tabPage4
             // 
@@ -211,13 +221,13 @@
             this.tabPage4.Text = "Options";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // label2
             // 
-            this.label1.Location = new System.Drawing.Point(40, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(204, 65);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Welcome to the Enhanced Mod!";
+            this.label2.Location = new System.Drawing.Point(43, 67);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(256, 134);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Placeholder text";
             // 
             // Form1
             // 
@@ -257,6 +267,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
