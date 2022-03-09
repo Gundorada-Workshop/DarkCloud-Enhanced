@@ -3524,7 +3524,7 @@ namespace Dark_Cloud_Improved_Version
 
                     Memory.WriteUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponAttack + 10));       //Adds +10 Attack to the current weapon being looped through
                     Memory.WriteUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMaxAttack + 10)); //Adds +10 Max Attack to the current weapon being looped through
-                    Memory.WriteUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponEndurance + 15));         //Adds +15 Endurance to the current weapon being looped through
+                    Memory.WriteUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponEndurance + 15)); //Adds +15 Endurance to the current weapon being looped through
                 }
             }
 

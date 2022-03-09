@@ -208,7 +208,7 @@ namespace Dark_Cloud_Improved_Version
 
 
 
-            while (1 == 1)
+            while (true)
             {
                 if (Memory.ReadByte(Addresses.mode) == 2)
                 {
@@ -972,7 +972,7 @@ namespace Dark_Cloud_Improved_Version
                         if (Memory.ReadByte(0x21D2DA4C) < 61)
                         {
                             int timerCheck = 0;
-                            while (Memory.ReadByte(0x21D2DA4C) < 58 || timerCheck == 25)
+                            while (Memory.ReadByte(0x21D2DA4C) < 58 && timerCheck <= 25)
                             {
                                 Thread.Sleep(50);
                                 timerCheck++;
@@ -1035,7 +1035,6 @@ namespace Dark_Cloud_Improved_Version
 
                     DungeonThread.CheckWepLvlUp();
 
-
                     /*
                     if (dialogueWritten == false)
                     {
@@ -1088,15 +1087,15 @@ namespace Dark_Cloud_Improved_Version
                         dialogueWritten = true;
                     }
                     */
-
                 }
-
+                
                 if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                 {
                     Console.WriteLine("Not ingame anymore! Exited from Towncharacter!");
                     break;
                 }
-                Thread.Sleep(1);
+
+                Thread.Sleep(50);
             }
 
         }

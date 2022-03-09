@@ -35,6 +35,7 @@ namespace Dark_Cloud_Improved_Version
 
         public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
 
+
         public static int CurrentCharacterNum()
         {
             if (Memory.ReadInt(currentCharacter) == 1680945251)

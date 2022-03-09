@@ -45,7 +45,7 @@ namespace Dark_Cloud_Improved_Version
             weaponsThread.Start(); //Start thread
             
             //The Synthsphere Listener thread
-            //Weapons.weaponsMenuListener.Start();
+            Weapons.weaponsMenuListener.Start();
             
         }
 

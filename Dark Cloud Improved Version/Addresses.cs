@@ -104,6 +104,17 @@
         public const int menuWMLastVisited = 0x202A2D48;//The last walking mode menu the player last accessed
         public const int menuGMIconHover = 0x21D9EF58;  //The georama mode menu the cursor is hovering
 
+        public const int selectedMenu = 0x202A2010;     //Tells us which menu we are on:
+                                                        //3 = chara select
+                                                        //3 = chara select
+                                                        //3 = chara select
+                                                        //3 = chara select
+                                                        //3 = chara select
+                                                        //3 = chara select
+                                                        //3 = chara select
+                                                        //3 = chara select
+
+
         //2 byte addresses that have specific values depending on which map location the cursor is hovering
         public const int MapLocationHover1 = 0x202A2DBC; //Norune Village = 13760
                                                          //Divine Beast Case = 13776
@@ -305,7 +316,6 @@
         public const int chrConfigFileOffset = 0x201790D8; //this address has the offset value to know where to read the cfg file, this needs to be matched with "chrConfigFileLocation"
         public const int chrFileOffset = 0x201790D0; //same as previous, offset value for the character path file
 
-        public const int selectedMenu = 0x202A2010; //used for checking menu screen, 3 = chara select
 
         public const int activateCharacter = 0x21D90473; //while in char select screen, assigning this to value 4 will attempt to switch character
 
