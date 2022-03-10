@@ -136,7 +136,7 @@ namespace Dark_Cloud_Improved_Version
                             if (Player.InDungeonFloor() == true)
                                 Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
                             else
-                                Memory.WriteByte(Addresses.mode, 1);
+                                Memory.WriteByte(Addresses.townSoftReset, 1);
                         }
                     }
                 }

@@ -11,6 +11,9 @@ namespace Dark_Cloud_Improved_Version
     {
         public static bool firstlaunch;
         public static bool ingame;
+        public static bool ingameFlag;
+        public static bool userMode = false;
+        public static bool saveStateUsed = false;
         public static int PID = 0;
         public static int currentFrameCounter = 0;
         public static int previousFrameCounter = 0;
@@ -41,7 +44,7 @@ namespace Dark_Cloud_Improved_Version
                 else if (PID != 0)
                 {
                     Memory.GetProcess(PID);
-                    Console.WriteLine(Memory.ReadInt(0x20299540));
+                    //Console.WriteLine(Memory.ReadInt(0x20299540));
                     if (Memory.ReadInt(0x20299540) != 1802658116) //check if DC1 has been booted
                     {
                         
@@ -53,15 +56,16 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (firstlaunch)
                             {
-                                if (Memory.ReadByte(Addresses.mode) == 2 || Memory.ReadByte(Addresses.mode) == 3) //checks if player is already in-game
+                                if (Memory.ReadByte(Addresses.mode) == 2 || Memory.ReadByte(Addresses.mode) == 3 || Memory.ReadByte(Addresses.mode) == 5) //checks if player is already in-game
                                 {
                                     Form1.FirstLaunchGameMode(false);
                                 }
                                 else
                                 {
                                     Form1.FirstLaunchGameMode(true);
-                                    firstlaunch = false;
+                                    //firstlaunch = false;
                                     ingame = false;
+                                    userMode = true;
                                     TitleMenu();
                                 }
                             }
@@ -73,65 +77,117 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
+                if (saveStateUsed)
+                {
+                    break;
+                }
+
                 Thread.Sleep(1);
             }
         }
 
         public static void TitleMenu()
         {
-            previousFrameCounter = Memory.ReadInt(0x202A2400);
             TownCharacter.InitializeCharacterOffsetValues();
+            while (true)
+            {
+                currentFrameCounter = Memory.ReadInt(0x202A2400);
+                if (currentFrameCounter > 0)
+                {
+                    break;
+                }
+            }
+            previousFrameCounter = currentFrameCounter;
+            Thread.Sleep(10);
             while (true)
             {
                 Memory.WriteByte(0x21F10024, 1); //mod's flag for PNACH
                 currentFrameCounter = Memory.ReadInt(0x202A2400);
                 int currentMode = Memory.ReadByte(Addresses.mode);
-                if (ingame == false)
+                if (currentFrameCounter > 0)
                 {
-                    if (currentMode == 2 || currentMode == 3)
+                    if (ingame == false)
                     {
-                        ingame = true;
-                        weaponsThread = new Thread(() => Weapons.WeaponsBalanceChanges());
-                        townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
-                        dungeonthread = new Thread(() => DungeonThread.InsideDungeonThread());
-                        if (!weaponsThread.IsAlive) weaponsThread.Start();
-                        if (!townThread.IsAlive) townThread.Start();
-                        if (!dungeonthread.IsAlive) dungeonthread.Start(); 
-                    }
-                }
-                else
-                {
-                    if (currentMode == 0 || currentMode == 1)
-                    {
-                        ingame = false;
-                    }
-                }
+                        if (currentMode == 0 || currentMode == 1)
+                        {
+                            ingame = false;
+                            ingameFlag = false;
+                            Form1.CurrentlyInMainMenu();
+                        }
+                        else if (currentMode == 2 || currentMode == 3 || currentMode == 5)
+                        {
+                            if (ingameFlag == false)
+                            {
+                                Thread.Sleep(100);
+                                Console.WriteLine("Entered ingame, starting all threads!");
+                                weaponsThread = new Thread(() => Weapons.WeaponsBalanceChanges());
+                                townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
+                                dungeonthread = new Thread(() => DungeonThread.InsideDungeonThread());
+                                if (!weaponsThread.IsAlive) weaponsThread.Start();
+                                if (!townThread.IsAlive) townThread.Start();
+                                if (!dungeonthread.IsAlive) dungeonthread.Start();
+                                ingameFlag = true;
+                            }
+                            ingame = true;
+                            Form1.CurrentlyInGame();
 
-                if (currentFrameCounter < previousFrameCounter || currentFrameCounter > previousFrameCounter + 300)
-                {
-                    if (currentFrameCounter > 10)
+                        }
+                    }
+                    else
                     {
-                        Console.WriteLine("Save state detected!");
-                        if (Player.InDungeonFloor() == true)
-                            Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
-                        else
-                            Memory.WriteByte(Addresses.mode, 1);
+                        if (currentMode == 0 || currentMode == 1)
+                        {
+                            ingame = false;
+                            ingameFlag = false;
+                            Form1.CurrentlyInMainMenu();
+                        }
+                        else if (currentMode == 2 || currentMode == 3 || currentMode == 5)
+                        {
+                            ingame = true;
+                            Form1.CurrentlyInGame();
+                        }
                     }
                 }
 
                 if (Memory.ReadInt(0x20299540) != 1802658116)
                 {
-                    Console.WriteLine("Dark Cloud was closed!");
-                    break;
+                    Console.WriteLine("Dark Cloud was either closed, or save state was used!");
+                    Thread.Sleep(50);
+                    if (Memory.ReadInt(0x20299540) != 1802658116)
+                    {
+                        Console.WriteLine("Dark Cloud was closed!");
+                        break;
+                    }
                 }
 
-                if (Memory.ReadByte(0x21F10020) != 1) //check PNACH flag
+                if (currentFrameCounter < previousFrameCounter || currentFrameCounter > previousFrameCounter + 300 || currentFrameCounter == 0)
                 {
-                    Console.WriteLine("PNACH cheats were disabled!");
-                    break;
+                    Thread.Sleep(200);
+                    Console.WriteLine("Save state detected!");
+                    if (Player.InDungeonFloor() == true)
+                        Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
+                    else
+                        Memory.WriteByte(Addresses.townSoftReset, 1);
+
+                    Form1.SaveStateDetected();
+                    
+                }
+
+                if (currentFrameCounter > 0)
+                {
+                    if (Memory.ReadByte(0x21F10020) != 1) //check PNACH flag
+                    {
+                        Console.WriteLine("PNACH cheats were disabled!");
+                        break;
+                    }
                 }
 
                 previousFrameCounter = currentFrameCounter;
+
+                if (saveStateUsed)
+                {
+                    break;
+                }
 
                 Thread.Sleep(1);
             }

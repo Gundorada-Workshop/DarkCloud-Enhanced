@@ -121,6 +121,21 @@ namespace Dark_Cloud_Improved_Version
             instance.FormPnachNotActive(true);
         }
 
+        public static void CurrentlyInMainMenu()
+        {
+            instance.FormCurrentlyInMainMenu(true);
+        }
+
+        public static void CurrentlyInGame()
+        {
+            instance.FormCurrentlyInGame(true);
+        }
+
+        public static void SaveStateDetected()
+        {
+            instance.FormSaveStateDetected(true);
+        }
+
         public static void FirstLaunchGameMode(bool validGameMode)
         {
             if (validGameMode == false)
@@ -179,7 +194,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(ValidFirstLaunchGameMode), new object[] { enable });
                 return;
             }
-            label2.Text = "Currently in Main Menu.";
+            label2.Text = "Dark Cloud has been booted!";
         }
 
         void FormPnachNotActive(bool enable)
@@ -190,6 +205,78 @@ namespace Dark_Cloud_Improved_Version
                 return;
             }
             label2.Text = "PNACH File not active!\n\nPlease put the Enhanced Mod's PNACH file into the Emulator's Cheats folder and active cheats in Emulator with System->Enable Cheats";
+        }
+
+        void FormCurrentlyInMainMenu(bool enable)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new EnableDelegate(FormCurrentlyInMainMenu), new object[] { enable });
+                return;
+            }
+            label2.Text = "Enhanced Mod is active! Currently in Main menu.\n\nYou can start a new game or load a save.";
+        }
+
+        void FormCurrentlyInGame(bool enable)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new EnableDelegate(FormCurrentlyInGame), new object[] { enable });
+                return;
+            }
+            label2.Text = "Enhanced Mod is active and running!\n\nRemember to NEVER use save states with the mod! Always save the game normally through the game's save menu.";
+        }
+
+        void FormSaveStateDetected(bool enable)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new EnableDelegate(FormSaveStateDetected), new object[] { enable });
+                return;
+            }
+            this.TopMost = true;
+            MainMenuThread.saveStateUsed = true;
+            string message = "The mod has detected a possible save state load!\n\nUsing save states is NOT ALLOWED while using the Enhanced Mod, since it can cause major issues.\n\nThe game has been reset, and this mod will be closed.";
+            string title = "Save state detected!";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
+            this.TopMost = false;
+            while (true)
+            {
+                label2.Text = "A possible save state used! Mod has been terminated.";
+                if (result == DialogResult.OK)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e) //Option 1 Checkbox
+        {
+            if (checkBox2.Checked == true)
+            {
+                Memory.WriteByte(0x21F10028, 1); //Flag to disable weapon beeping sounds
+            }
+            else if (checkBox2.Checked == false)
+            {
+                Memory.WriteByte(0x21F10028, 0);
+            }
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked == true)
+            {
+                Memory.WriteByte(0x21F1002C, 1); //Flag to disable weapon beeping sounds
+            }
+            else if (checkBox3.Checked == false)
+            {
+                Memory.WriteByte(0x21F1002C, 0);
+            }
         }
     }
 }

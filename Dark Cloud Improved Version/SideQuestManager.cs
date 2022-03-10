@@ -102,343 +102,398 @@ namespace Dark_Cloud_Improved_Version
             if (characterID == 12592) //macho
             {
                 TownCharacter.characterIDData = characterID;
-                if (Memory.ReadByte(0x21CE4402) == 0)
+                if (Memory.ReadByte(0x21CE4474) == 1)
                 {
-                    SetSideQuestAddresses(characterID);
-                    GenerateMonsterQuest();
-                    currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                    if (Memory.ReadByte(0x21CE4402) == 0)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GenerateMonsterQuest();
+                        currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                    }
+                    else if (Memory.ReadByte(0x21CE4402) == 1)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GetMonsterQuestValues();
+                        currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
+                    }
+                    else if (Memory.ReadByte(0x21CE4402) == 2)
+                    {
+                        currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    }
                 }
-                else if (Memory.ReadByte(0x21CE4402) == 1)
+                else
                 {
-                    SetSideQuestAddresses(characterID);
-                    GetMonsterQuestValues();
-                    currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
-                }
-                else if (Memory.ReadByte(0x21CE4402) == 2)
-                {
-                    currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    currentDialogue = "Prove me your true strength!^I can assign you some^Monster Slaying quests.¤The Monster Slayer quests are^tasks to kill a random amount^of random enemies in any dungeon^you have unlocked.¤Talk to me again to get your first quest!";
                 }
             }
             else if (characterID == 13618) //gob
             {
                 TownCharacter.characterIDData = characterID;
-                if (Memory.ReadByte(0x21CE4407) == 0)
+                if (Memory.ReadByte(0x21CE4476) == 1)
                 {
-                    SetSideQuestAddresses(characterID);
-                    GenerateMonsterQuest();
-                    currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                    if (Memory.ReadByte(0x21CE4407) == 0)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GenerateMonsterQuest();
+                        currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                    }
+                    else if (Memory.ReadByte(0x21CE4407) == 1)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GetMonsterQuestValues();
+                        currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
+                    }
+                    else if (Memory.ReadByte(0x21CE4407) == 2)
+                    {
+                        currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    }
                 }
-                else if (Memory.ReadByte(0x21CE4407) == 1)
+                else
                 {
-                    SetSideQuestAddresses(characterID);
-                    GetMonsterQuestValues();
-                    currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
-                }
-                else if (Memory.ReadByte(0x21CE4407) == 2)
-                {
-                    currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    currentDialogue = "I might be a cook, but I´m also^a hunter, and I respect those^who can fight.¤That being said, I can assign you^some Monster Slaying quests.";
                 }
             }
             else if (characterID == 13108) //jake
             {
                 TownCharacter.characterIDData = characterID;
-                if (Memory.ReadByte(0x21CE440C) == 0)
+                if (Memory.ReadByte(0x21CE4478) == 1)
                 {
-                    SetSideQuestAddresses(characterID);
-                    GenerateMonsterQuest();
-                    currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                    if (Memory.ReadByte(0x21CE440C) == 0)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GenerateMonsterQuest();
+                        currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                    }
+                    else if (Memory.ReadByte(0x21CE440C) == 1)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GetMonsterQuestValues();
+                        currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
+                    }
+                    else if (Memory.ReadByte(0x21CE440C) == 2)
+                    {
+                        currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    }
                 }
-                else if (Memory.ReadByte(0x21CE440C) == 1)
+                else
                 {
-                    SetSideQuestAddresses(characterID);
-                    GetMonsterQuestValues();
-                    currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
-                }
-                else if (Memory.ReadByte(0x21CE440C) == 2)
-                {
-                    currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    currentDialogue = "A message from King:^To gain more reputation for the^elections, we need to show that we^can be strong.¤How about you kill some evil monsters^and let us take the credit?¤I can assign you Monster Slaying quests.";
                 }
             }
             else if (characterID == 14388) //chiefbonka
             {
                 TownCharacter.characterIDData = characterID;
-                if (Memory.ReadByte(0x21CE4411) == 0)
-                {
-                    SetSideQuestAddresses(characterID);
-                    GenerateMonsterQuest();
-                    currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                if (Memory.ReadByte(0x21CE447A) == 1)
+                {                  
+                    if (Memory.ReadByte(0x21CE4411) == 0)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GenerateMonsterQuest();
+                        currentDialogue = "Your quest is to defeat at least^" + generatedEnemyKillsNeeded + " " + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ".^Good luck!";
+                    }
+                    else if (Memory.ReadByte(0x21CE4411) == 1)
+                    {
+                        SetSideQuestAddresses(characterID);
+                        GetMonsterQuestValues();
+                        currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
+                    }
+                    else if (Memory.ReadByte(0x21CE4411) == 2)
+                    {
+                        currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    }
                 }
-                else if (Memory.ReadByte(0x21CE4411) == 1)
+                else
                 {
-                    SetSideQuestAddresses(characterID);
-                    GetMonsterQuestValues();
-                    currentDialogue = "You´re still on the quest to defeat^" + generatedEnemyName + " in " + generatedMonsterQuestDungeon + ",^just " + generatedEnemyKillsNeeded + " left!";
-                }
-                else if (Memory.ReadByte(0x21CE4411) == 2)
-                {
-                    currentDialogue = "Well done, you completed it!^Here´s your reward: a Powerup Powder!";
+                    currentDialogue = "To survive against the fearful^enemies in your travels, you can^always use some training.¤I can assign you some Monster Slaying^quests.";
                 }
             }
             else if (characterID == 13872) //pike
             {
                 TownCharacter.characterIDData = characterID;
-                SetSideQuestAddresses(characterID);
-                if (Memory.ReadByte(0x21CE4416) == 0)
+                if (Memory.ReadByte(0x21CE4475) == 1)
                 {
-                    int whichQuest = rnd.Next(100);
+                    SetSideQuestAddresses(characterID);
+                    if (Memory.ReadByte(0x21CE4416) == 0)
+                    {
+                        int whichQuest = rnd.Next(100);
 
-                    if (whichQuest < 50)
-                    {
-                        Memory.WriteOneByte(0x21CE4417, BitConverter.GetBytes(0));
-                        GenerateFishingQuestOne();
-                        currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Norune Pond.^Good luck!";
+                        if (whichQuest < 50)
+                        {
+                            Memory.WriteOneByte(0x21CE4417, BitConverter.GetBytes(0));
+                            GenerateFishingQuestOne();
+                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Norune Pond.^Good luck!";
+                        }
+                        else
+                        {
+                            Memory.WriteOneByte(0x21CE4417, BitConverter.GetBytes(1));
+                            GenerateFishingQuestTwo();
+                            currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Norune Pond.^Good luck!";
+                        }
                     }
-                    else
+                    else if (Memory.ReadByte(0x21CE4416) == 1)
                     {
-                        Memory.WriteOneByte(0x21CE4417, BitConverter.GetBytes(1));
-                        GenerateFishingQuestTwo();
-                        currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize +" cm to " + generatedMaxFishSize + " cm^at the Norune Pond.^Good luck!";
+                        if (Memory.ReadByte(0x21CE4417) == 0)
+                        {
+                            GetFishingQuestOneValues(0);
+                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Norune Pond,^just " + generatedNeededFishCount + " left!";
+                        }
+                        else
+                        {
+                            GetFishingQuestTwoValues();
+                            currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Norune Pond.^Good luck!";
+                        }
+                    }
+                    else if (Memory.ReadByte(0x21CE4416) == 2)
+                    {
+                        if (Memory.ReadByte(0x21CE4417) == 0)
+                        {
+                            RollFishingQuestReward(0);
+                        }
+                        else
+                        {
+                            RollFishingQuestTwoReward(0);
+                        }
+                        currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                     }
                 }
-                else if (Memory.ReadByte(0x21CE4416) == 1)
+                else
                 {
-                    if (Memory.ReadByte(0x21CE4417) == 0)
-                    {
-                        GetFishingQuestOneValues(0);
-                        currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Norune Pond,^just " + generatedNeededFishCount + " left!";
-                    }
-                    else
-                    {
-                        GetFishingQuestTwoValues();
-                        currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Norune Pond.^Good luck!";
-                    }
-                }
-                else if (Memory.ReadByte(0x21CE4416) == 2)
-                {
-                    if (Memory.ReadByte(0x21CE4417) == 0)
-                    {
-                        RollFishingQuestReward(0);
-                    }
-                    else
-                    {
-                        RollFishingQuestTwoReward(0);
-                    }
-                    currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
+                    currentDialogue = "Oh, I bet you can already guess what^I have in store for you.¤That´s right, Fishing Quests!¤There are 2 types of fishing quests,^and whenever you talk to me,^I can assign you one of them.¤I hope you like fishing!";
                 }
             }
             else if (characterID == 13362) //pao
             {
                 TownCharacter.characterIDData = characterID;
-                SetSideQuestAddresses(characterID);
-
-                if (Memory.ReadByte(0x21CE441E) == 0)
+                if (Memory.ReadByte(0x21CE4477) == 1)
                 {
-                    matatakiLocation = rnd.Next(100);
-                    int whichQuest = rnd.Next(100);
-
-                    if (whichQuest < 50)
+                    SetSideQuestAddresses(characterID);
+                    if (Memory.ReadByte(0x21CE441E) == 0)
                     {
-                        Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(0));
-                        GenerateFishingQuestOne();
-                        if (matatakiLocationID == 0 )
+                        matatakiLocation = rnd.Next(100);
+                        int whichQuest = rnd.Next(100);
+
+                        if (whichQuest < 50)
                         {
-                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the^Matataki Pond. Good luck!";
-                        }
-                        else if (matatakiLocationID == 1)
-                        {
-                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the^Matataki Waterfall. Good luck!";
+                            Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(0));
+                            GenerateFishingQuestOne();
+                            if (matatakiLocationID == 0)
+                            {
+                                currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the^Matataki Pond. Good luck!";
+                            }
+                            else if (matatakiLocationID == 1)
+                            {
+                                currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the^Matataki Waterfall. Good luck!";
+                            }
+                            else
+                            {
+                                currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " anywhere in^Matataki Village. Good luck!";
+                            }
                         }
                         else
                         {
-                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " anywhere in^Matataki Village. Good luck!";
+                            Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(1));
+                            GenerateFishingQuestTwo();
+                            currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^anywhere in Matataki Village.^Good luck!";
                         }
-                    }
-                    else
-                    {
-                        Memory.WriteOneByte(0x21CE441F, BitConverter.GetBytes(1));
-                        GenerateFishingQuestTwo();
-                        currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^anywhere in Matataki Village.^Good luck!";
-                    }
 
-                }
-                else if (Memory.ReadByte(0x21CE441E) == 1)
-                {
-                    if (Memory.ReadByte(0x21CE441F) == 0)
+                    }
+                    else if (Memory.ReadByte(0x21CE441E) == 1)
                     {
-                        GetFishingQuestOneValues(1);
-                        if (matatakiLocationID == 0)
+                        if (Memory.ReadByte(0x21CE441F) == 0)
                         {
-                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Matataki Pond,^just " + generatedNeededFishCount + " left!";
-                        }
-                        else if (matatakiLocationID == 1)
-                        {
-                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Matataki^Waterfall, just " + generatedNeededFishCount + " left!";
+                            GetFishingQuestOneValues(1);
+                            if (matatakiLocationID == 0)
+                            {
+                                currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Matataki Pond,^just " + generatedNeededFishCount + " left!";
+                            }
+                            else if (matatakiLocationID == 1)
+                            {
+                                currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Matataki^Waterfall, just " + generatedNeededFishCount + " left!";
+                            }
+                            else
+                            {
+                                currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " anywhere in Matataki^Village, just " + generatedNeededFishCount + " left!";
+                            }
                         }
                         else
                         {
-                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " anywhere in Matataki^Village, just " + generatedNeededFishCount + " left!";
+                            GetFishingQuestTwoValues();
+                            currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^anywhere in Matataki Village.^Good luck!";
                         }
                     }
-                    else
+                    else if (Memory.ReadByte(0x21CE441E) == 2)
                     {
-                        GetFishingQuestTwoValues();
-                        currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^anywhere in Matataki Village.^Good luck!";
+                        if (Memory.ReadByte(0x21CE441F) == 0)
+                        {
+                            RollFishingQuestReward(1);
+                        }
+                        else
+                        {
+                            RollFishingQuestTwoReward(1);
+                        }
+
+                        currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                     }
                 }
-                else if (Memory.ReadByte(0x21CE441E) == 2)
+                else
                 {
-                    if (Memory.ReadByte(0x21CE441F) == 0)
-                    {
-                        RollFishingQuestReward(1);
-                    }
-                    else
-                    {
-                        RollFishingQuestTwoReward(1);
-                    }
-
-                    currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
+                    currentDialogue = "Show me your hunting skills!¤Wait, you don´t hunt anything?¤Well, I guess fishing could count^as hunting. I can give you some^Fishing Quests.¤Keep in mind that there are two^fishing locations here!";
                 }
 
             }
             else if (characterID == 13363) //sam
             {
                 TownCharacter.characterIDData = characterID;
-                SetSideQuestAddresses(characterID);
 
-                if (Memory.ReadByte(0x21CE4427) == 0)
+                if (Memory.ReadByte(0x21CE4479) == 1)
                 {
-                    int whichQuest = rnd.Next(100);
-
-                    if (whichQuest < 200)
+                    SetSideQuestAddresses(characterID);
+                    if (Memory.ReadByte(0x21CE4427) == 0)
                     {
-                        Memory.WriteOneByte(0x21CE4428, BitConverter.GetBytes(0));
-                        GenerateFishingQuestOne();
-                        if (Memory.ReadByte(0x21CE442F) < 3)
+                        int whichQuest = rnd.Next(100);
+
+                        if (whichQuest < 200)
                         {
-                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
-                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                            Memory.WriteOneByte(0x21CE4428, BitConverter.GetBytes(0));
+                            GenerateFishingQuestOne();
+                            if (Memory.ReadByte(0x21CE442F) < 3)
+                            {
+                                int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                                currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                            }
+                            else
+                            {
+                                currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Queens Sea.^Good luck!";
+                            }
                         }
                         else
                         {
-                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Queens Sea.^Good luck!";
+                            Memory.WriteOneByte(0x21CE4428, BitConverter.GetBytes(1));
+                            GenerateFishingQuestTwo();
+                            if (Memory.ReadByte(0x21CE442F) < 3)
+                            {
+                                int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                                currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                            }
+                            else
+                            {
+                                currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.^Good luck!";
+                            }
                         }
                     }
-                    else
+                    else if (Memory.ReadByte(0x21CE4427) == 1)
                     {
-                        Memory.WriteOneByte(0x21CE4428, BitConverter.GetBytes(1));
-                        GenerateFishingQuestTwo();
-                        if (Memory.ReadByte(0x21CE442F) < 3)
+                        if (Memory.ReadByte(0x21CE4428) == 0)
                         {
-                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
-                            currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                            GetFishingQuestOneValues(2);
+                            if (Memory.ReadByte(0x21CE442F) < 3)
+                            {
+                                int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                                currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Queens Sea,^just " + generatedNeededFishCount + " left!¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                            }
+                            else
+                            {
+                                currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Queens Sea,^just " + generatedNeededFishCount + " left!";
+                            }
                         }
                         else
                         {
-                            currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.^Good luck!";
+                            GetFishingQuestTwoValues();
+                            if (Memory.ReadByte(0x21CE442F) < 3)
+                            {
+                                int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                                currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
+                            }
+                            else
+                            {
+                                currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.^Good luck!";
+                            }
+                        }
+                    }
+                    else if (Memory.ReadByte(0x21CE4427) == 2)
+                    {
+                        if (Memory.ReadByte(0x21CE4428) == 0)
+                        {
+                            RollFishingQuestReward(2);
+                        }
+                        else
+                        {
+                            RollFishingQuestTwoReward(2);
+                        }
+
+                        if (Memory.ReadByte(0x21CE442F) == 3)
+                        {
+                            currentDialogue = "Awesome,^you completed 3 quests for me!¤As a special reward, you can now^see the fish at the Queens Sea!^Cool, right?¤I´ll also give the regular quest^reward: here´s " + fishingPoints + " fishing points!";
+                            TownCharacter.queensQuest = true;
+                        }
+                        else if (Memory.ReadByte(0x21CE442F) < 3)
+                        {
+                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
+                            currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!¤If you can complete " + questsLeft + " more quests for^me, I´ll give you a special reward!";
+                        }
+                        else
+                        {
+                            currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                         }
                     }
                 }
-                else if (Memory.ReadByte(0x21CE4427) == 1)
+                else
                 {
-                    if (Memory.ReadByte(0x21CE4428) == 0)
-                    {
-                        GetFishingQuestOneValues(2);
-                        if (Memory.ReadByte(0x21CE442F) < 3)
-                        {
-                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
-                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Queens Sea,^just " + generatedNeededFishCount + " left!¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
-                        }
-                        else
-                        {
-                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Queens Sea,^just " + generatedNeededFishCount + " left!";
-                        }
-                    }
-                    else
-                    {
-                        GetFishingQuestTwoValues();
-                        if (Memory.ReadByte(0x21CE442F) < 3)
-                        {
-                            int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
-                            currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.¤Additionally, if you can complete^" + questsLeft + " more quests for me, I´ll give^you a special reward!";
-                        }
-                        else
-                        {
-                            currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Queens Sea.^Good luck!";
-                        }
-                    }
-                }
-                else if (Memory.ReadByte(0x21CE4427) == 2)
-                {
-                    if (Memory.ReadByte(0x21CE4428) == 0)
-                    {
-                        RollFishingQuestReward(2);
-                    }
-                    else
-                    {
-                        RollFishingQuestTwoReward(2);
-                    }
-
-                    if (Memory.ReadByte(0x21CE442F) == 3)
-                    {
-                        currentDialogue = "Awesome,^you completed 3 quests for me!¤As a special reward, you can now^see the fish at the Queens Sea!^Cool, right?¤I´ll also give the regular quest^reward: here´s " + fishingPoints + " fishing points!";
-                        TownCharacter.queensQuest = true;
-                    }
-                    else if (Memory.ReadByte(0x21CE442F) < 3)
-                    {
-                        int questsLeft = 3 - Memory.ReadByte(0x21CE442F);
-                        currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!¤If you can complete " + questsLeft + " more quests for^me, I´ll give you a special reward!";
-                    }
-                    else
-                    {
-                        currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
-                    }
+                    currentDialogue = "Fighting monsters in the dungeons^must be exhausting.¤Why don´t you relax with^some Fishing Quests?¤Talk to me for Fishing Quests...^oh by the way, I also have^a special reward!";
                 }
             }
             else if (characterID == 13109) //devia
             {
                 TownCharacter.characterIDData = characterID;
-                SetSideQuestAddresses(characterID);
-                if (Memory.ReadByte(0x21CE4431) == 0)
+                if (Memory.ReadByte(0x21CE447B) == 1)
                 {
-                    int whichQuest = rnd.Next(100);
+                    SetSideQuestAddresses(characterID);
+                    if (Memory.ReadByte(0x21CE4431) == 0)
+                    {
+                        int whichQuest = rnd.Next(100);
 
-                    if (whichQuest > 500)
-                    {
-                        Memory.WriteOneByte(0x21CE4432, BitConverter.GetBytes(0));
-                        GenerateFishingQuestOne();
-                        currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Oasis.^Good luck!";
+                        if (whichQuest > 500)
+                        {
+                            Memory.WriteOneByte(0x21CE4432, BitConverter.GetBytes(0));
+                            GenerateFishingQuestOne();
+                            currentDialogue = "Your quest is to catch^" + generatedNeededFishCount + " " + generatedFishName + " at the Oasis.^Good luck!";
+                        }
+                        else
+                        {
+                            Memory.WriteOneByte(0x21CE4432, BitConverter.GetBytes(1));
+                            GenerateFishingQuestTwo();
+                            currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Oasis.^Good luck!";
+                        }
                     }
-                    else
+                    else if (Memory.ReadByte(0x21CE4431) == 1)
                     {
-                        Memory.WriteOneByte(0x21CE4432, BitConverter.GetBytes(1));
-                        GenerateFishingQuestTwo();
-                        currentDialogue = "Your quest is to catch any fish^of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Oasis.^Good luck!";
+                        if (Memory.ReadByte(0x21CE4432) == 0)
+                        {
+                            GetFishingQuestOneValues(3);
+                            currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Oasis,^just " + generatedNeededFishCount + " left!";
+                        }
+                        else
+                        {
+                            GetFishingQuestTwoValues();
+                            currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Oasis.^Good luck!";
+                        }
+                    }
+                    else if (Memory.ReadByte(0x21CE4431) == 2)
+                    {
+                        if (Memory.ReadByte(0x21CE4432) == 0)
+                        {
+                            RollFishingQuestReward(3);
+                        }
+                        else
+                        {
+                            RollFishingQuestTwoReward(3);
+                        }
+                        currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
                     }
                 }
-                else if (Memory.ReadByte(0x21CE4431) == 1)
+                else
                 {
-                    if (Memory.ReadByte(0x21CE4432) == 0)
-                    {
-                        GetFishingQuestOneValues(3);
-                        currentDialogue = "You´re still on the quest to catch^" + generatedFishName + " at the Oasis,^just " + generatedNeededFishCount + " left!";
-                    }
-                    else 
-                    {
-                        GetFishingQuestTwoValues();
-                        currentDialogue = "You´re still on the quest to catch any^fish of a size from " + generatedMinFishSize + " cm to " + generatedMaxFishSize + " cm^at the Oasis.^Good luck!";
-                    }
-                }
-                else if (Memory.ReadByte(0x21CE4431) == 2)
-                {
-                    if (Memory.ReadByte(0x21CE4432) == 0)
-                    {
-                        RollFishingQuestReward(3);
-                    }
-                    else
-                    {
-                        RollFishingQuestTwoReward(3);
-                    }
-                    currentDialogue = "Nicely done!^Here´s your reward: " + fishingPoints + " Fishing Points!";
+                    currentDialogue = "I heard some tourists like to fish at^the Oasis, since you can apparently^find rare fish in there.¤And speaking of fishing... would you^like some Fishing Quests?";
                 }
             }
             else if (characterID == 13360) //laura

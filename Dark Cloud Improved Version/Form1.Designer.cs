@@ -42,13 +42,16 @@
             this.button8 = new System.Windows.Forms.Button();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -203,6 +206,14 @@
             this.tabPage3.Text = "General";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(43, 67);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(256, 134);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Placeholder text";
+            // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(40, 25);
@@ -213,6 +224,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBox3);
+            this.tabPage4.Controls.Add(this.checkBox2);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -221,13 +234,27 @@
             this.tabPage4.Text = "Options";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // checkBox2
             // 
-            this.label2.Location = new System.Drawing.Point(43, 67);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(256, 134);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Placeholder text";
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(40, 28);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(227, 17);
+            this.checkBox2.TabIndex = 0;
+            this.checkBox2.Text = "Disable Low Weapon HP Beeping Sounds";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(40, 51);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(289, 17);
+            this.checkBox3.TabIndex = 1;
+            this.checkBox3.Text = "Disable Battle Music (make sure it\'s not already playing!)";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // Form1
             // 
@@ -245,6 +272,8 @@
             this.tabPage1.PerformLayout();
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -268,6 +297,8 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }
 

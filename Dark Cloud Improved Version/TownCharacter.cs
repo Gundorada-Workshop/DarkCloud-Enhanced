@@ -46,6 +46,7 @@ namespace Dark_Cloud_Improved_Version
         static bool checkBuildingFlag = false;
         static bool areaChanged = false;
         static bool sidequestOptionFlag = false;
+        static bool itsfinishedOptionFlag = false;
         static bool isSideQuestDialogueActive = false;
         static bool fishingActive = false;
         public static bool queensQuest = false;
@@ -88,7 +89,7 @@ namespace Dark_Cloud_Improved_Version
         public static int sidequestDialogueID = 0;
         public static int itsfinishedDialogueID = 0;
         
-        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014, 21F10018 (element check), 21F1001C (clock check), 21F10020 (PNACH flag)
+        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014, 21F10018 (element check), 21F1001C (clock check), 21F10020 (PNACH flag), 21F10024 (mod flag), 21F10028 (Option 1 Flag)
 
         public static void InitializeChrOffsets()
         {
@@ -639,8 +640,25 @@ namespace Dark_Cloud_Improved_Version
                             if (currentArea != 23)
                             {
                                 Memory.WriteUShort(0x21D3D438, townDialogueIDs[currentArea]);
-                                Memory.WriteInt(0x21D3D440, itsfinishedDialogueID); //its finished dialogue ID setup
-                                SetItsFinishedDialogue();
+
+                                if (itsfinishedOptionFlag == false && (Memory.ReadByte(0x21D1CC0C) == 12 || Memory.ReadByte(0x21D1CC0C) == 13))
+                                {
+                                    itsfinishedOptionFlag = true;
+                                }
+                                else if (itsfinishedOptionFlag == true && Memory.ReadByte(0x21D1CC0C) == 255)
+                                {
+                                    itsfinishedOptionFlag = false;
+                                }
+
+                                if (itsfinishedOptionFlag == true)
+                                {
+                                    Memory.WriteInt(0x21D3D440, itsfinishedDialogueID); //its finished dialogue ID setup
+                                    SetItsFinishedDialogue();
+                                }
+                                else
+                                {
+                                    itsfinishedonDialogueFlag = 0;
+                                }
                             }
                             else
                             {
@@ -681,7 +699,7 @@ namespace Dark_Cloud_Improved_Version
                             {
                                 Memory.WriteUShort(0x21D3D434, townDialogueIDs[currentArea]);
                             }
-                            if (sidequestOptionFlag == false && Memory.ReadByte(0x21D1CC0C) == 11)
+                            if (sidequestOptionFlag == false && (Memory.ReadByte(0x21D1CC0C) == 11 || (currentArea == 2 && Memory.ReadByte(0x21D1CC0C) == 15)))
                             {
                                 sidequestOptionFlag = true;
                             }
@@ -1088,11 +1106,14 @@ namespace Dark_Cloud_Improved_Version
                     }
                     */
                 }
-                
-                if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+
+                if (MainMenuThread.userMode == true)
                 {
-                    Console.WriteLine("Not ingame anymore! Exited from Towncharacter!");
-                    break;
+                    if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                    {
+                        Console.WriteLine("Not ingame anymore! Exited from Towncharacter!");
+                        break;
+                    }
                 }
 
                 Thread.Sleep(50);
@@ -1218,138 +1239,194 @@ namespace Dark_Cloud_Improved_Version
             
             if (characterIDData == 12592) //macho sidequest
             {
-                if (Memory.ReadByte(0x21CE4402) == 0)
+                if (Memory.ReadByte(0x21CE4474) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(1));
-                }
-                else if (Memory.ReadByte(0x21CE4402) == 1)
-                {
-                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
-                }
+                    if (Memory.ReadByte(0x21CE4402) == 0)
+                    {
+                        Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(1));
+                    }
+                    else if (Memory.ReadByte(0x21CE4402) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                    }
 
-                else if (Memory.ReadByte(0x21CE4402) == 2)
+                    else if (Memory.ReadByte(0x21CE4402) == 2)
+                    {
+                        SideQuestManager.MonsterQuestReward();
+                        Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(0));
+                    }
+                }
+                else
                 {
-                    SideQuestManager.MonsterQuestReward();
-                    Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(0));
+                    Memory.WriteByte(0x21CE4474, 1);
                 }
             }
             else if (characterIDData == 13618) //gob sidequest
             {
-                if (Memory.ReadByte(0x21CE4407) == 0)
+                if (Memory.ReadByte(0x21CE4476) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE4407, BitConverter.GetBytes(1));
-                }
-                else if (Memory.ReadByte(0x21CE4407) == 1)
-                {
-                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
-                }
+                    if (Memory.ReadByte(0x21CE4407) == 0)
+                    {
+                        Memory.WriteOneByte(0x21CE4407, BitConverter.GetBytes(1));
+                    }
+                    else if (Memory.ReadByte(0x21CE4407) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                    }
 
-                else if (Memory.ReadByte(0x21CE4407) == 2)
+                    else if (Memory.ReadByte(0x21CE4407) == 2)
+                    {
+                        SideQuestManager.MonsterQuestReward();
+                        Memory.WriteOneByte(0x21CE4407, BitConverter.GetBytes(0));
+                    }
+                }
+                else
                 {
-                    SideQuestManager.MonsterQuestReward();
-                    Memory.WriteOneByte(0x21CE4407, BitConverter.GetBytes(0));
+                    Memory.WriteByte(0x21CE4476, 1);
                 }
             }
             else if (characterIDData == 13108) //jake sidequest
             {
-                if (Memory.ReadByte(0x21CE440C) == 0)
+                if (Memory.ReadByte(0x21CE4478) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE440C, BitConverter.GetBytes(1));
-                }
-                else if (Memory.ReadByte(0x21CE440C) == 1)
-                {
-                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
-                }
+                    if (Memory.ReadByte(0x21CE440C) == 0)
+                    {
+                        Memory.WriteOneByte(0x21CE440C, BitConverter.GetBytes(1));
+                    }
+                    else if (Memory.ReadByte(0x21CE440C) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                    }
 
-                else if (Memory.ReadByte(0x21CE440C) == 2)
+                    else if (Memory.ReadByte(0x21CE440C) == 2)
+                    {
+                        SideQuestManager.MonsterQuestReward();
+                        Memory.WriteOneByte(0x21CE440C, BitConverter.GetBytes(0));
+                    }
+                }
+                else
                 {
-                    SideQuestManager.MonsterQuestReward();
-                    Memory.WriteOneByte(0x21CE440C, BitConverter.GetBytes(0));
+                    Memory.WriteByte(0x21CE4478, 1);
                 }
             }
             else if (characterIDData == 14388) //chiefbonka sidequest
             {
-                if (Memory.ReadByte(0x21CE4411) == 0)
+                if (Memory.ReadByte(0x21CE447A) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(1));
-                }
-                else if (Memory.ReadByte(0x21CE4411) == 1)
-                {
-                    //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
-                }
+                    if (Memory.ReadByte(0x21CE4411) == 0)
+                    {
+                        Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(1));
+                    }
+                    else if (Memory.ReadByte(0x21CE4411) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
+                    }
 
-                else if (Memory.ReadByte(0x21CE4411) == 2)
+                    else if (Memory.ReadByte(0x21CE4411) == 2)
+                    {
+                        SideQuestManager.MonsterQuestReward();
+                        Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(0));
+                    }
+                }
+                else
                 {
-                    SideQuestManager.MonsterQuestReward();
-                    Memory.WriteOneByte(0x21CE4411, BitConverter.GetBytes(0));
+                    Memory.WriteByte(0x21CE447A, 1);
                 }
             }
             else if (characterIDData == 13872) //pike
             {
-                if (Memory.ReadByte(0x21CE4416) == 0)
+                if (Memory.ReadByte(0x21CE4475) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(1));
+                    if (Memory.ReadByte(0x21CE4416) == 0)
+                    {
+                        Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(1));
+                    }
+                    else if (Memory.ReadByte(0x21CE4416) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(2));
+                    }
+                    else if (Memory.ReadByte(0x21CE4416) == 2)
+                    {
+                        SideQuestManager.GetFishingQuestReward();
+                        Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(0));
+                    }
                 }
-                else if (Memory.ReadByte(0x21CE4416) == 1)
+                else
                 {
-                    //Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(2));
-                }
-                else if (Memory.ReadByte(0x21CE4416) == 2)
-                {
-                    SideQuestManager.GetFishingQuestReward();
-                    Memory.WriteOneByte(0x21CE4416, BitConverter.GetBytes(0));
+                    Memory.WriteByte(0x21CE4475, 1);
                 }
             }
             else if (characterIDData == 13362) //pao
             {
-                if (Memory.ReadByte(0x21CE441E) == 0)
+                if (Memory.ReadByte(0x21CE4477) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(1));
+                    if (Memory.ReadByte(0x21CE441E) == 0)
+                    {
+                        Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(1));
+                    }
+                    else if (Memory.ReadByte(0x21CE441E) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(2));
+                    }
+                    else if (Memory.ReadByte(0x21CE441E) == 2)
+                    {
+                        SideQuestManager.GetFishingQuestReward();
+                        Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(0));
+                    }
                 }
-                else if (Memory.ReadByte(0x21CE441E) == 1)
+                else
                 {
-                    //Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(2));
-                }
-                else if (Memory.ReadByte(0x21CE441E) == 2)
-                {
-                    SideQuestManager.GetFishingQuestReward();
-                    Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(0));
+                    Memory.WriteByte(0x21CE4477, 1);
                 }
             }
             else if (characterIDData == 13363) //sam
             {
-                if (Memory.ReadByte(0x21CE4427) == 0)
+                if (Memory.ReadByte(0x21CE4479) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE4427, BitConverter.GetBytes(1));
-                }
-                else if (Memory.ReadByte(0x21CE4427) == 1)
-                {
-                    //Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(2));
-                }
-                else if (Memory.ReadByte(0x21CE4427) == 2)
-                {
-                    SideQuestManager.GetFishingQuestReward();
-                    if (queensQuest)
+                    if (Memory.ReadByte(0x21CE4427) == 0)
                     {
-                        Memory.WriteByte(0x21CE4430, 1);
+                        Memory.WriteOneByte(0x21CE4427, BitConverter.GetBytes(1));
                     }
-                    Memory.WriteOneByte(0x21CE4427, BitConverter.GetBytes(0));
+                    else if (Memory.ReadByte(0x21CE4427) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(2));
+                    }
+                    else if (Memory.ReadByte(0x21CE4427) == 2)
+                    {
+                        SideQuestManager.GetFishingQuestReward();
+                        if (queensQuest)
+                        {
+                            Memory.WriteByte(0x21CE4430, 1);
+                        }
+                        Memory.WriteOneByte(0x21CE4427, BitConverter.GetBytes(0));
+                    }
+                }
+                else
+                {
+                    Memory.WriteByte(0x21CE4479, 1);
                 }
             }
-            else if (characterIDData == 13109)
+            else if (characterIDData == 13109) //devia
             {
-                if (Memory.ReadByte(0x21CE4431) == 0)
+                if (Memory.ReadByte(0x21CE447B) == 1)
                 {
-                    Memory.WriteOneByte(0x21CE4431, BitConverter.GetBytes(1));
+                    if (Memory.ReadByte(0x21CE4431) == 0)
+                    {
+                        Memory.WriteOneByte(0x21CE4431, BitConverter.GetBytes(1));
+                    }
+                    else if (Memory.ReadByte(0x21CE4431) == 1)
+                    {
+                        //Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(2));
+                    }
+                    else if (Memory.ReadByte(0x21CE4431) == 2)
+                    {
+                        SideQuestManager.GetFishingQuestReward();
+                        Memory.WriteOneByte(0x21CE4431, BitConverter.GetBytes(0));
+                    }
                 }
-                else if (Memory.ReadByte(0x21CE4431) == 1)
+                else
                 {
-                    //Memory.WriteOneByte(0x21CE441E, BitConverter.GetBytes(2));
-                }
-                else if (Memory.ReadByte(0x21CE4431) == 2)
-                {
-                    SideQuestManager.GetFishingQuestReward();
-                    Memory.WriteOneByte(0x21CE4431, BitConverter.GetBytes(0));
+                    Memory.WriteByte(0x21CE447B, 1);
                 }
             }
             else if (characterIDData == 13360) //laura

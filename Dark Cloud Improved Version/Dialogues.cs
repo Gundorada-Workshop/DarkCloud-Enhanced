@@ -1144,6 +1144,11 @@ namespace Dark_Cloud_Improved_Version
                 {
                     currentAddress = currentsidequestAddress;
                 }
+                else if (finishedDialogue)
+                {
+                    currentAddress = 0x2064ED8A; //stu first normal hello (167)
+                    TownCharacter.itsfinishedDialogueID = 167;
+                }
             }
             else if (currentArea == 3)
             {
@@ -1151,6 +1156,11 @@ namespace Dark_Cloud_Improved_Version
                 if (isSidequest)
                 {
                     currentAddress = currentsidequestAddress;
+                }
+                else if (finishedDialogue)
+                {
+                    currentAddress = 0x2064E9B4; //brooke first normal hello (167)
+                    TownCharacter.itsfinishedDialogueID = 167;
                 }
             }
             else if (currentArea == 14)
@@ -1174,92 +1184,99 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress = 0x20648FBA;
             }
 
-            byte[] dialogueArray = new byte[currentDialogue.Length * 2];
-            int currentByte = 0;
-            int dialogueAddress = currentAddress;
-            for (int i = 0; i < currentDialogue.Length; i++)
+            if (currentDialogue != null)
             {
-                char character = currentDialogue[i];
-
-                for (int a = 0; a < gameCharacters.Length; a++)
+                byte[] dialogueArray = new byte[currentDialogue.Length * 2];
+                int currentByte = 0;
+                int dialogueAddress = currentAddress;
+                for (int i = 0; i < currentDialogue.Length; i++)
                 {
-                    if (character.Equals(gameCharacters[a]))
+                    char character = currentDialogue[i];
+
+                    for (int a = 0; a < gameCharacters.Length; a++)
                     {
-                        if (a > 120)
+                        if (character.Equals(gameCharacters[a]))
                         {
-                            if (a == 121)
+                            if (a > 120)
                             {
-                                value1 = BitConverter.GetBytes(250);
+                                if (a == 121)
+                                {
+                                    value1 = BitConverter.GetBytes(250);
+                                }
+                                else if (a == 122)
+                                {
+                                    value1 = BitConverter.GetBytes(251);
+                                }
+                                else if (a == 123)
+                                {
+                                    value1 = BitConverter.GetBytes(252);
+                                }
+                                else if (a == 124)
+                                {
+                                    value1 = BitConverter.GetBytes(253);
+                                }
+                                else if (a == 125)
+                                {
+                                    value1 = BitConverter.GetBytes(254);
+                                }
+                                else if (a == 126)
+                                {
+                                    value1 = BitConverter.GetBytes(255);
+                                }
+                                else if (a == 127)
+                                {
+                                    value1 = BitConverter.GetBytes(2);
+                                }
                             }
-                            else if (a == 122)
+                            else
                             {
-                                value1 = BitConverter.GetBytes(251);
+                                value1 = BitConverter.GetBytes(a);
                             }
-                            else if (a == 123)
-                            {
-                                value1 = BitConverter.GetBytes(252);
-                            }
-                            else if (a == 124)
-                            {
-                                value1 = BitConverter.GetBytes(253);
-                            }
-                            else if (a == 125)
-                            {
-                                value1 = BitConverter.GetBytes(254);
-                            }
-                            else if (a == 126)
-                            {
-                                value1 = BitConverter.GetBytes(255);
-                            }
-                            else if (a == 127)
-                            {
-                                value1 = BitConverter.GetBytes(2);
-                            }
-                        }
-                        else
-                        {
-                            value1 = BitConverter.GetBytes(a);
-                        }
 
-                        break;
+                            break;
+                        }
                     }
+
+
+                    //Memory.WriteByte(currentAddress, value1[0]);
+                    dialogueArray[currentByte] = value1[0];
+
+                    currentAddress += 0x00000001;
+                    currentByte++;
+
+                    if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
+                    {
+                        value1 = BitConverter.GetBytes(255);
+                        //Memory.WriteByte(currentAddress, value1[0]);
+                        dialogueArray[currentByte] = value1[0];
+                    }
+                    else if (value1[0] == 250 || value1[0] == 251 || value1[0] == 252 || value1[0] == 253 || value1[0] == 254 || value1[0] == 255)
+                    {
+                        value1 = BitConverter.GetBytes(250);
+                        //Memory.WriteByte(currentAddress, value1[0]);
+                        dialogueArray[currentByte] = value1[0];
+                    }
+                    else
+                    {
+                        value1 = BitConverter.GetBytes(253);
+                        //Memory.WriteByte(currentAddress, value1[0]);
+                        dialogueArray[currentByte] = value1[0];
+                    }
+
+                    currentAddress += 0x00000001;
+                    currentByte++;
                 }
 
+                Memory.WriteByteArray(dialogueAddress, dialogueArray);
 
-                //Memory.WriteByte(currentAddress, value1[0]);
-                dialogueArray[currentByte] = value1[0];
-
+                Memory.WriteByte(currentAddress, 1);
                 currentAddress += 0x00000001;
-                currentByte++;
-
-                if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
-                {
-                    value1 = BitConverter.GetBytes(255);
-                    //Memory.WriteByte(currentAddress, value1[0]);
-                    dialogueArray[currentByte] = value1[0];
-                }
-                else if (value1[0] == 250 || value1[0] == 251 || value1[0] == 252 || value1[0] == 253 || value1[0] == 254 || value1[0] == 255)
-                {
-                    value1 = BitConverter.GetBytes(250);
-                    //Memory.WriteByte(currentAddress, value1[0]);
-                    dialogueArray[currentByte] = value1[0];
-                }
-                else
-                {
-                    value1 = BitConverter.GetBytes(253);
-                    //Memory.WriteByte(currentAddress, value1[0]);
-                    dialogueArray[currentByte] = value1[0];
-                }
-
-                currentAddress += 0x00000001;
-                currentByte++;
+                Memory.WriteByte(currentAddress, 255);
             }
-
-            Memory.WriteByteArray(dialogueAddress, dialogueArray);
-
-            Memory.WriteByte(currentAddress, 1);
-            currentAddress += 0x00000001;
-            Memory.WriteByte(currentAddress, 255);
+            else
+            {
+                Console.WriteLine("Currentdialogue is null!");
+            }
 
             Console.WriteLine("nearNPC");
         }
@@ -1979,7 +1996,7 @@ namespace Dark_Cloud_Improved_Version
             noruneXiao[3] = "You´re a cute little cat! Oh no, are you^a stray? You should come live with us!";
             noruneXiao[4] = "Look at you, you are so cute^unlike those muscle freaks!";
             noruneXiao[5] = "I remember when Paige was a little girl,^her mother made her a plush cat^that looked just like you!¤Kids sure do grow up fast, people may^come and go but the memories we make^with out loved ones are eternal.¤Pretty poetic for a fisherman huh, hahaha!";
-            noruneXiao[6] = "Sometimes it´s hard to be an older brother,^Macho and I may but heads but^deep down we are about each other.^Do you have any siblings kitty?";
+            noruneXiao[6] = "Sometimes it´s hard to be an older brother.^Macho and I may butt heads but^deep down we care about each other.^Do you have any siblings kitty?";
             noruneXiao[7] = "No way, I can´t believe Ť let´s you go^on adventures with him. You are so lucky!";
             noruneXiao[8] = "Hey there, I´ve been seeing you^hang out with Ť! Are you^his little sidekick now? <3";
             noruneXiao[9] = "I appreciate how you are helping Ť^on his journey, I still wonder where^he got that change potion.¤It´s hard for one person to try change^the world but if we all work together^as allies, anything is possible. Don´t^worry, I won´t tell anyone your secret <3";
@@ -2893,34 +2910,34 @@ namespace Dark_Cloud_Improved_Version
             //king, sam, ruty, suzy, lana, basker, stew, joker, phil, jake, wilder, yaya, jack
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            queensfinishedDialogue[0] = "Nothing here.";
-            queensfinishedDialogue[1] = "Nothing here.";
-            queensfinishedDialogue[2] = "Nothing here.";
-            queensfinishedDialogue[3] = "Nothing here.";
-            queensfinishedDialogue[4] = "Nothing here.";
-            queensfinishedDialogue[5] = "Nothing here.";
-            queensfinishedDialogue[6] = "Nothing here.";
-            queensfinishedDialogue[7] = "Nothing here.";
-            queensfinishedDialogue[8] = "Nothing here.";
-            queensfinishedDialogue[9] = "Nothing here.";
-            queensfinishedDialogue[10] = "Nothing here.";
-            queensfinishedDialogue[11] = "Nothing here.";
-            queensfinishedDialogue[12] = "Nothing here.";
+            queensfinishedDialogue[0] = "The people of Queens owe your group^a great debt of gratitude, but^remember I owe you nothing now.¤I could have stopped the Genie myself^but the people of Queens needed me.";
+            queensfinishedDialogue[1] = "We may not be defeating the Dark^Genie, but we´ll keep Queens and her^people safe from criminals like King.";
+            queensfinishedDialogue[2] = "I spent so much time fishing to earn^a living that I forgot to take it^easy and live life slow.¤This is the lesson I want to take^from this. Gilda isn´t everything, it^doesn´t hurt to enjoy life every^now and then.";
+            queensfinishedDialogue[3] = "You know, I´m not as strong as you all^but I do want to be stronger.¤I guess what I´m trying to say is^that where we are today isn´t where^we will be tomorrow.";
+            queensfinishedDialogue[4] = "Thank you for all your help, it´s^scary to think that the Dark Genie^made everything on Terra disappear^in the blink of an eye.¤Where would we be without your help?";
+            queensfinishedDialogue[5] = "Thanks to you I can get back to^business, I hope King doesn´t decide^to raise taxes again.";
+            queensfinishedDialogue[6] = "King is getting ready to run for mayor.^Defeating the Dark Genie is^our #1 campaign goal.";
+            queensfinishedDialogue[7] = "Who knows, maybe when the Dark Genie^obliterates the world, more rare^gems will resurface.¤However, destroying the world would^be bad for business...^You all need to stop him.";
+            queensfinishedDialogue[8] = "What happened in Queens with La Saia^is nothing short of tragic, but^today we stand before many brave^warriors who are taking a stand^to save all of Terra.¤May you find peace in your journey.";
+            queensfinishedDialogue[9] = "Being King´s assistant is a big job,^much more challenging than fighting^that Dark Genie wimp.";
+            queensfinishedDialogue[10] = "I´m not surprised that you all^fixed up the police station.¤You´re led by Ť from Norune^and he learned everything he knows^from my family in Norune haha!";
+            queensfinishedDialogue[11] = "I heard from the other villagers^that you were all complaining about^my Pumpkin Panty Fortune Telling.¤You know as much as me that if it^wasn´t for my services, your quest^would not have moved forward!";
+            queensfinishedDialogue[12] = "Jack´s shop is back in business,^if you ever need weapons or powders^I´m your guy! Just don´t let^Sheriff Wilder know.";
 
             //jibubu, chief bonka, zabo, mikara, nagita, devia, enga, brooke, gron, toto, gosuke
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
-            muskafinishedDialogue[0] = "Nothing here.";
-            muskafinishedDialogue[1] = "Nothing here.";
-            muskafinishedDialogue[2] = "Nothing here.";
-            muskafinishedDialogue[3] = "Nothing here.";
-            muskafinishedDialogue[4] = "Nothing here.";
-            muskafinishedDialogue[5] = "Nothing here.";
-            muskafinishedDialogue[6] = "Nothing here.";
-            muskafinishedDialogue[7] = "Nothing here.";
-            muskafinishedDialogue[8] = "Nothing here.";
-            muskafinishedDialogue[9] = "Nothing here.";
-            muskafinishedDialogue[10] = "Nothing here.";
+            muskafinishedDialogue[0] = "To think that someone of your beauty^standards actually rebuilt my house^down to the last elegant detail.";
+            muskafinishedDialogue[1] = "In the blink of an eye everything^disappeared: villagers, animals,^all life in the desert.¤The Genie is always going to be a^threat to the world. The last thing^we should do is continue these^age old tribal conflicts.¤Thank you for your help.";
+            muskafinishedDialogue[2] = "Hey thanks for fixing up the place!^I was really worried, I thought that^I may have to find somewhere^else to live!¤Home is where the heart is and^I´m forever greatful.";
+            muskafinishedDialogue[3] = "Words cannot express the gratitude that^all the villagers have for you.¤Thank you for all the hard work.";
+            muskafinishedDialogue[4] = "Hmph... I guess you did a good job^putting our house back together.";
+            muskafinishedDialogue[5] = "Thank you so much for fixing our home,^I can´t believe that the Dark Genie^actually had us trapped in those^weird bubbles.";
+            muskafinishedDialogue[6] = "Never in all my years would I have^thought that everything in Muska Racka^would disappear the way that it did.¤I´m very pleased with my house,^thank you.";
+            muskafinishedDialogue[7] = "Many warriors have come and gone,^your group is special.¤Keep fighting the darkness and^never give up. Things won´t be easy^moving forward. I am in your debt.";
+            muskafinishedDialogue[8] = "You must be real proud of yourself^rebuilding this jail cell, would it^have killed you to not include^the locked gate?";
+            muskafinishedDialogue[9] = "When I get older I want to join you^on your adventures. Old Enga has^even been teaching me how to fight!";
+            muskafinishedDialogue[10] = "Wait, how are you reading this?";
         }
     }
 }

@@ -332,10 +332,13 @@ namespace Dark_Cloud_Improved_Version
                 //Used to reset the floor data when going back to dungeon
                 else prevFloor = 200;
 
-                if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                if (MainMenuThread.userMode == true)
                 {
-                    Console.WriteLine("Not ingame anymore! Exited from DungeonThread!");
-                    break;
+                    if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                    {
+                        Console.WriteLine("Not ingame anymore! Exited from DungeonThread!");
+                        break;
+                    }
                 }
 
                 Thread.Sleep(10);
