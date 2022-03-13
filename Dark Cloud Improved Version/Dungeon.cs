@@ -336,8 +336,12 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                     {
-                        Console.WriteLine("Not ingame anymore! Exited from DungeonThread!");
-                        break;
+                        Thread.Sleep(100);
+                        if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                        {
+                            Console.WriteLine("Not ingame anymore! Exited from DungeonThread!");
+                            break;
+                        }
                     }
                 }
 

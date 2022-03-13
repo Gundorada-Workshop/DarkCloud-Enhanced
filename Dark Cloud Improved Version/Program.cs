@@ -28,6 +28,7 @@ namespace Dark_Cloud_Improved_Version
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
 
+            Memory.WriteByte(0x21F10024, 0);
                 //Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
             
 

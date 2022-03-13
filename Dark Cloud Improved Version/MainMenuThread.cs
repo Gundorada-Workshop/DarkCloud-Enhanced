@@ -14,6 +14,7 @@ namespace Dark_Cloud_Improved_Version
         public static bool ingameFlag;
         public static bool userMode = false;
         public static bool saveStateUsed = false;
+        public static bool saveFileMessageBox = false;
         public static int PID = 0;
         public static int currentFrameCounter = 0;
         public static int previousFrameCounter = 0;
@@ -47,7 +48,7 @@ namespace Dark_Cloud_Improved_Version
                     //Console.WriteLine(Memory.ReadInt(0x20299540));
                     if (Memory.ReadInt(0x20299540) != 1802658116) //check if DC1 has been booted
                     {
-                        
+                        PID = 0;
                         Form1.EmulatorCount(1);
                     }
                     else
@@ -58,7 +59,11 @@ namespace Dark_Cloud_Improved_Version
                             {
                                 if (Memory.ReadByte(Addresses.mode) == 2 || Memory.ReadByte(Addresses.mode) == 3 || Memory.ReadByte(Addresses.mode) == 5) //checks if player is already in-game
                                 {
-                                    Form1.FirstLaunchGameMode(false);
+                                    if (saveFileMessageBox == false)
+                                    {
+                                        Form1.FirstLaunchGameMode(false);
+                                        Thread.Sleep(100);
+                                    }
                                 }
                                 else
                                 {
@@ -99,6 +104,19 @@ namespace Dark_Cloud_Improved_Version
             }
             previousFrameCounter = currentFrameCounter;
             Thread.Sleep(10);
+
+            while (true)
+            {
+                if (Memory.ReadByte(0x21F10024) == 1)
+                {
+                    Form1.EnhancedModAlreadyOpen();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
             while (true)
             {
                 Memory.WriteByte(0x21F10024, 1); //mod's flag for PNACH
@@ -112,24 +130,57 @@ namespace Dark_Cloud_Improved_Version
                         {
                             ingame = false;
                             ingameFlag = false;
-                            Form1.CurrentlyInMainMenu();
+                            if (Memory.ReadByte(0x202A3420) == 9) //Opening book mode after you press start
+                            {
+                                Form1.CurrentlyInGame();
+                            }
+                            else
+                            {
+                                Form1.CurrentlyInMainMenu();
+                            }
                         }
                         else if (currentMode == 2 || currentMode == 3 || currentMode == 5)
                         {
-                            if (ingameFlag == false)
+                            Thread.Sleep(100);
+                            currentMode = Memory.ReadByte(Addresses.mode);
+                            if (currentMode == 2 || currentMode == 3 || currentMode == 5)
                             {
-                                Thread.Sleep(100);
-                                Console.WriteLine("Entered ingame, starting all threads!");
-                                weaponsThread = new Thread(() => Weapons.WeaponsBalanceChanges());
-                                townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
-                                dungeonthread = new Thread(() => DungeonThread.InsideDungeonThread());
-                                if (!weaponsThread.IsAlive) weaponsThread.Start();
-                                if (!townThread.IsAlive) townThread.Start();
-                                if (!dungeonthread.IsAlive) dungeonthread.Start();
-                                ingameFlag = true;
+                                if (ingameFlag == false)
+                                {
+                                    Thread.Sleep(100);
+
+                                    if (currentMode == 5)
+                                    {
+                                        Thread.Sleep(800);
+                                        Memory.WriteByte(0x21CE448A, 1);
+                                        Thread.Sleep(200);
+                                    }
+
+
+                                    if (Memory.ReadByte(0x21CE448A) == 1)
+                                    {
+                                        Console.WriteLine("Entered ingame, starting all threads!");
+                                        weaponsThread = new Thread(() => Weapons.WeaponsBalanceChanges());
+                                        townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
+                                        dungeonthread = new Thread(() => DungeonThread.InsideDungeonThread());
+                                        if (!weaponsThread.IsAlive) weaponsThread.Start();
+                                        if (!townThread.IsAlive) townThread.Start();
+                                        if (!dungeonthread.IsAlive) dungeonthread.Start();
+                                        ingameFlag = true;
+                                    }
+                                    else
+                                    {
+                                        if (Player.InDungeonFloor() == true)
+                                            Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
+                                        else
+                                            Memory.WriteByte(Addresses.mode, 1);
+                                        Form1.NotEnhancedModSaveFile();
+                                        break;
+                                    }
+                                }
+                                ingame = true;
+                                Form1.CurrentlyInGame();
                             }
-                            ingame = true;
-                            Form1.CurrentlyInGame();
 
                         }
                     }
@@ -137,9 +188,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (currentMode == 0 || currentMode == 1)
                         {
-                            ingame = false;
-                            ingameFlag = false;
-                            Form1.CurrentlyInMainMenu();
+                            Thread.Sleep(100);
+                            currentMode = Memory.ReadByte(Addresses.mode);
+                            if (currentMode == 0 || currentMode == 1)
+                            {
+                                ingame = false;
+                                ingameFlag = false;
+                                Form1.CurrentlyInMainMenu();
+                            }
                         }
                         else if (currentMode == 2 || currentMode == 3 || currentMode == 5)
                         {
@@ -191,6 +247,8 @@ namespace Dark_Cloud_Improved_Version
 
                 Thread.Sleep(1);
             }
+
+            Memory.WriteByte(0x21F10024, 0); //disable mod's flag for pnach
         }
     }
 }

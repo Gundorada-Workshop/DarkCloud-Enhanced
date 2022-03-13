@@ -147,6 +147,16 @@ namespace Dark_Cloud_Improved_Version
                 instance.ValidFirstLaunchGameMode(true);
             }
         }
+
+        public static void NotEnhancedModSaveFile()
+        {
+            instance.FormNotEnhancedModSaveFile(true);
+        }
+
+        public static void EnhancedModAlreadyOpen()
+        {
+            instance.FormEnhancedModAlreadyOpen(true);
+        }
         void NoEmulatorsActive(bool enable)
         {
             if (InvokeRequired)
@@ -185,6 +195,32 @@ namespace Dark_Cloud_Improved_Version
                 return;
             }
             label2.Text = "Detected a save file already running!\n\nPlease re-boot Dark Cloud to start the Mod.";
+            MainMenuThread.saveFileMessageBox = true;
+            string message = "Detected a save file already running! Enhanced Mod currently not active.\n\nThe mod needs to be launched while in the Main Menu.\n\nDo you want the mod to return your game to Main Menu?";
+            string title = "Save file running!";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
+            this.TopMost = false;
+            
+            while (true)
+            {
+                label2.Text = "Detected a save file already running!\n\nPlease re-boot Dark Cloud to start the Mod.";
+                if (result == DialogResult.Yes)
+                {
+                    if (Player.InDungeonFloor() == true)
+                        Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
+                    else
+                        Memory.WriteByte(Addresses.townSoftReset, 1);
+                    //MainMenuThread.saveFileMessageBox = false;
+                    break;
+                }
+                else if (result == DialogResult.No)
+                {
+                    break;
+                }
+            }
+
+            
         }
 
         void ValidFirstLaunchGameMode(bool enable)
@@ -244,6 +280,8 @@ namespace Dark_Cloud_Improved_Version
             while (true)
             {
                 label2.Text = "A possible save state used! Mod has been terminated.";
+                launchThread.Abort();
+                Memory.WriteByte(0x21F10024, 0);
                 if (result == DialogResult.OK)
                 {
                     this.Close();
@@ -253,6 +291,51 @@ namespace Dark_Cloud_Improved_Version
                     this.Close();
                 }
             }
+        }
+
+        void FormNotEnhancedModSaveFile(bool enable)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new EnableDelegate(FormNotEnhancedModSaveFile), new object[] { enable });
+                return;
+            }
+
+            this.TopMost = true;
+            string message = "Loaded a Dark Cloud save file which was not started with Enhanced Mod!\n\nPlease load a save file which you have started with Enhanced Mod, or start a New Game with the mod.";
+            string title = "Invalid save file!";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
+            this.TopMost = false;
+            while (true)
+            {
+                if (result == DialogResult.OK)
+                {
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        void FormEnhancedModAlreadyOpen(bool enable)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new EnableDelegate(FormEnhancedModAlreadyOpen), new object[] { enable });
+                return;
+            }
+
+            label2.Text = "Another instance of Enhanced Mod is already active!\n\nYou can close this window.";
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e) //when mod is quit
+        {
+            launchThread.Abort();
+            Memory.WriteByte(0x21F10024, 0);
+            base.OnFormClosed(e);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e) //Option 1 Checkbox
@@ -276,6 +359,30 @@ namespace Dark_Cloud_Improved_Version
             else if (checkBox3.Checked == false)
             {
                 Memory.WriteByte(0x21F1002C, 0);
+            }
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox4.Checked == true)
+            {
+                Memory.WriteByte(0x21F10030, 1); //Flag to enable widescreen
+            }
+            else if (checkBox4.Checked == false)
+            {
+                Memory.WriteByte(0x21F10030, 0);
+            }
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox5.Checked == true)
+            {
+                Memory.WriteByte(0x21F10034, 1); //Flag to enable graphical improvements
+            }
+            else if (checkBox5.Checked == false)
+            {
+                Memory.WriteByte(0x21F10034, 0);
             }
         }
     }

@@ -98,7 +98,7 @@ namespace Dark_Cloud_Improved_Version
             else //We did not find a process matching procName.
             {
                 Console.WriteLine(procName + " was not found in the list of running processes.");
-                CloseHandle(processH);
+                //CloseHandle(processH);
                 return 0;
             }
         }

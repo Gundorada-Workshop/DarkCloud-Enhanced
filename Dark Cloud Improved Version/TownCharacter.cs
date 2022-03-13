@@ -25,7 +25,7 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value4 = new byte[4];
         static byte checkByte;
         static byte[] townDialogueIDs = { 247, 167, 87, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        static byte[] fishArray = new byte[6];
+        static byte[] fishArray = new byte[2];
         
 
         static string cfgFile;
@@ -88,8 +88,11 @@ namespace Dark_Cloud_Improved_Version
         public static int characterIDData;
         public static int sidequestDialogueID = 0;
         public static int itsfinishedDialogueID = 0;
+        public static int currentInGameDay = 0;
         
-        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C, 21F100010 (toan next to pickle in brownboo), 21F100014, 21F10018 (element check), 21F1001C (clock check), 21F10020 (PNACH flag), 21F10024 (mod flag), 21F10028 (Option 1 Flag)
+        //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C,
+        //21F10010 (toan next to pickle in brownboo), 21F10014, 21F10018 (element check), 21F1001C (clock check),
+        //21F10020 (PNACH flag), 21F10024 (mod flag), 21F10028 (Option 1 Flag), 21F1002C (Option 2 Flag), 21F10030 (Option 3 Flag), 21F10034 (Option 4 Flag)
 
         public static void InitializeChrOffsets()
         {
@@ -123,6 +126,10 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteByte(0x20293980, 250);
                 Memory.WriteByte(0x20293982, 250);
             }
+
+            DailyShopItem.BaseShopChanges();
+            DailyShopItem.SetDailyItemsToShop();
+            currentInGameDay = Memory.ReadUShort(0x21CD4318);
 
             DungeonThread.ChangeSoZMaxAtt(Memory.ReadUShort(0x21CE446D)); //NEEDS TO BE APPLIED AFTER SAVE LOAD!
 
@@ -1053,6 +1060,12 @@ namespace Dark_Cloud_Improved_Version
 
                     DungeonThread.CheckWepLvlUp();
 
+                    if (Memory.ReadUShort(0x21CD4318) > currentInGameDay)
+                    {
+                        DailyShopItem.RerollDailyRotation(currentInGameDay);
+                        currentInGameDay = Memory.ReadUShort(0x21CD4318);
+                    }
+
                     /*
                     if (dialogueWritten == false)
                     {
@@ -1111,8 +1124,12 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                     {
-                        Console.WriteLine("Not ingame anymore! Exited from Towncharacter!");
-                        break;
+                        Thread.Sleep(100);
+                        if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                        {
+                            Console.WriteLine("Not ingame anymore! Exited from Towncharacter!");
+                            break;
+                        }
                     }
                 }
 
