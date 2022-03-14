@@ -183,6 +183,7 @@ namespace Dark_Cloud_Improved_Version
         public static bool alreadyHasSavingBook = false;
 
         public static byte[] storageOriginalDialogue;
+        public static byte[] storageAllDialogues;
 
         static int[] noruneSidequestIDs = { 87, 247, 207, 227, 187, 127, 67, 167, 147, 267, 47, 107, 0};
         static int[] noruneSidequestDialogueAddresses = { 0x2064B36C, 0x206507BE, 0x2064F350, 0x2064FC66, 0x2064EAC2, 0x2064CB04, 0x2064A36A, 0x2064DFB0, 0x2064D6C2, 0x206519EE, 0x20649916, 0x2064C088, 0 };
@@ -1974,6 +1975,110 @@ namespace Dark_Cloud_Improved_Version
                     fishToFind = fishToFind.Remove(fishToFind.Length - 1, 1);
                 }
             }
+        }
+
+        public static void FixCharacterNamesInDialogues()
+        {
+            byte charByte = 0;
+            if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 791752805) //Xiao
+            {
+                charByte = 251;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 791752819) //Goro
+            {
+                charByte = 252;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 791883877) //Ruby
+            {
+                charByte = 253;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 792278899)  //Ungaga
+            {
+                charByte = 254;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 792014949)  //Osmond
+            {
+                charByte = 255;
+            }
+
+            if (charByte > 250)
+            {            
+                 storageAllDialogues = Memory.ReadByteArray(0x20645000, 200000);
+                 Console.WriteLine("started char fixing, alldialogue length: " + storageAllDialogues.Length);
+                 for (int i = 0; i < storageAllDialogues.Length; i++)
+                 {
+                     if (storageAllDialogues[i] == 250)
+                     {
+                         i++;
+                         if (storageAllDialogues[i] == 250)
+                         {
+                             i--;
+                             storageAllDialogues[i] = charByte;
+                             i++;
+                         }
+                     }
+                     else
+                     {
+                         i++;
+                     }
+                 }
+                 Memory.WriteByteArray(0x20645000, storageAllDialogues);
+                 Console.WriteLine("Finished char fixing");
+                 
+            }
+        }
+
+        public static void FixCharacterNamesInShopDialogues()
+        {
+            
+            byte charByte = 0;
+
+            if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 791752805) //Xiao
+            {
+                charByte = 251;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 791752819) //Goro
+            {
+                charByte = 252;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 791883877) //Ruby
+            {
+                charByte = 253;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 792278899)  //Ungaga
+            {
+                charByte = 254;
+            }
+            else if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 792014949)  //Osmond
+            {
+                charByte = 255;
+            }
+
+            if (charByte > 250)
+            {
+                storageAllDialogues = Memory.ReadByteArray(0x218229E0, 37000);
+                Console.WriteLine("started shop char fixing, alldialogue length: " + storageAllDialogues.Length);
+                for (int i = 0; i < storageAllDialogues.Length; i++)
+                {
+                    if (storageAllDialogues[i] == 250)
+                    {
+                        i++;
+                        if (storageAllDialogues[i] == 250)
+                        {
+                            i--;
+                            storageAllDialogues[i] = charByte;
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+                Memory.WriteByteArray(0x218229E0, storageAllDialogues);
+                Console.WriteLine("Finished shop char fixing");
+            }
+
         }
 
 

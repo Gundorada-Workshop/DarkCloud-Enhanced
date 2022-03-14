@@ -21,6 +21,8 @@ namespace Dark_Cloud_Improved_Version
         static byte currentDungeon;
         static byte currentFloor;
         static int prevFloor = 200;
+        static int currentCharCursor = 0;
+        static int prevCharCursor = 0;
         static bool clownOnScreen = false;
         static bool chronicle2 = false;
         static bool[] monstersDead = new bool[15];
@@ -322,6 +324,7 @@ namespace Dark_Cloud_Improved_Version
                         prevFloor = currentFloor;
                     }
 
+                    CheckUngagaSwap();
                     CheckWepLvlUp();
                     CheckClown();
                     CheckCurrentSidequests();
@@ -426,7 +429,7 @@ namespace Dark_Cloud_Improved_Version
                     floors.Add(8); floors.Add(16); break;
                 //Shipwreck
                 case 2:
-                    floors.Add(8); floors.Add(16); break;
+                    floors.Add(8); floors.Add(17); break;
                 //Sun&Moon
                 case 3:
                     floors.Add(8); floors.Add(17); break;
@@ -706,6 +709,56 @@ namespace Dark_Cloud_Improved_Version
 
             }
         }
+
+        public static void CheckUngagaSwap()
+        {
+            currentCharCursor = Memory.ReadByte(0x202A2DE8); //current char
+
+            if (currentCharCursor != prevCharCursor)
+            {
+                if (currentCharCursor == 4)
+                {
+                    int timer = 0;
+                    while (timer < 10)
+                    {
+                        Thread.Sleep(100);
+                        timer++;
+
+                        if (Memory.ReadByte(0x202A2010) == 3)
+                        {
+                            if (Memory.ReadUShort(0x2193A013) == 12850)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (Memory.ReadUShort(0x217E5453) == 12850)
+                            {
+                                break;
+                            }
+                        }
+
+                        
+                    }
+
+                    if (Memory.ReadByte(0x202A2010) == 3)
+                    {
+                        Memory.WriteByte(0x2193A013, 52);
+                        Memory.WriteByte(0x2193A014, 52);
+                    }
+                    else
+                    {
+                        Memory.WriteByte(0x217E5453, 52);
+                        Memory.WriteByte(0x217E5454, 52);
+                    }
+                }
+            }
+
+            prevCharCursor = currentCharCursor;
+        }
+        
+
 
         public static void CheckClown()
         {

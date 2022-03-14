@@ -89,7 +89,8 @@ namespace Dark_Cloud_Improved_Version
         public static int sidequestDialogueID = 0;
         public static int itsfinishedDialogueID = 0;
         public static int currentInGameDay = 0;
-        
+        public static Thread characterNamesFixThread = new Thread(() => Dialogues.FixCharacterNamesInDialogues());
+
         //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C,
         //21F10010 (toan next to pickle in brownboo), 21F10014, 21F10018 (element check), 21F1001C (clock check),
         //21F10020 (PNACH flag), 21F10024 (mod flag), 21F10028 (Option 1 Flag), 21F1002C (Option 2 Flag), 21F10030 (Option 3 Flag), 21F10034 (Option 4 Flag)
@@ -894,6 +895,7 @@ namespace Dark_Cloud_Improved_Version
                         if (currentAreaFrames > 5)
                         {
                             CheckClockAdvancement(currentArea);
+                            shopkeeper = false;
                         }
                     }
 
@@ -916,6 +918,11 @@ namespace Dark_Cloud_Improved_Version
                                         Console.WriteLine("Cleared storage original dialogue");
                                     }
                                 }
+                            }
+                            if (!characterNamesFixThread.IsAlive)
+                            {
+                                characterNamesFixThread = new Thread(() => Dialogues.FixCharacterNamesInDialogues());
+                                characterNamesFixThread.Start();
                             }
                         }
                     }
@@ -1049,6 +1056,7 @@ namespace Dark_Cloud_Improved_Version
                             Console.WriteLine("Fixing broken dagger glitch...");
                             FixBrokenDagger();
                             shopDataCleared = true;
+                            Dialogues.FixCharacterNamesInShopDialogues();
                         }
 
                         if (Memory.ReadByte(0x21DA52E4) != 1)

@@ -385,5 +385,34 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteByte(0x21F10034, 0);
             }
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (Memory.ReadByte(Addresses.mode) == 2 || Memory.ReadByte(Addresses.mode) == 3)
+            {
+                this.TopMost = true;
+                string message = "Closing the mod will return your game to the Main Menu, remember to save your game!\n\nAre you sure you want to quit?\n\nTip: You can soft-reset your game back to the Main Menu by holding Start+Select+L1+L2+R1+R2, and then quit the mod without any warnings.";
+                string title = "Are you sure you want to quit?";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
+                
+
+                while (true)
+                {
+                    if (result == DialogResult.Yes)
+                    {
+                        this.Close();
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                this.Close();
+            }
+        }
     }
 }
