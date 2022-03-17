@@ -71,12 +71,12 @@ namespace Dark_Cloud_Improved_Version
             List<int> OrbIds = new List<int>();
 
             //Check if the orb ID is active (1) and add it to the list
-            if (Memory.ReadUShort(RubyOrbs.Orb0.id) == 1) OrbIds.Add(0);
-            if (Memory.ReadUShort(RubyOrbs.Orb1.id) == 1) OrbIds.Add(1);
-            if (Memory.ReadUShort(RubyOrbs.Orb2.id) == 1) OrbIds.Add(2);
-            if (Memory.ReadUShort(RubyOrbs.Orb3.id) == 1) OrbIds.Add(3);
-            if (Memory.ReadUShort(RubyOrbs.Orb4.id) == 1) OrbIds.Add(4);
-            if (Memory.ReadUShort(RubyOrbs.Orb5.id) == 1) OrbIds.Add(5);
+            if (Memory.ReadUShort(Orb0.id) == 1) OrbIds.Add(0);
+            if (Memory.ReadUShort(Orb1.id) == 1) OrbIds.Add(1);
+            if (Memory.ReadUShort(Orb2.id) == 1) OrbIds.Add(2);
+            if (Memory.ReadUShort(Orb3.id) == 1) OrbIds.Add(3);
+            if (Memory.ReadUShort(Orb4.id) == 1) OrbIds.Add(4);
+            if (Memory.ReadUShort(Orb5.id) == 1) OrbIds.Add(5);
 
             return OrbIds;
         }

@@ -19,8 +19,14 @@ namespace Dark_Cloud_Improved_Version
         public static int currentFrameCounter = 0;
         public static int previousFrameCounter = 0;
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
-        public static Thread weaponsThread = new Thread(new ThreadStart(Weapons.WeaponsBalanceChanges));
+        public static Thread changesThread = new Thread(new ThreadStart(ApplyNewChanges));
         public static Thread dungeonthread = new Thread(new ThreadStart(DungeonThread.InsideDungeonThread));
+
+        internal static void ApplyNewChanges()
+        {
+            Weapons.WeaponsBalanceChanges();
+            Shop.UpdateShopPrices();
+        }
 
         public static void CheckEmulatorAndGame()
         {
@@ -160,10 +166,10 @@ namespace Dark_Cloud_Improved_Version
                                     if (Memory.ReadByte(0x21CE448A) == 1)
                                     {
                                         Console.WriteLine("Entered ingame, starting all threads!");
-                                        weaponsThread = new Thread(() => Weapons.WeaponsBalanceChanges());
+                                        changesThread = new Thread(() => ApplyNewChanges());
                                         townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
                                         dungeonthread = new Thread(() => DungeonThread.InsideDungeonThread());
-                                        if (!weaponsThread.IsAlive) weaponsThread.Start();
+                                        if (!changesThread.IsAlive) changesThread.Start();
                                         if (!townThread.IsAlive) townThread.Start();
                                         if (!dungeonthread.IsAlive) dungeonthread.Start();
                                         ingameFlag = true;
