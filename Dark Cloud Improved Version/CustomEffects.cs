@@ -14,15 +14,7 @@ namespace Dark_Cloud_Improved_Version
         static float chronicleFormerWHP = 0;
         static int[] chronicleCurrentEnemyHP;
         static int[] chronicleFormerEnemyHP;
-        public const int mode = 0x202A2534; //Values:
-                                            //0=Main title
-                                            //1=Intro
-                                            //2=Town
-                                            //3=Dungeon
-                                            //4=? (doesnt crash in dungeon)
-                                            //5=Opening cutscene(dark shrine),
-                                            //6=?
-                                            //7=Debug menu
+        public const int mode = Addresses.mode;                                            
 
         private static Random random = new Random();
         public static Thread damageFadeoutThread = new Thread(new ThreadStart(DamageFadeout));
@@ -395,22 +387,29 @@ namespace Dark_Cloud_Improved_Version
             return listOfInts.ToArray();
         }
 
+        /// <summary>
+        /// Grants the ability to fly upwards
+        /// </summary>
         public static void DragonsY()
         {
             const int dunPositionZ = 0x21EA1D34;
-            const int dunPositionX = 0x21EA1D30;
-            const int dunPositionY = 0x21EA1D38;
+            //const int dunPositionX = 0x21EA1D30;
+            //const int dunPositionY = 0x21EA1D38;
 
-            float posX = Memory.ReadFloat(dunPositionX);
-            float posY = Memory.ReadFloat(dunPositionY);
+            //float posX = Memory.ReadFloat(dunPositionX);
+            //float posY = Memory.ReadFloat(dunPositionY);
             //float posZ = Memory.ReadFloat(dunPositionZ);
-            ushort healspeed1 = Memory.ReadUShort(0x202A2B88);
+            //ushort healspeed1 = Memory.ReadUShort(0x202A2B88);
 
             var i = 0.15; // Acceleration modifier
             var a = 0.000001; // Base acceleration value
 
             while (Memory.ReadUShort(Addresses.buttonInputs) == 65        // X + L2 being pressed?
-                && Memory.ReadFloat(dunPositionZ) < 30   /*     // Height below 25 units?
+                && Memory.ReadFloat(dunPositionZ) < 30
+                && !Player.CheckDunIsInteracting()
+                && !Player.CheckDunIsOpeningChest()
+                && !Player.CheckDunIsPaused() 
+                && Player.CheckDunIsWalkingMode()/*     // Height below 25 units?
                 && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
                 && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
                 && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
@@ -423,8 +422,10 @@ namespace Dark_Cloud_Improved_Version
                 i++;
             }
         }
-        //Grants the ability to fly upwards
 
+        /// <summary>
+        /// Applies the Heal regeneration effect to all allies
+        /// </summary>
         public static void AngelGear()
         {
             //Initialize variables
@@ -434,8 +435,8 @@ namespace Dark_Cloud_Improved_Version
             ushort XiaoMaxHp = 0;
             bool isHealXiao = false;
 
-            //Run while Angel Gear is equipped and Player is in a non paused state
-            while (Player.Weapon.GetCurrentWeaponId() == 313 &&
+            //Run while Angel Gear is equipped and Player is in valid state
+            while (Player.Weapon.GetCurrentWeaponId() == Items.angelgear &&
                     !Player.CheckDunIsInteracting() &&
                     !Player.CheckDunIsOpeningChest() &&
                     !Player.CheckDunIsPaused() &&
@@ -464,9 +465,7 @@ namespace Dark_Cloud_Improved_Version
 
                 //Add the HP value to the characters current HP
                 if (ToanHp < ToanMaxHp) Player.Toan.SetHp((ushort)(ToanHp + HpValueAdd));
-
-                Console.WriteLine("Toan HP add: " + (ToanHp + HpValueAdd));
-
+                    //Console.WriteLine("Toan HP add: " + (ToanHp + HpValueAdd));
                 if (GoroHp < GoroMaxHp) Player.Goro.SetHp((ushort)(GoroHp + HpValueAdd));
                 if (RubyHp < RubyMaxHp) Player.Ruby.SetHp((ushort)(RubyHp + HpValueAdd));
                 if (UngagaHp < UngagaMaxHp) Player.Ungaga.SetHp((ushort)(UngagaHp + HpValueAdd));
@@ -477,15 +476,14 @@ namespace Dark_Cloud_Improved_Version
                 Thread.Sleep(Delay);
             }
         }
-        //Applies the Heal regeneration effect to all allies
 
+        /// <summary>
+        /// Reduces enemies size on hit
+        /// </summary>
         public static void TallHammer()
         {
             //Offset between the enemy's dimension addresses
             int scaleOffset = MiniBoss.scaleOffset;
-
-            //Save weapon Whp
-            float formerWhp = ReusableFunctions.GetCurrentEquippedWhp(Player.CurrentCharacterNum(), Player.Goro.GetWeaponSlot());
 
             //Save every enemy's HP on the current floor
             int[] formerEnemyHpList = ReusableFunctions.GetEnemiesHp();
@@ -493,13 +491,13 @@ namespace Dark_Cloud_Improved_Version
             Thread.Sleep(250);
 
             //Re-save every enemy's HP on the current floor
-            float currentWhp = ReusableFunctions.GetCurrentEquippedWhp(Player.CurrentCharacterNum(), Player.Goro.GetWeaponSlot());
-
-            //Re-save every enemy's HP on the current floor
             int[] currentEnemyHpList = ReusableFunctions.GetEnemiesHp();
 
-            //Compare the 2nd Whp save with the 1st Whp to check for a difference and also the average on all the enemies HP for a difference, this will tell us if the player has hit something
-            if (currentWhp < formerWhp && currentEnemyHpList.Average() < formerEnemyHpList.Average())
+            int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
+
+            bool hasHit = hit != 0 && ReusableFunctions.GetRecentDamageDealtByPlayer() != 0;
+
+            if (hasHit)
             {
                 //Store the damaged enemies ID onto a list
                 List<int> enemyIds = ReusableFunctions.GetEnemiesHitIds(formerEnemyHpList, currentEnemyHpList);
@@ -521,7 +519,7 @@ namespace Dark_Cloud_Improved_Version
                     //Instructions will run for 1000 times (arbitrary number) and only while the enemy's dimensions are between 30% - 100% of their original size 
                     while (counter < 1000 && ((enemyZeroWidth >= 0.3f && enemyZeroWidth <= 1f) || (enemyZeroHeight >= 0.3f && enemyZeroHeight <= 1f) || (enemyZeroDepth >= 0.3f && enemyZeroDepth <= 1f)))
                     {
-                        //Change the each of the enemy axis dimensions (X,Y and Z) based on the offset from the original Enemy 0 address
+                        //Change each of the enemy axis dimensions (X,Y and Z) based on the offset from the original Enemy 0 address
                         Memory.WriteFloat(MiniBoss.enemyZeroWidth + (scaleOffset * id), enemyZeroWidth - (i * 0.0001f));
                         Memory.WriteFloat(MiniBoss.enemyZeroHeight + (scaleOffset * id), enemyZeroHeight - (i * 0.0001f));
                         Memory.WriteFloat(MiniBoss.enemyZeroDepth + (scaleOffset * id), enemyZeroDepth - (i * 0.0001f));
@@ -529,27 +527,31 @@ namespace Dark_Cloud_Improved_Version
                         counter++;
                     }
                 }
+
+                ReusableFunctions.ClearRecentDamageAndDamageSource();
             }
         }
-        //Reduces enemies size on hit
 
+        /// <summary>
+        /// Increase attack power depending on health and thirst
+        /// </summary>
         public static void Inferno()
         {
-            float goroMaxHP = Memory.ReadUShort(0x21CD9556);
-            float goroCurrentHP = Memory.ReadUShort(0x21CD9562);
+            float goroMaxHP = Player.Goro.GetMaxHp();   //Memory.ReadUShort(0x21CD9556);
+            float goroCurrentHP = Player.Goro.GetHp();  //Memory.ReadUShort(0x21CD9562);
 
-            float hpPercentage = 100 - ((goroCurrentHP / goroMaxHP) * 100);
+            float hpPercentage = 100 - (goroCurrentHP / goroMaxHP * 100);
             //Console.WriteLine("hpPercentage: " + hpPercentage);
 
             float goroMaxThirst = Memory.ReadFloat(0x21CDD840);
-            float goroCurrentThirst = Memory.ReadFloat(0x21CDD858);
+            float goroCurrentThirst = Player.Goro.GetThirst();  //Memory.ReadFloat(0x21CDD858);
 
-            float thirstPercentage = 100 - ((goroCurrentThirst / goroMaxThirst) * 100);
+            float thirstPercentage = 100 - (goroCurrentThirst / goroMaxThirst * 100);
             //Console.WriteLine("thirstPercentage: " + thirstPercentage);
 
-            byte currentWepNum = Memory.ReadByte(0x21CDD88E);
+            //byte currentWepNum = Player.Goro.GetWeaponSlot(); //Memory.ReadByte(0x21CDD88E);
 
-            ushort currentBaseAttack = Memory.ReadUShort(Player.Goro.WeaponSlot0.attack + (0xF8 * currentWepNum));
+            ushort currentBaseAttack = Player.Weapon.GetCurrentWeaponAttack();//Memory.ReadUShort(Player.Goro.WeaponSlot0.attack + (0xF8 * currentWepNum));
 
             ushort attachmentsAttack = 0;
 
@@ -571,8 +573,10 @@ namespace Dark_Cloud_Improved_Version
 
             Memory.WriteUShort(0x21EA7594, (ushort)(currentTotalAttack + hpAttackBoost + thirstAttackBoost));
         }
-        //Increase attack power depending on health and thirst
 
+        /// <summary>
+        /// Increases damage output the longer you charge an attack
+        /// </summary>
         public static void MobiusRing()
         {
             //Check these addresses which tells us if Ruby is charging her attack either in 3rd or 1st person
@@ -597,14 +601,15 @@ namespace Dark_Cloud_Improved_Version
                     {
                         message = "Total damage is over 9000";
                         height = 1;
-                        width = 25;
+                        width = message.Length;
                     }
                     else
                     {
                         message = "Total damage " + damage;
                         height = 1;
-                        width = 17;
+                        width = message.Length;
                     }
+
                     //Reset Flash
                     Memory.WriteUShort(0x21DC449E, 0);
                     Thread.Sleep(1000);
@@ -657,7 +662,6 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
         }
-        //Increases damage output the longer you charge an attack
         
         /// <summary>
         /// Enables the Secret Armlet special effect:
@@ -669,6 +673,7 @@ namespace Dark_Cloud_Improved_Version
         {
             bool changed = false;
 
+            //Check if any of the spawned circles have a negative effect and change into positive ones
             if (Memory.ReadByte(Addresses.circleSpawn1) != 0 && Memory.ReadByte(Addresses.circleEffect1) > 4)
                 { int effectPositive1 = random.Next(5); Memory.WriteByte(Addresses.circleEffect1, (byte)effectPositive1); changed = true; }
 
@@ -688,6 +693,7 @@ namespace Dark_Cloud_Improved_Version
         {
             bool changed = false;
 
+            //Re-roll the existing circles
             if (Memory.ReadByte(Addresses.circleSpawn1) != 0)
                 { int effectPositive1 = random.Next(10); Memory.WriteByte(Addresses.circleEffect1, (byte)effectPositive1); changed = true; }
 
@@ -700,8 +706,10 @@ namespace Dark_Cloud_Improved_Version
             if (changed) return true; else return false;
         }
 
+        /// <summary>
+        /// Chance on getting hit to gain Stamina
+        /// </summary>
         public static void HerculesWrath()
-        //Chance on getting hit to gain Stamina
         {
             //Check Ungaga's HP
             ushort formerHP = Memory.ReadUShort(Player.Ungaga.hp);
@@ -725,65 +733,60 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Chance on hit to apply stop to all enemies
+        /// </summary>
         public static void BabelSpear()
-        //Chance on hit to apply stop to all enemies
         {
-            //Save weapon Whp
-            float formerWhp = ReusableFunctions.GetCurrentEquippedWhp(Player.CurrentCharacterNum(), Player.Ungaga.GetWeaponSlot());
+            int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            //Save every enemy's HP on the current floor
-            int[] formerEnemiesHP = ReusableFunctions.GetEnemiesHp();
+            bool hasHit = hit != 0 && ReusableFunctions.GetRecentDamageDealtByPlayer() != 0;
 
-            Thread.Sleep(100);
-
-            //Re-save every enemy's HP on the current floor
-            float currentWhp = ReusableFunctions.GetCurrentEquippedWhp(Player.CurrentCharacterNum(), Player.Ungaga.GetWeaponSlot()); ;
-
-            //Re-save every enemy's HP on the current floor
-            int[] currentEnemiesHP = ReusableFunctions.GetEnemiesHp();
-
-            //Compare the 2nd Whp save with the 1st Whp to check for a difference and also the average on all the enemies HP for a difference, this will tell us if the player has hit something
-            if (currentWhp < formerWhp && currentEnemiesHP.Average() != formerEnemiesHP.Average())
+            if (hasHit)
             {
                 int procChance = random.Next(100); //Chance to apply stop (4%)
 
                 if (procChance < 4)
                 {
-                    Memory.WriteUShort(Enemies.Enemy0.freezeTimer, 300); //Stop duration (300 = 5 seconds)
-                    Memory.WriteUShort(Enemies.Enemy1.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy2.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy3.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy4.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy5.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy6.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy7.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy8.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy9.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy10.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy11.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy12.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy13.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy14.freezeTimer, 300);
-                    Memory.WriteUShort(Enemies.Enemy15.freezeTimer, 300);
+                    if(Memory.ReadByte(Enemies.Enemy0.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy0.freezeTimer, 300); //Stop duration (300 = 5 seconds)
+                    if (Memory.ReadByte(Enemies.Enemy1.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy1.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy2.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy2.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy3.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy3.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy4.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy4.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy5.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy5.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy6.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy6.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy7.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy7.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy8.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy8.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy9.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy9.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy10.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy10.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy11.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy11.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy12.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy12.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy13.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy13.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy14.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy14.freezeTimer, 300);
+                    if (Memory.ReadByte(Enemies.Enemy15.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy15.freezeTimer, 300);
                 }
             }
         }
 
+        /// <summary>
+        /// Chance on hit to apply a random status
+        /// </summary>
         public static void Supernova()
-        //Chance on hit to apply a random status
         {
-
             //Get a read on all the enemies hp on the current floor
             int[] formerEnemyHpList = ReusableFunctions.GetEnemiesHp();
 
-            Thread.Sleep(100);
+            Thread.Sleep(250);
 
-            //Get a second read on all the enemies hp on the current floor
-            int[] currentEnemyHpList = ReusableFunctions.GetEnemiesHp();
+            int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            //Check if any enemy got hit/damaged
-            if (currentEnemyHpList.Average() != formerEnemyHpList.Average())
+            bool hasHit = hit != 0 && ReusableFunctions.GetRecentDamageDealtByPlayer() != 0;
+
+            if (hasHit)
             {
+                //Get a second read on all the enemies hp on the current floor
+                int[] currentEnemyHpList = ReusableFunctions.GetEnemiesHp();
+
                 //Store the damaged enemies ID onto a list
                 List<int> enemyIds = ReusableFunctions.GetEnemiesHitIds(formerEnemyHpList, currentEnemyHpList);
 
@@ -947,8 +950,10 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Chance on kill to get an empty synthsphere (Breaks down any weapon)
+        /// </summary>
         public static void StarBreaker()
-        //Chance on kill to get an empty synthsphere (Breaks down any weapon)
         {
             //Save every enemy's HP on the current floor
             int[] formerEnemiesHP = ReusableFunctions.GetEnemiesHp();
@@ -964,13 +969,13 @@ namespace Dark_Cloud_Improved_Version
 
             //Console.WriteLine("Enemies killed count: " + enemiesKilled.Count);
 
-            if(enemiesKilled.Count > 0 && roll >= 0)
+            if(enemiesKilled.Count > 0 && roll < 100)
             {
                 if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() >= 0)
                 {
                     Player.Inventory.SetBagAttachments(Items.synthsphere);
 
-                    Dayuppy.DisplayMessage("The Star Breaker sent\n you a shooting star!", 2, 22);
+                    Dayuppy.DisplayMessage("The Star Breaker sent\nyou a shooting star!", 2, 21);
                 }
             }
         }

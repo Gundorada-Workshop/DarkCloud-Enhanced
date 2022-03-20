@@ -617,10 +617,10 @@ namespace Dark_Cloud_Improved_Version
                 return Memory.ReadUShort(id);
             }
 
-            public static byte GetCurrentWeaponAttack()
+            public static ushort GetCurrentWeaponAttack()
             //Returns the current equipped weapon Attack
             {
-                return Memory.ReadByte(attack);
+                return Memory.ReadUShort(attack);
             }
 
             public static byte GetCurrentWeaponEndurance()
@@ -635,10 +635,10 @@ namespace Dark_Cloud_Improved_Version
                 return Memory.ReadByte(speed);
             }
 
-            public static byte GetCurrentWeaponMagic()
+            public static ushort GetCurrentWeaponMagic()
             //Returns the current equipped weapon Magic
             {
-                return Memory.ReadByte(magic);
+                return Memory.ReadUShort(magic);
             }
 
             public static float GetCurrentWeaponWhp()
@@ -2372,9 +2372,9 @@ namespace Dark_Cloud_Improved_Version
                 return hammers;
             }
 
-            public static int GetWeaponSlot()
+            public static byte GetWeaponSlot()
             {
-                return Memory.ReadUShort(currentWeaponSlot);
+                return Memory.ReadByte(currentWeaponSlot);
             }
 
             internal class WeaponSlot0
