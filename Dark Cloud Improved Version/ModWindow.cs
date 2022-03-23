@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace Dark_Cloud_Improved_Version
 {
-    public partial class Form1 : Form
+    public partial class ModWindow : Form
     {
-        private static Form1 instance;
+        private static ModWindow instance;
         private delegate void EnableDelegate(bool enable);
-        public Form1()
+        public ModWindow()
         {
             InitializeComponent();
             instance = this;
@@ -75,29 +75,27 @@ namespace Dark_Cloud_Improved_Version
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            if (CBox_DebugThread.Checked)
             {
                 if (!debugThread.IsAlive) //If we are not already running
                     debugThread.Start();
 
-                checkBox1.Enabled = false;
+                CBox_DebugThread.Enabled = false;
             }
 
         }
 
         private void buttonLaunchMod(object sender, EventArgs e) //Launch Mod as normal User
         {
-            tabControl2.Visible = true;
-            button7.Visible = false;
-            button8.Visible = false;
+            TabControl_USER.Visible = true;
+            Container_MainModes.Visible = false;
             if (!launchThread.IsAlive) launchThread.Start();
         }
 
         private void buttonLaunchModAsDev(object sender, EventArgs e) //Launch Mod with dev buttons
         {
-            tabControl1.Visible = true;
-            button7.Visible = false;
-            button8.Visible = false;          
+            TabControl_DEV.Visible = true;
+            Container_MainModes.Visible = false;
         }
 
         public static void EmulatorCount(int newValue)
@@ -413,6 +411,11 @@ namespace Dark_Cloud_Improved_Version
             {
                 this.Close();
             }
+        }
+
+        private void TabDev_BtnBack_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
         }
     }
 }

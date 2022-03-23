@@ -42,7 +42,7 @@ namespace Dark_Cloud_Improved_Version
                 if (PID == 0)
                 {
                     //Console.WriteLine("Memory PID 0");
-                    Form1.EmulatorCount(0); //no emulators running
+                    ModWindow.EmulatorCount(0); //no emulators running
                 }
                 /*else if (PID > 1)
                 {
@@ -55,7 +55,7 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadInt(0x20299540) != 1802658116) //check if DC1 has been booted
                     {
                         PID = 0;
-                        Form1.EmulatorCount(1);
+                        ModWindow.EmulatorCount(1);
                     }
                     else
                     {
@@ -67,13 +67,13 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     if (saveFileMessageBox == false)
                                     {
-                                        Form1.FirstLaunchGameMode(false);
+                                        ModWindow.FirstLaunchGameMode(false);
                                         Thread.Sleep(100);
                                     }
                                 }
                                 else
                                 {
-                                    Form1.FirstLaunchGameMode(true);
+                                    ModWindow.FirstLaunchGameMode(true);
                                     //firstlaunch = false;
                                     ingame = false;
                                     userMode = true;
@@ -83,7 +83,7 @@ namespace Dark_Cloud_Improved_Version
                         }
                         else
                         {
-                            Form1.PnachNotActive();
+                            ModWindow.PnachNotActive();
                         }
                     }
                 }
@@ -115,7 +115,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 if (Memory.ReadByte(0x21F10024) == 1)
                 {
-                    Form1.EnhancedModAlreadyOpen();
+                    ModWindow.EnhancedModAlreadyOpen();
                 }
                 else
                 {
@@ -138,11 +138,11 @@ namespace Dark_Cloud_Improved_Version
                             ingameFlag = false;
                             if (Memory.ReadByte(0x202A3420) == 9) //Opening book mode after you press start
                             {
-                                Form1.CurrentlyInGame();
+                                ModWindow.CurrentlyInGame();
                             }
                             else
                             {
-                                Form1.CurrentlyInMainMenu();
+                                ModWindow.CurrentlyInMainMenu();
                             }
                         }
                         else if (currentMode == 2 || currentMode == 3 || currentMode == 5)
@@ -180,12 +180,12 @@ namespace Dark_Cloud_Improved_Version
                                             Memory.WriteInt(Addresses.dungeonDebugMenu, 151); //If we are in a dungeon, this will take us to the main menu
                                         else
                                             Memory.WriteByte(Addresses.mode, 1);
-                                        Form1.NotEnhancedModSaveFile();
+                                        ModWindow.NotEnhancedModSaveFile();
                                         break;
                                     }
                                 }
                                 ingame = true;
-                                Form1.CurrentlyInGame();
+                                ModWindow.CurrentlyInGame();
                             }
 
                         }
@@ -200,13 +200,13 @@ namespace Dark_Cloud_Improved_Version
                             {
                                 ingame = false;
                                 ingameFlag = false;
-                                Form1.CurrentlyInMainMenu();
+                                ModWindow.CurrentlyInMainMenu();
                             }
                         }
                         else if (currentMode == 2 || currentMode == 3 || currentMode == 5)
                         {
                             ingame = true;
-                            Form1.CurrentlyInGame();
+                            ModWindow.CurrentlyInGame();
                         }
                     }
                 }
@@ -231,7 +231,7 @@ namespace Dark_Cloud_Improved_Version
                     else
                         Memory.WriteByte(Addresses.townSoftReset, 1);
 
-                    Form1.SaveStateDetected();
+                    ModWindow.SaveStateDetected();
                     
                 }
 
