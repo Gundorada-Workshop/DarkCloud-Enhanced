@@ -31,73 +31,14 @@ namespace Dark_Cloud_Improved_Version
         public static Thread debugThread = new Thread(new ThreadStart(CheatCodes.DebugOptions));
         public static Thread launchThread = new Thread(new ThreadStart(MainMenuThread.CheckEmulatorAndGame));
 
-        private void button1_Click(object sender, EventArgs e)      //Dayuppy
+        #region Basic stuff
+        private void ModWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!dayThread.IsAlive) //If we are not already running
-                dayThread.Start(); //Start thread
+            Environment.Exit(0);
         }
+        #endregion
 
-        private void button2_Click(object sender, EventArgs e)      //mike
-        {
-            //place here the function you want to use from your .cs file
-            //If we are not already running
-            MainMenuThread.changesThread.Start();
-
-
-            //The Synthsphere Listener thread
-            Weapons.weaponsMenuListener.Start();//Start thread
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)      //plgue
-        {
-            //place here the function you want to use from your .cs file            
-        }
-
-        private void button4_Click(object sender, EventArgs e)      //wordofwind
-        {
-            //if (!chestThread.IsAlive) chestThread.Start();
-            if (!townThread.IsAlive) townThread.Start();
-            //if (!TASSThread.IsAlive) TASSThread.Start();
-            //if (!TASSThread2.IsAlive) TASSThread2.Start();
-        }
-
-        private void button5_Click(object sender, EventArgs e)  //DungeonThread
-        {
-            if (!dungeonthread.IsAlive) //If we are not already running
-                dungeonthread.Start(); //Start thread
-        }
-
-        private void button6_Click(object sender, EventArgs e)  //townThread
-        {
-            if (!townThread.IsAlive) townThread.Start();
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (CBox_DebugThread.Checked)
-            {
-                if (!debugThread.IsAlive) //If we are not already running
-                    debugThread.Start();
-
-                CBox_DebugThread.Enabled = false;
-            }
-
-        }
-
-        private void buttonLaunchMod(object sender, EventArgs e) //Launch Mod as normal User
-        {
-            TabControl_USER.Visible = true;
-            Container_MainModes.Visible = false;
-            if (!launchThread.IsAlive) launchThread.Start();
-        }
-
-        private void buttonLaunchModAsDev(object sender, EventArgs e) //Launch Mod with dev buttons
-        {
-            TabControl_DEV.Visible = true;
-            Container_MainModes.Visible = false;
-        }
-
+        #region Validations
         public static void EmulatorCount(int newValue)
         {
             if (newValue == 0)
@@ -162,7 +103,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(NoEmulatorsActive), new object[] { enable });
                 return;
             }
-            label2.Text = "Cannot detect PCSX2-Emulator!\n\nPlease launch your emulator to continue.";
+            Label_UserMode_PlaceholderText.Text = "Cannot detect PCSX2-Emulator!\n\nPlease launch your emulator to continue.";
         }
 
         void TooManyEmulatorsActive(bool enable)
@@ -172,7 +113,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(TooManyEmulatorsActive), new object[] { enable });
                 return;
             }
-            label2.Text = "Too many PCSX2-emulators open!\n\nPlease make sure only one is running at time.";
+            Label_UserMode_PlaceholderText.Text = "Too many PCSX2-emulators open!\n\nPlease make sure only one is running at time.";
         }
 
         void GameNotActive(bool enable)
@@ -182,7 +123,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(GameNotActive), new object[] { enable });
                 return;
             }
-            label2.Text = "Please boot Dark Cloud (USA) to continue.";
+            Label_UserMode_PlaceholderText.Text = "Please boot Dark Cloud (USA) to continue.";
         }
 
         void InvalidFirstLaunchGameMode(bool enable)
@@ -192,17 +133,17 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(InvalidFirstLaunchGameMode), new object[] { enable });
                 return;
             }
-            label2.Text = "Detected a save file already running!\n\nPlease re-boot Dark Cloud to start the Mod.";
+            Label_UserMode_PlaceholderText.Text = "Detected a save file already running!\n\nPlease re-boot Dark Cloud to start the Mod.";
             MainMenuThread.saveFileMessageBox = true;
             string message = "Detected a save file already running! Enhanced Mod currently not active.\n\nThe mod needs to be launched while in the Main Menu.\n\nDo you want the mod to return your game to Main Menu?";
             string title = "Save file running!";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
             this.TopMost = false;
-            
+
             while (true)
             {
-                label2.Text = "Detected a save file already running!\n\nPlease re-boot Dark Cloud to start the Mod.";
+                Label_UserMode_PlaceholderText.Text = "Detected a save file already running!\n\nPlease re-boot Dark Cloud to start the Mod.";
                 if (result == DialogResult.Yes)
                 {
                     if (Player.InDungeonFloor() == true)
@@ -218,7 +159,7 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
 
-            
+
         }
 
         void ValidFirstLaunchGameMode(bool enable)
@@ -228,7 +169,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(ValidFirstLaunchGameMode), new object[] { enable });
                 return;
             }
-            label2.Text = "Dark Cloud has been booted!";
+            Label_UserMode_PlaceholderText.Text = "Dark Cloud has been booted!";
         }
 
         void FormPnachNotActive(bool enable)
@@ -238,7 +179,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(FormPnachNotActive), new object[] { enable });
                 return;
             }
-            label2.Text = "PNACH File not active!\n\nPlease put the Enhanced Mod's PNACH file into the Emulator's Cheats folder and active cheats in Emulator with System->Enable Cheats";
+            Label_UserMode_PlaceholderText.Text = "PNACH File not active!\n\nPlease put the Enhanced Mod's PNACH file into the Emulator's Cheats folder and active cheats in Emulator with System->Enable Cheats";
         }
 
         void FormCurrentlyInMainMenu(bool enable)
@@ -248,7 +189,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(FormCurrentlyInMainMenu), new object[] { enable });
                 return;
             }
-            label2.Text = "Enhanced Mod is active! Currently in Main menu.\n\nYou can start a new game or load a save.";
+            Label_UserMode_PlaceholderText.Text = "Enhanced Mod is active! Currently in Main menu.\n\nYou can start a new game or load a save.";
         }
 
         void FormCurrentlyInGame(bool enable)
@@ -258,7 +199,7 @@ namespace Dark_Cloud_Improved_Version
                 this.Invoke(new EnableDelegate(FormCurrentlyInGame), new object[] { enable });
                 return;
             }
-            label2.Text = "Enhanced Mod is active and running!\n\nRemember to NEVER use save states with the mod! Always save the game normally through the game's save menu.";
+            Label_UserMode_PlaceholderText.Text = "Enhanced Mod is active and running!\n\nRemember to NEVER use save states with the mod! Always save the game normally through the game's save menu.";
         }
 
         void FormSaveStateDetected(bool enable)
@@ -277,7 +218,7 @@ namespace Dark_Cloud_Improved_Version
             this.TopMost = false;
             while (true)
             {
-                label2.Text = "A possible save state used! Mod has been terminated.";
+                Label_UserMode_PlaceholderText.Text = "A possible save state used! Mod has been terminated.";
                 launchThread.Abort();
                 Memory.WriteByte(0x21F10024, 0);
                 if (result == DialogResult.OK)
@@ -326,7 +267,7 @@ namespace Dark_Cloud_Improved_Version
                 return;
             }
 
-            label2.Text = "Another instance of Enhanced Mod is already active!\n\nYou can close this window.";
+            Label_UserMode_PlaceholderText.Text = "Another instance of Enhanced Mod is already active!\n\nYou can close this window.";
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e) //when mod is quit
@@ -335,56 +276,25 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(0x21F10024, 0);
             base.OnFormClosed(e);
         }
+        #endregion
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e) //Option 1 Checkbox
+        #region Main Screen
+        private void buttonLaunchModAsUser(object sender, EventArgs e) //Launch Mod as normal User
         {
-            if (checkBox2.Checked == true)
-            {
-                Memory.WriteByte(0x21F10028, 1); //Flag to disable weapon beeping sounds
-            }
-            else if (checkBox2.Checked == false)
-            {
-                Memory.WriteByte(0x21F10028, 0);
-            }
+            TabControl_USER.Visible = true;
+            Container_MainModes.Visible = false;
+            if (!launchThread.IsAlive) launchThread.Start();
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        private void buttonLaunchModAsDev(object sender, EventArgs e) //Launch Mod with dev buttons
         {
-            if (checkBox3.Checked == true)
-            {
-                Memory.WriteByte(0x21F1002C, 1); //Flag to disable weapon beeping sounds
-            }
-            else if (checkBox3.Checked == false)
-            {
-                Memory.WriteByte(0x21F1002C, 0);
-            }
+            TabControl_DEV.Visible = true;
+            Container_MainModes.Visible = false;
         }
+        #endregion
 
-        private void checkBox4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox4.Checked == true)
-            {
-                Memory.WriteByte(0x21F10030, 1); //Flag to enable widescreen
-            }
-            else if (checkBox4.Checked == false)
-            {
-                Memory.WriteByte(0x21F10030, 0);
-            }
-        }
-
-        private void checkBox5_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox5.Checked == true)
-            {
-                Memory.WriteByte(0x21F10034, 1); //Flag to enable graphical improvements
-            }
-            else if (checkBox5.Checked == false)
-            {
-                Memory.WriteByte(0x21F10034, 0);
-            }
-        }
-
-        private void button9_Click(object sender, EventArgs e)
+        #region User Page 1
+        private void Btn_UserMode_Quit_Clicked(object sender, EventArgs e)
         {
             if (Memory.ReadByte(Addresses.mode) == 2 || Memory.ReadByte(Addresses.mode) == 3)
             {
@@ -393,7 +303,7 @@ namespace Dark_Cloud_Improved_Version
                 string title = "Are you sure you want to quit?";
                 MessageBoxButtons buttons = MessageBoxButtons.YesNo;
                 DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
-                
+
 
                 while (true)
                 {
@@ -412,10 +322,113 @@ namespace Dark_Cloud_Improved_Version
                 this.Close();
             }
         }
+        #endregion
 
-        private void TabDev_BtnBack_Click(object sender, EventArgs e)
+        #region USER Page 2
+        private void CBox_UserMode_WeaponBeepsChanged(object sender, EventArgs e) //Option 1 Checkbox
         {
-            Application.Restart();
+            if (CBox_UserMode_WeaponBeeps.Checked == true)
+            {
+                Memory.WriteByte(0x21F10028, 1); //Flag to disable weapon beeping sounds
+            }
+            else if (CBox_UserMode_WeaponBeeps.Checked == false)
+            {
+                Memory.WriteByte(0x21F10028, 0);
+            }
         }
+
+        private void CBox_UserMode_GraphicsChanged(object sender, EventArgs e)
+        {
+            if (CBox_UserMode_BattleMusic.Checked == true)
+            {
+                Memory.WriteByte(0x21F1002C, 1); //Flag to disable weapon beeping sounds
+            }
+            else if (CBox_UserMode_BattleMusic.Checked == false)
+            {
+                Memory.WriteByte(0x21F1002C, 0);
+            }
+        }
+
+        private void CBox_UserMode_Widescreen_Changed(object sender, EventArgs e)
+        {
+            if (CBox_UserMode_Widescreen.Checked == true)
+            {
+                Memory.WriteByte(0x21F10030, 1); //Flag to enable widescreen
+            }
+            else if (CBox_UserMode_Widescreen.Checked == false)
+            {
+                Memory.WriteByte(0x21F10030, 0);
+            }
+        }
+
+        private void CBox_UserMode_Graphics_Changed(object sender, EventArgs e)
+        {
+            if (CBox_UserMode_Graphics.Checked == true)
+            {
+                Memory.WriteByte(0x21F10034, 1); //Flag to enable graphical improvements
+            }
+            else if (CBox_UserMode_Graphics.Checked == false)
+            {
+                Memory.WriteByte(0x21F10034, 0);
+            }
+        }
+
+        #endregion
+
+        #region DEV Page 1
+        private void button1_Click(object sender, EventArgs e)      //Dayuppy
+        {
+            if (!dayThread.IsAlive) //If we are not already running
+                dayThread.Start(); //Start thread
+        }
+
+        private void button2_Click(object sender, EventArgs e)      //mike
+        {
+            //place here the function you want to use from your .cs file
+            //If we are not already running
+            MainMenuThread.changesThread.Start();
+
+
+            //The Synthsphere Listener thread
+            Weapons.weaponsMenuListener.Start();//Start thread
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)      //plgue
+        {
+            //place here the function you want to use from your .cs file            
+        }
+
+        private void button4_Click(object sender, EventArgs e)      //wordofwind
+        {
+            //if (!chestThread.IsAlive) chestThread.Start();
+            if (!townThread.IsAlive) townThread.Start();
+            //if (!TASSThread.IsAlive) TASSThread.Start();
+            //if (!TASSThread2.IsAlive) TASSThread2.Start();
+        }
+
+        private void button5_Click(object sender, EventArgs e)  //DungeonThread
+        {
+            if (!dungeonthread.IsAlive) //If we are not already running
+                dungeonthread.Start(); //Start thread
+        }
+
+        private void button6_Click(object sender, EventArgs e)  //townThread
+        {
+            if (!townThread.IsAlive) townThread.Start();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CBox_DebugThread.Checked)
+            {
+                if (!debugThread.IsAlive) //If we are not already running
+                    debugThread.Start();
+
+                CBox_DebugThread.Enabled = false;
+            }
+        }
+        #endregion
+
     }
 }
