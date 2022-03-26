@@ -35,6 +35,7 @@ namespace Dark_Cloud_Improved_Version
 
         public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
 
+        public const int animationId = 0x21DC448C;
 
         public static int CurrentCharacterNum()
         {
@@ -3110,6 +3111,16 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(statusTimer, timer);
                         break;
                 }
+            }
+
+            public static bool IsChargingAttack()
+            {
+                return Memory.ReadByte(animationId) == 14;
+            }
+
+            public static bool IsReleasingChargeAttack()
+            {
+                return Memory.ReadByte(0x21DC4494) == 16;
             }
 
             public static int[] GetWeaponsList()

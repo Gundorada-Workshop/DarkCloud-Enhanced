@@ -390,11 +390,14 @@ namespace Dark_Cloud_Improved_Version
         /// <summary>
         /// Grants the ability to fly upwards
         /// </summary>
+        
         public static void DragonsY()
-        {
+        {/*
             const int dunPositionZ = 0x21EA1D34;
             //const int dunPositionX = 0x21EA1D30;
             //const int dunPositionY = 0x21EA1D38;
+
+            const int xiaoAnimationId = 0x21DC4484;
 
             //float posX = Memory.ReadFloat(dunPositionX);
             //float posY = Memory.ReadFloat(dunPositionY);
@@ -404,29 +407,31 @@ namespace Dark_Cloud_Improved_Version
             var i = 0.15; // Acceleration modifier
             var a = 0.000001; // Base acceleration value
 
-            while (Memory.ReadUShort(Addresses.buttonInputs) == 65        // X + L2 being pressed?
+            while (Memory.ReadUShort(Addresses.buttonInputs) == 1        //L2 being pressed?
+                && Memory.ReadUShort(xiaoAnimationId) >= 11 && Memory.ReadUShort(xiaoAnimationId) <= 13
                 && Memory.ReadFloat(dunPositionZ) < 30
+                
                 && !Player.CheckDunIsInteracting()
                 && !Player.CheckDunIsOpeningChest()
-                && !Player.CheckDunIsPaused() 
-                && Player.CheckDunIsWalkingMode()/*     // Height below 25 units?
+                && !Player.CheckDunIsPaused()
+                
                 && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
                 && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
                 && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
                 && Player.CheckDunIsPaused() == false           // Is paused?
                 && Player.CheckDunFirstPersonMode() == false    // Is in first person?
                 && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
-                && Player.CheckDunIsInteracting() == false*/)   // Is interacting with an element? (Doors, backfloor gates...))     
+                && Player.CheckDunIsInteracting() == false)   // Is interacting with an element? (Doors, backfloor gates...))     
             {
                 Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(a * i)));
                 i++;
-            }
+            }*/
         }
 
-        /// <summary>
-        /// Applies the Heal regeneration effect to all allies
-        /// </summary>
-        public static void AngelGear()
+            /// <summary>
+            /// Applies the Heal regeneration effect to all allies
+            /// </summary>
+            public static void AngelGear()
         {
             //Initialize variables
             ushort HpValueAdd = 1;
@@ -579,23 +584,35 @@ namespace Dark_Cloud_Improved_Version
         /// </summary>
         public static void MobiusRing()
         {
-            //Check these addresses which tells us if Ruby is charging her attack either in 3rd or 1st person
-            if (Memory.ReadUShort(0x21DC4484) == 14 || Memory.ReadUShort(0x21DC4488) == 14 /*&& Memory.ReadUShort(0x21DC448C) == 14*/)
+            //Declare inputs
+            string message;
+            int height;
+            int width;
+            int sleep = 1500;
+            int chargeGlowTimer = 0x21DC449E;
+            ushort chargeTimer = 0;
+
+            //Check these addresses which tells us if Ruby is charging
+            if (Player.Ruby.IsChargingAttack())
             {
                 //Fetch the active orbs
                 List<int> OrbIds = RubyOrbs.GetRubyActiveOrbs();
 
                 //Initialize the damage
-                var damage = Player.Weapon.GetCurrentWeaponAttack() + Player.Weapon.GetCurrentWeaponMagic();
+                int damage = Player.Weapon.GetCurrentWeaponAttack() + Player.Weapon.GetCurrentWeaponMagic();
 
-                //Declare inputs
-                string message;
-                int height;
-                int width;
-
-                while (Memory.ReadUShort(0x21DC4494) != 16 && Player.CheckDunIsPaused() == false)
+                while (Player.Ruby.IsChargingAttack())
                 {
-                    damage += damage / 2;
+                    if (Player.CheckDunIsPaused())
+                    {
+                        ReusableFunctions.AwaitUnpause(1);
+                    }
+
+                    if (damage >= ushort.MaxValue)
+                    {
+                        damage = ushort.MaxValue;
+                    }
+                    else damage += damage / 2;
 
                     if (damage > 9000)
                     {
@@ -610,11 +627,30 @@ namespace Dark_Cloud_Improved_Version
                         width = message.Length;
                     }
 
-                    //Reset Flash
-                    Memory.WriteUShort(0x21DC449E, 0);
-                    Thread.Sleep(1000);
-                    //Display Message
-                    Dayuppy.DisplayMessage(message, height, width);
+                    //When this timer reaches 17008, Ruby flashes
+                    while (Memory.ReadUShort(chargeGlowTimer) < 17008 && Player.Ruby.IsChargingAttack())
+                    {
+                        if (Player.CheckDunIsPaused())
+                        {
+                            ReusableFunctions.AwaitUnpause(1);
+                        }
+                        Thread.Sleep(100);
+                        continue;
+                    }
+
+                    chargeTimer = Memory.ReadUShort(chargeGlowTimer);
+                    if (chargeTimer == 17008)
+                    {
+                        //Display current damage
+                        Dayuppy.DisplayMessage(message, height, width, sleep + 500);
+
+                        Thread.Sleep(sleep);
+
+                        //Reset Flash
+                        Memory.WriteUShort(0x21DC449E, 0);
+                    }
+
+                    Thread.Sleep(100);
                 }
 
                 foreach (int id in OrbIds)
@@ -740,13 +776,13 @@ namespace Dark_Cloud_Improved_Version
         {
             int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            bool hasHit = hit != 0 && ReusableFunctions.GetRecentDamageDealtByPlayer() != 0;
+            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() <= 5;
 
             if (hasHit)
             {
                 int procChance = random.Next(100); //Chance to apply stop (4%)
 
-                if (procChance < 4)
+                if (procChance < 50)
                 {
                     if(Memory.ReadByte(Enemies.Enemy0.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy0.freezeTimer, 300); //Stop duration (300 = 5 seconds)
                     if (Memory.ReadByte(Enemies.Enemy1.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy1.freezeTimer, 300);
@@ -766,6 +802,7 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadByte(Enemies.Enemy15.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy15.freezeTimer, 300);
                 }
             }
+            ReusableFunctions.ClearRecentDamageAndDamageSource();
         }
 
         /// <summary>

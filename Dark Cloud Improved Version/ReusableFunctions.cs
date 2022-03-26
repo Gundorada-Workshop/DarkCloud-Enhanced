@@ -1,12 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Dark_Cloud_Improved_Version
 {
     public class ReusableFunctions
     {
+        /// <summary>
+        /// Puts the current thread to sleep while the game is paused
+        /// <br></br>
+        /// 0 = Town <br></br>
+        /// 1 = Dungeon
+        /// </summary>
+        /// <param name="mode">0 = Town<br></br>1 = Dungeon</param>
+        /// <returns>Returns true when the game is no longer paused</returns>
+        public static bool AwaitUnpause(byte mode) {
+
+            bool gameIsPaused;
+
+            while (gameIsPaused = (mode == 0) ? Player.CheckTownIsPaused() : Player.CheckDunIsPaused())
+            {
+                Thread.Sleep(100);
+                continue;
+            }
+
+            return true;
+        }
+
         public static float GetCurrentEquippedWhp(int characterId, int weaponslotid)
         {
             float whp = 0;

@@ -21,7 +21,7 @@ namespace Dark_Cloud_Improved_Version
             InitializeComponent();
             instance = this;
 
-        }
+        } 
 
         public static Thread dayThread = new Thread(new ThreadStart(Dayuppy.Testing)); //Create a new thread to run Testing() from within Dayuppy.cs
         //public static Thread chestThread = new Thread(new ThreadStart(CustomChests.ChestRandomizer));

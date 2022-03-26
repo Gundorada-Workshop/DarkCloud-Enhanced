@@ -223,6 +223,7 @@
 
         //This is the percent the lamb sword needs to be to transform to wolf sword, default is "double 0.2"
         public const int lambSwordPercent = 0x202A1818;
+
         //This is the percent for when the stats for the lamb sword should increase, default is "float 0.2"
         public const int lambSwordStatsPercent = 0x202A188C;
 
