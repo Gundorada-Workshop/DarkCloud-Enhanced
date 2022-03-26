@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,6 +40,14 @@ namespace Dark_Cloud_Improved_Version
         #endregion
 
         #region Validations
+        private void ValidateNumber(object sender, KeyEventArgs e)
+        {
+            if (!char.IsDigit(Convert.ToChar(e.KeyValue)))
+            {
+                e.SuppressKeyPress = true;
+            }
+        }
+
         public static void EmulatorCount(int newValue)
         {
             if (newValue == 0)
@@ -290,6 +299,27 @@ namespace Dark_Cloud_Improved_Version
         {
             TabControl_DEV.Visible = true;
             Container_MainModes.Visible = false;
+
+            //Initialize fields
+            DEV_Page2_TextBox_Gilda.Text = Player.Gilda.ToString();
+
+            //Initialize enemy hp fields
+            DEV_Page2_TextBox_Enemy1.Text = Memory.ReadUInt(Enemies.Enemy0.hp).ToString();
+            DEV_Page2_TextBox_Enemy2.Text = Memory.ReadUInt(Enemies.Enemy1.hp).ToString();
+            DEV_Page2_TextBox_Enemy3.Text = Memory.ReadUInt(Enemies.Enemy2.hp).ToString();
+            DEV_Page2_TextBox_Enemy4.Text = Memory.ReadUInt(Enemies.Enemy3.hp).ToString();
+            DEV_Page2_TextBox_Enemy5.Text = Memory.ReadUInt(Enemies.Enemy4.hp).ToString();
+            DEV_Page2_TextBox_Enemy6.Text = Memory.ReadUInt(Enemies.Enemy5.hp).ToString();
+            DEV_Page2_TextBox_Enemy7.Text = Memory.ReadUInt(Enemies.Enemy6.hp).ToString();
+            DEV_Page2_TextBox_Enemy8.Text = Memory.ReadUInt(Enemies.Enemy7.hp).ToString();
+            DEV_Page2_TextBox_Enemy9.Text = Memory.ReadUInt(Enemies.Enemy8.hp).ToString();
+            DEV_Page2_TextBox_Enemy10.Text = Memory.ReadUInt(Enemies.Enemy9.hp).ToString();
+            DEV_Page2_TextBox_Enemy11.Text = Memory.ReadUInt(Enemies.Enemy10.hp).ToString();
+            DEV_Page2_TextBox_Enemy12.Text = Memory.ReadUInt(Enemies.Enemy11.hp).ToString();
+            DEV_Page2_TextBox_Enemy13.Text = Memory.ReadUInt(Enemies.Enemy12.hp).ToString();
+            DEV_Page2_TextBox_Enemy14.Text = Memory.ReadUInt(Enemies.Enemy13.hp).ToString();
+            DEV_Page2_TextBox_Enemy15.Text = Memory.ReadUInt(Enemies.Enemy14.hp).ToString();
+            DEV_Page2_TextBox_Enemy16.Text = Memory.ReadUInt(Enemies.Enemy15.hp).ToString();
         }
         #endregion
 
@@ -429,6 +459,176 @@ namespace Dark_Cloud_Improved_Version
             }
         }
         #endregion
+
+        #region DEV Page 2
+
+
+
+        private void DEV_Page2_TextBox_Gilda_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Gilda.Text == "")
+            {
+                DEV_Page2_TextBox_Gilda.Text = "0";
+                return;
+            }
+            
+            Player.Gilda = Convert.ToUInt16(DEV_Page2_TextBox_Gilda.Text);
+
+        }
+
+        private void DEV_Page2_Btn_SetEnemiesMaxHP_Click(object sender, EventArgs e)
+        {
+            int MaxEnemyHp = int.MaxValue;
+
+            DEV_Page2_TextBox_Enemy1.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy0.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy2.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy1.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy3.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy2.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy4.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy3.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy5.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy4.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy6.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy5.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy7.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy6.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy8.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy7.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy9.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy8.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy10.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy9.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy11.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy10.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy12.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy11.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy13.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy12.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy14.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy13.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy15.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy14.hp, MaxEnemyHp);
+            DEV_Page2_TextBox_Enemy16.Text = MaxEnemyHp.ToString(); Memory.WriteInt(Enemies.Enemy15.hp, MaxEnemyHp);
+        }
+
+
+        private void DEV_Page2_TextBox_Enemy1_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy1.Text == "") DEV_Page2_TextBox_Enemy1.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy0.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy1.Text));
+        }
+
+        private void DEV_Page2_TextBox_Enemy2_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy2.Text == "") DEV_Page2_TextBox_Enemy2.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy1.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy2.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy3_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy3.Text == "") DEV_Page2_TextBox_Enemy3.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy2.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy3.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy4_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy4.Text == "") DEV_Page2_TextBox_Enemy4.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy3.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy4.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy5_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy5.Text == "") DEV_Page2_TextBox_Enemy5.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy4.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy5.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy6_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy6.Text == "") DEV_Page2_TextBox_Enemy6.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy5.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy6.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy7_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy7.Text == "") DEV_Page2_TextBox_Enemy7.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy6.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy7.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy8_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy8.Text == "") DEV_Page2_TextBox_Enemy8.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy7.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy8.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy9_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy9.Text == "") DEV_Page2_TextBox_Enemy9.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy8.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy9.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy10_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy10.Text == "") DEV_Page2_TextBox_Enemy10.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy9.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy10.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy11_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy11.Text == "") DEV_Page2_TextBox_Enemy11.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy10.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy11.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy12_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy12.Text == "") DEV_Page2_TextBox_Enemy12.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy11.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy12.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy13_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy13.Text == "") DEV_Page2_TextBox_Enemy13.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy12.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy13.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy14_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy14.Text == "") DEV_Page2_TextBox_Enemy14.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy13.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy14.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy15_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy15.Text == "") DEV_Page2_TextBox_Enemy15.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy14.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy15.Text));
+
+        }
+
+        private void DEV_Page2_TextBox_Enemy16_TextChanged(object sender, EventArgs e)
+        {
+            if (DEV_Page2_TextBox_Enemy16.Text == "") DEV_Page2_TextBox_Enemy16.Text = "0";
+
+            Memory.WriteInt(Enemies.Enemy15.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy16.Text));
+
+        }
+
+
+        #endregion
+
 
     }
 }

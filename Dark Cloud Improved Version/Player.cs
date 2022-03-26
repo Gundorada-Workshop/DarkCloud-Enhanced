@@ -77,7 +77,7 @@ namespace Dark_Cloud_Improved_Version
                 return false;
         }
 
-        public ushort Gilda
+        public static ushort Gilda
         {
             get
             {
