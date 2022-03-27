@@ -48,8 +48,8 @@ namespace Dark_Cloud_Improved_Version
         public const int metal = 0x2027A736;        //Base weapon Metal Breaker stat;
         public const int mimic = 0x2027A738;        //Base weapon Mimic Breaker stat;
         public const int mage = 0x2027A73A;         //Base weapon Mage Slayer stat;
-        public const int effect = 0x2027A744;       //Base weapon special effects (Set 1); (ALSO RUNTIME)
-        public const int effect2 = 0x2027A745;      //Base weapon special effects (Set 2); (ALSO RUNTIME)
+        public const int effect = 0x2027A744;       //Base weapon special effects (Set 1); (ALSO RUNTIME) - 2=Big bucks, 4=poor, 8=quench, 16=thirst, 32=poison, 64=stop, 128=steal
+        public const int effect2 = 0x2027A745;      //Base weapon special effects (Set 2); (ALSO RUNTIME) - 1=fragile, 2=durable, 4=drain, 8=heal, 16=critical, 32=absup
         public const int buildup = 0x2027A748;      //Base weapon build-up branches;
 
         //Offset between each weapon
@@ -67,6 +67,8 @@ namespace Dark_Cloud_Improved_Version
         public const int lambStatsThreshold = 0x202A188C;
 
         public static Thread weaponsMenuListener = new Thread(new ThreadStart(WeaponListenForSynthSphere));
+
+        static Random rnd = new Random();
 
         public static void WeaponListenForSynthSphere()
         {
@@ -3336,7 +3338,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort((speed + (weaponoffset * (Items.tsukikage - daggerid))), 80);        //Speed set to 80
 
             //Macho Sword
-            Memory.WriteUShort((effect2 + (weaponoffset * (Items.machosword - daggerid))), 32);  //Adds ABS up effect
+            Memory.WriteByte((effect2 + (weaponoffset * (Items.machosword - daggerid))), 32);  //Adds ABS up effect
 
             //Heaven's Cloud
             Memory.WriteUShort((synth3 + (weaponoffset * (Items.heavenscloud - daggerid))), 1);    //Adds a 3rd regular attachment slot
@@ -3452,7 +3454,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort((speed + (xiaooffset + (weaponoffset * (Items.hardshooter - woodenid)))), 60); //Speed set to 60
 
             //Matador
-            Memory.WriteUShort((effect2 + (xiaooffset + (weaponoffset * (Items.matador - woodenid)))), 16); //Adds Critical effect
+            Memory.WriteByte((effect2 + (xiaooffset + (weaponoffset * (Items.matador - woodenid)))), 16); //Adds Critical effect
 
 
 
@@ -3507,6 +3509,9 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort((maxmagic + (rubyoffset + (weaponoffset * (Items.thornarmlet - goldringid)))), 65); //Max Magic set to 65
             Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (Items.thornarmlet - goldringid)))), 128); //Sets build-up branches to Destruction Ring
 
+            //Athenas Armlet
+            Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.athenasarmlet - daggerid)))), 32);
+
 
 
 
@@ -3550,6 +3555,188 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort((buildup + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 386);    //Add the Hexa Blaster buildup option
 
 
+        }
+
+        public static void RerollWeaponSpecialEffects()
+        {
+             
+            while (true)
+            {
+                if (MainMenuThread.userMode == true)
+                {
+                    if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                    {
+                        Thread.Sleep(100);
+                        if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                        {
+                            Console.WriteLine("Not ingame anymore! Exited from WeaponRerollEffectsThread!");
+                            break;
+                        }
+                    }
+                }
+
+                //Base weapon special effects (Set 1); (ALSO RUNTIME) - 2=Big bucks, 4=poor, 8=quench, 16=thirst, 32=poison, 64=stop, 128=steal
+                //Base weapon special effects (Set 2); (ALSO RUNTIME) - 1=fragile, 2=durable, 4=drain, 8=heal, 16=critical, 32=absup
+
+                int effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50) //first roll if weapon gets effect
+                {
+
+                    effectRoll = rnd.Next(100);
+
+                    if (effectRoll < 50) //roll for which effect it gets
+                    {
+                        Memory.WriteByte((effect + (weaponoffset * (Items.heavenscloud - daggerid))), 32);
+                        Memory.WriteByte((effect2 + (weaponoffset * (Items.heavenscloud - daggerid))), 0);
+                    }
+                    else
+                    {
+                        Memory.WriteByte((effect2 + (weaponoffset * (Items.heavenscloud - daggerid))), 16);
+                        Memory.WriteByte((effect + (weaponoffset * (Items.heavenscloud - daggerid))), 0);
+                    }
+                }
+                else
+                {
+                    Memory.WriteByte((effect + (weaponoffset * (Items.heavenscloud - daggerid))), 0);
+                    Memory.WriteByte((effect2 + (weaponoffset * (Items.heavenscloud - daggerid))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50) //first roll if weapon gets effect
+                {
+                    effectRoll = rnd.Next(100);
+
+                    if (effectRoll < 50) //roll for which effect it gets
+                    {
+                        Memory.WriteByte((effect + (weaponoffset * (Items.darkcloud - daggerid))), 32);
+                    }
+                    else
+                    {
+                        Memory.WriteByte((effect + (weaponoffset * (Items.darkcloud - daggerid))), 64);
+                    }
+                }
+                else
+                {
+                    Memory.WriteByte((effect + (weaponoffset * (Items.darkcloud - daggerid))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50) //first roll if weapon gets effect
+                {
+                    effectRoll = rnd.Next(100); 
+
+                    if (effectRoll < 50) //roll for which effect it gets
+                    {
+                        Memory.WriteByte((effect2 + (weaponoffset * (Items.bigbang - daggerid))), 16);
+                        Memory.WriteByte((effect + (weaponoffset * (Items.bigbang - daggerid))), 0);
+                    }
+                    else
+                    {
+                        Memory.WriteByte((effect + (weaponoffset * (Items.bigbang - daggerid))), 64);
+                        Memory.WriteByte((effect2 + (weaponoffset * (Items.bigbang - daggerid))), 0);
+                    }
+                }
+                else
+                {
+                    Memory.WriteByte((effect + (weaponoffset * (Items.bigbang - daggerid))), 0);
+                    Memory.WriteByte((effect2 + (weaponoffset * (Items.bigbang - daggerid))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50) //first roll if weapon gets effect
+                {
+                    effectRoll = rnd.Next(100); 
+
+                    if (effectRoll < 50) //roll for which effect it gets
+                    {
+                        Memory.WriteByte((effect2 + (weaponoffset * (Items.atlamilliasword - daggerid))), 8);
+                        Memory.WriteByte((effect + (weaponoffset * (Items.atlamilliasword - daggerid))), 0);
+                    }
+                    else
+                    {
+                        Memory.WriteByte((effect + (weaponoffset * (Items.atlamilliasword - daggerid))), 64);
+                        Memory.WriteByte((effect2 + (weaponoffset * (Items.atlamilliasword - daggerid))), 0);
+                    }
+                }
+                else
+                {
+                    Memory.WriteByte((effect + (weaponoffset * (Items.atlamilliasword - daggerid))), 0);
+                    Memory.WriteByte((effect2 + (weaponoffset * (Items.atlamilliasword - daggerid))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50)
+                {
+                    Memory.WriteByte((effect + (weaponoffset * (Items.dusack - daggerid))), 128);
+                }
+                else
+                {
+                    Memory.WriteByte((effect + (weaponoffset * (Items.dusack - daggerid))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50)
+                {
+                    Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.goddessring - goldringid)))), 8);
+                }
+                else
+                {
+                    Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.goddessring - goldringid)))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50)
+                {
+                    Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.destructionring - goldringid)))), 16);
+                }
+                else
+                {
+                    Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.destructionring - goldringid)))), 0);
+                }
+
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50)
+                {
+                    Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.satansring - goldringid)))), 4);
+                }
+                else
+                {
+                    Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.satansring - goldringid)))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50)
+                {
+                    Memory.WriteByte((effect + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 32);
+                }
+                else
+                {
+                    Memory.WriteByte((effect + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 0);
+                }
+
+                effectRoll = rnd.Next(100);
+
+                if (effectRoll < 50)
+                {
+                    Memory.WriteByte((effect + (osmondoffset + (weaponoffset * (Items.swallow - machinegunid)))), 128);
+                }
+                else
+                {
+                    Memory.WriteByte((effect + (osmondoffset + (weaponoffset * (Items.swallow - machinegunid)))), 0);
+                }
+
+                Thread.Sleep(1000);
+            }
         }
 
     }

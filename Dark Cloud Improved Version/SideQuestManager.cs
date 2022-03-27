@@ -580,7 +580,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
-            else if (characterID == 13361)
+            else if (characterID == 13361) //mayor
             {
                 TownCharacter.characterIDData = characterID;
 
@@ -607,7 +607,7 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte(0x2029397C, 250);
                     Memory.WriteByte(0x2029397E, 250);
                     Memory.WriteByte(0x20293980, 250);
-                    Memory.WriteByte(0x20293982, 250);
+                    Memory.WriteByte(0x20293982, 250);                    
                     currentDialogue = "After you left Norune, I happened^to collect a bunch of Fruit of Edens,^Gourds and Defence items.¤I´ll assign you some slightly^challenging Dungeon quests, and for^the reward you´ll get one of the^random boost items, as long as^you´re not maxed on them.¤All your party members´s maximum^health has increased to 250,^maximum thirst to 12 and^maximum defence to 99.¤Do you have what it takes^to max your abilities?";
                 }
                 else if (Memory.ReadByte(0x21CE4464) == 2)

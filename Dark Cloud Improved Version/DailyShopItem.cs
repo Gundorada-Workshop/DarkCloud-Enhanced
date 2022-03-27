@@ -117,6 +117,12 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort(0x202921A8, Memory.ReadUShort(0x21CE4484));
             Memory.WriteUShort(0x202921CE, Memory.ReadUShort(0x21CE4486));
             Memory.WriteUShort(0x202921EC, Memory.ReadUShort(0x21CE4488));
+
+            if (Memory.ReadByte(0x21CE4464) != 0)
+            {
+                Memory.WriteUShort(0x202921EE, 231); //fairy king shop crystal eyeball and price
+                Memory.WriteUShort(0x20291DD8, 5000);
+            }
         }
     }
 }

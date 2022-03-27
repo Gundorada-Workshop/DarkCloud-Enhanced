@@ -21,6 +21,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
         public static Thread changesThread = new Thread(new ThreadStart(ApplyNewChanges));
         public static Thread dungeonthread = new Thread(new ThreadStart(DungeonThread.InsideDungeonThread));
+        public static Thread weaponspecialeffectThread = new Thread(new ThreadStart(Weapons.RerollWeaponSpecialEffects));
 
         internal static void ApplyNewChanges()
         {
@@ -163,15 +164,17 @@ namespace Dark_Cloud_Improved_Version
                                     }
 
 
-                                    if (Memory.ReadByte(0x21CE448A) == 1)
+                                    if (Memory.ReadByte(0x21CE448A) != 2)
                                     {
                                         Console.WriteLine("Entered ingame, starting all threads!");
                                         changesThread = new Thread(() => ApplyNewChanges());
                                         townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
                                         dungeonthread = new Thread(() => DungeonThread.InsideDungeonThread());
+                                        weaponspecialeffectThread = new Thread(() => Weapons.RerollWeaponSpecialEffects());
                                         if (!changesThread.IsAlive) changesThread.Start();
                                         if (!townThread.IsAlive) townThread.Start();
                                         if (!dungeonthread.IsAlive) dungeonthread.Start();
+                                        if (!weaponspecialeffectThread.IsAlive) weaponspecialeffectThread.Start();
                                         ingameFlag = true;
                                     }
                                     else

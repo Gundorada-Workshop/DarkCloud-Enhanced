@@ -1492,6 +1492,7 @@ namespace Dark_Cloud_Improved_Version
                 else if (Memory.ReadByte(0x21CE4464) == 1)
                 {
                     Memory.WriteByte(0x21CE4464, 2);
+                    DailyShopItem.SetDailyItemsToShop();
                 }
                 else if (Memory.ReadByte(0x21CE4464) == 2)
                 {
