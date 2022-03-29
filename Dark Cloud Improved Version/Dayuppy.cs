@@ -752,7 +752,7 @@ namespace Dark_Cloud_Improved_Version
         /// <summary>
         /// Returns true if no message is being displayed on screen, await a set amount of time if it is. 
         /// </summary>
-        /// <param name="timeout">Set a timeout in miliseconds (Default is 5 seconds)</param>
+        /// <param name="timeout">Set a timeout in miliseconds (Default is 8 seconds)</param>
         /// <returns></returns>
         internal static bool CheckDisplayMessageAvailable(int timeout = 8000)
         {

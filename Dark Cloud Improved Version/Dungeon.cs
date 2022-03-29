@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
 {
+
     internal class Dungeon
     {
         public const uint MagicCircleOne_PosX = 0x21DE61C0;
@@ -17,9 +18,10 @@ namespace Dark_Cloud_Improved_Version
 
     public class DungeonThread
     {
-        static int currentAddress;
         static byte currentDungeon;
         static byte currentFloor;
+        static ushort currentWeapon;
+        static int currentAddress;
         static int prevFloor = 200;
         static int currentCharCursor = 0;
         static int prevCharCursor = 0;
@@ -35,6 +37,7 @@ namespace Dark_Cloud_Improved_Version
         static bool dunUsedEscapeCheck = false;
         static bool wepMenuOpen = false;
         static bool PPowdermenuOpen = false;
+        //static string "[" + DateTime.Now + "]" + " " = ReusableVariables.Get"[" + DateTime.Now + "]" + " "();
         static byte[] wepLevelArray = new byte[10];
         public static bool monsterQuestMachoActive = false;
         public static bool monsterQuestGobActive = false;
@@ -268,6 +271,7 @@ namespace Dark_Cloud_Improved_Version
                                 }
                                 break;
                         }
+                        
 
                         CheckActiveItems();
                     }
@@ -300,9 +304,6 @@ namespace Dark_Cloud_Improved_Version
                             spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
                             spawnsCheck.Start();
 
-                            //Initialize the mini boss thread
-                            minibossProcess = new Thread(() => DoMinibossSpawn(currentDungeon));                         
-
                             monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
 
                             for (int i = 0; i < monstersDead.Length; i++)
@@ -320,6 +321,9 @@ namespace Dark_Cloud_Improved_Version
 
                         FixUngagaDoors(currentDungeon);
 
+                        //Save current weapon
+                        currentWeapon = Player.Weapon.GetCurrentWeaponId();
+
                         //Once everything is done, we set this so it wont reroll again in same floor
                         prevFloor = currentFloor;
                     }
@@ -329,7 +333,12 @@ namespace Dark_Cloud_Improved_Version
                     CheckClown();
                     CheckCurrentSidequests();
                     CheckDungeonLeaving();
-                  
+                    if (CheckWeaponChange(currentWeapon))
+                    {
+                        ReusableFunctions.ClearRecentDamageAndDamageSource();
+                        currentWeapon = Player.Weapon.GetCurrentWeaponId();
+                    }
+
 
                 }
                 //Used to reset the floor data when going back to dungeon
@@ -535,23 +544,36 @@ namespace Dark_Cloud_Improved_Version
 
         public static void CheckSpawns() 
         {
-            Console.WriteLine("Checking spawns...");
+            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Checking spawns...");
 
             int ms = 0;
+            byte numNormalEnemies = 0;
 
-            //Listens for the enemy render address value to change, from 0 or 10 seconds have passed
-            //We use the enemy render value here because enemies spawn after chests
-            while (Memory.ReadInt(Enemies.Enemy0.hp) == 1 && ms < 1000)
+            if(prevFloor == 200)
             {
-                Thread.Sleep(100);
-                ms += 100;
-                continue;
+                //Listens for the enemy render address value to change, from 0 or 10 seconds have passed
+                //We use the enemy render value here because enemies spawn after chests
+                while (Memory.ReadByte(Enemies.Enemy0.renderStatus) == 255 && ms < 10000)
+                {
+                    Thread.Sleep(100);
+                    ms += 100;
+                    continue;
+                }
+            }
+            else
+            {
+                //Listens for the enemy hp address value to change, from 0 or 10 seconds have passed
+                //We use the enemy render value here because enemies spawn after chests
+                while (Memory.ReadByte(Enemies.Enemy0.hp) == 1 && ms < 10000)
+                {
+                    Thread.Sleep(100);
+                    ms += 100;
+                    continue;
+                }
             }
 
             //Set the flag to true
-            if(Memory.ReadInt(Enemies.Enemy0.renderStatus) > 0) enemiesSpawn = true;
-
-            byte numNormalEnemies = 0;
+            if(Memory.ReadByte(Enemies.Enemy0.renderStatus) > 0) enemiesSpawn = true;
 
             //Get the quantity of normal enemies in the floor
             foreach (byte enemy in Enemies.GetFloorEnemiesIds())
@@ -564,10 +586,13 @@ namespace Dark_Cloud_Improved_Version
             //There needs to be enough normal enemies to roll for the miniboss in order to avoid infinite retries
             if (numNormalEnemies > 3)
             {
+                //Initialize the mini boss thread
+                minibossProcess = new Thread(() => DoMinibossSpawn(currentDungeon));
+
                 //Start the next thread
                 minibossProcess.Start();
             }
-            else Console.WriteLine("Not enough normal enemies in floor!");
+            else Console.WriteLine("[" + DateTime.Now + "]" + " " + "Not enough normal enemies in floor!");
 
             chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
             CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2); //Randomize the chest loot
@@ -578,15 +603,22 @@ namespace Dark_Cloud_Improved_Version
             CustomEffects.chronicleNewFloor = true;
             ReusableFunctions.ClearRecentDamageAndDamageSource();
 
-            Console.WriteLine("Finished spawn checking");
+            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Finished spawn checking");
 
             //Close this thread
-            spawnsCheck.Abort();
+            //spawnsCheck.Abort();
+        }
+
+        public static bool CheckWeaponChange(ushort weapon)
+        {
+            if (Player.Weapon.GetCurrentWeaponId() != weapon) return true;
+
+            return false;
         }
 
         public static void DoMinibossSpawn(byte currentDungeon)
         {
-            Console.WriteLine("Processing mini boss...");
+            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Processing mini boss...");
 
             hasMiniBoss = MiniBoss.MiniBossSpawn(false, currentDungeon, currentFloor); 
 
@@ -595,27 +627,28 @@ namespace Dark_Cloud_Improved_Version
                 miniBossMessage = new Thread(new ThreadStart(MiniBossMessage));
                 miniBossMessage.Start();
             }
+            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Mini boss has rolled: " + hasMiniBoss);
+            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Finished mini boss process!");
 
-            Console.WriteLine("Finished mini boss process!");
-
-            minibossProcess.Abort();
+            //Close this thread
+            //minibossProcess.Abort();
         }
 
         public static void MiniBossMessage()
         {
-            Console.WriteLine("Working on the message...");
+            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Working on the message...");
 
             int ms = 0;
 
             //Wait until we get control, we use the HUD display as a flag
-            while (Memory.ReadInt(Addresses.hideHud) == 1 && ms < 5000)
+            while (Memory.ReadByte(Addresses.hideHud) == 1 && ms < 8000)
             {
                 Thread.Sleep(100);
                 ms += 100;
                 continue;
             }
 
-            //Check if a dungeon message is displaying
+            /*Check if a dungeon message is displaying
             if (Memory.ReadInt(Addresses.dunMessage) != -1)
             {
                 //Reset timer
@@ -632,11 +665,14 @@ namespace Dark_Cloud_Improved_Version
                 //Display our message
                 Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
             }
-            else Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
+            else*/
 
-            Console.WriteLine("Finished message process!");
+            Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
 
-            miniBossMessage.Abort();
+            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Finished message process!");
+
+            //Close this thread
+            //miniBossMessage.Abort();
         }
 
         public static bool IsBypassBoneDoor()

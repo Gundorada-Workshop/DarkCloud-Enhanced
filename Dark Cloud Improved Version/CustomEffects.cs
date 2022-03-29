@@ -776,7 +776,7 @@ namespace Dark_Cloud_Improved_Version
         {
             int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() <= 5;
+            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == 4;
 
             if (hasHit)
             {
