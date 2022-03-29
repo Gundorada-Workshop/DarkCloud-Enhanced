@@ -318,10 +318,13 @@ namespace Dark_Cloud_Improved_Version
                                                             //Turns into an item ID value once an item is dropped ...
                                                             //If value is changed before killed, it will drop that item, be it by weapon or throw kill
             public const int abs = 0x21E16C50;
-            public const int stealItemId = 0x21E16C50;
+            public const int stealItemId = 0x21E16C78;
             public const int itemResistance = 0x21E16C7C;   //0 = Immune | 100 = 100%
             public const int itemDropId = 0x21E16FA4;       //The item dropped by weapon kill
-            public const int renderStatus = 0x21E16BA0;     //Determines the enemy status (-1 = Not spawned | 1 = Spawned but not rendered | 2 = Spawned and being rendered)
+            public const int renderStatus = 0x21E16BA0;     //Determines the enemy status
+                                                            // -1 = Not spawned
+                                                            //  1 = Spawned but not rendered
+                                                            //  2 = Spawned and being rendered
 
             public const int distanceToPlayer = 0x21E16BB8;
 

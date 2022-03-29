@@ -60,27 +60,32 @@
                                                     //8+ = Freeze (CAN UNDO)
                                                     //14 = Camera Zoom (still freeze, CAN UNDO)
 
-        public const int dungeonClear = 0x21DF881C;     //If this int = 4294967281, the dungeon is likely cleared. No idea why.
-        public const int dunPauseTitle = 0x202A35C4;    //Show the "PAUSE" title on screen (0 = OFF/1 = ON)
-        public const int dunPausePlayer = 0x202A3564;   //Is the player model in the pause state (0 = OFF/1 = ON)
-        public const int dunPauseEnemy = 0x202A34DC;    //Are the enemy models in the pause state (0 = OFF/1 = ON)
-        public const int dunMessage = 0x21EA76B4;       //Message box to display while in dungeon - 4294967295 shows nothing
-        public const int dunMessageWidth = 0x21EB6438;  // Value is equal to the number of chars in a string (Ex: 5 -> width of a 5 char string)
-        public const int dunMessageHeight = 0x21EB643C; // Value is equal to the number of lines of a string paragraph (Ex: 2 -> paragraph with 2 lines)
-        public const int dunMessage10 = 0x20998BB8;     //The address pointing to the text of the 10th dungeon message. 157 Byte array
-        public const int dunMessage11 = 0x20998C8E;     //The address pointing to the text of the 11th dungeon message. 172 Byte array
-        public const int healingSpeed = 0x202A2B88;     //Counts every 10 frames when the player is inside a fountain
-        public const int BoneDoorOpenType = 0x20931768; //Default value is 21, change it to 5 and the bone door will open by pressing Square
-        public const int dungDoorType = 0x21D56770;     //Tells us the type of door when interacting with X or Square
-        public const int checkFloor = 0x21CD954E;       //Tells the current floor player is on, updates when entering the floor
-        public const int checkDungeon = 0x202A3594;     //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
-        public const int dungeonMode = 0x202A355C;      //1 = Walking Mode
-                                                        //2 = On Menu
-                                                        //3 = Door Menu
-                                                        //4 = ??
-                                                        //5 = Ally Quick Select
-                                                        //6 = ??
-                                                        //7 = Next Floor Screen
+        public const int dungeonClear = 0x21DF881C;             //If this int = 4294967281, the dungeon is likely cleared. No idea why.
+        public const int dunPauseTitle = 0x202A35C4;            //Show the "PAUSE" title on screen (0 = OFF/1 = ON)
+        public const int dunPausePlayer = 0x202A3564;           //Is the player model in the pause state (0 = OFF/1 = ON)
+        public const int dunPauseEnemy = 0x202A34DC;            //Are the enemy models in the pause state (0 = OFF/1 = ON)
+        public const int dunMessage = 0x21EA76B4;               //Message box to display while in dungeon - 4294967295 shows nothing
+        public const int dunToggle1 = 0x21EA7690;               //Toggles the message on/off
+        public const int dunToggle2 = 0x21EA76AC;               //Toggles the message on/off
+        public const int dunMessageWidth = 0x21EB6438;          // Value is equal to the number of chars in a string (Ex: 5 -> width of a 5 char string)
+        public const int dunMessageHeight = 0x21EB643C;         // Value is equal to the number of lines of a string paragraph (Ex: 2 -> paragraph with 2 lines)
+        public const int dunMessage10 = 0x20998BB8;             //The address pointing to the text of the 10th dungeon message. 157 Byte array
+        public const int dunMessage11 = 0x20998C8E;             //The address pointing to the text of the 11th dungeon message. 172 Byte array
+        public const int dunMessageLastEnemyName = 0x20999EE8;  //The address for the last enemy/last message content
+        public const int dunMessageDuration = 0x21EA7694;       //How long to show the message
+        public const int dunMessageDelay = 0x21EA7698;          //How long to wait until the message is shown
+        public const int healingSpeed = 0x202A2B88;             //Counts every 10 frames when the player is inside a fountain
+        public const int BoneDoorOpenType = 0x20931768;         //Default value is 21, change it to 5 and the bone door will open by pressing Square
+        public const int dungDoorType = 0x21D56770;             //Tells us the type of door when interacting with X or Square
+        public const int checkFloor = 0x21CD954E;               //Tells the current floor player is on, updates when entering the floor
+        public const int checkDungeon = 0x202A3594;             //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
+        public const int dungeonMode = 0x202A355C;              //1 = Walking Mode
+                                                                //2 = On Menu
+                                                                //3 = Door Menu
+                                                                //4 = ??
+                                                                //5 = Ally Quick Select
+                                                                //6 = ??
+                                                                //7 = Next Floor Screen
 
         public const int circleSpawn1 = 0x21DD56A0;     //0 = Null | 1 = Spawned | 2 = Destroy animation
         public const int circleEffect1 = 0x21DD56A4;    //0 = Player stamina

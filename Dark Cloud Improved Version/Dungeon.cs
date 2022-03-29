@@ -37,6 +37,7 @@ namespace Dark_Cloud_Improved_Version
         static bool dunUsedEscapeCheck = false;
         static bool wepMenuOpen = false;
         static bool PPowdermenuOpen = false;
+        static bool hasClearMessageShown = false;
         //static string "[" + DateTime.Now + "]" + " " = ReusableVariables.Get"[" + DateTime.Now + "]" + " "();
         static byte[] wepLevelArray = new byte[10];
         public static bool monsterQuestMachoActive = false;
@@ -280,7 +281,18 @@ namespace Dark_Cloud_Improved_Version
                     if (Player.CheckIsWeaponCustomizeMenu())
                     {
                         //The Synthsphere Listener thread
-                        Weapons.weaponsMenuListener.Start();//Start thread
+                        if (Weapons.weaponsMenuListener.ThreadState == ThreadState.Unstarted)
+                        {
+                            Weapons.weaponsMenuListener.Start();
+                        }
+                    }
+
+                    //Check if the player has killed all the floor enemies
+                    if (ReusableFunctions.CheckIfAllEnemiesKilled() && !hasClearMessageShown)
+                    {
+                        Dayuppy.DisplayMessage("", 0, 0, 4000, true);
+
+                        hasClearMessageShown = true;
                     }
 
                     //Get current Dungeon
@@ -301,6 +313,7 @@ namespace Dark_Cloud_Improved_Version
                         magicCircleChanged = false;
                         dunUsedActiveEscape = false;
                         dunUsedEscapeCheck = false;
+                        hasClearMessageShown = false;
 
                         //Check if player is not on an event floor and call the Mini Boss
                         if (!excludeFloors.Contains(currentFloor))

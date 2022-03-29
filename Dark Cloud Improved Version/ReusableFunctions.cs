@@ -235,12 +235,28 @@ namespace Dark_Cloud_Improved_Version
                     case 12: if (Memory.ReadUShort(Enemies.Enemy12.hp) == 0) enemyKilled.Add(enemy); break;
                     case 13: if (Memory.ReadUShort(Enemies.Enemy13.hp) == 0) enemyKilled.Add(enemy); break;
                     case 14: if (Memory.ReadUShort(Enemies.Enemy14.hp) == 0) enemyKilled.Add(enemy); break;
-                    case 15: if (Memory.ReadUShort(Enemies.Enemy15.hp) == 0) enemyKilled.Add(enemy); break;
                     default: break;
                 }
             }
 
             return enemyKilled;
+        }
+
+        public static bool CheckIfAllEnemiesKilled()
+        {
+            int count = 0;
+
+            for(int i = 0; i < 15; i++)
+            {
+                if(Memory.ReadInt(Enemies.Enemy0.hp + (Enemies.offset * i)) == 0 &&
+                    Memory.ReadByte(Enemies.Enemy0.renderStatus + (Enemies.offset * i)) == 255) {
+
+                    count++;
+                }
+            }
+
+            if (count == 15) return true;
+            else return false;
         }
 
         /// <summary>

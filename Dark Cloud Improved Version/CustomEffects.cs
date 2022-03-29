@@ -588,7 +588,7 @@ namespace Dark_Cloud_Improved_Version
             string message;
             int height;
             int width;
-            int sleep = 1500;
+            ushort sleep = 1500;
             int chargeGlowTimer = 0x21DC449E;
             ushort chargeTimer = 0;
 
@@ -607,7 +607,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         ReusableFunctions.AwaitUnpause(1);
                     }
-
+                    
                     if (damage >= ushort.MaxValue)
                     {
                         damage = ushort.MaxValue;

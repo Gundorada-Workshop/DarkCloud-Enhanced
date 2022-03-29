@@ -4,9 +4,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Collections.Generic;
-using System.Resources;
-using System.Windows.Forms;
-using System.Diagnostics.Eventing.Reader;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -17,8 +14,9 @@ namespace Dark_Cloud_Improved_Version
         private static Thread dayEnemyThread = new Thread(new ThreadStart(EnemyDropRandomizer)); //Create a new thread to run monitorElementSwapping()
         private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
         public static Thread messageThread;
-        public static Thread messageThreadTimer;
+        //public static Thread messageThreadTimer;
 
+        static byte[] dungeonMessage;
         private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210); //Read 210 bytes of byte array that stores dungeon message 10
 
         private static byte[] ItemTbl0 = Memory.ReadByteArray(Addresses.ItemTbl0, 252);         //DBC 1-7
@@ -743,9 +741,12 @@ namespace Dark_Cloud_Improved_Version
         /// <param name="width">The width of the message window. Each value represents a character in the string, ie 24 = 24 characters wide.</param>
         /// <param name="displayTime">The amount of time to display the message. Keep in mind there is a 5 second timeout threshold in place.</param>
         /// <returns>An array of bytes with the output message.</returns>
-        public static void DisplayMessage(string message, int height = 4, int width = 40, int displayTime = 2000)
+        public static void DisplayMessage(string message, int height = 4, int width = 40, int displayTime = 8000, bool isFloorClearMessage = false)
         {
-            messageThread = new Thread(() => DisplayMessageProcess(message, height, width, displayTime));
+            //Convert miliseconds to frames per second
+            displayTime = (int)System.Math.Round(displayTime / 16.7f);
+
+            messageThread = new Thread(() => DisplayMessageProcess(message, height, width, displayTime, isFloorClearMessage));
             messageThread.Start();
         }
 
@@ -777,7 +778,7 @@ namespace Dark_Cloud_Improved_Version
             else return true;
         }
 
-        static byte[] DisplayMessageProcess(string message, int height, int width, int displayTime)
+        static byte[] DisplayMessageProcess(string message, int height, int width, int displayTime, bool isFloorClearMessage)
         {
             while (!CheckDisplayMessageAvailable())
             {
@@ -785,7 +786,9 @@ namespace Dark_Cloud_Improved_Version
             }
 
             byte[] customMessage = Encoding.GetEncoding(10000).GetBytes(message);
-            byte[] dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, message.Length);
+            if (isFloorClearMessage) { dungeonMessage = Memory.ReadByteArray(Addresses.dunMessageLastEnemyName, message.Length); }
+            else { dungeonMessage = Memory.ReadByteArray(Addresses.dunMessage10, message.Length); }
+
             byte[] outputMessage = new byte[customMessage.Length * 2];
 
             byte[] normalCharTable =
@@ -856,7 +859,8 @@ namespace Dark_Cloud_Improved_Version
             }
             */
 
-            Memory.WriteByteArray(Addresses.dunMessage10, dungeonMessage);
+            if(isFloorClearMessage) Memory.WriteByteArray(Addresses.dunMessageLastEnemyName, dungeonMessage);
+            else Memory.WriteByteArray(Addresses.dunMessage10, dungeonMessage);
 
             for (int i = 0; i < customMessage.Length; i++)
             {
@@ -932,29 +936,49 @@ namespace Dark_Cloud_Improved_Version
 
                 if(i == customMessage.Length - 1)
                 {
-                    int aux = Addresses.dunMessage10 + outputMessage.Length;
+                    int aux;
+
+                    if (isFloorClearMessage) { aux = Addresses.dunMessageLastEnemyName + outputMessage.Length; }
+                    else { aux = Addresses.dunMessage10 + outputMessage.Length; }
 
                     Memory.WriteByte(aux, 1);
                     Memory.WriteByte(aux + 0x1, 255);
                 }
             }
 
+
+            byte[] hornHead = { 40, 253, 73, 253, 76, 253, 72, 253, 40, 253, 63, 253, 59, 253, 62, 253, 1, 255 };
+            byte[] original10Message = {52, 253, 66, 253, 63, 253, 76, 253, 63, 253, 2, 255, 67, 253, 77, 253, 2, 255, 72, 253, 73, 253, 2, 255, 77, 253, 67, 253, 65, 253, 72, 253, 2, 255, 73, 253, 64, 253, 2, 255, 71, 253, 73, 253, 72, 253, 77, 253, 78, 253, 63, 253, 76, 253, 77, 253, 2, 255, 0, 255, 73, 253, 72, 253, 2, 255, 78, 253, 66, 253, 67, 253, 77, 253, 2, 255, 64, 253, 70, 253, 73, 253, 73, 253, 76, 253, 109, 253, 2, 255, 57, 253, 73, 253, 79, 253, 2, 255, 61, 253, 59, 253, 72, 253, 2, 255, 79, 253, 77, 253, 63, 253, 2, 255, 83, 253, 73, 253, 79, 253, 76, 253, 2, 255, 0, 255, 63, 253, 77, 253, 61, 253, 59, 253, 74, 253, 63, 253, 2, 255, 77, 253, 69, 253, 67, 253, 70, 253, 70, 253, 109, 253, 0, 255, 3, 252, 87, 253, 44, 253, 63, 253, 59, 253, 80, 253, 63, 253, 2, 255, 36, 253, 79, 253, 72, 253, 65, 253, 63, 253, 73, 253, 72, 253, 87, 253, 0, 252, 2, 255, 59, 253, 80, 253, 59, 253, 67, 253, 70, 253, 59, 253, 60, 253, 70, 253, 63, 253, 88, 253, 1, 255};
+            int messageId = 10;
+            int messageAddress = Addresses.dunMessage10;
+
+            if (isFloorClearMessage)
+            {
+                messageId = 3319;
+                messageAddress = Addresses.dunMessageLastEnemyName;
+                outputMessage = original10Message;//Memory.ReadByteArray(Addresses.dunMessage10, 157);
+            }
+
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-            Memory.WriteByteArray(Addresses.dunMessage10, outputMessage);
-            Memory.WriteInt(Addresses.dunMessage, 10); //Display the 10th dungeon message
-            messageThreadTimer = new Thread(() => DisplayMessageCustomTime(displayTime));
-            messageThreadTimer.Start();
+            Memory.WriteByteArray(messageAddress, outputMessage);
+            Memory.WriteInt(Addresses.dunMessage, messageId);
+            Memory.WriteInt(Addresses.dunMessageDuration, displayTime);
+            Thread.Sleep(300);
+            if (isFloorClearMessage) Memory.WriteByteArray(messageAddress, hornHead); //Display the 3319th dungeon message (last enemy name [HornHead] message)
+            /*messageThreadTimer = new Thread(() => DisplayMessageCustomTime(displayTime));
+            messageThreadTimer.Start();*/
 
             return outputMessage;
         }
 
+        /*
         public static void DisplayMessageCustomTime(int displayTime)
         {
             Thread.Sleep(displayTime);
             Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
             //Memory.WriteByteArray(Addresses.dunMessage10, originalDunMessage); //Revert message back to default
             //messageThread.Abort();
-        }
+        }*/
 
         public static void CallGameFunction(byte[] function) // functionBGMStop
         {
@@ -1196,7 +1220,7 @@ namespace Dark_Cloud_Improved_Version
                             CallGameFunction(Addresses.functionBGMStop);
                             Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
                             TestElementFunctionStuff();
-                            Memory.WriteByteArray(Addresses.dunMessage10, DisplayMessageProcess("Background music stopped.", 1, 36, 3000));
+                            Memory.WriteByteArray(Addresses.dunMessageLastEnemyName, DisplayMessageProcess("Background music stopped.", 1, 36, 3000, false));
                         }
                     }
                 }
