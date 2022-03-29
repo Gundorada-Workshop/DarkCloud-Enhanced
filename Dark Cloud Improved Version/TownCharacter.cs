@@ -218,12 +218,7 @@ namespace Dark_Cloud_Improved_Version
                 //Check if player is in town
                 if (Memory.ReadByte(Addresses.mode) == 2)
                 {
-                    //Check if player is inside the weapon customize menu
-                    if (Player.CheckIsWeaponCustomizeMenu())
-                    {
-                        //The Synthsphere Listener thread
-                        Weapons.weaponsMenuListener.Start();//Start thread
-                    }
+                    
 
                     //jal editinit = e0 e0 05 0c / 224 224 5 12
                     if (Memory.ReadByte(Addresses.mode) == 0x3)
@@ -1071,6 +1066,13 @@ namespace Dark_Cloud_Improved_Version
                     }
 
                     DungeonThread.CheckWepLvlUp();
+
+                    //Check if player is inside the weapon customize menu
+                    if (Player.CheckIsWeaponCustomizeMenu())
+                    {
+                        //The Synthsphere Listener thread
+                        Weapons.weaponsMenuListener.Start();//Start thread
+                    }
 
                     if (Memory.ReadUShort(0x21CD4318) > currentInGameDay)
                     {

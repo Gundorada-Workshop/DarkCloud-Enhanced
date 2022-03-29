@@ -25,6 +25,7 @@ namespace Dark_Cloud_Improved_Version
         static int prevFloor = 200;
         static int currentCharCursor = 0;
         static int prevCharCursor = 0;
+        static ushort currentGilda = 0;
         static bool clownOnScreen = false;
         static bool chronicle2 = false;
         static bool[] monstersDead = new bool[15];
@@ -37,6 +38,7 @@ namespace Dark_Cloud_Improved_Version
         static bool dunUsedEscapeCheck = false;
         static bool wepMenuOpen = false;
         static bool PPowdermenuOpen = false;
+        static bool circlePressed = false;
         //static string "[" + DateTime.Now + "]" + " " = ReusableVariables.Get"[" + DateTime.Now + "]" + " "();
         static byte[] wepLevelArray = new byte[10];
         public static bool monsterQuestMachoActive = false;
@@ -76,6 +78,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread supernovaThread = new Thread(new ThreadStart(CustomEffects.Supernova));
         public static Thread starBreakerThread = new Thread(new ThreadStart(CustomEffects.StarBreaker));
         public static Thread elementSwapThread = new Thread(new ThreadStart(Dayuppy.ElementSwapping)); //Create a new thread to run monitorElementSwapping()
+        public static Thread exitDungeonThread = new Thread(new ThreadStart(ExitDungeonFromFloorSelect)); 
         public static Thread dunEscapeConfirmThread;
 
         public static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
@@ -349,6 +352,11 @@ namespace Dark_Cloud_Improved_Version
                 }
                 //Used to reset the floor data when going back to dungeon
                 else prevFloor = 200;
+
+                if (Memory.ReadByte(Addresses.dungeonMode) == 4) //Check if in floor selection menu
+                {
+                    FloorSelectionScreen();
+                }
 
                 if (MainMenuThread.userMode == true)
                 {
@@ -1022,6 +1030,52 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte(0x21CE4468, 2);
                     mayorQuest = false;
                 }
+            }
+        }
+
+        public static void FloorSelectionScreen()
+        {
+            if (circlePressed == false)
+            {
+                if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Circle)
+                {
+                    circlePressed = true;                 
+                }
+            }
+            else
+            {
+                if (Memory.ReadUShort(Addresses.buttonInputs) != (ushort)CheatCodes.InputBuffer.Button.Circle)
+                {
+                    currentGilda = Memory.ReadUShort(Addresses.gilda);
+                    Memory.WriteByte(Addresses.dungeonMode, 1);
+                    exitDungeonThread = new Thread(new ThreadStart(ExitDungeonFromFloorSelect));
+                    if (!exitDungeonThread.IsAlive)
+                    {
+                        exitDungeonThread.Start();
+                    }
+                    circlePressed = false;
+                }
+            }
+        }
+
+        public static void ExitDungeonFromFloorSelect()
+        {
+            int localtimer = 0;
+            while (localtimer < 5000)
+            {
+                if (Memory.ReadByte(0x202A3560) == 1)
+                {
+                    Memory.WriteUShort(Addresses.dungeonDebugMenu, 201);
+                }
+
+                if (Memory.ReadUShort(Addresses.gilda) < currentGilda)
+                {
+                    Thread.Sleep(500);
+                    Memory.WriteUShort(Addresses.gilda, currentGilda);
+                    break;
+                }
+                Thread.Sleep(200);
+                localtimer += 200;
             }
         }
 
