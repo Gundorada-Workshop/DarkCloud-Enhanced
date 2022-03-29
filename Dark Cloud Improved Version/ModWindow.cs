@@ -406,54 +406,79 @@ namespace Dark_Cloud_Improved_Version
         #endregion
 
         #region DEV Page 1
-        private void button1_Click(object sender, EventArgs e)      //Dayuppy
+        private void DEV_Page1_Btn_Dayuppy(object sender, EventArgs e)  //Dayuppy
         {
-            if (!dayThread.IsAlive) //If we are not already running
-                dayThread.Start(); //Start thread
+            if (dayThread.ThreadState == ThreadState.Unstarted)
+            {
+                dayThread.Start();
+            }
         }
 
-        private void button2_Click(object sender, EventArgs e)      //mike
+        private void DEV_Page1_Btn_Mike(object sender, EventArgs e) //Mike
         {
-            //place here the function you want to use from your .cs file
-            //If we are not already running
-            MainMenuThread.changesThread.Start();
-
+            //Start the changes Thread
+            if (MainMenuThread.changesThread.ThreadState == ThreadState.Unstarted)
+            {
+                MainMenuThread.changesThread.Start();
+            }
+            else return;
 
             //The Synthsphere Listener thread
-            Weapons.weaponsMenuListener.Start();//Start thread
-
+            if (Weapons.weaponsMenuListener.ThreadState == ThreadState.Unstarted)
+            {
+                Weapons.weaponsMenuListener.Start();//Start thread
+            }
+            else return;
         }
 
-        private void button3_Click(object sender, EventArgs e)      //plgue
+        private void DEV_Page1_Btn_Plgue(object sender, EventArgs e)      //plgue
         {
             //place here the function you want to use from your .cs file            
         }
 
-        private void button4_Click(object sender, EventArgs e)      //wordofwind
+        private void DEV_Page1_Btn_WordOfWind(object sender, EventArgs e)      //wordofwind
         {
             //if (!chestThread.IsAlive) chestThread.Start();
-            if (!townThread.IsAlive) townThread.Start();
+
+            if (townThread.ThreadState == ThreadState.Unstarted)
+            {
+                townThread.Start();//Start thread
+            }
+            else return;
+
             //if (!TASSThread.IsAlive) TASSThread.Start();
             //if (!TASSThread2.IsAlive) TASSThread2.Start();
+
+
         }
 
-        private void button5_Click(object sender, EventArgs e)  //DungeonThread
+        private void DEV_Page1_Btn_DungeonThread(object sender, EventArgs e)  //DungeonThread
         {
-            if (!dungeonthread.IsAlive) //If we are not already running
-                dungeonthread.Start(); //Start thread
+            if (dungeonthread.ThreadState == ThreadState.Unstarted)
+            {
+                dungeonthread.Start();//Start thread
+            }
+            else return;
         }
 
-        private void button6_Click(object sender, EventArgs e)  //townThread
+        private void DEV_Page1_Btn_TownThread(object sender, EventArgs e)  //townThread
         {
-            if (!townThread.IsAlive) townThread.Start();
+            if (townThread.ThreadState == ThreadState.Unstarted)
+            {
+                townThread.Start();//Start thread
+            }
+            else return;
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void DEV_Page1_CBox_DebugThread(object sender, EventArgs e)
         {
             if (CBox_DebugThread.Checked)
             {
-                if (!debugThread.IsAlive) //If we are not already running
-                    debugThread.Start();
+                if (debugThread.ThreadState == ThreadState.Unstarted)
+                {
+                    debugThread.Start();//Start thread
+                }
+                else return;
 
                 CBox_DebugThread.Enabled = false;
             }

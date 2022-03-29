@@ -276,6 +276,12 @@ namespace Dark_Cloud_Improved_Version
                         CheckActiveItems();
                     }
 
+                    //Check if player is inside the weapon customize menu
+                    if (Player.CheckIsWeaponCustomizeMenu())
+                    {
+                        //The Synthsphere Listener thread
+                        Weapons.weaponsMenuListener.Start();//Start thread
+                    }
 
                     //Get current Dungeon
                     currentDungeon = Memory.ReadByte(Addresses.checkDungeon);

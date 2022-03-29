@@ -81,3230 +81,3224 @@ namespace Dark_Cloud_Improved_Version
             int diffLevelBeforeChange;
             int hasChangedBySynth;
 
-            while (true)
+            while (Player.CheckIsWeaponCustomizeMenu())
             {
-                int menuMode = Memory.ReadByte(Addresses.weaponsMode);
+                int character = Memory.ReadByte(Addresses.weaponMenuCurrentCharacterHover);
+                int weapon = Memory.ReadByte(Addresses.weaponMenuCurrentWeaponHover);
 
-                //Check if player is in the weapon customize menu
-                if(menuMode >= 8 && menuMode <= 11)
+                switch (character)
                 {
-                    int character = Memory.ReadByte(Addresses.weaponMenuCurrentCharacterHover);
-                    int weapon = Memory.ReadByte(Addresses.weaponMenuCurrentWeaponHover);
-
-                    switch (character)
-                    {
-                        case 0:
-                            switch (weapon)
-                            {
-                                case 0:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot0.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot0.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot0.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot0.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot0.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot0.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot0.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot0.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot0.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot0.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot0.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot0.hasChangedBySynth, 1);
-                                        }
-
-                                    }else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot0.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 1:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot1.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot1.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot1.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot1.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot1.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot1.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot1.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot1.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot1.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot1.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot1.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot1.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot1.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 2:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot2.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot2.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot2.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot2.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot2.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot2.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot2.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot2.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot2.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot2.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot2.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot2.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 3:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot3.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot3.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot3.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot3.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot3.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot3.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot3.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot3.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot3.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot3.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot3.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot3.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot3.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 4:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot4.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot4.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot4.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot4.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot4.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot4.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot4.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot4.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot4.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot4.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot4.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot4.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot4.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 5:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot5.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot5.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot5.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot5.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot5.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot5.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot5.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot5.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot5.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot5.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot5.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot5.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot5.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 6:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot6.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot6.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot6.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot6.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot6.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot6.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot6.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot6.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot6.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot6.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot6.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot6.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot6.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 7:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot7.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot7.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot7.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot7.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot7.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot7.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot7.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot7.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot7.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot7.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot7.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot7.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot7.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 8:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot8.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot8.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot8.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot8.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot8.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot8.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot8.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot8.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot8.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot8.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot8.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot8.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot8.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 9:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Toan.WeaponSlot9.attack);
-                                    endurance = Memory.ReadUShort(Player.Toan.WeaponSlot9.endurance);
-                                    speed = Memory.ReadUShort(Player.Toan.WeaponSlot9.speed);
-                                    magic = Memory.ReadUShort(Player.Toan.WeaponSlot9.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot9.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot9.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Toan.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Toan.WeaponSlot9.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Toan.WeaponSlot9.level, 5);
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot9.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot9.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot9.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Toan.WeaponSlot9.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot9.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.hasChangedBySynth, 0);
-                                    }
-                                    break;
-                            }
-                            break;
-
-                        case 1:
-                            switch (weapon)
-                            {
-                                case 0:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot0.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot0.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot0.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot0.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot0.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot0.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot0.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot0.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot0.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot0.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot0.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot0.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot0.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 1:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot1.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot1.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot1.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot1.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot1.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot1.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot1.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot1.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot1.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot1.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot1.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot1.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot1.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 2:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot2.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot2.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot2.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot2.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot2.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot2.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot2.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot2.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot2.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot2.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot2.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot2.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot2.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 3:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot3.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot3.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot3.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot3.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot3.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot3.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot3.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot3.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot3.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot3.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot3.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot3.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot3.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 4:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot4.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot4.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot4.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot4.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot4.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot4.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot4.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot4.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot4.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot4.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot4.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot4.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot4.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 5:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot5.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot5.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot5.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot5.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot5.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot5.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot5.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot5.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot5.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot5.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot5.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot5.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot5.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 6:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot6.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot6.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot6.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot6.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot6.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot6.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot6.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot6.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot6.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot6.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot6.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot6.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot6.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 7:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot7.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot7.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot7.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot7.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot7.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot7.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot7.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot7.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot7.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot7.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot7.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot7.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot7.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 8:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot8.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot8.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot8.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot8.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot8.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot8.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot8.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot8.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot8.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot8.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot8.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot8.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot8.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 9:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Xiao.WeaponSlot9.attack);
-                                    endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot9.endurance);
-                                    speed = Memory.ReadUShort(Player.Xiao.WeaponSlot9.speed);
-                                    magic = Memory.ReadUShort(Player.Xiao.WeaponSlot9.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot9.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot9.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Xiao.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Xiao.WeaponSlot9.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Xiao.WeaponSlot9.level, 5);
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot9.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot9.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot9.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Xiao.WeaponSlot9.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot9.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.hasChangedBySynth, 0);
-                                    }
-                                    break;
-                            }
-                            break;
-
-                        case 2:
-                            switch (weapon)
-                            {
-                                case 0:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot0.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot0.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot0.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot0.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot0.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot0.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot0.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot0.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot0.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot0.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot0.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot0.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot0.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 1:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot1.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot1.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot1.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot1.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot1.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot1.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot1.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot1.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot1.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot1.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot1.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot1.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot1.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 2:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot2.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot2.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot2.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot2.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot2.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot2.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot2.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot2.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot2.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot2.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot2.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot2.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot2.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 3:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot3.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot3.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot3.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot3.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot3.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot3.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot3.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot3.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot3.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot3.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot3.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot3.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot3.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 4:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot4.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot4.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot4.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot4.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot4.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot4.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot4.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot4.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot4.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot4.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot4.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot4.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot4.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 5:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot5.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot5.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot5.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot5.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot5.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot5.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot5.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot5.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot5.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot5.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot5.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot5.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot5.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 6:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot6.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot6.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot6.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot6.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot6.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot6.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot6.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot6.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot6.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot6.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot6.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot6.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot6.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 7:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot7.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot7.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot7.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot7.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot7.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot7.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot7.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot7.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot7.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot7.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot7.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot7.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot7.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 8:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot8.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot8.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot8.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot8.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot8.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot8.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot8.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot8.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot8.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot8.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot8.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot8.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot8.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 9:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Goro.WeaponSlot9.attack);
-                                    endurance = Memory.ReadUShort(Player.Goro.WeaponSlot9.endurance);
-                                    speed = Memory.ReadUShort(Player.Goro.WeaponSlot9.speed);
-                                    magic = Memory.ReadUShort(Player.Goro.WeaponSlot9.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot9.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot9.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Goro.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Goro.WeaponSlot9.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Goro.WeaponSlot9.level, 5);
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot9.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot9.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot9.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Goro.WeaponSlot9.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot9.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.hasChangedBySynth, 0);
-                                    }
-                                    break;
-                            }
-                            break;
-
-                        case 3:
-                            switch (weapon)
-                            {
-                                case 0:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot0.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot0.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot0.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot0.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot0.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot0.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot0.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot0.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot0.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot0.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot0.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot0.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot0.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 1:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot1.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot1.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot1.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot1.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot1.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot1.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot1.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot1.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot1.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot1.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot1.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot1.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot1.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 2:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot2.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot2.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot2.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot2.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot2.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot2.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot2.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot2.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot2.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot2.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot2.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot2.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot2.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 3:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot3.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot3.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot3.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot3.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot3.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot3.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot3.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot3.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot3.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot3.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot3.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot3.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot3.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 4:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot4.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot4.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot4.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot4.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot4.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot4.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot4.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot4.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot4.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot4.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot4.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot4.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot4.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 5:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot5.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot5.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot5.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot5.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot5.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot5.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot5.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot5.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot5.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot5.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot5.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot5.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot5.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 6:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot6.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot6.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot6.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot6.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot6.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot6.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot6.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot6.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot6.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot6.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot6.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot6.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot6.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 7:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot7.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot7.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot7.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot7.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot7.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot7.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot7.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot7.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot7.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot7.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot7.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot7.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot7.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 8:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot8.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot8.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot8.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot8.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot8.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot8.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot8.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot8.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot8.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot8.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot8.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot8.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot8.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 9:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ruby.WeaponSlot9.attack);
-                                    endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot9.endurance);
-                                    speed = Memory.ReadUShort(Player.Ruby.WeaponSlot9.speed);
-                                    magic = Memory.ReadUShort(Player.Ruby.WeaponSlot9.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot9.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot9.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ruby.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ruby.WeaponSlot9.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ruby.WeaponSlot9.level, 5);
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot9.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot9.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot9.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ruby.WeaponSlot9.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot9.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.hasChangedBySynth, 0);
-                                    }
-                                    break;
-                            }
-                            break;
-
-                        case 4:
-                            switch (weapon)
-                            {
-                                case 0:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot0.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot0.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot0.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot0.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot0.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot0.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot0.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 1:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot1.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot1.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot1.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot1.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot1.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot1.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot1.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 2:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot2.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot2.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot2.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot2.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot2.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot2.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot2.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 3:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot3.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot3.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot3.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot3.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot3.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot3.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot3.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 4:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot4.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot4.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot4.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot4.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot4.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot4.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot4.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 5:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot5.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot5.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot5.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot5.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot5.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot5.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot5.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 6:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot6.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot6.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot6.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot6.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot6.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot6.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot6.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 7:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot7.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot7.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot7.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot7.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot7.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot7.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot7.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 8:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot8.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot8.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot8.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot8.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot8.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot8.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot8.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 9:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.attack);
-                                    endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.endurance);
-                                    speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.speed);
-                                    magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot9.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Ungaga.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Ungaga.WeaponSlot9.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Ungaga.WeaponSlot9.level, 5);
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot9.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot9.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot9.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Ungaga.WeaponSlot9.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.hasChangedBySynth, 0);
-                                    }
-                                    break;
-                            }
-                            break;
-
-                        case 5:
-                            switch (weapon)
-                            {
-                                case 0:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot0.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot0.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot0.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot0.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot0.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot0.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot0.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot0.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot0.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot0.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot0.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot0.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot0.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 1:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot1.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot1.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot1.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot1.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot1.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot1.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot1.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot1.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot1.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot1.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot1.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot1.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot1.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 2:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot2.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot2.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot2.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot2.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot2.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot2.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot2.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot2.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot2.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot2.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot2.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot2.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot2.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 3:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot3.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot3.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot3.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot3.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot3.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot3.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot3.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot3.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot3.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot3.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot3.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot3.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot3.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 4:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot4.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot4.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot4.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot4.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot4.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot4.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot4.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot4.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot4.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot4.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot4.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot4.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot4.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 5:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot5.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot5.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot5.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot5.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot5.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot5.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot5.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot5.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot5.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot5.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot5.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot5.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot5.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 6:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot6.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot6.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot6.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot6.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot6.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot6.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot6.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot6.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot6.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot6.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot6.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot6.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot6.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 7:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot7.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot7.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot7.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot7.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot7.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot7.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot7.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot7.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot7.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot7.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot7.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot7.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot7.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 8:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot8.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot8.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot8.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot8.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot8.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot8.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot8.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot8.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot8.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot8.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot8.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot8.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot8.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.hasChangedBySynth, 0);
-                                    }
-                                    break;
-
-                                case 9:
-
-                                    //Store the current weapon base stats
-                                    attack = Memory.ReadUShort(Player.Osmond.WeaponSlot9.attack);
-                                    endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot9.endurance);
-                                    speed = Memory.ReadUShort(Player.Osmond.WeaponSlot9.speed);
-                                    magic = Memory.ReadUShort(Player.Osmond.WeaponSlot9.magic);
-                                    hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot9.hasChangedBySynth);
-
-                                    //Store the current weapon level and calculate the difference to +5
-                                    weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot9.level);
-                                    diffLevel = 5 - weaponLevel;
-
-                                    //Has the empty synthshpere in socket?
-                                    if (Memory.ReadUShort(Player.Osmond.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
-                                        Memory.ReadUShort(Player.Osmond.WeaponSlot9.slot1_synthesisedItemId) == 0)
-                                    {
-                                        //Weapon level is below +5 and has not yet been changed by an empty synthphere?
-                                        if (diffLevel > 0 && hasChangedBySynth == 0)
-                                        {
-                                            //Set the weapon to +5 with the increase in main stats
-                                            Memory.WriteByte(Player.Osmond.WeaponSlot9.level, 5);
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot9.attack, (ushort)(attack + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot9.speed, (ushort)(speed + diffLevel));
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot9.magic, (ushort)(magic + diffLevel));
-
-                                            //Save former stat value
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
-
-                                            //Set changed flag
-                                            Memory.WriteUShort(Player.Osmond.WeaponSlot9.hasChangedBySynth, 1);
-                                        }
-
-                                    }
-                                    else if (diffLevel == 0 && hasChangedBySynth == 1)
-                                    {
-                                        //Fetch the previous level before the change
-                                        diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot9.weaponFormerStatsValue);
-
-                                        //Revert the weapons changes back to normal
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
-
-                                        //Reset flags
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.weaponFormerStatsValue, 0);
-                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.hasChangedBySynth, 0);
-                                    }
-                                    break;
-                            }
-                            break;
-                    }
+                    case 0:
+                        switch (weapon)
+                        {
+                            case 0:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot0.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot0.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot0.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot0.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot0.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot0.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot0.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot0.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot0.hasChangedBySynth, 1);
+                                    }
+
+                                }else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot0.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot0.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 1:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot1.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot1.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot1.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot1.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot1.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot1.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot1.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot1.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot1.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot1.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot1.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot1.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 2:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot2.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot2.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot2.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot2.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot2.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot2.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot2.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot2.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot2.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot2.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 3:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot3.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot3.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot3.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot3.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot3.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot3.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot3.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot3.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot3.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot3.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot3.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot3.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 4:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot4.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot4.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot4.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot4.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot4.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot4.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot4.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot4.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot4.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot4.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot4.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot4.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 5:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot5.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot5.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot5.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot5.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot5.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot5.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot5.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot5.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot5.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot5.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot5.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot5.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 6:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot6.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot6.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot6.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot6.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot6.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot6.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot6.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot6.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot6.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot6.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot6.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot6.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 7:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot7.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot7.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot7.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot7.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot7.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot7.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot7.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot7.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot7.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot7.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot7.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot7.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 8:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot8.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot8.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot8.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot8.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot8.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot8.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot8.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot8.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot8.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot8.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot8.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot8.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 9:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Toan.WeaponSlot9.attack);
+                                endurance = Memory.ReadUShort(Player.Toan.WeaponSlot9.endurance);
+                                speed = Memory.ReadUShort(Player.Toan.WeaponSlot9.speed);
+                                magic = Memory.ReadUShort(Player.Toan.WeaponSlot9.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Toan.WeaponSlot9.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Toan.WeaponSlot9.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Toan.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Toan.WeaponSlot9.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Toan.WeaponSlot9.level, 5);
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Toan.WeaponSlot9.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Toan.WeaponSlot9.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot9.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Toan.WeaponSlot9.hasChangedBySynth, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 1:
+                        switch (weapon)
+                        {
+                            case 0:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot0.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot0.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot0.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot0.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot0.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot0.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot0.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot0.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot0.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot0.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot0.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot0.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 1:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot1.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot1.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot1.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot1.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot1.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot1.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot1.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot1.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot1.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot1.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot1.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot1.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 2:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot2.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot2.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot2.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot2.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot2.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot2.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot2.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot2.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot2.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot2.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot2.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot2.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 3:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot3.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot3.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot3.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot3.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot3.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot3.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot3.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot3.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot3.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot3.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot3.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot3.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 4:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot4.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot4.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot4.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot4.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot4.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot4.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot4.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot4.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot4.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot4.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot4.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot4.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 5:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot5.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot5.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot5.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot5.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot5.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot5.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot5.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot5.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot5.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot5.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot5.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot5.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 6:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot6.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot6.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot6.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot6.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot6.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot6.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot6.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot6.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot6.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot6.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot6.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot6.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 7:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot7.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot7.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot7.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot7.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot7.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot7.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot7.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot7.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot7.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot7.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot7.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot7.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 8:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot8.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot8.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot8.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot8.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot8.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot8.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot8.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot8.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot8.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot8.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot8.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot8.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 9:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Xiao.WeaponSlot9.attack);
+                                endurance = Memory.ReadUShort(Player.Xiao.WeaponSlot9.endurance);
+                                speed = Memory.ReadUShort(Player.Xiao.WeaponSlot9.speed);
+                                magic = Memory.ReadUShort(Player.Xiao.WeaponSlot9.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Xiao.WeaponSlot9.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Xiao.WeaponSlot9.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Xiao.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Xiao.WeaponSlot9.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Xiao.WeaponSlot9.level, 5);
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Xiao.WeaponSlot9.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Xiao.WeaponSlot9.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot9.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Xiao.WeaponSlot9.hasChangedBySynth, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 2:
+                        switch (weapon)
+                        {
+                            case 0:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot0.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot0.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot0.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot0.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot0.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot0.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot0.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot0.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot0.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot0.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot0.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot0.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 1:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot1.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot1.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot1.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot1.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot1.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot1.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot1.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot1.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot1.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot1.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot1.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot1.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 2:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot2.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot2.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot2.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot2.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot2.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot2.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot2.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot2.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot2.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot2.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot2.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot2.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 3:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot3.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot3.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot3.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot3.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot3.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot3.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot3.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot3.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot3.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot3.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot3.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot3.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 4:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot4.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot4.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot4.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot4.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot4.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot4.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot4.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot4.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot4.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot4.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot4.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot4.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 5:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot5.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot5.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot5.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot5.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot5.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot5.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot5.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot5.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot5.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot5.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot5.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot5.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 6:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot6.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot6.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot6.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot6.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot6.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot6.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot6.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot6.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot6.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot6.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot6.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot6.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 7:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot7.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot7.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot7.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot7.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot7.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot7.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot7.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot7.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot7.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot7.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot7.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot7.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 8:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot8.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot8.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot8.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot8.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot8.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot8.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot8.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot8.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot8.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot8.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot8.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot8.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 9:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Goro.WeaponSlot9.attack);
+                                endurance = Memory.ReadUShort(Player.Goro.WeaponSlot9.endurance);
+                                speed = Memory.ReadUShort(Player.Goro.WeaponSlot9.speed);
+                                magic = Memory.ReadUShort(Player.Goro.WeaponSlot9.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Goro.WeaponSlot9.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Goro.WeaponSlot9.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Goro.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Goro.WeaponSlot9.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Goro.WeaponSlot9.level, 5);
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Goro.WeaponSlot9.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Goro.WeaponSlot9.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot9.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Goro.WeaponSlot9.hasChangedBySynth, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 3:
+                        switch (weapon)
+                        {
+                            case 0:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot0.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot0.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot0.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot0.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot0.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot0.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot0.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot0.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot0.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot0.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot0.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot0.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 1:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot1.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot1.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot1.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot1.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot1.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot1.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot1.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot1.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot1.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot1.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot1.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot1.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 2:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot2.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot2.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot2.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot2.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot2.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot2.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot2.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot2.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot2.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot2.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot2.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot2.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 3:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot3.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot3.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot3.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot3.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot3.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot3.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot3.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot3.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot3.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot3.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot3.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot3.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 4:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot4.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot4.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot4.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot4.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot4.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot4.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot4.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot4.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot4.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot4.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot4.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot4.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 5:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot5.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot5.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot5.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot5.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot5.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot5.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot5.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot5.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot5.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot5.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot5.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot5.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 6:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot6.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot6.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot6.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot6.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot6.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot6.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot6.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot6.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot6.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot6.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot6.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot6.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 7:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot7.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot7.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot7.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot7.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot7.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot7.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot7.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot7.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot7.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot7.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot7.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot7.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 8:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot8.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot8.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot8.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot8.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot8.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot8.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot8.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot8.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot8.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot8.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot8.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot8.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 9:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ruby.WeaponSlot9.attack);
+                                endurance = Memory.ReadUShort(Player.Ruby.WeaponSlot9.endurance);
+                                speed = Memory.ReadUShort(Player.Ruby.WeaponSlot9.speed);
+                                magic = Memory.ReadUShort(Player.Ruby.WeaponSlot9.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ruby.WeaponSlot9.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ruby.WeaponSlot9.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ruby.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ruby.WeaponSlot9.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ruby.WeaponSlot9.level, 5);
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ruby.WeaponSlot9.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ruby.WeaponSlot9.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot9.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ruby.WeaponSlot9.hasChangedBySynth, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 4:
+                        switch (weapon)
+                        {
+                            case 0:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot0.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot0.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot0.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot0.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot0.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot0.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot0.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 1:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot1.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot1.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot1.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot1.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot1.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot1.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot1.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 2:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot2.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot2.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot2.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot2.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot2.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot2.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot2.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 3:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot3.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot3.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot3.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot3.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot3.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot3.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot3.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 4:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot4.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot4.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot4.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot4.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot4.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot4.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot4.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 5:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot5.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot5.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot5.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot5.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot5.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot5.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot5.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 6:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot6.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot6.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot6.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot6.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot6.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot6.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot6.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 7:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot7.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot7.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot7.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot7.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot7.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot7.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot7.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 8:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot8.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot8.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot8.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot8.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot8.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot8.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot8.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 9:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.attack);
+                                endurance = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.endurance);
+                                speed = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.speed);
+                                magic = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Ungaga.WeaponSlot9.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Ungaga.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Ungaga.WeaponSlot9.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Ungaga.WeaponSlot9.level, 5);
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Ungaga.WeaponSlot9.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Ungaga.WeaponSlot9.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot9.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Ungaga.WeaponSlot9.hasChangedBySynth, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 5:
+                        switch (weapon)
+                        {
+                            case 0:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot0.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot0.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot0.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot0.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot0.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot0.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot0.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot0.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot0.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot0.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot0.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot0.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot0.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot0.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot0.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot0.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot0.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot0.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 1:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot1.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot1.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot1.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot1.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot1.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot1.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot1.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot1.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot1.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot1.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot1.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot1.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot1.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot1.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot1.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot1.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot1.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot1.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 2:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot2.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot2.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot2.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot2.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot2.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot2.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot2.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot2.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot2.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot2.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot2.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot2.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot2.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot2.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot2.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot2.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot2.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot2.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 3:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot3.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot3.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot3.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot3.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot3.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot3.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot3.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot3.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot3.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot3.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot3.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot3.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot3.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot3.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot3.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot3.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot3.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot3.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 4:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot4.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot4.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot4.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot4.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot4.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot4.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot4.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot4.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot4.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot4.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot4.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot4.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot4.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot4.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot4.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot4.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot4.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot4.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 5:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot5.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot5.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot5.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot5.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot5.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot5.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot5.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot5.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot5.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot5.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot5.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot5.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot5.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot5.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot5.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot5.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot5.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot5.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 6:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot6.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot6.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot6.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot6.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot6.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot6.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot6.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot6.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot6.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot6.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot6.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot6.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot6.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot6.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot6.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot6.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot6.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot6.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 7:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot7.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot7.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot7.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot7.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot7.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot7.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot7.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot7.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot7.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot7.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot7.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot7.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot7.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot7.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot7.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot7.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot7.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot7.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 8:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot8.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot8.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot8.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot8.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot8.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot8.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot8.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot8.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot8.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot8.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot8.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot8.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot8.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot8.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot8.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot8.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot8.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot8.hasChangedBySynth, 0);
+                                }
+                                break;
+
+                            case 9:
+
+                                //Store the current weapon base stats
+                                attack = Memory.ReadUShort(Player.Osmond.WeaponSlot9.attack);
+                                endurance = Memory.ReadUShort(Player.Osmond.WeaponSlot9.endurance);
+                                speed = Memory.ReadUShort(Player.Osmond.WeaponSlot9.speed);
+                                magic = Memory.ReadUShort(Player.Osmond.WeaponSlot9.magic);
+                                hasChangedBySynth = Memory.ReadUShort(Player.Osmond.WeaponSlot9.hasChangedBySynth);
+
+                                //Store the current weapon level and calculate the difference to +5
+                                weaponLevel = Memory.ReadByte(Player.Osmond.WeaponSlot9.level);
+                                diffLevel = 5 - weaponLevel;
+
+                                //Has the empty synthshpere in socket?
+                                if (Memory.ReadUShort(Player.Osmond.WeaponSlot9.slot1_itemId) == Items.synthsphere &&
+                                    Memory.ReadUShort(Player.Osmond.WeaponSlot9.slot1_synthesisedItemId) == 0)
+                                {
+                                    //Weapon level is below +5 and has not yet been changed by an empty synthphere?
+                                    if (diffLevel > 0 && hasChangedBySynth == 0)
+                                    {
+                                        //Set the weapon to +5 with the increase in main stats
+                                        Memory.WriteByte(Player.Osmond.WeaponSlot9.level, 5);
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.attack, (ushort)(attack + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.endurance, (ushort)(endurance + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.speed, (ushort)(speed + diffLevel));
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.magic, (ushort)(magic + diffLevel));
+
+                                        //Save former stat value
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.weaponFormerStatsValue, (ushort)diffLevel);
+
+                                        //Set changed flag
+                                        Memory.WriteUShort(Player.Osmond.WeaponSlot9.hasChangedBySynth, 1);
+                                    }
+
+                                }
+                                else if (diffLevel == 0 && hasChangedBySynth == 1)
+                                {
+                                    //Fetch the previous level before the change
+                                    diffLevelBeforeChange = Memory.ReadUShort(Player.Osmond.WeaponSlot9.weaponFormerStatsValue);
+
+                                    //Revert the weapons changes back to normal
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot9.level, (ushort)(5 - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot9.attack, (ushort)(attack - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot9.endurance, (ushort)(endurance - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot9.speed, (ushort)(speed - diffLevelBeforeChange));
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot9.magic, (ushort)(magic - diffLevelBeforeChange));
+
+                                    //Reset flags
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot9.weaponFormerStatsValue, 0);
+                                    Memory.WriteUShort(Player.Osmond.WeaponSlot9.hasChangedBySynth, 0);
+                                }
+                                break;
+                        }
+                        break;
                 }
 
-                Thread.Sleep(60);
+                Thread.Sleep(64);
             }
         }
 

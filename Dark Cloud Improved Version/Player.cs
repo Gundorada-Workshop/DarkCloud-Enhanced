@@ -16,7 +16,7 @@ namespace Dark_Cloud_Improved_Version
         public const int visibility = 0x202A359C;
 
         public const int mostRecentDamage = 0x21DC452C; //most recent damage caused by the player, either with character or throwable
-        public const int damageSource = 0x21DC4530; //source of damage, either character ID or throwable (-1)
+        public const int damageSource = 0x21DC4530;     //source of damage, either character ID or throwable (-1)
 
         public const int positionX = 0x21D331D8;
         public const int positionY = 0x21D331D0;
@@ -179,6 +179,20 @@ namespace Dark_Cloud_Improved_Version
         {
             if (Memory.ReadUShort(Addresses.dungeonMode) == 1) return true;
             else return false;
+        }
+
+        public static bool CheckIsWeaponMenu()
+        {
+            if (Memory.ReadByte(Addresses.selectedMenu) == 2) return true;
+            return false;
+        }
+
+        public static bool CheckIsWeaponCustomizeMenu()
+        {
+            if (Memory.ReadByte(Addresses.selectedMenu) == 2 &&
+                Memory.ReadByte(Addresses.weaponsMode) >= 8 &&
+                Memory.ReadByte(Addresses.weaponsMode) <= 11) return true;
+            return false;
         }
 
         internal class Inventory
@@ -495,7 +509,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 const byte itemOffset = 0x20;
                 byte inventorySize = inventorySizeAttachments;
-                int[] inventoryAttachments = new int[inventorySize];
+                int[] inventoryAttachments = new int[inventorySize + 2];
 
                 //Console.WriteLine("GetBagAttachments process started!\n");
 

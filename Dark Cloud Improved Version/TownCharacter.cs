@@ -181,8 +181,6 @@ namespace Dark_Cloud_Improved_Version
 
             }
 
-
-
             chrFilePath = "chara/c01d.chr"; //the path to the character file that should be loaded
 
             currentAddress = Addresses.chrFileLocation;
@@ -215,12 +213,18 @@ namespace Dark_Cloud_Improved_Version
             */
 
 
-
-
             while (true)
             {
+                //Check if player is in town
                 if (Memory.ReadByte(Addresses.mode) == 2)
                 {
+                    //Check if player is inside the weapon customize menu
+                    if (Player.CheckIsWeaponCustomizeMenu())
+                    {
+                        //The Synthsphere Listener thread
+                        Weapons.weaponsMenuListener.Start();//Start thread
+                    }
+
                     //jal editinit = e0 e0 05 0c / 224 224 5 12
                     if (Memory.ReadByte(Addresses.mode) == 0x3)
                     {

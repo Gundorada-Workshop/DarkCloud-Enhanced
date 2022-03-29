@@ -759,7 +759,7 @@
             this.Btn_TownThread.TabIndex = 5;
             this.Btn_TownThread.Text = "Town Thread";
             this.Btn_TownThread.UseVisualStyleBackColor = true;
-            this.Btn_TownThread.Click += new System.EventHandler(this.button6_Click);
+            this.Btn_TownThread.Click += new System.EventHandler(this.DEV_Page1_Btn_TownThread);
             // 
             // Btn_DungeonThread
             // 
@@ -771,7 +771,7 @@
             this.Btn_DungeonThread.TabIndex = 4;
             this.Btn_DungeonThread.Text = "Dungeon Thread";
             this.Btn_DungeonThread.UseVisualStyleBackColor = true;
-            this.Btn_DungeonThread.Click += new System.EventHandler(this.button5_Click);
+            this.Btn_DungeonThread.Click += new System.EventHandler(this.DEV_Page1_Btn_DungeonThread);
             // 
             // CBox_DebugThread
             // 
@@ -785,7 +785,7 @@
             this.CBox_DebugThread.TabIndex = 6;
             this.CBox_DebugThread.Text = "Enable Debug Thread";
             this.CBox_DebugThread.UseVisualStyleBackColor = true;
-            this.CBox_DebugThread.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.CBox_DebugThread.CheckedChanged += new System.EventHandler(this.DEV_Page1_CBox_DebugThread);
             // 
             // TabDev_Border1
             // 
@@ -814,7 +814,7 @@
             // TabDev_BtnQuit
             // 
             this.TabDev_BtnQuit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.TabDev_BtnQuit.Location = new System.Drawing.Point(226, 32);
+            this.TabDev_BtnQuit.Location = new System.Drawing.Point(223, 32);
             this.TabDev_BtnQuit.Margin = new System.Windows.Forms.Padding(12, 11, 12, 11);
             this.TabDev_BtnQuit.Name = "TabDev_BtnQuit";
             this.TabDev_BtnQuit.Size = new System.Drawing.Size(87, 25);
@@ -864,6 +864,7 @@
             this.Btn_Wordofwind.TabIndex = 3;
             this.Btn_Wordofwind.Text = "Wordofwind";
             this.Btn_Wordofwind.UseVisualStyleBackColor = true;
+            this.Btn_Wordofwind.Click += new System.EventHandler(this.DEV_Page1_Btn_WordOfWind);
             // 
             // Btn_Mikezord
             // 
@@ -875,6 +876,7 @@
             this.Btn_Mikezord.TabIndex = 1;
             this.Btn_Mikezord.Text = "Mikezord";
             this.Btn_Mikezord.UseVisualStyleBackColor = true;
+            this.Btn_Mikezord.Click += new System.EventHandler(this.DEV_Page1_Btn_Mike);
             // 
             // Btn_Plgue
             // 
@@ -886,6 +888,7 @@
             this.Btn_Plgue.TabIndex = 2;
             this.Btn_Plgue.Text = "Plgue";
             this.Btn_Plgue.UseVisualStyleBackColor = true;
+            this.Btn_Plgue.Click += new System.EventHandler(this.DEV_Page1_Btn_Plgue);
             // 
             // Btn_Dayuppy
             // 
@@ -897,6 +900,7 @@
             this.Btn_Dayuppy.TabIndex = 0;
             this.Btn_Dayuppy.Text = "Dayuppy";
             this.Btn_Dayuppy.UseVisualStyleBackColor = true;
+            this.Btn_Dayuppy.Click += new System.EventHandler(this.DEV_Page1_Btn_Dayuppy);
             // 
             // TabControl_DEV
             // 
