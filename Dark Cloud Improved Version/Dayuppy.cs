@@ -17,7 +17,7 @@ namespace Dark_Cloud_Improved_Version
         //public static Thread messageThreadTimer;
 
         static byte[] dungeonMessage;
-        private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210); //Read 210 bytes of byte array that stores dungeon message 10
+        //private static byte[] originalDunMessage = Memory.ReadByteArray(Addresses.dunMessage10, 210); //Read 210 bytes of byte array that stores dungeon message 10
 
         private static byte[] ItemTbl0 = Memory.ReadByteArray(Addresses.ItemTbl0, 252);         //DBC 1-7
         private static byte[] ItemTbl0_1 = Memory.ReadByteArray(Addresses.ItemTbl0_1, 252);     //DBC 9,10,12,13,14
@@ -522,166 +522,203 @@ namespace Dark_Cloud_Improved_Version
 
             int width;
 
-            while (1 == 1)
+            while (true)
             {
                 int currentCharacter = Player.CurrentCharacterNum();
                 byte currentWeaponSlot;
 
-                if (Memory.ReadByte(0x21DC4484) == 0 || Memory.ReadByte(0x21DC4484) == 18)
+                
+                //Free - Running
+                //Free - Walking
+                //Combat - Blocking Startup
+                //Combat - Blocking Active
+                //Combat - Blocking Recovery
+                //Combat - Idle
+                //Combat - Strafing Right
+                //Combat - Strafing Left
+                //Combat - Strafing Forwards
+                //Combat - Strafing Backwards
+                //Combat - Strafing Blocking
+
+                //Check for character animations
+                switch (Memory.ReadByte(0x21DC4484))
                 {
-                    if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Up || Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Down)
-                    {
-                        if (elemSwitching == false)
+                    default: break;
+                    case 0:     //Free - Idle
+                    case 1:     //Free - Running
+                    case 2:     //Free - Walking
+                    case 8:     //Combat - Blocking Startup
+                    case 9:     //Combat - Blocking Active
+                    case 10:    //Combat - Blocking Recovery
+                    case 18:    //Combat - Idle
+                    case 19:    //Combat - Strafing Right
+                    case 20:    //Combat - Strafing Left
+                    case 21:    //Combat - Strafing Forwards
+                    case 22:    //Combat - Strafing Backwards
+                    case 33:    //Combat - Strafing Blocking
                         {
-                            if (Player.InDungeonFloor() == true && (Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0 || Memory.ReadUInt(Addresses.dungeonDebugMenu) == 10))
+                            if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Up ||
+                                Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Down ||
+                                Memory.ReadUShort(Addresses.buttonInputs) == 4104 ||    //DPad_Up + R1
+                                Memory.ReadUShort(Addresses.buttonInputs) == 16392      //DPad_Down + R1
+                                )
                             {
-                                byte currentSlot = Memory.ReadByte(0x21CDD88C + (currentCharacter * 0x1));
-                                int currentWepElemAddr;
-                                if (currentCharacter == 0)
+                                if (elemSwitching == false)
                                 {
-                                    currentWepElemAddr = Player.Toan.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
-                                }
-                                else if (currentCharacter == 1)
-                                {
-                                    currentWepElemAddr = Player.Xiao.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
-                                }
-                                else if (currentCharacter == 2)
-                                {
-                                    currentWepElemAddr = Player.Goro.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
-                                }
-                                else if (currentCharacter == 3)
-                                {
-                                    currentWepElemAddr = Player.Ruby.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
-                                }
-                                else if (currentCharacter == 4)
-                                {
-                                    currentWepElemAddr = Player.Ungaga.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
-                                }
-                                else
-                                {
-                                    currentWepElemAddr = Player.Osmond.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
-                                }
-
-                                elementSelected = Memory.ReadByte(currentWepElemAddr);
-                                int weaponElemAmount = currentWepElemAddr + 0x00000001;
-                                bool validElement = false;
-                                if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Up)
-                                {
-                                    while (validElement == false)
+                                    if (Player.InDungeonFloor() == true && (Memory.ReadUInt(Addresses.dungeonDebugMenu) == 0 || Memory.ReadUInt(Addresses.dungeonDebugMenu) == 10))
                                     {
-                                        elementSelected--;
-                                        byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
-
-                                        if (elementSelected < 0)
+                                        byte currentSlot = Memory.ReadByte(0x21CDD88C + (currentCharacter * 0x1));
+                                        int currentWepElemAddr;
+                                        if (currentCharacter == 0)
                                         {
-                                            break;
+                                            currentWepElemAddr = Player.Toan.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
                                         }
-
-                                        if (elemAmount == 0)
+                                        else if (currentCharacter == 1)
                                         {
-                                            validElement = false;
+                                            currentWepElemAddr = Player.Xiao.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
+                                        }
+                                        else if (currentCharacter == 2)
+                                        {
+                                            currentWepElemAddr = Player.Goro.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
+                                        }
+                                        else if (currentCharacter == 3)
+                                        {
+                                            currentWepElemAddr = Player.Ruby.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
+                                        }
+                                        else if (currentCharacter == 4)
+                                        {
+                                            currentWepElemAddr = Player.Ungaga.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
                                         }
                                         else
                                         {
-                                            validElement = true;
+                                            currentWepElemAddr = Player.Osmond.WeaponSlot0.elementHUD + (0xF8 * currentSlot);
                                         }
-                                    }
-                                }
-                                else if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Down)
-                                {
-                                    while (validElement == false)
-                                    {
-                                        elementSelected++;
-                                        byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
 
-                                        if (elementSelected > 4)
+                                        elementSelected = Memory.ReadByte(currentWepElemAddr);
+                                        int weaponElemAmount = currentWepElemAddr + 0x00000001;
+                                        bool validElement = false;
+                                        if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Up ||
+                                            Memory.ReadUShort(Addresses.buttonInputs) == 4104)  //DPad_Up + R1
                                         {
-                                            if (elementSelected > 5)
+                                            while (validElement == false)
                                             {
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                if (currentCharacter == 3 || currentCharacter == 5)
+                                                elementSelected--;
+                                                byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
+
+                                                if (elementSelected < 0)
                                                 {
                                                     break;
                                                 }
-                                            }
 
+                                                if (elemAmount == 0)
+                                                {
+                                                    validElement = false;
+                                                }
+                                                else
+                                                {
+                                                    validElement = true;
+                                                }
+                                            }
                                         }
-                                        if (elementSelected < 5)
+                                        else if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.DPad_Down ||
+                                                Memory.ReadUShort(Addresses.buttonInputs) == 16392) //DPad_Down + R1
                                         {
-                                            if (elemAmount == 0)
+                                            while (validElement == false)
                                             {
-                                                validElement = false;
-                                            }
-                                            else
-                                            {
-                                                validElement = true;
+                                                elementSelected++;
+                                                byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
+
+                                                if (elementSelected > 4)
+                                                {
+                                                    if (elementSelected > 5)
+                                                    {
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (currentCharacter == 3 || currentCharacter == 5)
+                                                        {
+                                                            break;
+                                                        }
+                                                    }
+
+                                                }
+                                                if (elementSelected < 5)
+                                                {
+                                                    if (elemAmount == 0)
+                                                    {
+                                                        validElement = false;
+                                                    }
+                                                    else
+                                                    {
+                                                        validElement = true;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    validElement = true;
+                                                }
                                             }
                                         }
-                                        else
+                                        if (validElement == true)
                                         {
-                                            validElement = true;
-                                        }
-                                    }
-                                }
-                                if (validElement == true)
-                                {
-                                    if (elementSelected >= 0 && elementSelected <= 5)
-                                    {
-
-                                        Memory.WriteByte(currentWepElemAddr, elementSelected); //Set element in HUD for weapon
-                                        Memory.WriteUShort(0x21EA75A6, elementSelected); //Set element 
-                                        //elemSwitching = true;
-
-                                        if (currentCharacter == 3)
-                                        {
-                                            CheckElements(elementSelected);
-                                            /*
-                                            if (elemChanged == false)
+                                            if (elementSelected >= 0 && elementSelected <= 5)
                                             {
-                                                elemTextureHoly = Memory.ReadByteArray(0x217FD840, elemTextureHoly.Length);
-                                                elemChanged = true;
-                                                Console.WriteLine("Element stored");
-                                                File.WriteAllBytes(@"c:\DC1Elements\holy.txt", elemTextureHoly);
-                                                //var elementFile = Properties.Resources.thunder;
-                                                //string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                                                //var bytes = File.ReadAllBytes(path + @"\thunder.txt");
-                                                //Memory.WriteByteArray(0x217FD840, bytes);
 
+                                                Memory.WriteByte(currentWepElemAddr, elementSelected); //Set element in HUD for weapon
+                                                Memory.WriteUShort(0x21EA75A6, elementSelected); //Set element 
+                                                                                                 //elemSwitching = true;
+
+                                                if (currentCharacter == 3)
+                                                {
+                                                    CheckElements(elementSelected);
+                                                    /*
+                                                    if (elemChanged == false)
+                                                    {
+                                                        elemTextureHoly = Memory.ReadByteArray(0x217FD840, elemTextureHoly.Length);
+                                                        elemChanged = true;
+                                                        Console.WriteLine("Element stored");
+                                                        File.WriteAllBytes(@"c:\DC1Elements\holy.txt", elemTextureHoly);
+                                                        //var elementFile = Properties.Resources.thunder;
+                                                        //string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                                                        //var bytes = File.ReadAllBytes(path + @"\thunder.txt");
+                                                        //Memory.WriteByteArray(0x217FD840, bytes);
+
+                                                    }
+                                                    else if (elemChanged == true)
+                                                    {
+                                                        Memory.WriteByteArray(0x217FD840, elemTextureHoly);
+                                                        Console.WriteLine("Element written");
+                                                    }
+                                                    */
+                                                    Memory.WriteByte(0x21F10018, 1);
+
+                                                }
+
+                                                Memory.WriteByteArray(0x21E59450, elemRGBs[elementSelected]);
+
+                                                //Dynamically change the message width acording to the selected element word
+                                                switch (elementSelected)
+                                                {
+                                                    case 1: width = 32; break;
+                                                    case 2: width = 36; break;
+                                                    default: width = 33; break;
+                                                }
+
+                                                DisplayMessage("Changed current attribute to " + elementName[elementSelected], 1, width, 1000);
+                                                Thread.Sleep(1100);
                                             }
-                                            else if (elemChanged == true)
-                                            {
-                                                Memory.WriteByteArray(0x217FD840, elemTextureHoly);
-                                                Console.WriteLine("Element written");
-                                            }
-                                            */
-                                            Memory.WriteByte(0x21F10018, 1);
-                                            
                                         }
-
-                                        Memory.WriteByteArray(0x21E59450, elemRGBs[elementSelected]);
-
-                                        //Dynamically change the message width acording to the selected element word
-                                        switch (elementSelected)
-                                        {
-                                            case 1: width = 32; break;
-                                            case 2: width = 36; break;
-                                            default: width = 33; break;
-                                        }
-
-                                        DisplayMessage("Changed current attribute to " + elementName[elementSelected], 1, width, 1000);
-                                        Thread.Sleep(1100);
                                     }
                                 }
                             }
+                            else
+                            {
+                                elemSwitching = false;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        elemSwitching = false;
-                    }
                 }
 
                 Thread.Sleep(1);

@@ -39,6 +39,7 @@ namespace Dark_Cloud_Improved_Version
         static bool wepMenuOpen = false;
         static bool PPowdermenuOpen = false;
         static bool circlePressed = false;
+        static bool hasClearMessageShown = false;
         //static string "[" + DateTime.Now + "]" + " " = ReusableVariables.Get"[" + DateTime.Now + "]" + " "();
         static byte[] wepLevelArray = new byte[10];
         public static bool monsterQuestMachoActive = false;
@@ -287,12 +288,17 @@ namespace Dark_Cloud_Improved_Version
                         {
                             Weapons.weaponsMenuListener.Start();
                         }
+                        else if (Weapons.weaponsMenuListener.ThreadState == ThreadState.Stopped)
+                        {
+                            Weapons.weaponsMenuListener = new Thread(new ThreadStart(Weapons.WeaponListenForSynthSphere));
+                            Weapons.weaponsMenuListener.Start();
+                        }
                     }
 
                     //Check if the player has killed all the floor enemies
                     if (ReusableFunctions.CheckIfAllEnemiesKilled() && !hasClearMessageShown)
                     {
-                        Dayuppy.DisplayMessage("", 0, 0, 4000, true);
+                        Dayuppy.DisplayMessage("DUMMY", 0, 0, 4000, true);
 
                         hasClearMessageShown = true;
                     }

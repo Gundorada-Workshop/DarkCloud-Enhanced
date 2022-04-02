@@ -70,6 +70,8 @@ namespace Dark_Cloud_Improved_Version
 
         public static bool CheckChronicle2(bool acquired)
         {
+            acquired = false;
+
             if (Memory.ReadInt(Player.Toan.WeaponSlot0.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.id) == 298
                 || Memory.ReadInt(Player.Toan.WeaponSlot3.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot4.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot5.id) == 298
                 || Memory.ReadInt(Player.Toan.WeaponSlot6.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.id) == 298
@@ -500,7 +502,7 @@ namespace Dark_Cloud_Improved_Version
 
             int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            bool hasHit = hit != 0 && ReusableFunctions.GetRecentDamageDealtByPlayer() != 0;
+            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == 2;
 
             if (hasHit)
             {
@@ -817,7 +819,7 @@ namespace Dark_Cloud_Improved_Version
 
             int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            bool hasHit = hit != 0 && ReusableFunctions.GetRecentDamageDealtByPlayer() != 0;
+            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == 5;
 
             if (hasHit)
             {
@@ -985,6 +987,8 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
             }
+
+            ReusableFunctions.ClearRecentDamageAndDamageSource();
         }
 
         /// <summary>

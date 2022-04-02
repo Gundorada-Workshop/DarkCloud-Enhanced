@@ -25,7 +25,7 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value4 = new byte[4];
         static byte checkByte;
         static byte[] townDialogueIDs = { 247, 167, 87, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        static byte[] fishArray = new byte[2];
+        static byte[] fishArray = new byte[5];
         
 
         static string cfgFile;
@@ -1071,7 +1071,15 @@ namespace Dark_Cloud_Improved_Version
                     if (Player.CheckIsWeaponCustomizeMenu())
                     {
                         //The Synthsphere Listener thread
-                        Weapons.weaponsMenuListener.Start();//Start thread
+                        if (Weapons.weaponsMenuListener.ThreadState == ThreadState.Unstarted)
+                        {
+                            Weapons.weaponsMenuListener.Start();
+                        }
+                        else if (Weapons.weaponsMenuListener.ThreadState == ThreadState.Stopped)
+                        {
+                            Weapons.weaponsMenuListener = new Thread(new ThreadStart(Weapons.WeaponListenForSynthSphere));
+                            Weapons.weaponsMenuListener.Start();
+                        }
                     }
 
                     if (Memory.ReadUShort(0x21CD4318) > currentInGameDay)

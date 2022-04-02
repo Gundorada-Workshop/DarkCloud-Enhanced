@@ -421,14 +421,12 @@ namespace Dark_Cloud_Improved_Version
             {
                 MainMenuThread.changesThread.Start();
             }
-            else return;
 
             //The Synthsphere Listener thread
             if (Weapons.weaponsMenuListener.ThreadState == ThreadState.Unstarted)
             {
                 Weapons.weaponsMenuListener.Start();//Start thread
             }
-            else return;
         }
 
         private void DEV_Page1_Btn_Plgue(object sender, EventArgs e)      //plgue
@@ -444,7 +442,6 @@ namespace Dark_Cloud_Improved_Version
             {
                 townThread.Start();//Start thread
             }
-            else return;
 
             //if (!TASSThread.IsAlive) TASSThread.Start();
             //if (!TASSThread2.IsAlive) TASSThread2.Start();
@@ -458,7 +455,6 @@ namespace Dark_Cloud_Improved_Version
             {
                 dungeonthread.Start();//Start thread
             }
-            else return;
         }
 
         private void DEV_Page1_Btn_TownThread(object sender, EventArgs e)  //townThread
@@ -467,7 +463,6 @@ namespace Dark_Cloud_Improved_Version
             {
                 townThread.Start();//Start thread
             }
-            else return;
         }
 
         private void DEV_Page1_CBox_DebugThread(object sender, EventArgs e)
@@ -478,7 +473,6 @@ namespace Dark_Cloud_Improved_Version
                 {
                     debugThread.Start();//Start thread
                 }
-                else return;
 
                 CBox_DebugThread.Enabled = false;
             }
