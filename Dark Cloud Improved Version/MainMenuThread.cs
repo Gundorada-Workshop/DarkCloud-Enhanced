@@ -28,6 +28,7 @@ namespace Dark_Cloud_Improved_Version
         public static void CheckEmulatorAndGame()
         {
             firstlaunch = true;
+            Program.ConsoleLogging(); //LOGS CONSOLE WRITES TO TEXT FILE!
             while (true)
             {
                 Memory.WriteByte(0x21F10024, 0); //mod's flag for PNACH

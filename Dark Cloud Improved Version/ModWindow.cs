@@ -430,10 +430,11 @@ namespace Dark_Cloud_Improved_Version
         {
             //if (!chestThread.IsAlive) chestThread.Start();
 
-            if (townThread.ThreadState == ThreadState.Unstarted)
-            {
-                townThread.Start();//Start thread
-            }
+            //if (townThread.ThreadState == ThreadState.Unstarted)
+            // {
+            //    townThread.Start();//Start thread
+            //}
+            Program.ConsoleLogging();
 
             //if (!TASSThread.IsAlive) TASSThread.Start();
             //if (!TASSThread2.IsAlive) TASSThread2.Start();

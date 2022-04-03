@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -33,6 +34,22 @@ namespace Dark_Cloud_Improved_Version
             
 
             PressEntertoContinue();
+        }
+
+        public static void ConsoleLogging()
+        {
+            string strExeFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string strWorkPath = System.IO.Path.GetDirectoryName(strExeFilePath);
+            string logFileFolderPath = strWorkPath + @"\EnhancedModLogs";
+            if (Directory.Exists(logFileFolderPath) == false)
+            {
+                System.IO.Directory.CreateDirectory(logFileFolderPath);
+            }
+            FileStream filestream = new FileStream(logFileFolderPath + @"\EnhancedModLogFile-" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".txt", FileMode.Create);
+            var streamwriter = new StreamWriter(filestream);
+            streamwriter.AutoFlush = true;
+            Console.SetOut(streamwriter);
+            Console.SetError(streamwriter);
         }
     }
 }
