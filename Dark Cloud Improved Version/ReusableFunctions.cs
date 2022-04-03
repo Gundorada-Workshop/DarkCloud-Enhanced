@@ -7,6 +7,15 @@ namespace Dark_Cloud_Improved_Version
     public class ReusableFunctions
     {
         /// <summary>
+        /// Returns a timestamp to use in the console logs
+        /// </summary>
+        /// <returns>The timestamp</returns>
+        public static string GetDateTimeForLog()
+        {
+            return "[" + DateTime.Parse(DateTime.UtcNow.ToString()).ToString("HH:mm:ss") + "] ";
+        }
+
+        /// <summary>
         /// Puts the current thread to sleep while the game is paused
         /// <br></br>
         /// 0 = Town <br></br>
@@ -16,14 +25,13 @@ namespace Dark_Cloud_Improved_Version
         /// <returns>Returns true when the game is no longer paused</returns>
         public static bool AwaitUnpause(byte mode) {
 
-            bool gameIsPaused;
 
-            while (gameIsPaused = (mode == 0) ? Player.CheckTownIsPaused() : Player.CheckDunIsPaused())
+            while ((mode == 0) ? Player.CheckTownIsPaused() : Player.CheckDunIsPaused())
             {
                 Thread.Sleep(100);
                 continue;
             }
-
+            
             return true;
         }
 

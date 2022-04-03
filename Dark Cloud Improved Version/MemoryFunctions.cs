@@ -90,14 +90,14 @@ namespace Dark_Cloud_Improved_Version
 
                 hWnd = Processes[0].MainWindowHandle; //Grab the window handle
                 GetWindowThreadProcessId(hWnd, out PID); //Retrieve the ProcessID using the handle to the Window we found and output to PID variable
-                //Console.WriteLine("WindowHandle:" + hWnd);
-                //Console.WriteLine("PID: " + PID);
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "WindowHandle:" + hWnd);
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "PID: " + PID);
                 return PID; //Return our process ID
             }
             
             else //We did not find a process matching procName.
             {
-                Console.WriteLine(procName + " was not found in the list of running processes.");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + procName + " was not found in the list of running processes.");
                 //CloseHandle(processH);
                 return 0;
             }
@@ -227,12 +227,12 @@ namespace Dark_Cloud_Improved_Version
             successful = VirtualProtectEx(processH, address, byteArray.Length, PAGE_EXECUTE_READWRITE, out _);
              
             if (successful == false) //There was an error
-                Console.WriteLine(GetLastError() + " - " + GetSystemMessage(GetLastError())); //Get the last error code and write out the message associated with it.
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetLastError() + " - " + GetSystemMessage(GetLastError())); //Get the last error code and write out the message associated with it.
 
             successful = WriteProcessMemory(processH, address, byteArray, byteArray.Length, out _);
 
             if (successful == false)
-                Console.WriteLine(GetLastError() + " - " + GetSystemMessage(GetLastError()));
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetLastError() + " - " + GetSystemMessage(GetLastError()));
         }
 
         internal static bool WriteUShort(int address, ushort value)
@@ -267,7 +267,7 @@ namespace Dark_Cloud_Improved_Version
 
             VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
 
-            Console.WriteLine("Searching for " + searchString + ". This may take awhile.");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Searching for " + searchString + ". This may take awhile.");
 
             for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
             {
@@ -285,7 +285,7 @@ namespace Dark_Cloud_Improved_Version
 
             VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
 
-            Console.WriteLine("Searching for " + searchValue + ". This may take awhile.");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Searching for " + searchValue + ". This may take awhile.");
 
             for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
             {

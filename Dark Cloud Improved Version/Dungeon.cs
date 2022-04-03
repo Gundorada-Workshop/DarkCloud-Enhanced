@@ -4,19 +4,7 @@ using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
 {
-
-    internal class Dungeon
-    {
-        public const uint MagicCircleOne_PosX = 0x21DE61C0;
-        public const uint MagicCircleOne_PosY = 0x21DE61C8;
-        public const uint MagicCircleTwo_PosX = 0x21DE61E0;
-        public const uint MagicCircleTwo_PosY = 0x21DE61E8;
-        public const uint MagicCircleThree_PosX = 0x21DE61E0;
-        public const uint MagicCircleThree_PosY = 0x21DE61E8;
-
-    }
-
-    public class DungeonThread
+    public class Dungeon
     {
         static byte currentDungeon;
         static byte currentFloor;
@@ -85,7 +73,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
         public static void InsideDungeonThread()
         {
-            Console.WriteLine("Dungeon Thread Activated");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Dungeon Thread Activated");
             cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
             elementSwapThread = new Thread(new ThreadStart(Dayuppy.ElementSwapping));
             cheatCodeThread.Start();
@@ -315,7 +303,7 @@ namespace Dark_Cloud_Improved_Version
                     //Check if the player has entered a new floor
                     if (currentFloor != prevFloor)
                     {
-                        Console.WriteLine("Player has entered a new floor!");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has entered a new floor!");
 
                         doorIsOpen = false;
                         magicCircleChanged = false;
@@ -343,7 +331,7 @@ namespace Dark_Cloud_Improved_Version
                         else
                         {
                             eventfloor = true;
-                            Console.WriteLine("Player has entered an event floor!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has entered an event floor!");
                         }
 
                         FixUngagaDoors(currentDungeon);
@@ -383,7 +371,7 @@ namespace Dark_Cloud_Improved_Version
                         Thread.Sleep(100);
                         if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                         {
-                            Console.WriteLine("Not ingame anymore! Exited from DungeonThread!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Not ingame anymore! Exited from Dungeon!");
                             break;
                         }
                     }
@@ -491,21 +479,21 @@ namespace Dark_Cloud_Improved_Version
 
         public static void CheckEnemyKill(int currentEnemyAddress)
         {
-            Console.WriteLine("Checking quest...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Checking quest...");
             if (monsterQuestMachoActive)
             {
-                Console.WriteLine("Macho quest active");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Macho quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4406))
                 {
-                    Console.WriteLine("Quest progress +1!");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
                     byte killsleft = Memory.ReadByte(0x21CE4405);
                     killsleft--;
                     Memory.WriteByte(0x21CE4405, killsleft);
 
                     if (killsleft == 0)
                     {
-                        Console.WriteLine("Quest complete!!");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                         Dayuppy.DisplayMessage("You completed Macho's quest!\nWell done!", 2, 30, 4000);
                         Memory.WriteByte(0x21CE4402, 2);
                         monsterQuestMachoActive = false;
@@ -514,18 +502,18 @@ namespace Dark_Cloud_Improved_Version
             }
             if (monsterQuestGobActive)
             {
-                Console.WriteLine("Gob quest active");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Gob quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE440B))
                 {
-                    Console.WriteLine("Quest progress +1!");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
                     byte killsleft = Memory.ReadByte(0x21CE440A);
                     killsleft--;
                     Memory.WriteByte(0x21CE440A, killsleft);
 
                     if (killsleft == 0)
                     {
-                        Console.WriteLine("Quest complete!!");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                         Dayuppy.DisplayMessage("You completed Gob's quest!\nWell done!", 2, 30, 4000);
                         Memory.WriteByte(0x21CE4407, 2);
                         monsterQuestGobActive = false;
@@ -534,18 +522,18 @@ namespace Dark_Cloud_Improved_Version
             }
             if (monsterQuestJakeActive)
             {
-                Console.WriteLine("Jake quest active");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Jake quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4410))
                 {
-                    Console.WriteLine("Quest progress +1!");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
                     byte killsleft = Memory.ReadByte(0x21CE440F);
                     killsleft--;
                     Memory.WriteByte(0x21CE440F, killsleft);
 
                     if (killsleft == 0)
                     {
-                        Console.WriteLine("Quest complete!!");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                         Dayuppy.DisplayMessage("You completed Jake's quest!\nWell done!", 2, 30, 4000);
                         Memory.WriteByte(0x21CE440C, 2);
                         monsterQuestJakeActive = false;
@@ -554,18 +542,18 @@ namespace Dark_Cloud_Improved_Version
             }
             if (monsterQuestChiefActive)
             {
-                Console.WriteLine("Chief quest active");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Chief quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4415))
                 {
-                    Console.WriteLine("Quest progress +1!");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
                     byte killsleft = Memory.ReadByte(0x21CE4414);
                     killsleft--;
                     Memory.WriteByte(0x21CE4414, killsleft);
 
                     if (killsleft == 0)
                     {
-                        Console.WriteLine("Quest complete!!");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                         Dayuppy.DisplayMessage("You completed Chief Bonka´s quest!\nWell done!", 2, 35, 4000);
                         Memory.WriteByte(0x21CE4411, 2);
                         monsterQuestChiefActive = false;
@@ -576,7 +564,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void CheckSpawns() 
         {
-            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Checking spawns...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Checking spawns...");
 
             int ms = 0;
             byte numNormalEnemies = 0;
@@ -624,7 +612,7 @@ namespace Dark_Cloud_Improved_Version
                 //Start the next thread
                 minibossProcess.Start();
             }
-            else Console.WriteLine("[" + DateTime.Now + "]" + " " + "Not enough normal enemies in floor!");
+            else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Not enough normal enemies in floor!");
 
             chronicle2 = CustomEffects.CheckChronicle2(chronicle2);
             CustomChests.ChestRandomizer(currentDungeon, currentFloor, chronicle2); //Randomize the chest loot
@@ -635,7 +623,7 @@ namespace Dark_Cloud_Improved_Version
             CustomEffects.chronicleNewFloor = true;
             ReusableFunctions.ClearRecentDamageAndDamageSource();
 
-            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Finished spawn checking");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished spawn checking");
 
             //Close this thread
             //spawnsCheck.Abort();
@@ -650,7 +638,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void DoMinibossSpawn(byte currentDungeon)
         {
-            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Processing mini boss...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Processing mini boss...");
 
             hasMiniBoss = MiniBoss.MiniBossSpawn(false, currentDungeon, currentFloor); 
 
@@ -659,8 +647,8 @@ namespace Dark_Cloud_Improved_Version
                 miniBossMessage = new Thread(new ThreadStart(MiniBossMessage));
                 miniBossMessage.Start();
             }
-            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Mini boss has rolled: " + hasMiniBoss);
-            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Finished mini boss process!");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mini boss has rolled: " + hasMiniBoss);
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished mini boss process!");
 
             //Close this thread
             //minibossProcess.Abort();
@@ -668,7 +656,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void MiniBossMessage()
         {
-            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Working on the message...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Working on the message...");
 
             int ms = 0;
 
@@ -701,7 +689,7 @@ namespace Dark_Cloud_Improved_Version
 
             Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
 
-            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Finished message process!");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished message process!");
 
             //Close this thread
             //miniBossMessage.Abort();
@@ -732,11 +720,11 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteFloat(0x20928928, 50);
                         Memory.WriteByte(0x20928B14, 30);
                         Memory.WriteByte(0x20928AE4, 30);
-                        Console.WriteLine("Fixed Ungaga Doors");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fixed Ungaga Doors");
                     }
                     else
                     {
-                        Console.WriteLine("Couldn't fix ungaga doors, or they were fixed already");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Couldn't fix ungaga doors, or they were fixed already");
                     }
                     break;
 
@@ -748,11 +736,11 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteFloat(0x2092FCC0, 50);
                         Memory.WriteByte(0x2092FEAC, 30);
                         Memory.WriteByte(0x2092FE7C, 30);
-                        Console.WriteLine("Fixed Ungaga Doors");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fixed Ungaga Doors");
                     }
                     else
                     {
-                        Console.WriteLine("Couldn't fix ungaga doors, or they were fixed already");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Couldn't fix ungaga doors, or they were fixed already");
                     }
                     break;
 
@@ -764,11 +752,11 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteFloat(0x20924764, 50);
                         Memory.WriteByte(0x20924920, 30);
                         Memory.WriteByte(0x20924950, 30);
-                        Console.WriteLine("Fixed Ungaga Doors");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fixed Ungaga Doors");
                     }
                     else
                     {
-                        Console.WriteLine("Couldn't fix ungaga doors, or they were fixed already");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Couldn't fix ungaga doors, or they were fixed already");
                     }
                     break;
 
@@ -852,7 +840,7 @@ namespace Dark_Cloud_Improved_Version
         {
             if (currentDungeon == 4 && currentFloor == 6 && Memory.ReadByte(0x21CE445E) == 1)
             {
-                Console.WriteLine("Yellow drops challenge active");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Yellow drops challenge active");
                 sambaChallengeQuest = true;
             }
             else
@@ -867,7 +855,7 @@ namespace Dark_Cloud_Improved_Version
                     if (currentFloor == Memory.ReadByte(0x21CE4469) -1)
                     {
                         mayorQuest = true;
-                        Console.WriteLine("Mayor quest active in this floor");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mayor quest active in this floor");
                     }
                     else
                     {
@@ -1127,7 +1115,7 @@ namespace Dark_Cloud_Improved_Version
                                     {
                                         squareActive = true;
                                         dunUsedActiveEscape = true;
-                                        Console.WriteLine("Activated escape powder!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Activated escape powder!");
                                         Memory.WriteByte(0x202A35EC, 170);
                                         byte currentPowders = Memory.ReadByte(0x21CDD8B2 + (0x2 * currentSlot));
                                         currentPowders--;
@@ -1237,7 +1225,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         Memory.WriteUShort(0x21CDD8AE, 0);
                     }
-                    Console.WriteLine("Consumed escape powder from active slots");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Consumed escape powder from active slots");
                 }
                 else if (Memory.ReadByte(0x21CDD8B0) == 175) 
                 {
@@ -1248,7 +1236,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         Memory.WriteUShort(0x21CDD8B0, 0);
                     }
-                    Console.WriteLine("Consumed escape powder from active slots");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Consumed escape powder from active slots");
 
                 }
                 else if (Memory.ReadByte(0x21CDD8B2) == 175)
@@ -1260,7 +1248,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         Memory.WriteUShort(0x21CDD8B2, 0);
                     }
-                    Console.WriteLine("Consumed escape powder from active slots");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Consumed escape powder from active slots");
                 }
             }
         }
@@ -1313,7 +1301,7 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (Memory.ReadByte(0x21CDDA5A + (i * 0xF8)) > wepLevelArray[i])
                             {
-                                Console.WriteLine("Weapon(sword) leveled up!");
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon(sword) leveled up!");
                                 CheckSoZEffect(i);
                                 wepLevelArray[i] = Memory.ReadByte(0x21CDDA5A + (i * 0xF8));
                             }
@@ -1333,7 +1321,7 @@ namespace Dark_Cloud_Improved_Version
 
             if (wepID == 296)
             {
-                Console.WriteLine("SoZ leveled up!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "SoZ leveled up!");
                 byte currentThunder = Memory.ReadByte(Player.Toan.WeaponSlot0.thunder + (0xF8 * wepOffset));
                 ushort storedThunder = (ushort)(Memory.ReadUShort(0x21CE446D) + currentThunder);
                 if (storedThunder > 30000)
@@ -1399,9 +1387,9 @@ namespace Dark_Cloud_Improved_Version
             {
                 ushort attackboost = (ushort)(storedThunder / 2);
                 maxAttack = (ushort)(maxAttack + attackboost);
-                Console.WriteLine("maxattack: " + maxAttack);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "maxattack: " + maxAttack);
             }
-            Console.WriteLine("SoZ max attack changed!");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "SoZ max attack changed!");
             Memory.WriteUShort(0x2027B298, maxAttack);
         }
 

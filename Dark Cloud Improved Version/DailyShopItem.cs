@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -103,7 +99,7 @@ namespace Dark_Cloud_Improved_Version
             randomItemFromTable = fairykingRotation[currentItemRotation][randomItem];
             Memory.WriteUShort(0x21CE4488, (ushort)randomItemFromTable);
 
-            Console.WriteLine("Daily Shop Items rerolled!");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Daily Shop Items rerolled!");
 
             SetDailyItemsToShop();
         }

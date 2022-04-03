@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
 namespace Dark_Cloud_Improved_Version
-{ 
+{
     public class Weapons
     {
         //Default Weapons ID
@@ -3304,7 +3304,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void WeaponsBalanceChanges()
         {
-            Console.WriteLine("MikeZorD weapon changes have been applied...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "MikeZorD weapon changes have been applied...");
 
 
             /****************************************
@@ -3423,7 +3423,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort((magic + (weaponoffset * (Items.crosshinder - daggerid))), 32);        //Magic set to 32
 
             //Chronicle 2
-            Memory.WriteUShort((maxattack + (weaponoffset * (Items.chronicletwo - daggerid))), 999); //Max Attack set to 999
+            Memory.WriteUShort(maxattack + (weaponoffset * (Items.chronicletwo - daggerid)), 999); //Max Attack set to 999
 
 
 
@@ -3563,7 +3563,7 @@ namespace Dark_Cloud_Improved_Version
                         Thread.Sleep(100);
                         if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                         {
-                            Console.WriteLine("Not ingame anymore! Exited from WeaponRerollEffectsThread!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Not ingame anymore! Exited from WeaponRerollEffectsThread!");
                             break;
                         }
                     }

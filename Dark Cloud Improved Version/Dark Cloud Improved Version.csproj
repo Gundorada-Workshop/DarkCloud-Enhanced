@@ -79,9 +79,7 @@
     <Compile Include="Dayuppy.cs" />
     <Compile Include="Enemies.cs" />
     <Compile Include="Items.cs" />
-    <Compile Include="MenuShortcuts.cs" />
     <Compile Include="Dungeon.cs" />
-    <Compile Include="MathFunctions.cs" />
     <Compile Include="Patcher.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="MemoryFunctions.cs" />

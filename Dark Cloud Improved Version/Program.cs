@@ -9,7 +9,7 @@ namespace Dark_Cloud_Improved_Version
         static void PrintInfo()
         {
             Console.WriteLine("\nDark Cloud Enhanced - Created by Wordofwind, Dayuppy, MikeZorD, and Plgue");
-            Console.WriteLine("Version 1.0 - Alpha\n");
+            Console.WriteLine("Version 0.8 - Beta\n");
         }
 
         public static void PressEntertoContinue() //Added a simple function for pausing and waiting for input from the user.

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 
 namespace Dark_Cloud_Improved_Version
@@ -98,7 +94,7 @@ namespace Dark_Cloud_Improved_Version
         public static void InitializeChrOffsets()
         {
 
-            Console.WriteLine("Towncharacter running");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Towncharacter running");
 
             Dialogues.InitializeDialogues();
             Memory.WriteByte(0x2027DD50, 0); //make shell ring discardable
@@ -132,13 +128,13 @@ namespace Dark_Cloud_Improved_Version
             DailyShopItem.SetDailyItemsToShop();
             currentInGameDay = Memory.ReadUShort(0x21CD4318);
 
-            DungeonThread.ChangeSoZMaxAtt(Memory.ReadUShort(0x21CE446D)); //NEEDS TO BE APPLIED AFTER SAVE LOAD!
+            Dungeon.ChangeSoZMaxAtt(Memory.ReadUShort(0x21CE446D)); //NEEDS TO BE APPLIED AFTER SAVE LOAD!
 
             Memory.VirtualProtect(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             successful = Memory.VirtualProtectEx(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             
             if (successful == false) //There was an error
-                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
             Memory.Write(Addresses.chrConfigFileOffset, BitConverter.GetBytes(608545264)); //this changes the offset value in game's code to make it read the file in right location
 
@@ -207,7 +203,7 @@ namespace Dark_Cloud_Improved_Version
             successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
 
             if (successful == false) //There was an error
-                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
             Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));     //whenever X is pressed while on allies menu and in town, this will reload the town instead of playing a single sound
             */
@@ -249,7 +245,7 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (charSelected == true)
                             {
-                                Console.WriteLine("Chara selected");
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Chara selected");
 
                                 currentAddress = Addresses.chrFileLocation;
 
@@ -289,8 +285,8 @@ namespace Dark_Cloud_Improved_Version
                         if (prevCharNumber != charNumber)
                         {
                             allyCount = Memory.ReadByte(0x21CD9551);
-                            Console.WriteLine(charNumber);
-                            Console.WriteLine("different char");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + charNumber);
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "different char");
                             currentAddress = Addresses.chrFileLocation;
 
                             for (int i = 0; i < 30; i++)
@@ -304,7 +300,7 @@ namespace Dark_Cloud_Improved_Version
                             successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
 
                             if (successful == false) //There was an error
-                                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
                                 */
 
                             if (charNumber == 0)
@@ -320,7 +316,7 @@ namespace Dark_Cloud_Improved_Version
                                 }
                                 else
                                 {
-                                    Console.WriteLine("not enough allies");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
                                     Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
                                 }
                                 */
@@ -335,7 +331,7 @@ namespace Dark_Cloud_Improved_Version
                                 }
                                 else
                                 {
-                                    Console.WriteLine("not enough allies");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
                                     Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
                                 }
                                 */
@@ -351,7 +347,7 @@ namespace Dark_Cloud_Improved_Version
                                 }
                                 else
                                 {
-                                    Console.WriteLine("not enough allies");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
                                     Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
                                 }
                                 */
@@ -366,7 +362,7 @@ namespace Dark_Cloud_Improved_Version
                                 }
                                 else
                                 {
-                                    Console.WriteLine("not enough allies");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
                                     Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
                                 }*/
 
@@ -381,7 +377,7 @@ namespace Dark_Cloud_Improved_Version
                                 }
                                 else
                                 {
-                                    Console.WriteLine("not enough allies");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
                                     Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
                                 }*/
                                 chrFilePath = "gedit/e05/chara/c18p.chr";
@@ -409,7 +405,7 @@ namespace Dark_Cloud_Improved_Version
                                 successful = Memory.VirtualProtectEx(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
 
                                 if (successful == false) //There was an error
-                                    Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
                                     */
 
                                 Memory.WriteByte(currentAddress, value1[0]);
@@ -427,7 +423,7 @@ namespace Dark_Cloud_Improved_Version
                     else if (menuExited == false && Memory.ReadByte(0x202A1E90) == 255)   //if player exits allies menu without switching character, write the current character back
                     {
                         chrFilePath = currentCharacter;
-                        Console.WriteLine("re-writing current character back...");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "re-writing current character back...");
 
                         currentAddress = Addresses.chrFileLocation;
 
@@ -519,13 +515,13 @@ namespace Dark_Cloud_Improved_Version
                                     {
                                         if (Memory.ReadByte(0x21D19710) == 1 && jokerHouse == false) //check if at joker's house door
                                         {
-                                            Console.WriteLine("entered jokerssss");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "entered jokerssss");
                                             Memory.WriteByte(0x202A2A08, 0);
                                             jokerHouse = true;
                                         }
                                         else if (Memory.ReadByte(0x21D19710) == 0 && jokerHouse == true)
                                         {
-                                            Console.WriteLine("left jokerss");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "left jokerss");
                                             Memory.WriteByte(0x202A2A08, 1);
                                             jokerHouse = false;
                                         }
@@ -914,7 +910,7 @@ namespace Dark_Cloud_Improved_Version
                                     if (Dialogues.storageOriginalDialogue.Length > 0)
                                     {
                                         Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
-                                        Console.WriteLine("Cleared storage original dialogue");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cleared storage original dialogue");
                                     }
                                 }
                             }
@@ -932,7 +928,7 @@ namespace Dark_Cloud_Improved_Version
 
                     if ((buildingCheck == 0 && checkBuildingFlag == true) || areaChanged == true) //check if player is not inside a house
                     {
-                        Console.WriteLine("Currently in outside area");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currently in outside area");
                         Dialogues.SetDialogueOptions(currentArea, false);
                         Dialogues.SetStorageDialogue(currentArea, false);
                         checkBuildingFlag = false;
@@ -943,7 +939,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (currentArea != 23)
                         {
-                            Console.WriteLine("Currently inside building");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currently inside building");
                             Dialogues.SetDialogueOptions(currentArea, true);
                             Dialogues.SetStorageDialogue(currentArea, true);
                             checkBuildingFlag = true;
@@ -952,7 +948,7 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (Memory.ReadByte(0x21D26FD4) == 0 || Memory.ReadByte(0x21D26FD4) == 1)
                             {
-                                Console.WriteLine("Currently inside building");
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currently inside building");
                                 Dialogues.SetDialogueOptions(currentArea, true);
                                 Dialogues.SetStorageDialogue(currentArea, true);
                                 checkBuildingFlag = true;
@@ -963,7 +959,7 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
                     {
                         changingLocation = true;
-                        Console.WriteLine("changing location");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "changing location");
                         chrFilePath = "chara/c01d.chr";
                         Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled'
 
@@ -1044,7 +1040,7 @@ namespace Dark_Cloud_Improved_Version
                         {
                             currentlyInShop = true;
                             shopDataCleared = false;
-                            Console.WriteLine("Entered a shop");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered a shop");
                         }
                     }
 
@@ -1052,7 +1048,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (!shopDataCleared)
                         {
-                            Console.WriteLine("Fixing broken dagger glitch...");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fixing broken dagger glitch...");
                             FixBrokenDagger();
                             shopDataCleared = true;
                             Dialogues.FixCharacterNamesInShopDialogues();
@@ -1061,11 +1057,11 @@ namespace Dark_Cloud_Improved_Version
                         if (Memory.ReadByte(0x21DA52E4) != 1)
                         {
                             currentlyInShop = false;
-                            Console.WriteLine("Exited a shop");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Exited a shop");
                         }
                     }
 
-                    DungeonThread.CheckWepLvlUp();
+                    Dungeon.CheckWepLvlUp();
 
                     //Check if player is inside the weapon customize menu
                     if (Player.CheckIsWeaponCustomizeMenu())
@@ -1149,7 +1145,7 @@ namespace Dark_Cloud_Improved_Version
                         Thread.Sleep(100);
                         if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                         {
-                            Console.WriteLine("Not ingame anymore! Exited from Towncharacter!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Not ingame anymore! Exited from Towncharacter!");
                             break;
                         }
                     }
@@ -1173,7 +1169,7 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress += 0x00000004;
             }
             */
-            Console.WriteLine("Broken dagger fix finished");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Broken dagger fix finished");
         }
 
 
@@ -1191,7 +1187,7 @@ namespace Dark_Cloud_Improved_Version
                         Dialogues.SetDialogue(i, false, true);
                         Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
                         nearNPCSD = true;
-                        Console.WriteLine("sidequestdialogue set");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "sidequestdialogue set");
                         sidequestonDialogueFlag = 1;
                     }
                     checkNearNPC++;
@@ -1234,7 +1230,7 @@ namespace Dark_Cloud_Improved_Version
                         Dialogues.SetDialogue(i, false, false, true);
                         Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
                         nearNPCSD = true;
-                        Console.WriteLine("itsfinished dialogue set");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "itsfinished dialogue set");
                         itsfinishedonDialogueFlag = 1;
                     }
                     checkNearNPC++;
@@ -1561,7 +1557,7 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteByte(0x203A3920, 0); //enable clock
                 Memory.WriteFloat(0x202A28F4, currentClock);
 
-                Console.WriteLine("Enabled clock");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Enabled clock");
             }
         }
 
@@ -1576,14 +1572,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
                     if (Memory.ReadByte(0x21CE4416) == 1)
                     {
                         fishingQuestPikeActive = true;
-                        Console.WriteLine("Currently on Pikes quest");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currently on Pikes quest");
 
                         minFishSize = Memory.ReadByte(0x21CE441B);
                         maxFishSize = Memory.ReadByte(0x21CE441C);
@@ -1606,7 +1602,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine("Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
                                 }
                                 else
                                 {
@@ -1629,7 +1625,7 @@ namespace Dark_Cloud_Improved_Version
                         if (Memory.ReadByte(currentAddress) == 255 && fishCaught[i] == false && Memory.ReadByte(0x202A26E8) == 12)
                         {
                             fishCaught[i] = true;
-                            Console.WriteLine("Fish caught -> ID: " + fishArray[i]);
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fish caught -> ID: " + fishArray[i]);
                             FishAcquiredFlag(fishArray[i]);
 
                             if (fishingQuestPikeActive)
@@ -1638,7 +1634,7 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     if (fishArray[i] == Memory.ReadByte(0x21CE4419)) //check if caught fish matches quest fish ID
                                     {
-                                        Console.WriteLine("Quest progress +1!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
 
                                         byte fishleft = Memory.ReadByte(0x21CE441A);
                                         fishleft--;
@@ -1646,7 +1642,7 @@ namespace Dark_Cloud_Improved_Version
 
                                         if (fishleft == 0)
                                         {
-                                            Console.WriteLine("Quest complete!!");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                             Memory.WriteByte(0x21CE4416, 2);
                                             fishingQuestPikeActive = false;
                                         }
@@ -1662,7 +1658,7 @@ namespace Dark_Cloud_Improved_Version
 
                                     if (minFishSize <= fishSizeInt && maxFishSize >= fishSizeInt)
                                     {
-                                        Console.WriteLine("Quest complete!!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                         Memory.WriteByte(0x21CE4416, 2);
                                         fishingQuestPikeActive = false;
                                     }
@@ -1683,14 +1679,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
                     if (Memory.ReadByte(0x21CE441E) == 1)
                     {
                         fishingQuestPaoActive = true;
-                        Console.WriteLine("Currently on Paos quest");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currently on Paos quest");
 
                         minFishSize = Memory.ReadByte(0x21CE4423);
                         maxFishSize = Memory.ReadByte(0x21CE4424);                    
@@ -1713,7 +1709,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine("Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
                                 }
                                 else
                                 {
@@ -1736,7 +1732,7 @@ namespace Dark_Cloud_Improved_Version
                         if (Memory.ReadByte(currentAddress) == 255 && fishCaught[i] == false && Memory.ReadByte(0x202A26E8) == 12)
                         {
                             fishCaught[i] = true;
-                            Console.WriteLine("Fish caught -> ID: " + fishArray[i]);
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fish caught -> ID: " + fishArray[i]);
                             FishAcquiredFlag(fishArray[i]);
 
                             if (fishingQuestPaoActive)
@@ -1745,7 +1741,7 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     if (fishArray[i] == Memory.ReadByte(0x21CE4421))
                                     {
-                                        Console.WriteLine("Quest progress +1!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
 
                                         byte fishleft = Memory.ReadByte(0x21CE4422);
                                         fishleft--;
@@ -1753,7 +1749,7 @@ namespace Dark_Cloud_Improved_Version
 
                                         if (fishleft == 0)
                                         {
-                                            Console.WriteLine("Quest complete!!");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                             Memory.WriteByte(0x21CE441E, 2);
                                             fishingQuestPaoActive = false;
                                         }
@@ -1769,7 +1765,7 @@ namespace Dark_Cloud_Improved_Version
 
                                     if (minFishSize <= fishSizeInt && maxFishSize >= fishSizeInt)
                                     {
-                                        Console.WriteLine("Quest complete!!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                         Memory.WriteByte(0x21CE441E, 2);
                                         fishingQuestPaoActive = false;
                                     }
@@ -1790,14 +1786,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
                     if (Memory.ReadByte(0x21CE4427) == 1)
                     {
                         fishingQuestSamActive = true;
-                        Console.WriteLine("Currently on Sams quest");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currently on Sams quest");
 
                         minFishSize = Memory.ReadByte(0x21CE442C);
                         maxFishSize = Memory.ReadByte(0x21CE442D);                      
@@ -1820,7 +1816,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine("Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
                                 }
                                 else
                                 {
@@ -1843,7 +1839,7 @@ namespace Dark_Cloud_Improved_Version
                         if (Memory.ReadByte(currentAddress) == 255 && fishCaught[i] == false && Memory.ReadByte(0x202A26E8) == 12)
                         {
                             fishCaught[i] = true;
-                            Console.WriteLine("Fish caught -> ID: " + fishArray[i]);
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fish caught -> ID: " + fishArray[i]);
                             FishAcquiredFlag(fishArray[i]);
 
                             if (fishingQuestSamActive)
@@ -1852,7 +1848,7 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     if (fishArray[i] == Memory.ReadByte(0x21CE442A)) //check if caught fish matches quest fish ID
                                     {
-                                        Console.WriteLine("Quest progress +1!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
 
                                         byte fishleft = Memory.ReadByte(0x21CE442B);
                                         fishleft--;
@@ -1860,7 +1856,7 @@ namespace Dark_Cloud_Improved_Version
 
                                         if (fishleft == 0)
                                         {
-                                            Console.WriteLine("Quest complete!!");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                             Memory.WriteByte(0x21CE4427, 2);
                                             fishingQuestSamActive = false;
                                             byte questsDone = Memory.ReadByte(0x21CE442F);
@@ -1882,7 +1878,7 @@ namespace Dark_Cloud_Improved_Version
 
                                     if (minFishSize <= fishSizeInt && maxFishSize >= fishSizeInt)
                                     {
-                                        Console.WriteLine("Quest complete!!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                         Memory.WriteByte(0x21CE4427, 2);
                                         fishingQuestSamActive = false;
                                         byte questsDone = Memory.ReadByte(0x21CE442F);
@@ -1914,14 +1910,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine("fish " + i + " ID: " + fishArray[i]);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
                     if (Memory.ReadByte(0x21CE4431) == 1)
                     {
                         fishingQuestDeviaActive = true;
-                        Console.WriteLine("Currently on Devias quest");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currently on Devias quest");
 
                         minFishSize = Memory.ReadByte(0x21CE4436);
                         maxFishSize = Memory.ReadByte(0x21CE4437);                      
@@ -1944,7 +1940,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine("Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
                                 }
                                 else
                                 {
@@ -1968,7 +1964,7 @@ namespace Dark_Cloud_Improved_Version
                         if (Memory.ReadByte(currentAddress) == 255 && fishCaught[i] == false && Memory.ReadByte(0x202A26E8) == 12)
                         {
                             fishCaught[i] = true;
-                            Console.WriteLine("Fish caught -> ID: " + fishArray[i]);
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fish caught -> ID: " + fishArray[i]);
                             FishAcquiredFlag(fishArray[i]);
 
                             if (fishingQuestDeviaActive)
@@ -1977,7 +1973,7 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     if (fishArray[i] == Memory.ReadByte(0x21CE4434)) //check if caught fish matches quest fish ID
                                     {
-                                        Console.WriteLine("Quest progress +1!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest progress +1!");
 
                                         byte fishleft = Memory.ReadByte(0x21CE4435);
                                         fishleft--;
@@ -1985,7 +1981,7 @@ namespace Dark_Cloud_Improved_Version
 
                                         if (fishleft == 0)
                                         {
-                                            Console.WriteLine("Quest complete!!");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                             Memory.WriteByte(0x21CE4431, 2);
                                             fishingQuestDeviaActive = false;
                                         }
@@ -2001,7 +1997,7 @@ namespace Dark_Cloud_Improved_Version
 
                                     if (minFishSize <= fishSizeInt && maxFishSize >= fishSizeInt)
                                     {
-                                        Console.WriteLine("Quest complete!!");
+                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Quest complete!!");
                                         Memory.WriteByte(0x21CE4431, 2);
                                         fishingQuestDeviaActive = false;
                                     }
@@ -2034,19 +2030,19 @@ namespace Dark_Cloud_Improved_Version
             {
                 hasMardanSword = true;
                 mardanMultiplier = 2;
-                Console.WriteLine("Player has Mardan Eins");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Mardan Eins");
             }
             else if (currentwepID == 279)
             {
                 hasMardanSword = true;
                 mardanMultiplier = 3;
-                Console.WriteLine("Player has Mardan Twei");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Mardan Twei");
             }
             else if (currentwepID == 280)
             {
                 hasMardanSword = true;
                 mardanMultiplier = 5;
-                Console.WriteLine("Player has Arise Mardan");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Arise Mardan");
             }
             else
             {
@@ -2060,7 +2056,7 @@ namespace Dark_Cloud_Improved_Version
             successful = Memory.VirtualProtectEx(Memory.processH, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
 
             if (successful == false) //There was an error
-                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
             Memory.Write(Addresses.chrConfigFileOffset, BitConverter.GetBytes(608545264)); //this changes the offset value in game's code to make it read the file in right location
 

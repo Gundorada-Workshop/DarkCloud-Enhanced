@@ -30,11 +30,8 @@ namespace Dark_Cloud_Improved_Version
         public const int dunCameraPerspective = 0x202A35EC; //0 = Normal
                                                             //10 = FPS
                                                             //155 = Static
-
         public const int Ultraman = 0x21D564B0;
-
         public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
-
         public const int animationId = 0x21DC448C;
 
         public static int CurrentCharacterNum()
@@ -83,12 +80,12 @@ namespace Dark_Cloud_Improved_Version
             get
             {
                 ushort value = Memory.ReadUShort(gilda);
-                Console.WriteLine("Player has " + value + " Gilda");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has " + value + " Gilda");
                 return value;
             }
             set
             {
-                Console.WriteLine("Player's Gilda was set to: " + value);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player's Gilda was set to: " + value);
                 Memory.WriteUShort(gilda, value);
             }
         }
@@ -279,13 +276,13 @@ namespace Dark_Cloud_Improved_Version
                                 Memory.WriteUShort(Addresses.activeItem3Quantity, (ushort)quantity);
                                 break;
                             default:
-                                Console.WriteLine("\nSetActiveItems: Arguments out of range!");
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nSetActiveItems: Arguments out of range!");
                                 break;
                         }
                     }
-                    catch { Console.WriteLine("\nInvalid inputs for SetActiveItem!"); };
+                    catch { Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nInvalid inputs for SetActiveItem!"); };
                 }
-                else Console.WriteLine("\nBag inventory is full!");
+                else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nBag inventory is full!");
             }
 
             public static int[] GetBagItems()
@@ -295,8 +292,8 @@ namespace Dark_Cloud_Improved_Version
                 byte inventorySize = Memory.ReadByte(inventoryTotalSize);
                 int[] inventoryItems = new int[inventorySize + 2]; //The 2 is to account for 2 extra yellow item slots
 
-                //Run through the inventory bag
-                for (int slot = 0; slot < inventorySize; slot++)
+                //Run through the inventory bag (+ 2 is to reserve 2 yellow slots)
+                for (int slot = 0; slot < inventorySize + 2; slot++)
                 {
                     //Read the current item ID
                     int itemId = Memory.ReadUShort(Addresses.firstBagItem + (itemOffset * slot));
@@ -306,14 +303,15 @@ namespace Dark_Cloud_Improved_Version
                         inventoryItems[slot] = itemId;
                     } else inventoryItems[slot] = -1;
                 }
-                Console.WriteLine("\nFinished GetBagItems process!");
-                //foreach(int item in inventoryItems) Console.WriteLine(item);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished GetBagItems process!");
+                //foreach(int item in inventoryItems) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + item);
                 return inventoryItems;
             }
 
             public static int GetBagItemsFirstAvailableSlot()
             {
                 int slot = 0;
+                int counter = GetActiveItemsQuantity();
                 int[] inventoryBag = GetBagItems();
 
                 foreach (int item in inventoryBag)
@@ -321,8 +319,9 @@ namespace Dark_Cloud_Improved_Version
                     //Run until it find an empty slot and return the slot number if found
                     if (item == -1)
                     {
-                        //Console.WriteLine("\nFinished GetBagItemsFirstAvailableSlot process: " + slot);
-                        return slot;
+                        if(counter == 0) return slot;
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished GetBagItemsFirstAvailableSlot process: " + slot);
+                        counter--;
                     }
                     slot++;
                 }
@@ -343,9 +342,9 @@ namespace Dark_Cloud_Improved_Version
                 catch
                 {
                     if (slot > inventoryTotalSize && itemId >= Items.dummy129 || itemId <= Items.dummy256) SetBagItems(GetBagItemsFirstAvailableSlot(), itemId);
-                    else Console.WriteLine("\nInvalid inputs for SetBagItems");
+                    else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nInvalid inputs for SetBagItems");
                 }
-                Console.WriteLine("\nFinished SetBagItems process!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished SetBagItems process!");
             }
 
             public static int[] GetBagWeapons(int character = -1)
@@ -374,7 +373,7 @@ namespace Dark_Cloud_Improved_Version
                 //Initialize the array
                 int[] inventoryWeapons = new int[inventorySize];
 
-                Console.WriteLine("GetBagWeapons for character " + GetCharacterName(character) + " process started!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetBagWeapons for character " + GetCharacterName(character) + " process started!");
 
                 //Run through the weapons bag
                 while (slot <= maxslot)
@@ -384,14 +383,14 @@ namespace Dark_Cloud_Improved_Version
                         //Print the slots and skip the empty gaps between characters while printing their respecting name
                         switch (slot)
                         {
-                            case 10: Console.WriteLine("Xiao:"); slot++; continue;
-                            case 21: Console.WriteLine("Goro:"); slot++; continue;
-                            case 32: Console.WriteLine("Ruby:"); slot++; continue;
-                            case 43: Console.WriteLine("Ungaga:"); slot++; continue;
-                            case 54: Console.WriteLine("Osmond:"); slot++; continue;
+                            case 10: Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Xiao:"); slot++; continue;
+                            case 21: Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Goro:"); slot++; continue;
+                            case 32: Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Ruby:"); slot++; continue;
+                            case 43: Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Ungaga:"); slot++; continue;
+                            case 54: Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Osmond:"); slot++; continue;
                         }
                     }
-                    else if (character != -1 && slot == 0) Console.WriteLine(GetCharacterName(character) + ":");
+                    else if (character != -1 && slot == 0) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetCharacterName(character) + ":");
 
                     //Store the weapon ID
                     int weaponId = Memory.ReadUShort(Addresses.firstBagWeapon + (weaponOffset * slot) + (characterWeaponOffset * character));
@@ -401,24 +400,24 @@ namespace Dark_Cloud_Improved_Version
                     {
                         //Store the weapon ID
                         inventoryWeapons[slot] = weaponId;
-                        Console.WriteLine("Slot: " + slot + " WeaponID: " + weaponId);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " WeaponID: " + weaponId);
                     }
                     //Store "empty" if no weapon is found
                     else
                     {
                         inventoryWeapons[slot] = -1;
-                        Console.WriteLine("Slot: " + slot + " WeaponID: -1");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " WeaponID: -1");
                     }
 
                     slot++;
                 }
 
                 /* Debug logs
-                Console.WriteLine("\nFinished GetBagWeapons process:");
-                foreach (int weapon in inventoryWeapons) Console.WriteLine(weapon);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished GetBagWeapons process:");
+                foreach (int weapon in inventoryWeapons) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + weapon);
                 */
 
-                Console.WriteLine("GetBagWeapons for character " + GetCharacterName(character) + " process finished!\n");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetBagWeapons for character " + GetCharacterName(character) + " process finished!\n");
 
                 //When returning the full weapons inventory (no character specified)
                 //there will be a 0 value inbetween every character weapon set due to
@@ -431,20 +430,20 @@ namespace Dark_Cloud_Improved_Version
                 int slot = 0;
                 int[] weaponsBag = GetBagWeapons(character);
 
-                //Console.WriteLine("Started GetBagWeaponsFirstAvailableSlot process!");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Started GetBagWeaponsFirstAvailableSlot process!");
 
                 foreach (int item in weaponsBag)
                 {
                     //Run until you find an empty slot and return the slot number if found
                     if (item == -1)
                     {
-                        Console.WriteLine("Finished GetBagWeaponsFirstAvailableSlot process:\n" + slot + "\n");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished GetBagWeaponsFirstAvailableSlot process:\n" + slot + "\n");
                         return slot;
                     }
                     slot++;
                 }
 
-                //Console.WriteLine("Finished GetBagWeaponsFirstAvailableSlot process:\nNo empty slot found!\n");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished GetBagWeaponsFirstAvailableSlot process:\nNo empty slot found!\n");
 
                 //Return -1 if no empty slot was found
                 return -1;
@@ -481,27 +480,27 @@ namespace Dark_Cloud_Improved_Version
                     }
                     else
                     {
-                        Console.WriteLine("Slot is not empty!\n Retrying...\n");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot is not empty!\n Retrying...\n");
                         slot = GetBagWeaponsFirstAvailableSlot(owner);
                         if (slot > -1)
                         {
                             SetBagWeapons(weaponId, slot);
                         }
-                        else Console.WriteLine("Inventory is full!\n");
+                        else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Inventory is full!\n");
                     }
                 }
                 catch
                 {
                     //If the provided slot is out of bounds, retry again by using the next available free slot
-                    Console.WriteLine("Invalid slot input for SetBagWeapons! Revoking function passing slot as GetBagWeaponsFirstAvailableSlot!\n");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Invalid slot input for SetBagWeapons! Revoking function passing slot as GetBagWeaponsFirstAvailableSlot!\n");
                     SetBagWeapons(weaponId, GetBagWeaponsFirstAvailableSlot(owner));
                 }
 
                 //Debug
-                Console.WriteLine("Table weapon ID: " + Memory.ReadByte(tableDaggerFirstAddress + (tableWeaponOffset * (weaponId - Items.dagger))));
-                Console.WriteLine("Weapon Bag Slot: " + Memory.ReadByte(Addresses.firstBagWeapon + (chararacterOffSet * owner) + (weaponBagOffset * slot)));
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Table weapon ID: " + Memory.ReadByte(tableDaggerFirstAddress + (tableWeaponOffset * (weaponId - Items.dagger))));
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Bag Slot: " + Memory.ReadByte(Addresses.firstBagWeapon + (chararacterOffSet * owner) + (weaponBagOffset * slot)));
 
-                Console.WriteLine("\nFinished SetBagWeapons process!\n");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished SetBagWeapons process!\n");
             }*/
 
             public static int[] GetBagAttachments()
@@ -511,10 +510,10 @@ namespace Dark_Cloud_Improved_Version
                 byte inventorySize = inventorySizeAttachments;
                 int[] inventoryAttachments = new int[inventorySize + 2];
 
-                //Console.WriteLine("GetBagAttachments process started!\n");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetBagAttachments process started!\n");
 
                 //Run through the attachment bag
-                for (int slot = 0; slot < inventorySize; slot++)
+                for (int slot = 0; slot < inventorySize + 2; slot++)
                 {
                     //Store the attachment ID
                     int itemId = Memory.ReadUShort(Addresses.firstBagAttachment + (itemOffset * slot));
@@ -523,16 +522,16 @@ namespace Dark_Cloud_Improved_Version
                     if (itemId >= Items.fire && itemId <= 1000)
                     {
                         inventoryAttachments[slot] = itemId;
-                        //Console.WriteLine("Slot: " + slot + " AttachmentID: " + itemId);
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " AttachmentID: " + itemId);
                     }
                     else
                     {
                         inventoryAttachments[slot] = -1;
-                        //Console.WriteLine("Slot: " + slot + " AttachmentID: -1");
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " AttachmentID: -1");
                     }
                 }
 
-                //Console.WriteLine("\nGetBagAttachments process finished!\n");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nGetBagAttachments process finished!\n");
                 return inventoryAttachments;
             }
 
@@ -541,21 +540,21 @@ namespace Dark_Cloud_Improved_Version
                 int slot = 0;
                 int[] attachmentBag = GetBagAttachments();
 
-                //Console.WriteLine("GetBagAttachmentsFirstAvailableSlot process started!\n");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetBagAttachmentsFirstAvailableSlot process started!\n");
 
                 //Run until you find an empty slot and return the slot number if found
                 foreach (int item in attachmentBag)
                 {
                     if (item == -1)
                     {
-                        //Console.WriteLine("Finished GetBagAttachmentsFirstAvailableSlot process:\nSlot " + slot + "\n");
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished GetBagAttachmentsFirstAvailableSlot process:\nSlot " + slot + "\n");
                         return slot;
                     }
                     slot++;
                 }
 
                 //Return -1 if no empty slot was found
-                //Console.WriteLine("Attachment bag is full!\n");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Attachment bag is full!\n");
                 return -1;
             }
 
@@ -580,10 +579,10 @@ namespace Dark_Cloud_Improved_Version
                         catch
                         {
                             if (slot > inventoryTotalSize && (attachmentId >= Items.fire && attachmentId <= Items.mageslayer)) SetBagAttachments(attachmentId, GetBagAttachmentsFirstAvailableSlot());
-                            else Console.WriteLine("Invalid inputs for SetBagAttachments\n");
+                            else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Invalid inputs for SetBagAttachments\n");
                         }
                     }
-                    else Console.WriteLine("Attachment bag is full!\n");
+                    else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Attachment bag is full!\n");
                 }
                 else
                 {
@@ -591,7 +590,7 @@ namespace Dark_Cloud_Improved_Version
                     return;
                 }
 
-                Console.WriteLine("Finished SetBagAttachments process!\n");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished SetBagAttachments process!\n");
             }
         }
 

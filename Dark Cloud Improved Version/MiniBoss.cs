@@ -43,14 +43,14 @@ namespace Dark_Cloud_Improved_Version
         public static bool MiniBossSpawn(bool skipFirstRoll = false, byte dungeon = 255, byte floor = 255)
         {
             //Rolls for a 30% chance to spawn the miniboss
-            if (rnd.Next(100) <= 100 || skipFirstRoll)
+            if (rnd.Next(100) <= 30 || skipFirstRoll)
             {
                 //Choose the enemy to convert into mini boss
                 int enemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count);
-                //Console.WriteLine("\nEnemyNumber rolled before flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nEnemyNumber rolled before flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
 
-                Console.WriteLine("\n== Enemy IDs ==");
-                foreach (ushort enemy in Enemies.GetFloorEnemiesIds()) Console.WriteLine(enemy);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\n== Enemy IDs ==");
+                foreach (ushort enemy in Enemies.GetFloorEnemiesIds()) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + enemy);
 
                 //Check if the chosen enemy has an ID
                 if (Enemies.GetFloorEnemyId(enemyNumber) > 0)
@@ -58,12 +58,12 @@ namespace Dark_Cloud_Improved_Version
                     //Check if chosen enemy is flying type
                     if (!nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)))
                     {
-                        Console.WriteLine("[" + DateTime.Now + "]" + " " + "\nEnemyNumber rolled after flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss ID: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nEnemyNumber rolled after flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss ID: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
 
                         //Check if chosen enemy has the key
                         if (Enemies.EnemyHasKey(enemyNumber, dungeon))
                         {
-                            Console.WriteLine("[" + DateTime.Now + "]" + " " + "\nThe Key has landed on the mini boss!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nThe Key has landed on the mini boss!");
 
                             int newEnemyNumber;
 
@@ -108,18 +108,18 @@ namespace Dark_Cloud_Improved_Version
                         if (rnd.Next(100) < 50)
                         {
                             //Fetch the backfloor key
-                            byte backFloorKey = DungeonThread.GetDungeonBackFloorKey(dungeon);
+                            byte backFloorKey = Dungeon.GetDungeonBackFloorKey(dungeon);
 
                             //Set the miniboss item as the backfloor key
                             Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), backFloorKey);
-                            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Miniboss rolled with backfloor key!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Miniboss rolled with backfloor key!");
                         }
                         //If backfloor key roll fails, roll for weapon
                         else if (rnd.Next(100) < 15)
                         {
                             //Fetch a random weapon from the current dungeon and floor table
                             Memory.WriteInt(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), weaponTable[rnd.Next(weaponTable.Count())]);
-                            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Miniboss rolled with weapon!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Miniboss rolled with weapon!");
                         }
                         //If weapon roll fails, roll for attachments
                         else if (rnd.Next(100) < 50)
@@ -127,25 +127,25 @@ namespace Dark_Cloud_Improved_Version
                             //Roll for lucky
                             if (rnd.Next(100) < 30) Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), attachmentsTableLucky[rnd.Next(attachmentsTableLucky.Count())]);
                             else Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), attachmentsTableUnlucky[rnd.Next(attachmentsTableUnlucky.Count())]);
-                            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Miniboss rolled with attachment!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Miniboss rolled with attachment!");
                         }
                         else //If previous rolls fail, default to items
                         {
                             //Roll for lucky
                             if (rnd.Next(100) < 30) Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), itemTableLucky[rnd.Next(itemTableLucky.Count())]);
                             else Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), itemTableUnlucky[rnd.Next(itemTableUnlucky.Count())]);
-                            Console.WriteLine("[" + DateTime.Now + "]" + " " + "Miniboss rolled with item!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Miniboss rolled with item!");
                         }
 
                         return true; 
                     }
                     //Retry if landing on a flying enemy
-                    else { Console.WriteLine("[" + DateTime.Now + "]" + " " + " Miniboss landed on flying enemy!"); MiniBossSpawn(true, dungeon, floor); return true; }
+                    else { Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + " Miniboss landed on flying enemy!"); MiniBossSpawn(true, dungeon, floor); return true; }
                 }
                 //Retry if landing on a enemy with ID 0
-                else { Console.WriteLine("[" + DateTime.Now + "]" + " " + "Chosen enemy ID must not be 0!"); MiniBossSpawn(true, dungeon, floor); return true; }
+                else { Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Chosen enemy ID must not be 0!"); MiniBossSpawn(true, dungeon, floor); return true; }
             }
-            else Console.WriteLine("[" + DateTime.Now + "]" + " " + "Failed to roll for Mini Boss!");
+            else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Failed to roll for Mini Boss!");
 
             return false;
         }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using System.Timers;
-using System.Windows.Forms;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -151,7 +148,7 @@ namespace Dark_Cloud_Improved_Version
                     inputs.RemoveAt(0);
                 }
                 inputs.Add(button);
-                Console.WriteLine("Button: " + button + " added to List");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Button: " + button + " added to List");
 
 
                 /*if (index < inputBuffer.Length - 1)
@@ -185,14 +182,14 @@ namespace Dark_Cloud_Improved_Version
             {
                 if (toggle == true)
                 {
-                    Console.WriteLine("God mode activated");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "God mode activated");
                     Dayuppy.DisplayMessage("^BCheater!!\n God Mode activated!^W", 2, 30, 3000);
                     Memory.WriteByte(Player.Ultraman, 2);
                 }
 
                 else
                 {
-                    Console.WriteLine("God mode de-activated");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "God mode de-activated");
                     Dayuppy.DisplayMessage("^RCheat De-Activated: God Mode");
                     Memory.WriteByte(Player.Ultraman, 0);
                 }
@@ -200,38 +197,38 @@ namespace Dark_Cloud_Improved_Version
 
             private static void SpawnBrokenDagger()
             {
-                Console.WriteLine("Cheat: Broken Dagger");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cheat: Broken Dagger");
                 Dayuppy.DisplayMessage("^BCheater!!\n Broken Dagger acquired!^W", 2, 30, 3000);
-                Memory.WriteByteArray(Addresses.firstBagAttachment + (0x20 * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+                if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() != -1) Memory.WriteByteArray(Addresses.firstBagAttachment + (0x20 * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
             }
 
             private static void SpawnPowerupPowders()
             {
-                Console.WriteLine("Cheat: Powerup Powders");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cheat: Powerup Powders");
                 Dayuppy.DisplayMessage("^BCheater!!\n Acquired 10 Powerup Powders!!^W", 2, 30, 3000);
                 for (int i = 0; i < 10; i++)
                 {
-                    Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), 178);
+                    if(Player.Inventory.GetBagItemsFirstAvailableSlot() != -1) Memory.WriteUShort(Addresses.firstBagItem + (0x2 * Player.Inventory.GetBagItemsFirstAvailableSlot()), 178);
                 }
             }
 
             private static void GiveMaxGilda()
             {
-                Console.WriteLine("Cheat: Max Gilda");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cheat: Max Gilda");
                 Dayuppy.DisplayMessage("^BCheater!!\n Acquired Max Gilda!^W", 2, 30, 3000);
                 Memory.WriteUShort(Addresses.gilda, 65535);
             }
 
             private static void DebugMenusFirstPart()
             {
-                Console.WriteLine("Cheat: Debug Menus Part 1");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cheat: Debug Menus Part 1");
                 Dayuppy.DisplayMessage("^BWhat are you doing?^W", 1, 20, 2500);
                 firstDebugCheatActive = true;
             }
 
             private static void UnlockDebugMenus()
             {
-                Console.WriteLine("Cheat: Debug Menus Unlocked");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cheat: Debug Menus Unlocked");
                 Dayuppy.DisplayMessage("^BCheater!!\n Debug Menus Unlocked!\n Have fun and be careful not to crash the game!^W", 3, 50, 5500);
 
                 if (!debugThread.IsAlive)
@@ -265,7 +262,7 @@ namespace Dark_Cloud_Improved_Version
                         break;
                 }
 
-                Console.WriteLine("Cheat: Unlock Floors");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cheat: Unlock Floors");
                 Dayuppy.DisplayMessage("^BCheater!!\n Unlocked all floors in this dungeon!^W", 2, 40, 3500);
             }
 

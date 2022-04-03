@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+
 namespace Dark_Cloud_Improved_Version
 {
-
     class Enemies
     {
         public const int offset = 0x190;        //Offset between floor enemies
@@ -154,7 +154,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static bool EnemyHasKey(int enemyNumber, byte dungeon)
         {
-            return DungeonThread.GetDungeonGateKey(dungeon).Contains(Memory.ReadByte(Enemy0.forceItemDrop + (offset * enemyNumber)));
+            return Dungeon.GetDungeonGateKey(dungeon).Contains(Memory.ReadByte(Enemy0.forceItemDrop + (offset * enemyNumber)));
         }
 
         internal class EnemyList

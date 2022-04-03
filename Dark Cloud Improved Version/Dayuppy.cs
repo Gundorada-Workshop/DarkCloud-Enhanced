@@ -111,7 +111,7 @@ namespace Dark_Cloud_Improved_Version
             for (int i = 0; i < filteredLootTable.Length; i++)
             {
                 filteredLootTable[i] = BitConverter.ToInt32(lootTable, t); //Parse the byte arrays and store the int values
-                //Console.WriteLine(Items.ItemNameTbl[filteredLootTable[i]]);
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Items.ItemNameTbl[filteredLootTable[i]]);
                 t += 4;
             }
 
@@ -120,7 +120,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void EnemyDropRandomizer()
         {
-            Console.WriteLine("Day's test monster drop randomizer is running...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Day's test monster drop randomizer is running...");
             int randomItem = 0;
 
             int currentAddress;
@@ -245,7 +245,7 @@ namespace Dark_Cloud_Improved_Version
                                 Memory.Write(currentAddress, BitConverter.GetBytes(randomItem));
                                 currentAddress += 0x190;
 
-                                Console.WriteLine("Gave monster " + i + " item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Gave monster " + i + " item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                             }
                             else
                                 currentAddress += 0x190;
@@ -260,7 +260,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void DayChestRandomizer()
         {
-            Console.WriteLine("Day's test chest randomizer is running...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Day's test chest randomizer is running...");
             int randomItem = 0;
 
             int currentAddress, checkItemID, firstChestItem, chestSize;
@@ -363,7 +363,6 @@ namespace Dark_Cloud_Improved_Version
 
                     if (currentFloor != prevFloor)  //checking if player has entered a new floor
                     {
-                        Console.WriteLine();
                         Thread.Sleep(2000); //2 seconds, waiting for game to roll chests first before we change them
 
                         firstChestItem = Memory.ReadByte(Addresses.firstChest); ;
@@ -396,7 +395,7 @@ namespace Dark_Cloud_Improved_Version
                                     attempts++;
                                 }
 
-                                Console.WriteLine("Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
 
                                 Memory.Write(Addresses.firstChest, BitConverter.GetBytes(randomItem));
                             }
@@ -424,7 +423,7 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                                 }
                                 else    //if rolled for weapon
                                 {
@@ -442,7 +441,7 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 0);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                                 }
                             }
                             else
@@ -471,7 +470,7 @@ namespace Dark_Cloud_Improved_Version
                                     Memory.WriteByte(currentAddress, 1);
                                     currentAddress += 0x00000038;
 
-                                    Console.WriteLine("Spawned backfloor item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned backfloor item:" + randomItem + "\tName: " + Items.ItemNameTbl[randomItem]);
                                 }
                                 else
                                 {
@@ -677,7 +676,7 @@ namespace Dark_Cloud_Improved_Version
                                                     {
                                                         elemTextureHoly = Memory.ReadByteArray(0x217FD840, elemTextureHoly.Length);
                                                         elemChanged = true;
-                                                        Console.WriteLine("Element stored");
+                                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Element stored");
                                                         File.WriteAllBytes(@"c:\DC1Elements\holy.txt", elemTextureHoly);
                                                         //var elementFile = Properties.Resources.thunder;
                                                         //string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -688,7 +687,7 @@ namespace Dark_Cloud_Improved_Version
                                                     else if (elemChanged == true)
                                                     {
                                                         Memory.WriteByteArray(0x217FD840, elemTextureHoly);
-                                                        Console.WriteLine("Element written");
+                                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Element written");
                                                     }
                                                     */
                                                     Memory.WriteByte(0x21F10018, 1);
@@ -740,31 +739,31 @@ namespace Dark_Cloud_Improved_Version
                 case 0:
                     bytes = Resources.rubyFireTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    //Console.WriteLine("Wrote fire texture");
+                    //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Wrote fire texture");
 
                     break;
                 case 1:
                     bytes = Resources.rubyIceTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    //Console.WriteLine("Wrote ice texture");
+                    //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Wrote ice texture");
 
                     break;
                 case 2:
                     bytes = Resources.rubyThunderTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    //Console.WriteLine("Wrote thunder texture");
+                    //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Wrote thunder texture");
 
                     break;
                 case 3:
                     bytes = Resources.rubyWindTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    //Console.WriteLine("Wrote wind texture");
+                    //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Wrote wind texture");
 
                     break;
                 case 4:
                     bytes = Resources.rubyHolyTex;
                     Memory.WriteByteArray(addressPointer, bytes);
-                    //Console.WriteLine("Wrote holy texture");
+                    //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Wrote holy texture");
 
                     break;
             }
@@ -1019,10 +1018,10 @@ namespace Dark_Cloud_Improved_Version
 
         public static void CallGameFunction(byte[] function) // functionBGMStop
         {
-            Console.WriteLine("Function address to write: {0:X}", Addresses.functionEntryPoint);
-            Console.WriteLine("Current Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
-            Console.WriteLine("Function to write: " + BitConverter.ToString(Addresses.functionOverride));
-            Console.WriteLine("Attempting to write function value. ");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Function address to write: {0:X}", Addresses.functionEntryPoint);
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Current Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Function to write: " + BitConverter.ToString(Addresses.functionOverride));
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Attempting to write function value. ");
 
             byte[] function2OriginalOpcode = Memory.ReadByteArray(Addresses.functionEntryPoint2, 4);
 
@@ -1038,12 +1037,12 @@ namespace Dark_Cloud_Improved_Version
             successful = Memory.VirtualProtectEx(Memory.processH, 0x201B6A0C, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             
             if (successful == false) //There was an error
-                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
             successful = Memory.VirtualProtectEx(Memory.processH, 0x201B6A14, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
 
             if (successful == false) //There was an error
-                Console.WriteLine(Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
             Memory.WriteInt(0x201B6A0C, 0);
             Memory.WriteInt(0x201B6A14, 0);
@@ -1057,7 +1056,7 @@ namespace Dark_Cloud_Improved_Version
             for (int i = 0; i < filteredLootTable.Length; i++) //Increment by 4
             {
                 filteredLootTable[i] = BitConverter.ToInt32(table, t); //Parse the byte arrays and store the int values
-                Console.WriteLine(Items.ItemNameTbl[filteredLootTable[i]]);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Items.ItemNameTbl[filteredLootTable[i]]);
                 t += 4;
             }
         }
@@ -1095,34 +1094,34 @@ namespace Dark_Cloud_Improved_Version
             Specials1 special1 = (Specials1)Memory.ReadByte(Player.Toan.WeaponSlot0.special1); //Pull our value from the memory and cast it to our enumerated Specials type
             
             if (special1.HasFlag(Specials1.Unknown))
-                Console.WriteLine("Weapon Slot 0 has Unknown Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has Unknown Ability");
 
             if (special1.HasFlag(Specials1.BigBucks))
-                Console.WriteLine("Weapon Slot 0 has BigBucks Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has BigBucks Ability");
 
             if (special1.HasFlag(Specials1.Poor))
-                Console.WriteLine("Weapon Slot 0 has Poor Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has Poor Ability");
 
             if (special1.HasFlag(Specials1.Quench))
-                Console.WriteLine("Weapon Slot 0 has Quench Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has Quench Ability");
 
             if (special1.HasFlag(Specials1.Thirst))
-                Console.WriteLine("Weapon Slot 0 has Thirst Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has Thirst Ability");
 
             if (special1.HasFlag(Specials1.Poison))
-                Console.WriteLine("Weapon Slot 0 has Poison Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has Poison Ability");
 
             if (special1.HasFlag(Specials1.Stop))
-                Console.WriteLine("Weapon Slot 0 has Stop Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has Stop Ability");
 
             if (special1.HasFlag(Specials1.Steal))
-                Console.WriteLine("Weapon Slot 0 has Steal Ability");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Slot 0 has Steal Ability");
         }
 
         static void TestBitField(Specials1 special1, Specials2 special2)
         {
-            Console.WriteLine(special1 + " " + (byte)special1);
-            Console.WriteLine(special2 + " " + (byte)special2);
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + special1 + " " + (byte)special1);
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + special2 + " " + (byte)special2);
         }
 
         public static void retrieveMemTextures()
@@ -1132,7 +1131,7 @@ namespace Dark_Cloud_Improved_Version
             int size;
             int resultIndex;
 
-            Console.WriteLine("Retreiving and writing textures from memory to disk. This may take some time...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Retreiving and writing textures from memory to disk. This may take some time...");
 
             List<int> results = Memory.ByteArraySearch(0x20B69600, 0x2191F530, TIM2_Header);
 
@@ -1153,7 +1152,7 @@ namespace Dark_Cloud_Improved_Version
 
             File.WriteAllBytes("memtextures\\MemTexture" + (resultIndex).ToString() + ".tm2", texture);
 
-            Console.WriteLine("Finished writing textures to disk.");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished writing textures to disk.");
         } 
 
         public static void Testing()
@@ -1165,27 +1164,27 @@ namespace Dark_Cloud_Improved_Version
             //List<int> results = Memory.StringSearch(0x20000000, 0x22000000, "TIM2");
 
             //for (int i = 0; i < results.Count; i++)
-            //    Console.WriteLine("0x{0:X8}", results[i]);
+            //    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "0x{0:X8}", results[i]);
 
             //byte[] TIM2_Header = new byte[] { 0x54, 0x49, 0x4D, 0x32, 0x03, 0x00, 0x01};
 
             //List<int> results = Memory.ByteArraySearch(0x20900000, 0x22000000, TIM2_Header);
 
             //for (int i = 0; i < results.Count; i++)
-            //    Console.WriteLine("0x{0:X8}", results[i]);
+            //    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "0x{0:X8}", results[i]);
 
             //Console.Clear();
-            //Console.WriteLine(Memory.ReadUShort(Addresses.buttonInputs1));
-            //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs1));
-            //Console.WriteLine(Memory.ReadByte(Addresses.buttonInputs2));
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.ReadUShort(Addresses.buttonInputs1));
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.ReadByte(Addresses.buttonInputs1));
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.ReadByte(Addresses.buttonInputs2));
             //Thread.Sleep(15);
-            //Console.WriteLine(GetRandomLoot(FilterLootTable(ItemTbl0)));
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetRandomLoot(FilterLootTable(ItemTbl0)));
             //Thread.Sleep(1000);
-            //Console.WriteLine(i);
-            //Console.WriteLine(Shop.ItemSlot0.item);
-            //Console.WriteLine(Shop.ItemSlot0.price);
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + i);
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Shop.ItemSlot0.item);
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Shop.ItemSlot0.price);
             //Thread.Sleep(1000);
-            //Console.WriteLine();
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + );
             //Shop.ItemSlot0.item++;
             //i++;
 
@@ -1229,7 +1228,7 @@ namespace Dark_Cloud_Improved_Version
             }
 
             //CallGameFunction(Addresses.functionBGMStop);
-            //Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
 
             while (1 == 1)
             {
@@ -1245,7 +1244,7 @@ namespace Dark_Cloud_Improved_Version
 
                 TimeSpan ts = stopWatch.Elapsed;
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10); //Format the TimeSpan value.
-                //Console.WriteLine("RunTime " + elapsedTime);
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "RunTime " + elapsedTime);
 
                 if (Memory.ReadUShort(Addresses.buttonInputs) == 128)  //If Square is pressed, activate BGMStop
                 {
@@ -1255,7 +1254,7 @@ namespace Dark_Cloud_Improved_Version
                         if (Player.InDungeonFloor() == true)
                         {
                             CallGameFunction(Addresses.functionBGMStop);
-                            Console.WriteLine("New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "New Function value: " + BitConverter.ToString(Memory.ReadByteArray(Addresses.functionEntryPoint, 4)));
                             TestElementFunctionStuff();
                             Memory.WriteByteArray(Addresses.dunMessageLastEnemyName, DisplayMessageProcess("Background music stopped.", 1, 36, 3000, false));
                         }
@@ -1309,7 +1308,7 @@ namespace Dark_Cloud_Improved_Version
                     ///Memory.WriteByteArray(textureAddress3, modifiedTexture3);
                 }
 
-                //Console.WriteLine("Input: " + Memory.ReadUShort(Addresses.buttonInputs));
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Input: " + Memory.ReadUShort(Addresses.buttonInputs));
                 //Thread.Sleep(10); //10ms
                 //Console.Clear();
             }

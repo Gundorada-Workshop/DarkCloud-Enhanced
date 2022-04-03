@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dark_Cloud_Improved_Version
 {
     public class SideQuestManager
     {
-
         static string[] dungeonNames = { "Divine Beast Cave", "Wise Owl Forest", "Shipwreck", "Sun & Moon Temple", "Moon Sea", "Gallery of Time", "Demon Shaft" };
         static string[] DBCEnemies = { "Master Jackets", "Dashers", "Mimics", "Dragons" };
         static string[] WOFEnemies = { "Fliflis", "Earth Diggers", "Mimics", "Werewolves" };
@@ -352,7 +347,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         int whichQuest = rnd.Next(100);
 
-                        if (whichQuest < 200)
+                        if (whichQuest < 50)
                         {
                             Memory.WriteOneByte(0x21CE4428, BitConverter.GetBytes(0));
                             GenerateFishingQuestOne();
@@ -452,7 +447,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         int whichQuest = rnd.Next(100);
 
-                        if (whichQuest > 500)
+                        if (whichQuest < 50)
                         {
                             Memory.WriteOneByte(0x21CE4432, BitConverter.GetBytes(0));
                             GenerateFishingQuestOne();
@@ -696,7 +691,7 @@ namespace Dark_Cloud_Improved_Version
 
                 if (Memory.ReadByte(0x21CE4406) == enemyID || Memory.ReadByte(0x21CE440B) == enemyID || Memory.ReadByte(0x21CE4410) == enemyID || Memory.ReadByte(0x21CE4415) == enemyID)
                 {
-                    Console.WriteLine("Duplicate quest, rerolling...");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() +  "Duplicate quest, rerolling...");
                     checkDuplicate = true;
                 }
                 else
@@ -706,8 +701,7 @@ namespace Dark_Cloud_Improved_Version
             }
 
             generatedMonsterQuestDungeon = dungeonNames[rolledDng];
-            //generatedEnemyKillsNeeded = rnd.Next(8, 21);
-            generatedEnemyKillsNeeded = rnd.Next(2, 4);
+            generatedEnemyKillsNeeded = rnd.Next(8, 19);
 
             Memory.WriteOneByte(currentAddressDungeonID, BitConverter.GetBytes(rolledDng));
             Memory.WriteOneByte(currentAddressEnemyName, BitConverter.GetBytes(rolledEnemy));
@@ -828,35 +822,35 @@ namespace Dark_Cloud_Improved_Version
             bool questActive = false;
             if (Memory.ReadByte(0x21CE4402) == 1)
             {
-                DungeonThread.monsterQuestMachoActive = true;
+                Dungeon.monsterQuestMachoActive = true;
                 questActive = true;
             }
             else
-                DungeonThread.monsterQuestMachoActive = false;
+                Dungeon.monsterQuestMachoActive = false;
 
             if (Memory.ReadByte(0x21CE4407) == 1)
             {
-                DungeonThread.monsterQuestGobActive = true;
+                Dungeon.monsterQuestGobActive = true;
                 questActive = true;
             }
             else
-                DungeonThread.monsterQuestGobActive = false;
+                Dungeon.monsterQuestGobActive = false;
 
             if (Memory.ReadByte(0x21CE440C) == 1)
             {
-                DungeonThread.monsterQuestJakeActive = true;
+                Dungeon.monsterQuestJakeActive = true;
                 questActive = true;
             }
             else
-                DungeonThread.monsterQuestJakeActive = false;
+                Dungeon.monsterQuestJakeActive = false;
 
             if (Memory.ReadByte(0x21CE4411) == 1)
             {
-                DungeonThread.monsterQuestChiefActive = true;
+                Dungeon.monsterQuestChiefActive = true;
                 questActive = true;
             }
             else
-                DungeonThread.monsterQuestChiefActive = false;
+                Dungeon.monsterQuestChiefActive = false;
 
 
             if (questActive)
@@ -1122,17 +1116,6 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteInt(currentAddress, currentFP);
         }
 
-        public static void GetRandomBackFloor(byte area)
-        {
-            switch (area)
-            {
-                case 0:
-                    rolledbackfloornumber = rnd.Next(0, DBCBackFloors.Length);
-                    backfloornumber = DBCBackFloors[rolledbackfloornumber] + 1;
-                    break;
-            }
-        }
-
         public static bool CheckItemQuestReward(byte itemID, bool checkinv = true, bool checkstorage = true)
         {
             int checkitemid;
@@ -1241,18 +1224,14 @@ namespace Dark_Cloud_Improved_Version
 
         public static string SetMayorSidequest()
         {
-            string dialogue = "";
-            int rollquest = rnd.Next(100);
-            if (rollquest < 100)
-            {
-                demonshaftfloor = rnd.Next(1, 100);
-                demonshaftally = rnd.Next(0, 6);
-                Memory.WriteOneByte(0x21CE4469, BitConverter.GetBytes(demonshaftfloor));
-                Memory.WriteOneByte(0x21CE446A, BitConverter.GetBytes(demonshaftally));
+            string dialogue;
 
-                dialogue = "Clear the backside of the floor " + demonshaftfloor + "^in Demon Shaft, using only " + alliesChar[demonshaftally] + ".¤You can buy backfloor keys from Fairy King.";
+            demonshaftfloor = rnd.Next(1, 100);
+            demonshaftally = rnd.Next(0, 6);
+            Memory.WriteOneByte(0x21CE4469, BitConverter.GetBytes(demonshaftfloor));
+            Memory.WriteOneByte(0x21CE446A, BitConverter.GetBytes(demonshaftally));
 
-            }
+            dialogue = "Clear the backside of the floor " + demonshaftfloor + "^in Demon Shaft, using only " + alliesChar[demonshaftally] + ".¤You can buy backfloor keys from Fairy King.";
 
             return dialogue;
         }
@@ -1305,7 +1284,7 @@ namespace Dark_Cloud_Improved_Version
 
             int rewardType = rnd.Next(300);
 
-            if (rewardType > 200)
+            if (rewardType >= 200)
             {
                 if (checkHPs)
                 {
@@ -1320,7 +1299,7 @@ namespace Dark_Cloud_Improved_Version
                     Thirstreward = true;
                 }
             }
-            else if (rewardType > 100)
+            else if (rewardType >= 100)
             {
                 if (checkDEFs)
                 {

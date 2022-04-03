@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -65,6 +63,7 @@ namespace Dark_Cloud_Improved_Version
             public const int damage = Orb0.damage + (offset * OrbMultiplier);
             public const int element = Orb0.element + (offset * OrbMultiplier);
         }
+
         public static List<int> GetRubyActiveOrbs()
         {
             //Create a list to store the IDs

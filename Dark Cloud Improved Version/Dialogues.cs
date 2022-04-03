@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -1276,10 +1273,10 @@ namespace Dark_Cloud_Improved_Version
             }
             else
             {
-                Console.WriteLine("Currentdialogue is null!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Currentdialogue is null!");
             }
 
-            Console.WriteLine("nearNPC");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "nearNPC");
         }
 
         public static void SetDefaultDialogue(int area)
@@ -1375,7 +1372,7 @@ namespace Dark_Cloud_Improved_Version
             currentAddress += 0x00000001;
             Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(255));
 
-            Console.WriteLine("nearNPC+SetDefaultDialogue");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "nearNPC+SetDefaultDialogue");
 
         }
 
@@ -1396,7 +1393,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentAddress = 0x20649364; //can I check for items? dialogue
                         dialogueOptions = "   Can I check in some items?^  Hello.^  How should I rebuild Norune?^  It´s finished!";
-                        Console.WriteLine("Entered hag's");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered hag's");
                         dialogueSet = true;
                     }
                     else if (Memory.ReadInt(0x202A2820) == -1) 
@@ -1409,7 +1406,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentAddress = 0x206492F6; //norune dialogueoptions after event finish
                         dialogueOptions = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";
-                        Console.WriteLine("Entered building (not hag's)");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered building (not hag's)");
                         dialogueSet = true;
                     }
                 }
@@ -1428,14 +1425,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentAddress = 0x2064938A; //can I check for items? dialogue
                         dialogueOptions = "  Can I check in some items?^  Hello.^  How should I rebuild Matataki Village?^  It´s finished!";
-                        Console.WriteLine("Entered couscous");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered couscous");
                         dialogueSet = true;
                     }
                     else
                     {
                         currentAddress = 0x20649306; //matataki dialogueoptions after event finish
                         dialogueOptions = "Hello.^  How should I rebuild Matataki Village?^  It´s finished!^  Do you have any sidequests?";
-                        Console.WriteLine("Entered building (not couscous)");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered building (not couscous)");
                         dialogueSet = true;
                     }
                 }
@@ -1454,14 +1451,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentAddress = 0x20649354; //can I check for items? dialogue
                         dialogueOptions = "  Can I check in some items?^  Hello.^  Any requests for rebuilding Queens?^  It´s finished!";
-                        Console.WriteLine("Entered basker");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered basker");
                         dialogueSet = true;
                     }
                     else
                     {
                         currentAddress = 0x206492DA; //queens dialogueoptions after event finish
                         dialogueOptions = "Hi.^  Any requests for rebuilding Queens?^  It´s finished!^  Do you have any sidequests?";
-                        Console.WriteLine("Entered building (not basker)");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered building (not basker)");
                         dialogueSet = true;
                     }
                 }
@@ -1480,14 +1477,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentAddress = 0x2064930C; //can I check for items? dialogue
                         dialogueOptions = "  Can I check in some items?^  Hello.^  Any requests for building Muska Racka?^  It´s finished!";
-                        Console.WriteLine("Entered Enga");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered Enga");
                         dialogueSet = true;
                     }
                     else
                     {
                         currentAddress = 0x20649288; //muska dialogueoptions after event finish
                         dialogueOptions = "Hi.^  Any requests for building Muska Racka?^  It´s finished!^  Do you have any sidequests?";
-                        Console.WriteLine("Entered building (not enga)");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered building (not enga)");
                         dialogueSet = true;
                     }
                 }
@@ -1500,14 +1497,14 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentAddress = 0x20649004;
                         dialogueOptions = "Can I shop here?^  Hello.^  Do you have any sidequests?";
-                        Console.WriteLine("Entered building (shop)");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered building (shop)");
                         dialogueSet = true;
                     }
                     else if (Memory.ReadByte(0x21D26FD4) == 1)
                     {
                         currentAddress = 0x20649004;
                         dialogueOptions = "Can I check in some items?^  Hello.^  Do you have any sidequests?";
-                        Console.WriteLine("Entered building (storage)");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered building (storage)");
                         dialogueSet = true;
                     }
                 }
@@ -1590,11 +1587,11 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress += 0x00000001;
                 Memory.WriteByte(currentAddress, 255);
 
-                Console.WriteLine("Custom dialogue options set!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Custom dialogue options set!");
             }
             else
             {
-                Console.WriteLine("!!! Custom dialogue options were not set!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "!!! Custom dialogue options were not set!");
             }
         }
 
@@ -1607,7 +1604,7 @@ namespace Dark_Cloud_Improved_Version
                     if (storageOriginalDialogue != null)
                     {
                         Memory.WriteByteArray(0x2064C088, storageOriginalDialogue);
-                        Console.WriteLine("Storage dialogue written");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Storage dialogue written");
                     }
                 }
                 else if (currentArea == 1)
@@ -1615,7 +1612,7 @@ namespace Dark_Cloud_Improved_Version
                     if (storageOriginalDialogue != null)
                     {
                         Memory.WriteByteArray(0x2064C492, storageOriginalDialogue);
-                        Console.WriteLine("Storage dialogue written");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Storage dialogue written");
                     }
                 }
                 else if (currentArea == 2)
@@ -1623,7 +1620,7 @@ namespace Dark_Cloud_Improved_Version
                     if (storageOriginalDialogue != null)
                     {
                         Memory.WriteByteArray(0x2064DB3A, storageOriginalDialogue);
-                        Console.WriteLine("Storage dialogue written");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Storage dialogue written");
                     }
                 }
                 else if (currentArea == 3)
@@ -1631,13 +1628,13 @@ namespace Dark_Cloud_Improved_Version
                     if (storageOriginalDialogue != null)
                     {
                         Memory.WriteByteArray(0x2064DDB8, storageOriginalDialogue);
-                        Console.WriteLine("Storage dialogue written");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Storage dialogue written");
                     }
                 }
                 else if (currentArea == 23)
                 {
                     storageOriginalDialogue = Memory.ReadByteArray(0x2064B11C, 200);
-                    Console.WriteLine("Storage dialogue stored");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Storage dialogue stored");
                 }
             }
             else
@@ -1657,12 +1654,12 @@ namespace Dark_Cloud_Improved_Version
                         if (storageOriginalDialogue[0] != 0)
                         {
                             Memory.WriteByteArray(0x2064B11C, storageOriginalDialogue);
-                            Console.WriteLine("Storage dialogue written");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Storage dialogue written");
                         }
                     }
                 }
 
-                Console.WriteLine("Storage dialogue stored");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Storage dialogue stored");
             }
         }
 
@@ -1743,7 +1740,7 @@ namespace Dark_Cloud_Improved_Version
             currentAddress += 0x00000001;
             Memory.WriteByte(currentAddress, 255);
 
-            Console.WriteLine("Fishing disabled");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fishing disabled");
         }
 
         public static void ChangeDialogue()
@@ -2004,7 +2001,7 @@ namespace Dark_Cloud_Improved_Version
             if (charByte > 250)
             {            
                  storageAllDialogues = Memory.ReadByteArray(0x20645000, 200000);
-                 Console.WriteLine("started char fixing, alldialogue length: " + storageAllDialogues.Length);
+                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "started char fixing, alldialogue length: " + storageAllDialogues.Length);
                  for (int i = 0; i < storageAllDialogues.Length; i++)
                  {
                      if (storageAllDialogues[i] == 250)
@@ -2023,7 +2020,7 @@ namespace Dark_Cloud_Improved_Version
                      }
                  }
                  Memory.WriteByteArray(0x20645000, storageAllDialogues);
-                 Console.WriteLine("Finished char fixing");
+                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished char fixing");
                  
             }
         }
@@ -2057,7 +2054,7 @@ namespace Dark_Cloud_Improved_Version
             if (charByte > 250)
             {
                 storageAllDialogues = Memory.ReadByteArray(0x218229E0, 37000);
-                Console.WriteLine("started shop char fixing, alldialogue length: " + storageAllDialogues.Length);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "started shop char fixing, alldialogue length: " + storageAllDialogues.Length);
                 for (int i = 0; i < storageAllDialogues.Length; i++)
                 {
                     if (storageAllDialogues[i] == 250)
@@ -2076,7 +2073,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
                 Memory.WriteByteArray(0x218229E0, storageAllDialogues);
-                Console.WriteLine("Finished shop char fixing");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished shop char fixing");
             }
 
         }

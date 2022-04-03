@@ -141,7 +141,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void ChestRandomizer(int currentDungeon, int currentFloor, bool chronicle2)
         {
-            Console.WriteLine("Custom chests activated");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Custom chests activated");
             itemQuestSpawn = false;
             Thread.Sleep(100);
 
@@ -315,7 +315,7 @@ namespace Dark_Cloud_Improved_Version
                         currentSmallBoxAddressArea = 0x20277968;
                         currentBackFloorBigBoxAddressArea = 0x202794D8;
                         currentBackFloorSmallBoxAddressArea = 0x202795D8;
-                        Console.WriteLine("currentFloor: " + currentFloor);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "currentFloor: " + currentFloor);
                     }
                     else
                     {
@@ -323,7 +323,7 @@ namespace Dark_Cloud_Improved_Version
                         currentSmallBoxAddressArea = 0x20277B70;
                         currentBackFloorBigBoxAddressArea = 0x202796E0;
                         currentBackFloorSmallBoxAddressArea = 0x202797E0;
-                        Console.WriteLine("currentFloor: " + currentFloor);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "currentFloor: " + currentFloor);
                     }
                     clownCommonSmallTable[23] = 230;
 
@@ -374,7 +374,7 @@ namespace Dark_Cloud_Improved_Version
                 bigChestChance -= bigChestModifier;   
             }
 
-            Console.WriteLine("Big chest chance: " + bigChestChance);
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Big chest chance: " + bigChestChance);
 
             hasMap = SideQuestManager.CheckItemQuestReward(233, true, false);
             hasMC = SideQuestManager.CheckItemQuestReward(234, true, false);
@@ -462,7 +462,7 @@ namespace Dark_Cloud_Improved_Version
                             Memory.WriteByte(currentAddress, 1);
                             currentAddress += 0x00000038;
 
-                            Console.WriteLine("Spawned item:" + itemValue);
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned item:" + itemValue);
                         }
                         else    //if rolled for weapon
                         {
@@ -481,7 +481,7 @@ namespace Dark_Cloud_Improved_Version
 
                             currentAddress += 0x00000030;
 
-                            Console.WriteLine("Spawned weapon:" + itemValue);
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned weapon:" + itemValue);
                         }
                     }
                     else
@@ -536,7 +536,7 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteByte(currentAddress, 1);
                         currentAddress += 0x00000038;
 
-                        Console.WriteLine("Spawned backfloor item:" + itemValue);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned backfloor item:" + itemValue);
 
                     }
                     else
@@ -555,7 +555,7 @@ namespace Dark_Cloud_Improved_Version
 
                         currentAddress += 0x00000030;
 
-                        Console.WriteLine("Spawned backfloor weapon:" + itemValue);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Spawned backfloor weapon:" + itemValue);
                     }
 
 
@@ -570,18 +570,18 @@ namespace Dark_Cloud_Improved_Version
             if (hasMap)
             {
                 Memory.WriteByte(Addresses.map, 1);
-                Console.WriteLine("Player has Map item");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Map item");
             }
             if (hasMC)
             {
                 Memory.WriteByte(Addresses.magicCrystal, 1);
-                Console.WriteLine("Player has Magical Crystal item");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Magical Crystal item");
             }
         }
 
         public static void ClownRandomizer(bool chronicle2)
         {
-            Console.WriteLine("Clown spawned!");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Clown spawned!");
 
             if (chronicle2)
                 luckyTableChance = 0;
@@ -618,7 +618,7 @@ namespace Dark_Cloud_Improved_Version
                         boxItemAddress += 0x00000004;
                     }
                 }
-                Console.WriteLine("Big box item: " + randomItemValue);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Big box item: " + randomItemValue);
 
                 luckRoll = rnd.Next(100); //small box table roll
 
@@ -648,7 +648,7 @@ namespace Dark_Cloud_Improved_Version
                         boxItemAddress += 0x00000004;
                     }
                 }
-                Console.WriteLine("Small box item: " + randomItemValue);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Small box item: " + randomItemValue);
             }
             else
             {
@@ -680,7 +680,7 @@ namespace Dark_Cloud_Improved_Version
                         boxItemAddress += 0x00000004;
                     }
                 }
-                Console.WriteLine("Big box item: " + randomItemValue);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Big box item: " + randomItemValue);
 
                 luckRoll = rnd.Next(100); //small box table roll
 
@@ -710,7 +710,7 @@ namespace Dark_Cloud_Improved_Version
                         boxItemAddress += 0x00000004;
                     }
                 }
-                Console.WriteLine("Small box item: " + randomItemValue);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Small box item: " + randomItemValue);
             }
         }
 
@@ -724,11 +724,11 @@ namespace Dark_Cloud_Improved_Version
                 {
                     itemQuestSpawn = true;
                     itemQuestitemID = itemQuestID;
-                    Console.WriteLine("Rolled sidequest secret item for this floor");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Rolled sidequest secret item for this floor");
                 }
                 else
                 {
-                    Console.WriteLine("Player already has sidequest secret item");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player already has sidequest secret item");
                 }
             }
         }

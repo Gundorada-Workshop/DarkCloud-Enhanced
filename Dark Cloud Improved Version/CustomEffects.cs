@@ -25,21 +25,21 @@ namespace Dark_Cloud_Improved_Version
             if (isActive)
             {
                 //Set BypassBoneDoor
-                if (!DungeonThread.IsBypassBoneDoor()) DungeonThread.SetBypassBoneDoor(true);
+                if (!Dungeon.IsBypassBoneDoor()) Dungeon.SetBypassBoneDoor(true);
             }
             //Otherwise reset BypassBoneDoor
-            else if (DungeonThread.IsBypassBoneDoor()) DungeonThread.SetBypassBoneDoor(false);
+            else if (Dungeon.IsBypassBoneDoor()) Dungeon.SetBypassBoneDoor(false);
         }
 
         public static void BoneDoorTrigger()
         {
-            while (!DungeonThread.doorIsOpen &&
+            while (!Dungeon.doorIsOpen &&
                     Player.InDungeonFloor() &&
                     Player.Weapon.GetCurrentWeaponId() == 290)
             {
                 //Bone door opened through Bone Rapier
                 if (Memory.ReadByte(Addresses.dungDoorType) == 250 &&
-                    DungeonThread.IsBypassBoneDoor() &&
+                    Dungeon.IsBypassBoneDoor() &&
                     Memory.ReadInt(0x21D56800) == 15903712) //Aux address to help determine if the bone door specifically was opened)
                 {
                     int ms = 0;
@@ -53,15 +53,15 @@ namespace Dark_Cloud_Improved_Version
 
                     //Display our custom message
                     Dayuppy.DisplayMessage("You can hear an ominous voice\nlaughing 'Rattle me bones!'", 2, 29, 4000);
-                    DungeonThread.doorIsOpen = true;
+                    Dungeon.doorIsOpen = true;
                 }
                 //Bone door opened normally without Bone Rapier
                 else if (Memory.ReadByte(Addresses.dungDoorType) == 250 &&
-                        !DungeonThread.IsBypassBoneDoor() &&
+                        !Dungeon.IsBypassBoneDoor() &&
                         Memory.ReadInt(0x21D56800) == 15903712 //Aux address to help determine if the bone door specifically was opened
                         )
                 {
-                    DungeonThread.doorIsOpen = true;
+                    Dungeon.doorIsOpen = true;
                 }
 
                 Thread.Sleep(500);
@@ -77,7 +77,7 @@ namespace Dark_Cloud_Improved_Version
                 || Memory.ReadInt(Player.Toan.WeaponSlot6.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.id) == 298
                 || Memory.ReadInt(Player.Toan.WeaponSlot9.id) == 298)
             {
-                Console.WriteLine("Player has Chronicle 2");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Chronicle 2");
                 acquired = true;
             }
             else
@@ -88,14 +88,14 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadInt(currentAddress) == 298)
                     {
                         acquired = true;
-                        Console.WriteLine("Player has Chronicle 2 in storage");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Chronicle 2 in storage");
                     }
                     currentAddress += 0x000000F8;
                 }
 
                 if (acquired != true)
                 {
-                    Console.WriteLine("Player does not have Chronicle 2");
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player does not have Chronicle 2");
                     acquired = false;
                 }
             }
@@ -124,7 +124,7 @@ namespace Dark_Cloud_Improved_Version
                 }
 
                 evilciseNewFloor = false;
-                Console.WriteLine("Evilcise effect activated!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Evilcise effect activated!");
             }
         }
 
@@ -158,7 +158,7 @@ namespace Dark_Cloud_Improved_Version
                     if(roll < 50)
                     {
                         //Put a copy of the same attachment on the next available slot
-                        Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+                        if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() != -1) Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
 
                         Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27);
                         return;
@@ -166,7 +166,7 @@ namespace Dark_Cloud_Improved_Version
                 }
 
                 //Put a copy of the same attachment on the next available slot
-                Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+                if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() != -1) Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
 
                 Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27);
             }
@@ -205,7 +205,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (chronicleCurrentEnemyHP[i] < chronicleFormerEnemyHP[i])
                     {
-                        Console.WriteLine("Damaged enemy number: " + i);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Damaged enemy number: " + i);
                         damagedEnemyNum = i;
                         flashRGB_R = Memory.ReadFloat(Enemies.Enemy0.flashColorRed + (i * 0x190));
                         flashRGB_G = Memory.ReadFloat(Enemies.Enemy0.flashColorGreen + (i * 0x190));
@@ -237,7 +237,7 @@ namespace Dark_Cloud_Improved_Version
                         {
                             if (enemiesDistance[i] > 0)
                             {
-                                Console.WriteLine("Enemy " + i + " is in range");
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Enemy " + i + " is in range");
                                 enemiesinRange.Add(i);
                             }
                         }
@@ -258,7 +258,7 @@ namespace Dark_Cloud_Improved_Version
                         enemiescoordinateZ[i] = Memory.ReadFloat(Enemies.Enemy0.locationCoordinateZ + (0x190 * enemiesinRange[i]));
                         enemiescoordinateY[i] = Memory.ReadFloat(Enemies.Enemy0.locationCoordinateY + (0x190 * enemiesinRange[i]));
 
-                        Console.WriteLine("Enemy " + enemiesinRange[i] + " XZY coordinates: " + enemiescoordinateX[i] + " " + enemiescoordinateZ[i] + " " + enemiescoordinateY[i]);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Enemy " + enemiesinRange[i] + " XZY coordinates: " + enemiescoordinateX[i] + " " + enemiescoordinateZ[i] + " " + enemiescoordinateY[i]);
 
                         if (enemiesDistance[enemiesinRange[i]] < 50)
                         {
@@ -273,7 +273,7 @@ namespace Dark_Cloud_Improved_Version
                             }
                             effectDamage[i] = (float)System.Math.Floor(damageDealt * (effectDamagePercent / 100));
                         }
-                        Console.WriteLine("Enemy " + enemiesinRange[i] + " effect dmg: " + effectDamage[i]);
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Enemy " + enemiesinRange[i] + " effect dmg: " + effectDamage[i]);
                         
                     }
 
@@ -472,7 +472,7 @@ namespace Dark_Cloud_Improved_Version
 
                 //Add the HP value to the characters current HP
                 if (ToanHp < ToanMaxHp) Player.Toan.SetHp((ushort)(ToanHp + HpValueAdd));
-                    //Console.WriteLine("Toan HP add: " + (ToanHp + HpValueAdd));
+                    //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Toan HP add: " + (ToanHp + HpValueAdd));
                 if (GoroHp < GoroMaxHp) Player.Goro.SetHp((ushort)(GoroHp + HpValueAdd));
                 if (RubyHp < RubyMaxHp) Player.Ruby.SetHp((ushort)(RubyHp + HpValueAdd));
                 if (UngagaHp < UngagaMaxHp) Player.Ungaga.SetHp((ushort)(UngagaHp + HpValueAdd));
@@ -548,13 +548,13 @@ namespace Dark_Cloud_Improved_Version
             float goroCurrentHP = Player.Goro.GetHp();  //Memory.ReadUShort(0x21CD9562);
 
             float hpPercentage = 100 - (goroCurrentHP / goroMaxHP * 100);
-            //Console.WriteLine("hpPercentage: " + hpPercentage);
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "hpPercentage: " + hpPercentage);
 
             float goroMaxThirst = Memory.ReadFloat(0x21CDD840);
             float goroCurrentThirst = Player.Goro.GetThirst();  //Memory.ReadFloat(0x21CDD858);
 
             float thirstPercentage = 100 - (goroCurrentThirst / goroMaxThirst * 100);
-            //Console.WriteLine("thirstPercentage: " + thirstPercentage);
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "thirstPercentage: " + thirstPercentage);
 
             //byte currentWepNum = Player.Goro.GetWeaponSlot(); //Memory.ReadByte(0x21CDD88E);
 
@@ -784,7 +784,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 int procChance = random.Next(100); //Chance to apply stop (4%)
 
-                if (procChance < 50)
+                if (procChance < 4)
                 {
                     if(Memory.ReadByte(Enemies.Enemy0.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy0.freezeTimer, 300); //Stop duration (300 = 5 seconds)
                     if (Memory.ReadByte(Enemies.Enemy1.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy1.freezeTimer, 300);
@@ -832,10 +832,10 @@ namespace Dark_Cloud_Improved_Version
                 //Go through the enemies IDs
                 foreach (int id in enemyIds)
                 {
-                    int procChance = random.Next(100);    //Roll for chance to proc effect (8% chance)
+                    int procChance = random.Next(100);    //Roll for chance to proc effect (10% chance)
                     int effect = random.Next(4);        //Roll for which effect to apply (Equal chance)
 
-                    if (procChance <= 100)
+                    if (procChance <= 10)
                     {
                         switch (id)
                         {
@@ -1008,9 +1008,9 @@ namespace Dark_Cloud_Improved_Version
 
             int roll = random.Next(100);
 
-            //Console.WriteLine("Enemies killed count: " + enemiesKilled.Count);
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Enemies killed count: " + enemiesKilled.Count);
 
-            if(enemiesKilled.Count > 0 && roll < 100)
+            if(enemiesKilled.Count > 0 && roll < 2)
             {
                 if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() >= 0)
                 {

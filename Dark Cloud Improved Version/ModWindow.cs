@@ -1,13 +1,5 @@
 ﻿using System;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Dark_Cloud_Improved_Version
@@ -28,7 +20,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
         public static Thread TASSThread = new Thread(new ThreadStart(TASThread.RunTAS));
         public static Thread TASSThread2 = new Thread(new ThreadStart(TASThread.RecordTAS));
-        public static Thread dungeonthread = new Thread(new ThreadStart(DungeonThread.InsideDungeonThread));
+        public static Thread dungeonthread = new Thread(new ThreadStart(Dungeon.InsideDungeonThread));
         public static Thread debugThread = new Thread(new ThreadStart(CheatCodes.DebugOptions));
         public static Thread launchThread = new Thread(new ThreadStart(MainMenuThread.CheckEmulatorAndGame));
 
@@ -449,7 +441,7 @@ namespace Dark_Cloud_Improved_Version
 
         }
 
-        private void DEV_Page1_Btn_DungeonThread(object sender, EventArgs e)  //DungeonThread
+        private void DEV_Page1_Btn_DungeonThread(object sender, EventArgs e)  //Dungeon
         {
             if (dungeonthread.ThreadState == ThreadState.Unstarted)
             {
