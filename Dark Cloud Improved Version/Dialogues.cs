@@ -1743,6 +1743,70 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fishing disabled");
         }
 
+        public static void FixFairyKingDialogue()
+        {
+            currentDialogue = "You can call your allies everywhere^in the world, but however...";
+            currentAddress = 0x20425014;
+
+            for (int i = 0; i < currentDialogue.Length; i++)
+            {
+                char character = currentDialogue[i];
+
+                for (int a = 0; a < gameCharacters.Length; a++)
+                {
+                    if (character.Equals(gameCharacters[a]))
+                    {
+                        if (a > 120)
+                        {
+                            if (a == 121)
+                            {
+                                value1 = BitConverter.GetBytes(250);
+                            }
+                            else if (a == 127)
+                            {
+                                value1 = BitConverter.GetBytes(2);
+                            }
+                        }
+                        else
+                        {
+                            value1 = BitConverter.GetBytes(a);
+                        }
+
+                        break;
+                    }
+                }
+
+
+                Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+
+                currentAddress += 0x00000001;
+
+                if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
+                {
+                    value1 = BitConverter.GetBytes(255);
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                }
+                else if (value1[0] == 250)
+                {
+                    value1 = BitConverter.GetBytes(250);
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                }
+                else
+                {
+                    value1 = BitConverter.GetBytes(253);
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                }
+
+                currentAddress += 0x00000001;
+            }
+
+            Memory.WriteByte(currentAddress, 3);
+            currentAddress += 0x00000001;
+            Memory.WriteByte(currentAddress, 255);
+
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fairy King(renee house) dialogue fixed");
+        }
+
         public static void ChangeDialogue()
         {
             if (customDialoguesCheck[savedDialogueCheck] != 1)  //change dialogue flag between 1st and 2nd dialogue

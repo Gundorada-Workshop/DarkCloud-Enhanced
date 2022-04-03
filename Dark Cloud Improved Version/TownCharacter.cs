@@ -943,6 +943,14 @@ namespace Dark_Cloud_Improved_Version
                             Dialogues.SetDialogueOptions(currentArea, true);
                             Dialogues.SetStorageDialogue(currentArea, true);
                             checkBuildingFlag = true;
+
+                            if (currentArea == 0 && currentHouseID == 0) //renee house
+                            {
+                                if (Memory.ReadUShort(0x20425014) == 64820)
+                                {
+                                    Dialogues.FixFairyKingDialogue();
+                                }
+                            }
                         }
                         else
                         {
