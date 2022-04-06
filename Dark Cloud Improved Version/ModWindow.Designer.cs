@@ -119,7 +119,7 @@
             // 
             // Btn_ModeUser
             // 
-            this.Btn_ModeUser.Font = new System.Drawing.Font("DarkCloud", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_ModeUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ModeUser.Location = new System.Drawing.Point(75, 127);
             this.Btn_ModeUser.Name = "Btn_ModeUser";
             this.Btn_ModeUser.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -131,7 +131,7 @@
             // 
             // Btn_ModeDev
             // 
-            this.Btn_ModeDev.Font = new System.Drawing.Font("DarkCloud", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_ModeDev.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ModeDev.Location = new System.Drawing.Point(292, 127);
             this.Btn_ModeDev.Name = "Btn_ModeDev";
             this.Btn_ModeDev.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -145,10 +145,10 @@
             // 
             this.Tab_Dev2.Controls.Add(this.DEV_Page2_Table_Enemies);
             this.Tab_Dev2.Controls.Add(this.DEV_Page2_SplitContainer1);
-            this.Tab_Dev2.Location = new System.Drawing.Point(4, 21);
+            this.Tab_Dev2.Location = new System.Drawing.Point(4, 25);
             this.Tab_Dev2.Name = "Tab_Dev2";
             this.Tab_Dev2.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Dev2.Size = new System.Drawing.Size(506, 320);
+            this.Tab_Dev2.Size = new System.Drawing.Size(506, 316);
             this.Tab_Dev2.TabIndex = 1;
             this.Tab_Dev2.Text = "Page2";
             this.Tab_Dev2.UseVisualStyleBackColor = true;
@@ -198,7 +198,7 @@
             this.DEV_Page2_Table_Enemies.Controls.Add(this.DEV_Page2_Label_Enemy1, 0, 0);
             this.DEV_Page2_Table_Enemies.Controls.Add(this.DEV_Page2_TextBox_Enemy1, 1, 0);
             this.DEV_Page2_Table_Enemies.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.DEV_Page2_Table_Enemies.Location = new System.Drawing.Point(3, 210);
+            this.DEV_Page2_Table_Enemies.Location = new System.Drawing.Point(3, 206);
             this.DEV_Page2_Table_Enemies.Name = "DEV_Page2_Table_Enemies";
             this.DEV_Page2_Table_Enemies.RowCount = 4;
             this.DEV_Page2_Table_Enemies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -212,7 +212,7 @@
             // 
             this.DEV_Page2_Label_Enemy16.AutoSize = true;
             this.DEV_Page2_Label_Enemy16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DEV_Page2_Label_Enemy16.Font = new System.Drawing.Font("DarkCloud", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEV_Page2_Label_Enemy16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DEV_Page2_Label_Enemy16.Location = new System.Drawing.Point(376, 79);
             this.DEV_Page2_Label_Enemy16.Name = "DEV_Page2_Label_Enemy16";
             this.DEV_Page2_Label_Enemy16.Size = new System.Drawing.Size(18, 27);
@@ -228,7 +228,7 @@
             this.DEV_Page2_TextBox_Enemy16.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy16.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy16.Name = "DEV_Page2_TextBox_Enemy16";
-            this.DEV_Page2_TextBox_Enemy16.Size = new System.Drawing.Size(101, 22);
+            this.DEV_Page2_TextBox_Enemy16.Size = new System.Drawing.Size(101, 23);
             this.DEV_Page2_TextBox_Enemy16.TabIndex = 32;
             this.DEV_Page2_TextBox_Enemy16.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy16.WordWrap = false;
@@ -239,7 +239,7 @@
             // 
             this.DEV_Page2_Label_Enemy15.AutoSize = true;
             this.DEV_Page2_Label_Enemy15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DEV_Page2_Label_Enemy15.Font = new System.Drawing.Font("DarkCloud", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEV_Page2_Label_Enemy15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DEV_Page2_Label_Enemy15.Location = new System.Drawing.Point(252, 79);
             this.DEV_Page2_Label_Enemy15.Name = "DEV_Page2_Label_Enemy15";
             this.DEV_Page2_Label_Enemy15.Size = new System.Drawing.Size(18, 27);
@@ -255,7 +255,7 @@
             this.DEV_Page2_TextBox_Enemy15.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy15.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy15.Name = "DEV_Page2_TextBox_Enemy15";
-            this.DEV_Page2_TextBox_Enemy15.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy15.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy15.TabIndex = 30;
             this.DEV_Page2_TextBox_Enemy15.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy15.WordWrap = false;
@@ -266,7 +266,7 @@
             // 
             this.DEV_Page2_Label_Enemy14.AutoSize = true;
             this.DEV_Page2_Label_Enemy14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DEV_Page2_Label_Enemy14.Font = new System.Drawing.Font("DarkCloud", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEV_Page2_Label_Enemy14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DEV_Page2_Label_Enemy14.Location = new System.Drawing.Point(128, 79);
             this.DEV_Page2_Label_Enemy14.Name = "DEV_Page2_Label_Enemy14";
             this.DEV_Page2_Label_Enemy14.Size = new System.Drawing.Size(18, 27);
@@ -282,7 +282,7 @@
             this.DEV_Page2_TextBox_Enemy14.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy14.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy14.Name = "DEV_Page2_TextBox_Enemy14";
-            this.DEV_Page2_TextBox_Enemy14.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy14.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy14.TabIndex = 28;
             this.DEV_Page2_TextBox_Enemy14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy14.WordWrap = false;
@@ -293,7 +293,7 @@
             // 
             this.DEV_Page2_Label_Enemy13.AutoSize = true;
             this.DEV_Page2_Label_Enemy13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DEV_Page2_Label_Enemy13.Font = new System.Drawing.Font("DarkCloud", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEV_Page2_Label_Enemy13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DEV_Page2_Label_Enemy13.Location = new System.Drawing.Point(4, 79);
             this.DEV_Page2_Label_Enemy13.Name = "DEV_Page2_Label_Enemy13";
             this.DEV_Page2_Label_Enemy13.Size = new System.Drawing.Size(18, 27);
@@ -309,7 +309,7 @@
             this.DEV_Page2_TextBox_Enemy13.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy13.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy13.Name = "DEV_Page2_TextBox_Enemy13";
-            this.DEV_Page2_TextBox_Enemy13.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy13.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy13.TabIndex = 26;
             this.DEV_Page2_TextBox_Enemy13.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy13.WordWrap = false;
@@ -320,7 +320,7 @@
             // 
             this.DEV_Page2_Label_Enemy12.AutoSize = true;
             this.DEV_Page2_Label_Enemy12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DEV_Page2_Label_Enemy12.Font = new System.Drawing.Font("DarkCloud", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEV_Page2_Label_Enemy12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DEV_Page2_Label_Enemy12.Location = new System.Drawing.Point(376, 53);
             this.DEV_Page2_Label_Enemy12.Name = "DEV_Page2_Label_Enemy12";
             this.DEV_Page2_Label_Enemy12.Size = new System.Drawing.Size(18, 25);
@@ -336,7 +336,7 @@
             this.DEV_Page2_TextBox_Enemy12.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy12.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy12.Name = "DEV_Page2_TextBox_Enemy12";
-            this.DEV_Page2_TextBox_Enemy12.Size = new System.Drawing.Size(101, 22);
+            this.DEV_Page2_TextBox_Enemy12.Size = new System.Drawing.Size(101, 23);
             this.DEV_Page2_TextBox_Enemy12.TabIndex = 24;
             this.DEV_Page2_TextBox_Enemy12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy12.WordWrap = false;
@@ -347,7 +347,7 @@
             // 
             this.DEV_Page2_Label_Enemy11.AutoSize = true;
             this.DEV_Page2_Label_Enemy11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DEV_Page2_Label_Enemy11.Font = new System.Drawing.Font("DarkCloud", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEV_Page2_Label_Enemy11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DEV_Page2_Label_Enemy11.Location = new System.Drawing.Point(252, 53);
             this.DEV_Page2_Label_Enemy11.Name = "DEV_Page2_Label_Enemy11";
             this.DEV_Page2_Label_Enemy11.Size = new System.Drawing.Size(18, 25);
@@ -363,7 +363,7 @@
             this.DEV_Page2_TextBox_Enemy11.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy11.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy11.Name = "DEV_Page2_TextBox_Enemy11";
-            this.DEV_Page2_TextBox_Enemy11.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy11.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy11.TabIndex = 22;
             this.DEV_Page2_TextBox_Enemy11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy11.WordWrap = false;
@@ -374,7 +374,7 @@
             // 
             this.DEV_Page2_Label_Enemy10.AutoSize = true;
             this.DEV_Page2_Label_Enemy10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DEV_Page2_Label_Enemy10.Font = new System.Drawing.Font("DarkCloud", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEV_Page2_Label_Enemy10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DEV_Page2_Label_Enemy10.Location = new System.Drawing.Point(128, 53);
             this.DEV_Page2_Label_Enemy10.Name = "DEV_Page2_Label_Enemy10";
             this.DEV_Page2_Label_Enemy10.Size = new System.Drawing.Size(18, 25);
@@ -390,7 +390,7 @@
             this.DEV_Page2_TextBox_Enemy10.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy10.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy10.Name = "DEV_Page2_TextBox_Enemy10";
-            this.DEV_Page2_TextBox_Enemy10.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy10.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy10.TabIndex = 20;
             this.DEV_Page2_TextBox_Enemy10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy10.WordWrap = false;
@@ -416,7 +416,7 @@
             this.DEV_Page2_TextBox_Enemy9.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy9.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy9.Name = "DEV_Page2_TextBox_Enemy9";
-            this.DEV_Page2_TextBox_Enemy9.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy9.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy9.TabIndex = 18;
             this.DEV_Page2_TextBox_Enemy9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy9.WordWrap = false;
@@ -442,7 +442,7 @@
             this.DEV_Page2_TextBox_Enemy8.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy8.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy8.Name = "DEV_Page2_TextBox_Enemy8";
-            this.DEV_Page2_TextBox_Enemy8.Size = new System.Drawing.Size(101, 22);
+            this.DEV_Page2_TextBox_Enemy8.Size = new System.Drawing.Size(101, 23);
             this.DEV_Page2_TextBox_Enemy8.TabIndex = 16;
             this.DEV_Page2_TextBox_Enemy8.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy8.WordWrap = false;
@@ -468,7 +468,7 @@
             this.DEV_Page2_TextBox_Enemy7.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy7.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy7.Name = "DEV_Page2_TextBox_Enemy7";
-            this.DEV_Page2_TextBox_Enemy7.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy7.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy7.TabIndex = 14;
             this.DEV_Page2_TextBox_Enemy7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy7.WordWrap = false;
@@ -494,7 +494,7 @@
             this.DEV_Page2_TextBox_Enemy6.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy6.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy6.Name = "DEV_Page2_TextBox_Enemy6";
-            this.DEV_Page2_TextBox_Enemy6.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy6.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy6.TabIndex = 12;
             this.DEV_Page2_TextBox_Enemy6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy6.WordWrap = false;
@@ -520,7 +520,7 @@
             this.DEV_Page2_TextBox_Enemy5.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy5.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy5.Name = "DEV_Page2_TextBox_Enemy5";
-            this.DEV_Page2_TextBox_Enemy5.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy5.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy5.TabIndex = 10;
             this.DEV_Page2_TextBox_Enemy5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy5.WordWrap = false;
@@ -546,7 +546,7 @@
             this.DEV_Page2_TextBox_Enemy4.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy4.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy4.Name = "DEV_Page2_TextBox_Enemy4";
-            this.DEV_Page2_TextBox_Enemy4.Size = new System.Drawing.Size(101, 22);
+            this.DEV_Page2_TextBox_Enemy4.Size = new System.Drawing.Size(101, 23);
             this.DEV_Page2_TextBox_Enemy4.TabIndex = 8;
             this.DEV_Page2_TextBox_Enemy4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy4.WordWrap = false;
@@ -572,7 +572,7 @@
             this.DEV_Page2_TextBox_Enemy3.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy3.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy3.Name = "DEV_Page2_TextBox_Enemy3";
-            this.DEV_Page2_TextBox_Enemy3.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy3.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy3.TabIndex = 6;
             this.DEV_Page2_TextBox_Enemy3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy3.WordWrap = false;
@@ -598,7 +598,7 @@
             this.DEV_Page2_TextBox_Enemy2.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy2.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy2.Name = "DEV_Page2_TextBox_Enemy2";
-            this.DEV_Page2_TextBox_Enemy2.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy2.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy2.TabIndex = 4;
             this.DEV_Page2_TextBox_Enemy2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy2.WordWrap = false;
@@ -624,7 +624,7 @@
             this.DEV_Page2_TextBox_Enemy1.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Page2_TextBox_Enemy1.MaxLength = 10;
             this.DEV_Page2_TextBox_Enemy1.Name = "DEV_Page2_TextBox_Enemy1";
-            this.DEV_Page2_TextBox_Enemy1.Size = new System.Drawing.Size(98, 22);
+            this.DEV_Page2_TextBox_Enemy1.Size = new System.Drawing.Size(98, 23);
             this.DEV_Page2_TextBox_Enemy1.TabIndex = 2;
             this.DEV_Page2_TextBox_Enemy1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Enemy1.WordWrap = false;
@@ -658,7 +658,7 @@
             this.DEV_Page2_Label_Enemies.AutoSize = true;
             this.DEV_Page2_Label_Enemies.Location = new System.Drawing.Point(9, 175);
             this.DEV_Page2_Label_Enemies.Name = "DEV_Page2_Label_Enemies";
-            this.DEV_Page2_Label_Enemies.Size = new System.Drawing.Size(97, 14);
+            this.DEV_Page2_Label_Enemies.Size = new System.Drawing.Size(96, 17);
             this.DEV_Page2_Label_Enemies.TabIndex = 1;
             this.DEV_Page2_Label_Enemies.Text = "Enemies HPs:";
             // 
@@ -667,7 +667,7 @@
             this.DEV_Page2_Label_Gilda.AutoSize = true;
             this.DEV_Page2_Label_Gilda.Location = new System.Drawing.Point(9, 9);
             this.DEV_Page2_Label_Gilda.Name = "DEV_Page2_Label_Gilda";
-            this.DEV_Page2_Label_Gilda.Size = new System.Drawing.Size(83, 14);
+            this.DEV_Page2_Label_Gilda.Size = new System.Drawing.Size(70, 17);
             this.DEV_Page2_Label_Gilda.TabIndex = 0;
             this.DEV_Page2_Label_Gilda.Text = "Set Gilda:";
             // 
@@ -687,7 +687,7 @@
             this.DEV_Page2_TextBox_Gilda.Location = new System.Drawing.Point(8, 6);
             this.DEV_Page2_TextBox_Gilda.MaxLength = 5;
             this.DEV_Page2_TextBox_Gilda.Name = "DEV_Page2_TextBox_Gilda";
-            this.DEV_Page2_TextBox_Gilda.Size = new System.Drawing.Size(100, 22);
+            this.DEV_Page2_TextBox_Gilda.Size = new System.Drawing.Size(100, 23);
             this.DEV_Page2_TextBox_Gilda.TabIndex = 0;
             this.DEV_Page2_TextBox_Gilda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.DEV_Page2_TextBox_Gilda.TextChanged += new System.EventHandler(this.DEV_Page2_TextBox_Gilda_TextChanged);
@@ -700,11 +700,11 @@
             this.Tab_Dev1.Controls.Add(this.TabDev_Border1);
             this.Tab_Dev1.Controls.Add(this.TabDev_SplitContainer);
             this.Tab_Dev1.Controls.Add(this.Table_PersonalThreads);
-            this.Tab_Dev1.Location = new System.Drawing.Point(4, 21);
+            this.Tab_Dev1.Location = new System.Drawing.Point(4, 25);
             this.Tab_Dev1.Name = "Tab_Dev1";
             this.Tab_Dev1.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Dev1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Tab_Dev1.Size = new System.Drawing.Size(506, 320);
+            this.Tab_Dev1.Size = new System.Drawing.Size(506, 316);
             this.Tab_Dev1.TabIndex = 0;
             this.Tab_Dev1.Text = "Page1";
             this.Tab_Dev1.UseVisualStyleBackColor = true;
@@ -800,7 +800,7 @@
             // TabDev_SplitContainer
             // 
             this.TabDev_SplitContainer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.TabDev_SplitContainer.Location = new System.Drawing.Point(3, 254);
+            this.TabDev_SplitContainer.Location = new System.Drawing.Point(3, 250);
             this.TabDev_SplitContainer.Name = "TabDev_SplitContainer";
             // 
             // TabDev_SplitContainer.Panel2
@@ -814,7 +814,7 @@
             // TabDev_BtnQuit
             // 
             this.TabDev_BtnQuit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.TabDev_BtnQuit.Location = new System.Drawing.Point(223, 32);
+            this.TabDev_BtnQuit.Location = new System.Drawing.Point(222, 32);
             this.TabDev_BtnQuit.Margin = new System.Windows.Forms.Padding(12, 11, 12, 11);
             this.TabDev_BtnQuit.Name = "TabDev_BtnQuit";
             this.TabDev_BtnQuit.Size = new System.Drawing.Size(87, 25);
@@ -920,10 +920,10 @@
             this.Tab_User2.Controls.Add(this.CBox_UserMode_Widescreen);
             this.Tab_User2.Controls.Add(this.CBox_UserMode_WeaponBeeps);
             this.Tab_User2.Controls.Add(this.CBox_UserMode_BattleMusic);
-            this.Tab_User2.Location = new System.Drawing.Point(4, 21);
+            this.Tab_User2.Location = new System.Drawing.Point(4, 25);
             this.Tab_User2.Name = "Tab_User2";
             this.Tab_User2.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_User2.Size = new System.Drawing.Size(506, 320);
+            this.Tab_User2.Size = new System.Drawing.Size(506, 316);
             this.Tab_User2.TabIndex = 1;
             this.Tab_User2.Text = "Options";
             this.Tab_User2.UseVisualStyleBackColor = true;
@@ -933,7 +933,7 @@
             this.CBox_UserMode_Graphics.AutoSize = true;
             this.CBox_UserMode_Graphics.Location = new System.Drawing.Point(47, 37);
             this.CBox_UserMode_Graphics.Name = "CBox_UserMode_Graphics";
-            this.CBox_UserMode_Graphics.Size = new System.Drawing.Size(237, 18);
+            this.CBox_UserMode_Graphics.Size = new System.Drawing.Size(228, 21);
             this.CBox_UserMode_Graphics.TabIndex = 3;
             this.CBox_UserMode_Graphics.Text = "Enable Graphical Improvements";
             this.CBox_UserMode_Graphics.UseVisualStyleBackColor = true;
@@ -944,7 +944,7 @@
             this.CBox_UserMode_Widescreen.AutoSize = true;
             this.CBox_UserMode_Widescreen.Location = new System.Drawing.Point(47, 59);
             this.CBox_UserMode_Widescreen.Name = "CBox_UserMode_Widescreen";
-            this.CBox_UserMode_Widescreen.Size = new System.Drawing.Size(150, 18);
+            this.CBox_UserMode_Widescreen.Size = new System.Drawing.Size(150, 21);
             this.CBox_UserMode_Widescreen.TabIndex = 2;
             this.CBox_UserMode_Widescreen.Text = "Enable Widescreen";
             this.CBox_UserMode_Widescreen.UseVisualStyleBackColor = true;
@@ -955,7 +955,7 @@
             this.CBox_UserMode_WeaponBeeps.AutoSize = true;
             this.CBox_UserMode_WeaponBeeps.Location = new System.Drawing.Point(47, 81);
             this.CBox_UserMode_WeaponBeeps.Name = "CBox_UserMode_WeaponBeeps";
-            this.CBox_UserMode_WeaponBeeps.Size = new System.Drawing.Size(293, 18);
+            this.CBox_UserMode_WeaponBeeps.Size = new System.Drawing.Size(291, 21);
             this.CBox_UserMode_WeaponBeeps.TabIndex = 0;
             this.CBox_UserMode_WeaponBeeps.Text = "Disable Low Weapon HP Beeping Sounds";
             this.CBox_UserMode_WeaponBeeps.UseVisualStyleBackColor = true;
@@ -966,7 +966,7 @@
             this.CBox_UserMode_BattleMusic.AutoSize = true;
             this.CBox_UserMode_BattleMusic.Location = new System.Drawing.Point(47, 103);
             this.CBox_UserMode_BattleMusic.Name = "CBox_UserMode_BattleMusic";
-            this.CBox_UserMode_BattleMusic.Size = new System.Drawing.Size(455, 18);
+            this.CBox_UserMode_BattleMusic.Size = new System.Drawing.Size(382, 21);
             this.CBox_UserMode_BattleMusic.TabIndex = 1;
             this.CBox_UserMode_BattleMusic.Text = "Disable Battle Music (make sure it\'s not already playing!)";
             this.CBox_UserMode_BattleMusic.UseVisualStyleBackColor = true;
@@ -977,20 +977,19 @@
             this.Tab_User1.Controls.Add(this.Label_UserMode_PlaceholderText);
             this.Tab_User1.Controls.Add(this.Label_UserMode_WelcomeTitle);
             this.Tab_User1.Controls.Add(this.Btn_UserMode_Quit);
-            this.Tab_User1.Location = new System.Drawing.Point(4, 21);
+            this.Tab_User1.Location = new System.Drawing.Point(4, 25);
             this.Tab_User1.Name = "Tab_User1";
             this.Tab_User1.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_User1.Size = new System.Drawing.Size(506, 320);
+            this.Tab_User1.Size = new System.Drawing.Size(506, 316);
             this.Tab_User1.TabIndex = 0;
             this.Tab_User1.Text = "General";
             this.Tab_User1.UseVisualStyleBackColor = true;
             // 
             // Label_UserMode_PlaceholderText
             // 
-            this.Label_UserMode_PlaceholderText.AutoSize = true;
             this.Label_UserMode_PlaceholderText.Location = new System.Drawing.Point(47, 94);
             this.Label_UserMode_PlaceholderText.Name = "Label_UserMode_PlaceholderText";
-            this.Label_UserMode_PlaceholderText.Size = new System.Drawing.Size(123, 14);
+            this.Label_UserMode_PlaceholderText.Size = new System.Drawing.Size(420, 83);
             this.Label_UserMode_PlaceholderText.TabIndex = 1;
             this.Label_UserMode_PlaceholderText.Text = "Placeholder text";
             // 
@@ -999,7 +998,7 @@
             this.Label_UserMode_WelcomeTitle.AutoSize = true;
             this.Label_UserMode_WelcomeTitle.Location = new System.Drawing.Point(47, 53);
             this.Label_UserMode_WelcomeTitle.Name = "Label_UserMode_WelcomeTitle";
-            this.Label_UserMode_WelcomeTitle.Size = new System.Drawing.Size(212, 14);
+            this.Label_UserMode_WelcomeTitle.Size = new System.Drawing.Size(208, 17);
             this.Label_UserMode_WelcomeTitle.TabIndex = 0;
             this.Label_UserMode_WelcomeTitle.Text = "Welcome to the Enhanced Mod!";
             // 
@@ -1040,7 +1039,7 @@
             // 
             // ModWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::Dark_Cloud_Improved_Version.Properties.Resources.d06o_out_result;
@@ -1049,7 +1048,7 @@
             this.Controls.Add(this.TabControl_DEV);
             this.Controls.Add(this.TabControl_USER);
             this.Controls.Add(this.Container_MainModes);
-            this.Font = new System.Drawing.Font("DarkCloud", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

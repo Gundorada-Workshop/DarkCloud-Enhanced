@@ -161,7 +161,7 @@ namespace Dark_Cloud_Improved_Version
                                     }
 
 
-                                    if (Memory.ReadByte(0x21CE448A) != 2)
+                                    if (Memory.ReadByte(0x21CE448A) == 1)
                                     {
                                         Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered ingame, starting all threads!");
                                         changesThread = new Thread(() => ApplyNewChanges());
