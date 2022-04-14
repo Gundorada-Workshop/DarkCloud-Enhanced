@@ -50,6 +50,8 @@ namespace Dark_Cloud_Improved_Version
         static bool currentlyInShop = false;
         static bool shopDataCleared = false;
         static bool fishingQuestCheck = false;
+        static bool demonshaftUnlocked = false;
+        static bool playerAtCredits = false;
         public static bool mintTalk = false;
         public static byte mayorReward;
 
@@ -127,6 +129,7 @@ namespace Dark_Cloud_Improved_Version
             DailyShopItem.BaseShopChanges();
             DailyShopItem.SetDailyItemsToShop();
             currentInGameDay = Memory.ReadUShort(0x21CD4318);
+            demonshaftUnlocked = false;
 
             Dungeon.ChangeSoZMaxAtt(Memory.ReadUShort(0x21CE446D)); //NEEDS TO BE APPLIED AFTER SAVE LOAD!
 
@@ -964,7 +967,7 @@ namespace Dark_Cloud_Improved_Version
                         }
                     }
 
-                    if (Memory.ReadByte(0x202A1E90) != 255 && changingLocation == false)  //if changing location, swap back to Toan
+                    if (Memory.ReadByte(0x202A1E90) != 255 && Memory.ReadUShort(0x202A1E90) != 1000 && changingLocation == false)  //if changing location, swap back to Toan
                     {
                         changingLocation = true;
                         Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "changing location");
@@ -1070,6 +1073,8 @@ namespace Dark_Cloud_Improved_Version
                     }
 
                     Dungeon.CheckWepLvlUp();
+                    
+                    DemonShaftUnlockCheck();
 
                     //Check if player is inside the weapon customize menu
                     if (Player.CheckIsWeaponCustomizeMenu())
@@ -1157,6 +1162,11 @@ namespace Dark_Cloud_Improved_Version
                             break;
                         }
                     }
+                }
+
+                if (Memory.ReadByte(Addresses.mode) == 13)
+                {
+                    CheckCreditsScene();
                 }
 
                 Thread.Sleep(50);
@@ -2055,6 +2065,47 @@ namespace Dark_Cloud_Improved_Version
             else
             {
                 hasMardanSword = false;
+            }
+        }
+
+        public static void CheckCreditsScene()
+        {
+            if (Memory.ReadInt(0x202A2518) == -1 && playerAtCredits == false) //credits scene
+            {
+                playerAtCredits = true;
+                Memory.WriteByte(0x21CE448B, 1); //game cleared flag
+                if (Memory.ReadByte(0x21CE70A0) == 0)
+                {
+                    Memory.WriteByte(0x21CE70A0, 1); //demon shaft visit count
+                }
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Game beaten, entered save mode after credits!");
+            }
+            else if (Memory.ReadInt(0x202A2518) != 51 && playerAtCredits == true)
+            {
+                Memory.WriteInt(0x202A2518, 60);
+                if (Memory.ReadByte(0x21DA8AD0) == 2 && Memory.ReadByte(0x21DA8AE0) > 70)
+                {
+                    Memory.WriteByte(0x21DA8AD0, 1);
+                    playerAtCredits = false;
+                }              
+            }
+        }
+        public static void DemonShaftUnlockCheck()
+        {
+            if (demonshaftUnlocked == false)
+            {
+                if (Memory.ReadByte(0x21CE448B) == 1)
+                {
+                    demonshaftUnlocked = true;
+                }
+
+                if (Memory.ReadByte(Addresses.selectedMenu) == 13) //check if worldmap open
+                {
+                    if (Memory.ReadByte(0x21CE448B) == 0) //check if game cleared flag not true
+                    {
+                        Memory.WriteByte(0x21CE70A0, 0);
+                    }                 
+                }
             }
         }
 
