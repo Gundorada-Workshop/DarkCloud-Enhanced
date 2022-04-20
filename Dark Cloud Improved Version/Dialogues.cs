@@ -189,7 +189,7 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
 
-        static char[] gameCharacters = { '^', '§', '_', '¤', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', //32
+        static char[] gameCharacters = { '^', '§', '_', '¤', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', 'Ȟ', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', //32
                               'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', //58
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', //84
                               '´', '=', '"', '!', '?', '#', '&', '+', '-', '*', '/', '%', '(', ')', '@', '|', '<', '>', '{', '}', '[', ']', ':', ',', '.', '$',
@@ -2145,6 +2145,7 @@ namespace Dark_Cloud_Improved_Version
 
 
         //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
+        // Ȟ = heart symbol
         // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
 
         public static void InitializeDialogues()
@@ -2164,8 +2165,8 @@ namespace Dark_Cloud_Improved_Version
             noruneXiao[5] = "I remember when Paige was a little girl,^her mother made her a plush cat^that looked just like you!¤Kids sure do grow up fast, people may^come and go but the memories we make^with out loved ones are eternal.¤Pretty poetic for a fisherman huh, hahaha!";
             noruneXiao[6] = "Sometimes it´s hard to be an older brother.^Macho and I may butt heads but^deep down we care about each other.^Do you have any siblings kitty?";
             noruneXiao[7] = "No way, I can´t believe Ť let´s you go^on adventures with him. You are so lucky!";
-            noruneXiao[8] = "Hey there, I´ve been seeing you^hang out with Ť! Are you^his little sidekick now? <3";
-            noruneXiao[9] = "I appreciate how you are helping Ť^on his journey, I still wonder where^he got that change potion.¤It´s hard for one person to try change^the world but if we all work together^as allies, anything is possible. Don´t^worry, I won´t tell anyone your secret <3";
+            noruneXiao[8] = "Hey there, I´ve been seeing you^hang out with Ť! Are you^his little sidekick now? Ȟ";
+            noruneXiao[9] = "I appreciate how you are helping Ť^on his journey, I still wonder where^he got that change potion.¤It´s hard for one person to try change^the world but if we all work together^as allies, anything is possible. Don´t^worry, I won´t tell anyone your secret Ȟ";
             noruneXiao[10] = "Are you helping Ť with^fixing other people´s houses?¤Since you´re helping people can^you help me, I have a bit of a mouse^problem. I could pay you in food!";
             noruneXiao[11] = "They say animals have sharper senses^then that of humans, can you feel^the magic within this village?¤I sense something different about you^Ӿ, perhaps you´re no ordinary cat!";
             noruneXiao[12] = "Hmm I wonder where you came from,^I haven´t seen any other cats in this village.";
@@ -2241,7 +2242,7 @@ namespace Dark_Cloud_Improved_Version
             noruneRuby2[5] = "No way, so your from Queens!?^That port town is every fisherman´s^dream!";
             noruneRuby2[6] = "I could tell that you are from Queens^just by looking at you.¤I have family living there that^specialize in law enforcement.";
             noruneRuby2[7] = "I heard Queens is surrounded by water,^I almost drowned once when Uncle Pike^let me borrow his fishing rod.";
-            noruneRuby2[8] = "I remember hearing an old story from^Queens about its ruler La Saia falling^in love with a commoner.¤They say they ran away to be together^forever, how romantic!"; /*<-- Insert <3 to replace the '!' */
+            noruneRuby2[8] = "I remember hearing an old story from^Queens about its ruler La Saia falling^in love with a commoner.¤They say they ran away to be together^forever, how romantic Ȟ"; /*<-- Insert <3 to replace the '!' */
             noruneRuby2[9] = "You said you want to be the best genie,^I wonder if there are more genies^out there.";
             noruneRuby2[10] = "Is it true that the food in Queens is^the best in the world?";
             noruneRuby2[11] = "I heard that you are on a quest to be^the best genie in the world, I know it^may be a daunting task but come to me^if you need any advice.";
@@ -2348,7 +2349,7 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             matatakiGoro[0] = "Why if it isn´t young Ʊ I´m^happy to see that you´ve come to join^the other villagers.";
             matatakiGoro[1] = "My oh my, if it isn´t little Ʊ!^You´ve grown up but you still have those^chubby cheeks, come here and let your¤granny Annie give you a pinch for old^times´ sake!";
-            matatakiGoro[2] = "Hey there, who would have thought the^son of the legendary hunter would be so^handsome!"; //Suppose to end with heart <3
+            matatakiGoro[2] = "Hey there, who would have thought the^son of the legendary hunter would be so^handsome! Ȟ"; //Suppose to end with heart <3
             matatakiGoro[3] = "It´s a surprise seeing you come outside^Ʊ we were worried about you.¤We wanted to reach out but at the same^time we knew that you needed your space.¤Know that you will always have a place^in this village, we are all family.";
             matatakiGoro[4] = "Grrrr, I have reason to believe that^Momo has her eyes on you! What does she^see in you that I don´t have.¤I bet you don´t even know how to cook!";
             matatakiGoro[5] = "You, you´re the boy who lives in the^tree house! Oh I heard a lot about you^yes!¤The Spirits said you would come, they^said you would save us all they did!";
@@ -2633,7 +2634,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaXiao[2] = "I heard Enga used to be an accomplished^swordsman when he was a young man.¤I never was able to master the sword^like Enga but I´m the only warrior in^the village who can use a Slingshot!";
             muskarackaXiao[3] = "You´re a small cat aren´t you, I know a^thing or two about being the smallest...¤Living out in the desert can be^dangerous, the other day my friend was^stung by a scorpion and almost died!¤If you need anything at all or even a^house to take shelter, feel free to find^me.";
             muskarackaXiao[4] = "A stray cat like you has no business^being in or around my home!¤There´s plenty of room in the wide open^desert for you to roam around in.";
-            muskarackaXiao[5] = "Gosuke and Toto would always pretend to^be warriors and have adventures^together!¤Maybe you could join them and be an^adventurer too!¤You´re a small cat now I´m sure you´ll^change the world one day! Tehehe"; // <3 AT THE END
+            muskarackaXiao[5] = "Gosuke and Toto would always pretend to^be warriors and have adventures^together!¤Maybe you could join them and be an^adventurer too!¤You´re a small cat now I´m sure you´ll^change the world one day! Tehehe Ȟ"; // <3 AT THE END
             muskarackaXiao[6] = "The Sun and Moon Temple is a sacred^place as it´s not only the home of the^Moon Ship but also the final resting¤place of our noble king who passed away^generations ago.¤Since his passing his kingdom broke up^into many warring tribes.¤Since then blood has been split and^people have been killed, perhaps it is¤too late to unify...¤It´s up to our generation to unify after^years of conflict.";
             muskarackaXiao[7] = "No one should ever under estimate the^killer instinct of an animal.¤You may be small but you´re a worthy^hunter in your own right.";
             muskarackaXiao[8] = "Hey cat, how about you bust me out of^here!";
@@ -2689,7 +2690,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaRuby[2] = "Oh you came from a port town called^Queens? That´s funny the most water we^have is our oasis.";
             muskarackaRuby[3] = "You can use magic right?¤I wonder if you can make Toto another^playmate like Gosuke, he often gets^lonely...";
             muskarackaRuby[4] = "I never met someone who could use magic^but old Enga says that long ago the Moon^people once sealed the Dark Genie by^using magic.";
-            muskarackaRuby[5] = "Wow I love your outfit, it´s so cute!"; // <3 AT THE END
+            muskarackaRuby[5] = "Wow I love your outfit, it´s so cute! Ȟ"; // <3 AT THE END
             muskarackaRuby[6] = "You and the Dark Genie share many^similarities but I sense no hostility^from you.";
             muskarackaRuby[7] = "I´ve never had the experience of facing^a magic user in battle and I hope I^never have the chance. You are a^formidable fighter indeed.";
             muskarackaRuby[8] = "Purple hair?¤Jeez they must really be desperate for^help if they let a purple hair clown^like you join!¤Oops did I say clown, I meant to say ´Genie´";
@@ -2745,7 +2746,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaOsmond[2] = "Ah a Moon person, have you come to visit^the Sun and Moon Temple?¤Take caution as it is invested with^monsters!";
             muskarackaOsmond[3] = "So if you´re here that must^mean that Ų and his friends^made his way to the moons!";
             muskarackaOsmond[4] = "Old Enga would tell us that the moons^are home to the Moon tribe but I never^thought they would be bunnies!";
-            muskarackaOsmond[5] = "You may be small and cuddly but I bet^your quite the warrior!"; // <3 AT THE END
+            muskarackaOsmond[5] = "You may be small and cuddly, but I bet^you´re quite the warrior! Ȟ"; // <3 AT THE END
             muskarackaOsmond[6] = "Ahhh how are doing young one!¤It has been a lifetime since I´ve been^in the presence of your kind.¤I have passed down the stories and myths^that your tribe has given us to the next^generation of Muska Racka¤but they often have a hard time^believing that the Moon people once^lived among us!";
             muskarackaOsmond[7] = "It has been sometime since a moon person^has journeyed to our village.^If you are in need of any supplies let^me know my friend.¤The Moon people and the tribe of^Muska Racka have always had a close^partnership and we wish to maintain that^connection.";
             muskarackaOsmond[8] = "What even are you?";
