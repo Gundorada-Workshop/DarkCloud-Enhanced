@@ -3412,7 +3412,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort((stone + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Stone Breaker set to 7
             Memory.WriteUShort((plant + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Plant Buster set to 7
             Memory.WriteUShort((beast + (weaponoffset * (Items.sevenbranchsword - daggerid))), 8);         //Beast Buster set to 8
-            Memory.WriteUShort((sky + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);           //Sea Killer set to 7
+            Memory.WriteUShort((sky + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);           //Sky Killer set to 7
             Memory.WriteUShort((metal + (weaponoffset * (Items.sevenbranchsword - daggerid))), 10);        //Metal Breaker set to 10
             Memory.WriteUShort((mimic + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Mimic Breaker set to 7
             Memory.WriteUShort((mage + (weaponoffset * (Items.sevenbranchsword - daggerid))), 8);          //Mage Slayer set to 8

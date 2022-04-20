@@ -2657,7 +2657,7 @@ namespace Dark_Cloud_Improved_Version
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             muskarackaGoro[0] = "You are so out of shape, have you ever^thought of laying off the grass cakes?";
-            muskarackaGoro[1] = "Ah so your from the village of Matataki,^I can tell by your distinct warrior^garb.¤The Moon People used to maintain the^shrine but they've gotten lazy over^time, now they relax in the woods not to^far from Matataki.¤Make sure your people don´t hunt them^by accident!";
+            muskarackaGoro[1] = "Ah so your from the village of Matataki,^I can tell by your distinct warrior^garb.¤The Moon People used to maintain the^shrine but they´ve gotten lazy over^time, now they relax in the woods not to^far from Matataki.¤Make sure your people don´t hunt them^by accident!";
             muskarackaGoro[2] = "The Sun and Moon Temple is a sacred^place, no one outside of the village has^ever stepped foot inside of it.¤It´s a shame that it has been riddled^with monsters, please help Ť^and Ų rid us of this^infestation.";
             muskarackaGoro[3] = "It´s hard to believe that we were almost^destroyed had not been for Ť^and his friends rescuing us.¤We are all in your debt.";
             muskarackaGoro[4] = "Why are you wearing that, you must^be hot!";
@@ -2944,7 +2944,7 @@ namespace Dark_Cloud_Improved_Version
             brownbooXiao[6] = "Make sure to watch your step when^walking around Brownboo, I´ve seen many^slip into the water below but^a cat!¤They say there´s a first time for^everything but for your sake I hope^that´s not true!";
             brownbooXiao[7] = "What are you doing here kitty,^are you lost? I think I saw^Ť walking over there, you^should catch up with him while you can!";
             brownbooXiao[8] = "I think you would love to live here,^there are all sorts of fun activities^for a cat to partake in here at Brownboo^Village!¤You could look for fish in the streams^or even search for some delicious moon^fruit!";
-            brownbooXiao[10] = "Agh it's the legendary white tiger, you^destroyed Matataki and now you´ve come^for us!¤Please, spare this village, why not go^to Queens I hear they have all sorts of^tasty fish!¤Just don´t eat me *sobs*";
+            brownbooXiao[10] = "Agh it´s the legendary white tiger, you^destroyed Matataki and now you´ve come^for us!¤Please, spare this village, why not go^to Queens I hear they have all sorts of^tasty fish!¤Just don´t eat me *sobs*";
             brownbooXiao[11] = "Did you come from the hunter´s village^of Matataki?¤You better be careful, I saw a villager^wearing a cat as a scarf.¤Knowing your luck you´d probably end up^on a dinner plate or in someone´s closet^as a fashion accessory!";
             brownbooXiao[12] = "Are you Ť´s pet cat? You are so^lucky he seems like such a nice guy!¤I hope he´s feeding you well during this^adventure!";
 
@@ -2975,7 +2975,7 @@ namespace Dark_Cloud_Improved_Version
             //Ť = Toan, Ӿ = Xiao, Ʊ = Goro, Ʀ = Ruby, Ų = Ungaga, Ō = Osmond
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             brownbooRuby[6] = "I´m glad that you are indeed a friendly^Genie!¤Unless you are waiting for the right^moment to trick us!¤I really hope that´s not the case...";
-            brownbooRuby[7] = "Genie´s can't be all bad, I mean here^you are helping out Ť and his^friends.¤You don´t have to do that, but here you^are!¤I guess it´s proof that you can´t always^judge a book by it´s cover, only in this^case don´t judge a Genie haha!";
+            brownbooRuby[7] = "Genie´s can´t be all bad, I mean here^you are helping out Ť and his^friends.¤You don´t have to do that, but here you^are!¤I guess it´s proof that you can´t always^judge a book by it´s cover, only in this^case don´t judge a Genie haha!";
             brownbooRuby[8] = "We´ve been living in the village of^Brownboo for generations!¤Initially, the Moon People used to^maintain a good relationship with the^humans of Terra who live out in the far¤away village of Muska Laka but we wanted^an easier life!";
             brownbooRuby[10] = "Brownboo has always been a village of^solitude, the Dark Genie didn´t think of^attacking us!¤We´ve been living in secret for many^lifetimes so they probably didn´t know^where we were.¤It was so sad, we all heard the voices^of Terra cry out for help, only to be^silenced in unison...¤I´m glad that Ť answered that^call for help.¤Life on Terra can still be saved.";
             brownbooRuby[11] = "The village of Matataki hunts down^beasts, a stark contrast to it´s^neighboring village of Norune where^people live in harmony with the beasts¤such as Dran. Meanwhile Queens is a^bustling port town that doesn´t have any^relationship with beasts at all!¤Terra is such an interesting place when^you think about it!";
@@ -2983,7 +2983,7 @@ namespace Dark_Cloud_Improved_Version
 
             brownbooRuby2[6] = "I hope I didn´t hurt your feelings.¤If Ť and his friends trusts^you, then I trust you. You are always^welcome in Brownboo.";
             brownbooRuby2[7] = "I wonder how your magical armband works^in combat?¤Perhaps it´s magic older than anyone of^us, magic from a by gone era...¤Just how old are you Ʀ?";
-            brownbooRuby2[8] = "The Moon People of Brownboo haven´t^visited Yellow Drops for countless^years.¤Sometimes I would gaze up at the two^moons and wonder what´s out there.¤Can you be homesick for a place that you^have never been to? A culture you've^never really known?¤Who knows, one things for sure when all^this is over we need to pay them a^visit.¤You can join us Ʀ as long as^you take responsibility of that^mischievous Ӿ!";
+            brownbooRuby2[8] = "The Moon People of Brownboo haven´t^visited Yellow Drops for countless^years.¤Sometimes I would gaze up at the two^moons and wonder what´s out there.¤Can you be homesick for a place that you^have never been to? A culture you´ve^never really known?¤Who knows, one things for sure when all^this is over we need to pay them a^visit.¤You can join us Ʀ as long as^you take responsibility of that^mischievous Ӿ!";
             brownbooRuby2[10] = "Thank you Ʀ for fighting^against the Dark Genie.";
             brownbooRuby2[11] = "Mango was talking about you the other^day, they said that you were trying to^be the best genie in history!¤I think they´d love to be your student^one day, of course once this whole Dark^Genie fiasco is over!";
             brownbooRuby2[12] = "I´d really appreciate it if you could^bring us some Witch Parfaits from Queens^if you ever get the chance!";

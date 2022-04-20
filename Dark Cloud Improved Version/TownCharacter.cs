@@ -619,21 +619,42 @@ namespace Dark_Cloud_Improved_Version
 
                         if (Memory.ReadInt(0x2029AA18) == 1882468451)   //if using Xiao, change talk camera
                         {
-                            if (currentArea == 0)
+                            switch (currentArea)
                             {
-                                Memory.WriteByte(0x202A2A6C, 0);
-                                Memory.WriteByte(0x202A2A6E, 9);
+                                case 0:     //Norune
+                                    Memory.WriteByte(0x202A2A6C, 0);
+                                    Memory.WriteByte(0x202A2A6E, 9);
+                                    break;
+                                case 1:     //Matataki
+                                    Memory.WriteUShort(0x202A2A6C, 2544);
+                                    Memory.WriteByte(0x202A2A6E, 9);
+                                    break;
+                                case 2:     //Queens
+                                    Memory.WriteUShort(0x202A2A6C, 2306);
+                                    Memory.WriteByte(0x202A2A6E, 9);
+                                    break;
+                                case 3:     //Muska Lacka
+                                    Memory.WriteUShort(0x202A2A6C, 2306);
+                                    Memory.WriteByte(0x202A2A6E, 9);
+                                    break;
+                                case 14:    //Brownboo
+                                    Memory.WriteUShort(0x202A2A6C, 6);
+                                    Memory.WriteByte(0x202A2A6E, 0);
+                                    break;
+                                case 23:    //Yellow Drops
+                                    Memory.WriteUShort(0x202A2A6C, 55);
+                                    Memory.WriteByte(0x202A2A6E, 6);
+                                    break;
+                                case 38:     //Dark Haven Castle
+                                    Memory.WriteUShort(0x202A2A6C, 48);
+                                    Memory.WriteByte(0x202A2A6E, 7);
+                                    break;
+                                case 42:     //Muska Lacka (outside)
+                                    Memory.WriteUShort(0x202A2A6C, 72);
+                                    Memory.WriteByte(0x202A2A6E, 6);
+                                    break;
                             }
-                            else if (currentArea == 1)
-                            {
-                                Memory.WriteUShort(0x202A2A6C, 2544);
-                                Memory.WriteByte(0x202A2A6E, 9);
-                            }
-                            else if (currentArea == 2)
-                            {
-                                Memory.WriteUShort(0x202A2A6C, 2306);
-                                Memory.WriteByte(0x202A2A6E, 9);
-                            }
+
                             Memory.WriteByte(0x21F1000C, 1); //xiaoFlag for PNACH
                         }
                         else
