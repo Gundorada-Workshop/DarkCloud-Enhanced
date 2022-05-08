@@ -823,23 +823,23 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteInt(defense, newdef);
             }
 
-            public static int GetThirst()
+            public static float GetThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetThirst(int newthirst)
+            public static void SetThirst(float newthirst)
             {
-                Memory.WriteInt(thirst, newthirst);
+                Memory.WriteFloat(thirst, newthirst);
             }
-            public static int GetMaxThirst()
+            public static float GetMaxThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetMaxThirst(ushort newmaxthirst)
+            public static void SetMaxThirst(float newmaxthirst)
             {
-                Memory.WriteUShort(thirstMax, newmaxthirst);
+                Memory.WriteFloat(thirstMax, newmaxthirst);
             }
 
             public static int GetStatus()
@@ -1579,23 +1579,23 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteInt(defense, newdef);
             }
 
-            public static int GetThirst()
+            public static float GetThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetThirst(int newthirst)
+            public static void SetThirst(float newthirst)
             {
-                Memory.WriteInt(thirst, newthirst);
+                Memory.WriteFloat(thirst, newthirst);
             }
-            public static int GetMaxThirst()
+            public static float GetMaxThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetMaxThirst(ushort newmaxthirst)
+            public static void SetMaxThirst(float newmaxthirst)
             {
-                Memory.WriteUShort(thirstMax, newmaxthirst);
+                Memory.WriteFloat(thirstMax, newmaxthirst);
             }
 
             public static int GetStatus()
@@ -2325,23 +2325,23 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteInt(defense, newdef);
             }
 
-            public static int GetThirst()
+            public static float GetThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetThirst(int newthirst)
+            public static void SetThirst(float newthirst)
             {
-                Memory.WriteInt(thirst, newthirst);
+                Memory.WriteFloat(thirst, newthirst);
             }
-            public static int GetMaxThirst()
+            public static float GetMaxThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetMaxThirst(ushort newmaxthirst)
+            public static void SetMaxThirst(float newmaxthirst)
             {
-                Memory.WriteUShort(thirstMax, newmaxthirst);
+                Memory.WriteFloat(thirstMax, newmaxthirst);
             }
 
             public static int GetStatus()
@@ -3071,23 +3071,23 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteInt(defense, newdef);
             }
 
-            public static int GetThirst()
+            public static float GetThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetThirst(int newthirst)
+            public static void SetThirst(float newthirst)
             {
-                Memory.WriteInt(thirst, newthirst);
+                Memory.WriteFloat(thirst, newthirst);
             }
-            public static int GetMaxThirst()
+            public static float GetMaxThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetMaxThirst(ushort newmaxthirst)
+            public static void SetMaxThirst(float newmaxthirst)
             {
-                Memory.WriteUShort(thirstMax, newmaxthirst);
+                Memory.WriteFloat(thirstMax, newmaxthirst);
             }
 
             public static int GetStatus()
@@ -3826,23 +3826,23 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteInt(defense, newdef);
             }
 
-            public static int GetThirst()
+            public static float GetThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetThirst(int newthirst)
+            public static void SetThirst(float newthirst)
             {
-                Memory.WriteInt(thirst, newthirst);
+                Memory.WriteFloat(thirst, newthirst);
             }
-            public static int GetMaxThirst()
+            public static float GetMaxThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetMaxThirst(ushort newmaxthirst)
+            public static void SetMaxThirst(float newmaxthirst)
             {
-                Memory.WriteUShort(thirstMax, newmaxthirst);
+                Memory.WriteFloat(thirstMax, newmaxthirst);
             }
 
             public static int GetStatus()
@@ -4572,23 +4572,23 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteInt(defense, newdef);
             }
 
-            public static int GetThirst()
+            public static float GetThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetThirst(int newthirst)
+            public static void SetThirst(float newthirst)
             {
-                Memory.WriteInt(thirst, newthirst);
+                Memory.WriteFloat(thirst, newthirst);
             }
-            public static int GetMaxThirst()
+            public static float GetMaxThirst()
             {
-                return Memory.ReadInt(thirst);
+                return Memory.ReadFloat(thirst);
             }
 
-            public static void SetMaxThirst(ushort newmaxthirst)
+            public static void SetMaxThirst(float newmaxthirst)
             {
-                Memory.WriteUShort(thirstMax, newmaxthirst);
+                Memory.WriteFloat(thirstMax, newmaxthirst);
             }
 
             public static int GetStatus()

@@ -654,6 +654,10 @@ namespace Dark_Cloud_Improved_Version
                 {
                     case 0:
                         rolledEnemy = rnd.Next(0, DBCEnemies.Length);
+                        if (Memory.ReadByte(0x21CE448C) == 0) //flag for first quest complete
+                        {
+                            rolledEnemy = 1;
+                        }
                         generatedEnemyName = DBCEnemies[rolledEnemy];
                         enemyID = DBCEnemyIDs[rolledEnemy];
                         break;
@@ -873,6 +877,11 @@ namespace Dark_Cloud_Improved_Version
                 {
                     currentAddress += 0x00000002;
                 }
+            }
+
+            if (Memory.ReadByte(0x21CE448C) == 0)
+            {
+                Memory.WriteByte(0x21CE448C, 1);
             }
         }
 

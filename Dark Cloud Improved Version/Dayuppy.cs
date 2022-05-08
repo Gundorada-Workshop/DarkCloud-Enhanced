@@ -602,7 +602,8 @@ namespace Dark_Cloud_Improved_Version
                                             while (validElement == false)
                                             {
                                                 elementSelected--;
-                                                byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
+                                                //byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
+                                                byte elemAmount = Memory.ReadByte(0x21EA75A7 + (elementSelected * 0x1));
 
                                                 if (elementSelected < 0)
                                                 {
@@ -625,7 +626,8 @@ namespace Dark_Cloud_Improved_Version
                                             while (validElement == false)
                                             {
                                                 elementSelected++;
-                                                byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
+                                                //byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
+                                                byte elemAmount = Memory.ReadByte(0x21EA75A7 + (elementSelected * 0x1));
 
                                                 if (elementSelected > 4)
                                                 {
@@ -665,7 +667,7 @@ namespace Dark_Cloud_Improved_Version
                                             {
 
                                                 Memory.WriteByte(currentWepElemAddr, elementSelected); //Set element in HUD for weapon
-                                                Memory.WriteUShort(0x21EA75A6, elementSelected); //Set element 
+                                                Memory.WriteByte(0x21EA75A6, elementSelected); //Set element 
                                                                                                  //elemSwitching = true;
 
                                                 if (currentCharacter == 3)

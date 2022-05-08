@@ -98,6 +98,7 @@
             this.Btn_UserMode_Quit = new System.Windows.Forms.Button();
             this.TabControl_USER = new System.Windows.Forms.TabControl();
             this.Container_MainModes = new System.Windows.Forms.Panel();
+            this.Cbox_Usermode_AttackSounds = new System.Windows.Forms.CheckBox();
             this.Tab_Dev2.SuspendLayout();
             this.DEV_Page2_Table_Enemies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DEV_Page2_SplitContainer1)).BeginInit();
@@ -814,7 +815,7 @@
             // TabDev_BtnQuit
             // 
             this.TabDev_BtnQuit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.TabDev_BtnQuit.Location = new System.Drawing.Point(222, 32);
+            this.TabDev_BtnQuit.Location = new System.Drawing.Point(220, 32);
             this.TabDev_BtnQuit.Margin = new System.Windows.Forms.Padding(12, 11, 12, 11);
             this.TabDev_BtnQuit.Name = "TabDev_BtnQuit";
             this.TabDev_BtnQuit.Size = new System.Drawing.Size(87, 25);
@@ -916,6 +917,7 @@
             // 
             // Tab_User2
             // 
+            this.Tab_User2.Controls.Add(this.Cbox_Usermode_AttackSounds);
             this.Tab_User2.Controls.Add(this.CBox_UserMode_Graphics);
             this.Tab_User2.Controls.Add(this.CBox_UserMode_Widescreen);
             this.Tab_User2.Controls.Add(this.CBox_UserMode_WeaponBeeps);
@@ -1037,6 +1039,17 @@
             this.Container_MainModes.Size = new System.Drawing.Size(514, 345);
             this.Container_MainModes.TabIndex = 7;
             // 
+            // Cbox_Usermode_AttackSounds
+            // 
+            this.Cbox_Usermode_AttackSounds.AutoSize = true;
+            this.Cbox_Usermode_AttackSounds.Location = new System.Drawing.Point(47, 128);
+            this.Cbox_Usermode_AttackSounds.Name = "Cbox_Usermode_AttackSounds";
+            this.Cbox_Usermode_AttackSounds.Size = new System.Drawing.Size(235, 21);
+            this.Cbox_Usermode_AttackSounds.TabIndex = 4;
+            this.Cbox_Usermode_AttackSounds.Text = "Disable Character Attack Sounds";
+            this.Cbox_Usermode_AttackSounds.UseVisualStyleBackColor = true;
+            this.Cbox_Usermode_AttackSounds.CheckedChanged += new System.EventHandler(this.Cbox_Usermode_AttackSounds_CheckedChanged);
+            // 
             // ModWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1045,9 +1058,9 @@
             this.BackgroundImage = global::Dark_Cloud_Improved_Version.Properties.Resources.d06o_out_result;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(560, 389);
-            this.Controls.Add(this.TabControl_DEV);
             this.Controls.Add(this.TabControl_USER);
             this.Controls.Add(this.Container_MainModes);
+            this.Controls.Add(this.TabControl_DEV);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1155,6 +1168,7 @@
         private System.Windows.Forms.Label DEV_Page2_Label_Enemy2;
         private System.Windows.Forms.TextBox DEV_Page2_TextBox_Enemy2;
         private System.Windows.Forms.Button DEV_Page2_Btn_SetEnemiesMaxHP;
+        private System.Windows.Forms.CheckBox Cbox_Usermode_AttackSounds;
     }
 }
 

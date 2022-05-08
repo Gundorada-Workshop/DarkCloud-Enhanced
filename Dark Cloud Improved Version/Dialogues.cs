@@ -1807,6 +1807,70 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fairy King(renee house) dialogue fixed");
         }
 
+        public static void IntroTextAtNorune()
+        {
+            currentDialogue = "Wait...¤Have you already done^this before?¤Hmm... well,^whatever the case is...¤Prepare for a great journey,^or should I say...¤An Enhanced journey!!";
+            currentAddress = 0x20370A4E;
+
+            for (int i = 0; i < currentDialogue.Length; i++)
+            {
+                char character = currentDialogue[i];
+
+                for (int a = 0; a < gameCharacters.Length; a++)
+                {
+                    if (character.Equals(gameCharacters[a]))
+                    {
+                        if (a > 120)
+                        {
+                            if (a == 121)
+                            {
+                                value1 = BitConverter.GetBytes(250);
+                            }
+                            else if (a == 127)
+                            {
+                                value1 = BitConverter.GetBytes(2);
+                            }
+                        }
+                        else
+                        {
+                            value1 = BitConverter.GetBytes(a);
+                        }
+
+                        break;
+                    }
+                }
+
+
+                Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+
+                currentAddress += 0x00000001;
+
+                if (value1[0] == 0 || value1[0] == 2 || value1[0] == 3)
+                {
+                    value1 = BitConverter.GetBytes(255);
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                }
+                else if (value1[0] == 250)
+                {
+                    value1 = BitConverter.GetBytes(250);
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                }
+                else
+                {
+                    value1 = BitConverter.GetBytes(253);
+                    Memory.WriteOneByte(currentAddress, BitConverter.GetBytes(value1[0]));
+                }
+
+                currentAddress += 0x00000001;
+            }
+
+            Memory.WriteByte(currentAddress, 1);
+            currentAddress += 0x00000001;
+            Memory.WriteByte(currentAddress, 255);
+
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Intro cutscene custom msg");
+        }
+
         public static void ChangeDialogue()
         {
             if (customDialoguesCheck[savedDialogueCheck] != 1)  //change dialogue flag between 1st and 2nd dialogue
@@ -2164,7 +2228,7 @@ namespace Dark_Cloud_Improved_Version
             noruneXiao[4] = "Look at you, you are so cute^unlike those muscle freaks!";
             noruneXiao[5] = "I remember when Paige was a little girl,^her mother made her a plush cat^that looked just like you!¤Kids sure do grow up fast, people may^come and go but the memories we make^with out loved ones are eternal.¤Pretty poetic for a fisherman huh, hahaha!";
             noruneXiao[6] = "Sometimes it´s hard to be an older brother.^Macho and I may butt heads but^deep down we care about each other.^Do you have any siblings kitty?";
-            noruneXiao[7] = "No way, I can´t believe Ť let´s you go^on adventures with him. You are so lucky!";
+            noruneXiao[7] = "No way, I can´t believe Ť let´s^you go on adventures with him.^You are so lucky!";
             noruneXiao[8] = "Hey there, I´ve been seeing you^hang out with Ť! Are you^his little sidekick now? Ȟ";
             noruneXiao[9] = "I appreciate how you are helping Ť^on his journey, I still wonder where^he got that change potion.¤It´s hard for one person to try change^the world but if we all work together^as allies, anything is possible. Don´t^worry, I won´t tell anyone your secret Ȟ";
             noruneXiao[10] = "Are you helping Ť with^fixing other people´s houses?¤Since you´re helping people can^you help me, I have a bit of a mouse^problem. I could pay you in food!";

@@ -1094,7 +1094,8 @@ namespace Dark_Cloud_Improved_Version
 
                 if (Memory.ReadShort(currentActiveItem) == 175)
                 {
-                    if (Memory.ReadByte(0x21DC4484) == 0 || Memory.ReadByte(0x21DC4484) == 1 || Memory.ReadByte(0x21DC4484) == 2)
+                    byte animationID = Memory.ReadByte(0x21DC4484);
+                    if (animationID == 0 || animationID == 1 || animationID == 2 || animationID == 18)
                     {
                         if (squareActive == false)
                         {
@@ -1132,7 +1133,8 @@ namespace Dark_Cloud_Improved_Version
                 }
                 else if (Memory.ReadShort(currentActiveItem) == 177)
                 {
-                    if (Memory.ReadByte(0x21DC4484) == 0 || Memory.ReadByte(0x21DC4484) == 1 || Memory.ReadByte(0x21DC4484) == 2)
+                    byte animationID = Memory.ReadByte(0x21DC4484);
+                    if (animationID == 0 || animationID == 1 || animationID == 2 || animationID == 18)
                     {
                         if (squareActive == false)
                         {

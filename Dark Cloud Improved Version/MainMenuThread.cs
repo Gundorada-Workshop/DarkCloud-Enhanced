@@ -158,6 +158,7 @@ namespace Dark_Cloud_Improved_Version
                                         Thread.Sleep(800);
                                         Memory.WriteByte(0x21CE448A, 1);
                                         Thread.Sleep(200);
+                                        Dialogues.IntroTextAtNorune();
                                     }
 
 
