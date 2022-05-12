@@ -46,7 +46,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static int[] fairykingDay1 = CustomChests.galleryWeapons;
         public static int[] fairykingDay2 = { 181, 230 };
-        public static int[] fairykingDay3 = { 169, 185, 187, 188, 189, 193, 197, 199 };
+        public static int[] fairykingDay3 = { 169, 186, 187, 188, 189, 193, 197, 199 };
         public static int[] fairykingDay4 = { 132, 133, 134, 135, 150, 154 };
         public static int[][] fairykingRotation = { fairykingDay1, fairykingDay2, fairykingDay3, fairykingDay4, fairykingDay2 };
 

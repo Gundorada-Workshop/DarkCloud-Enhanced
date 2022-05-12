@@ -130,45 +130,48 @@ namespace Dark_Cloud_Improved_Version
 
         public static void SeventhHeaven()
         {
-            //Store the first empty slot
-            int slot = Player.Inventory.GetBagAttachmentsFirstAvailableSlot();
-
-            //Store the item in that slot (by default should always be empty)
-            int oldItem = Player.Inventory.GetBagAttachments()[slot];
-
-            Thread.Sleep(250);
-
-            //Re-check the item again in the same slot to see if a new item has been acquired
-            int newItem = Player.Inventory.GetBagAttachments()[slot];
-
-            //Check if a non gem attachment was obtained and proceed to make a copy of it
-            if (newItem != oldItem && newItem >= Items.fire && newItem <= Items.mageslayer)
+            while (Player.Weapon.GetCurrentWeaponId() == Items.seventhheaven && Memory.ReadByte(Addresses.mode) == 3 && Player.CheckDunIsWalkingMode() == true)
             {
-                const int attachmentOffset = 0x20;
-                const int attachmentValuesRange = 0x1F;
+                //Store the first empty slot
+                int slot = Player.Inventory.GetBagAttachmentsFirstAvailableSlot();
 
-                //Store the newly obtained attachment values
-                byte[] attachmentValues = Memory.ReadByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValuesRange);
+                //Store the item in that slot (by default should always be empty)
+                int oldItem = Player.Inventory.GetBagAttachments()[slot];
 
-                //If the item is a gem, roll for 50% chance to duplicate
-                if(newItem >= Items.garnet && newItem <= Items.turquoise)
+                Thread.Sleep(250);
+
+                //Re-check the item again in the same slot to see if a new item has been acquired
+                int newItem = Player.Inventory.GetBagAttachments()[slot];
+
+                //Check if a non gem attachment was obtained and proceed to make a copy of it
+                if (newItem != oldItem && newItem >= Items.fire && newItem <= Items.mageslayer)
                 {
-                    int roll = random.Next(100);
+                    const int attachmentOffset = 0x20;
+                    const int attachmentValuesRange = 0x1F;
 
-                    if(roll < 50)
+                    //Store the newly obtained attachment values
+                    byte[] attachmentValues = Memory.ReadByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValuesRange);
+
+                    //If the item is a gem, roll for 50% chance to duplicate
+                    if (newItem >= Items.garnet && newItem <= Items.turquoise)
                     {
-                        //Put a copy of the same attachment on the next available slot
-                        if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() != -1) Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+                        int roll = random.Next(100);
 
-                        Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27);
+                        if (roll < 50)
+                        {
+                            //Put a copy of the same attachment on the next available slot
+                            if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() != -1) Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+
+                            Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27, 3500);                          
+                        }
                         return;
                     }
+
+                    //Put a copy of the same attachment on the next available slot
+                    if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() != -1) Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
+
+                    Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27, 3500);
                 }
-
-                //Put a copy of the same attachment on the next available slot
-                if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() != -1) Memory.WriteByteArray(Addresses.firstBagAttachment + (attachmentOffset * Player.Inventory.GetBagAttachmentsFirstAvailableSlot()), attachmentValues);
-
-                Dayuppy.DisplayMessage("The 7th Heaven has blessed\nyou with a gift!", 2, 27);
             }
         }
 

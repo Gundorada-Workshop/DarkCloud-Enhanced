@@ -76,10 +76,10 @@ namespace Dark_Cloud_Improved_Version
                                                                                                                 nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(newEnemyNumber)));
 
                             //Remove the key from the original enemy
-                            Memory.WriteByte(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), 0);
+                            Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber), 0);
 
                             //Set the key onto a new enemy
-                            Memory.WriteByte(Enemies.Enemy0.forceItemDrop + (varOffset * newEnemyNumber), KeyId);
+                            Memory.WriteUShort(Enemies.Enemy0.forceItemDrop + (varOffset * newEnemyNumber), KeyId);
                         }
 
                         //  == Get base values from the chosen enemy ==

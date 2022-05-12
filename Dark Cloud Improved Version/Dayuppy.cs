@@ -722,6 +722,19 @@ namespace Dark_Cloud_Improved_Version
                         }
                 }
 
+                if (MainMenuThread.userMode == true)
+                {
+                    if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                    {
+                        Thread.Sleep(100);
+                        if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
+                        {
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Not ingame anymore! Exited from ElementThread!");
+                            break;
+                        }
+                    }
+                }
+
                 Thread.Sleep(1);
             }
         }
