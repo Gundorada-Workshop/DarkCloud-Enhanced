@@ -125,6 +125,7 @@
     <EmbeddedResource Include="Resources\RubyMemeFix\Ice" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Thunder" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Wind" />
+    <EmbeddedResource Include="Resources\Font\DarkCloud_Speech-Thin.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
