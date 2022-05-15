@@ -13,6 +13,9 @@ namespace Dark_Cloud_Improved_Version
             InitializeComponent();
             instance = this;
 
+            //User mode on launch!!!
+            UserModeLaunch();
+
         } 
 
         public static Thread dayThread = new Thread(new ThreadStart(Dayuppy.Testing)); //Create a new thread to run Testing() from within Dayuppy.cs
@@ -272,6 +275,13 @@ namespace Dark_Cloud_Improved_Version
             }
 
             Label_UserMode_PlaceholderText.Text = "Another instance of Enhanced Mod is already active!\n\nYou can close this window.";
+        }
+
+        void UserModeLaunch()
+        {
+            TabControl_USER.Visible = true;
+            Container_MainModes.Visible = false;
+            if (!launchThread.IsAlive) launchThread.Start();
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e) //when mod is quit

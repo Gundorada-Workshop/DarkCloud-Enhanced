@@ -1008,7 +1008,7 @@ namespace Dark_Cloud_Improved_Version
                 case 2:
                     fishSize = rnd.Next(90, 161);
                     generatedMinFishSize = fishSize;
-                    generatedMaxFishSize = fishSize + 5;
+                    generatedMaxFishSize = fishSize + 10;
                     Memory.WriteOneByte(currentAddressFishMinSizeReq, BitConverter.GetBytes(generatedMinFishSize));
                     Memory.WriteOneByte(currentAddressFishMaxSizeReq, BitConverter.GetBytes(generatedMaxFishSize));
                     break;
