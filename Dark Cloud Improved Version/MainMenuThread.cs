@@ -173,6 +173,7 @@ namespace Dark_Cloud_Improved_Version
                                         if (!townThread.IsAlive) townThread.Start();
                                         if (!dungeonthread.IsAlive) dungeonthread.Start();
                                         if (!weaponspecialeffectThread.IsAlive) weaponspecialeffectThread.Start();
+                                        CheckModWindowOptions(currentMode);
                                         ingameFlag = true;
                                     }
                                     else
@@ -256,6 +257,14 @@ namespace Dark_Cloud_Improved_Version
             }
 
             Memory.WriteByte(0x21F10024, 0); //disable mod's flag for pnach
+        }
+
+        public static void CheckModWindowOptions(int mode)
+        {
+            if (mode != 5)
+            {
+                ModWindow.ModWindowOptionsEnabled();
+            }
         }
     }
 }

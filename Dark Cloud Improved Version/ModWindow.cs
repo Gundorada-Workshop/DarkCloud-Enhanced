@@ -103,6 +103,12 @@ namespace Dark_Cloud_Improved_Version
         {
             instance.FormEnhancedModAlreadyOpen(true);
         }
+
+        public static void ModWindowOptionsEnabled()
+        {
+            instance.ModWindowSettingsCheck(true);
+                
+        }
         void NoEmulatorsActive(bool enable)
         {
             if (InvokeRequired)
@@ -277,6 +283,76 @@ namespace Dark_Cloud_Improved_Version
             Label_UserMode_PlaceholderText.Text = "Another instance of Enhanced Mod is already active!\n\nYou can close this window.";
         }
 
+        void ModWindowSettingsCheck(bool enable)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new EnableDelegate(ModWindowSettingsCheck), new object[] { enable });
+                return;
+            }
+
+            if (Memory.ReadByte(0x21CE4490) == 1) //option 1
+            {
+                CBox_UserMode_Graphics.Checked = true;
+                Memory.WriteByte(0x21F10034, 1);
+            }
+            else
+            {
+                CBox_UserMode_Graphics.Checked = false;
+                Memory.WriteByte(0x21F10034, 0);
+            }
+
+            if (Memory.ReadByte(0x21CE4491) == 1) //option 2
+            {
+                CBox_UserMode_Widescreen.Checked = true;
+                Memory.WriteByte(0x21F10030, 1);
+            }
+            else
+            {
+                CBox_UserMode_Widescreen.Checked = false;
+                Memory.WriteByte(0x21F10030, 0);
+            }
+
+            if (Memory.ReadByte(0x21CE4492) == 1) //option 3
+            {
+                CBox_UserMode_WeaponBeeps.Checked = true;
+                Memory.WriteByte(0x21F10028, 1);
+            }
+            else
+            {
+                CBox_UserMode_WeaponBeeps.Checked = false;
+                Memory.WriteByte(0x21F10028, 0);
+            }
+
+            if (Memory.ReadByte(0x21CE4493) == 1) //option 4
+            {
+                CBox_UserMode_BattleMusic.Checked = true;
+                Memory.WriteByte(0x21F1002C, 1);
+            }
+            else
+            {
+                CBox_UserMode_BattleMusic.Checked = false;
+                Memory.WriteByte(0x21F1002C, 0);
+            }
+
+            if (Memory.ReadByte(0x21CE4494) == 1) //option 5
+            {
+                Cbox_Usermode_AttackSounds.Checked = true;
+                for (int c = 0; (c < attackSoundAddresses.Length) && (c < attackSoundValues.Length); c++)
+                {
+                    Memory.WriteByte(attackSoundAddresses[c], 0); //disable attack sounds
+                }
+            }
+            else
+            {
+                Cbox_Usermode_AttackSounds.Checked = false;
+                for (int c = 0; (c < attackSoundAddresses.Length) && (c < attackSoundValues.Length); c++)
+                {
+                    Memory.WriteByte(attackSoundAddresses[c], attackSoundValues[c]); //enable attack sounds
+                }
+            }
+        }
+
         void UserModeLaunch()
         {
             TabControl_USER.Visible = true;
@@ -365,10 +441,12 @@ namespace Dark_Cloud_Improved_Version
             if (CBox_UserMode_WeaponBeeps.Checked == true)
             {
                 Memory.WriteByte(0x21F10028, 1); //Flag to disable weapon beeping sounds
+                Memory.WriteByte(0x21CE4492, 1);
             }
             else if (CBox_UserMode_WeaponBeeps.Checked == false)
             {
                 Memory.WriteByte(0x21F10028, 0);
+                Memory.WriteByte(0x21CE4492, 0);
             }
         }
 
@@ -377,10 +455,12 @@ namespace Dark_Cloud_Improved_Version
             if (CBox_UserMode_BattleMusic.Checked == true)
             {
                 Memory.WriteByte(0x21F1002C, 1); //Flag to disable weapon beeping sounds
+                Memory.WriteByte(0x21CE4493, 1);
             }
             else if (CBox_UserMode_BattleMusic.Checked == false)
             {
                 Memory.WriteByte(0x21F1002C, 0);
+                Memory.WriteByte(0x21CE4493, 0);
             }
         }
 
@@ -389,10 +469,12 @@ namespace Dark_Cloud_Improved_Version
             if (CBox_UserMode_Widescreen.Checked == true)
             {
                 Memory.WriteByte(0x21F10030, 1); //Flag to enable widescreen
+                Memory.WriteByte(0x21CE4491, 1);
             }
             else if (CBox_UserMode_Widescreen.Checked == false)
             {
                 Memory.WriteByte(0x21F10030, 0);
+                Memory.WriteByte(0x21CE4491, 0);
             }
         }
 
@@ -401,10 +483,12 @@ namespace Dark_Cloud_Improved_Version
             if (CBox_UserMode_Graphics.Checked == true)
             {
                 Memory.WriteByte(0x21F10034, 1); //Flag to enable graphical improvements
+                Memory.WriteByte(0x21CE4490, 1);
             }
             else if (CBox_UserMode_Graphics.Checked == false)
             {
                 Memory.WriteByte(0x21F10034, 0);
+                Memory.WriteByte(0x21CE4490, 0);
             }
         }
 
@@ -416,6 +500,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Memory.WriteByte(attackSoundAddresses[c], 0); //disable attack sounds
                 }
+                Memory.WriteByte(0x21CE4494, 1);
             }
             else if (Cbox_Usermode_AttackSounds.Checked == false)
             {
@@ -423,6 +508,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Memory.WriteByte(attackSoundAddresses[c], attackSoundValues[c]); //enable attack sounds
                 }
+                Memory.WriteByte(0x21CE4494, 0);
             }
         }
 

@@ -69,5 +69,15 @@ namespace Dark_Cloud_Improved_Version.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] DarkCloud_Speech_Thin {
+            get {
+                object obj = ResourceManager.GetObject("DarkCloud_Speech_Thin", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
