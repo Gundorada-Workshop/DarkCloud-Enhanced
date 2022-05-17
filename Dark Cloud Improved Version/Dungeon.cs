@@ -317,14 +317,7 @@ namespace Dark_Cloud_Improved_Version
                             //Initialize the spawns check
                             Memory.WriteInt(Enemies.Enemy0.hp, 1);
                             spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
-                            spawnsCheck.Start();
-
-                            monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
-
-                            for (int i = 0; i < monstersDead.Length; i++)
-                            {
-                                monstersDead[i] = false;
-                            }
+                            spawnsCheck.Start();                          
 
                             eventfloor = false;
                         }
@@ -622,6 +615,13 @@ namespace Dark_Cloud_Improved_Version
             //CustomEffects.evilciseNewFloor = true;
             CustomEffects.chronicleNewFloor = true;
             ReusableFunctions.ClearRecentDamageAndDamageSource();
+
+            monsterQuestActive = SideQuestManager.CheckCurrentDungeonQuests(currentDungeon);
+
+            for (int i = 0; i < monstersDead.Length; i++)
+            {
+                monstersDead[i] = false;
+            }
 
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished spawn checking");
 

@@ -157,9 +157,9 @@ namespace Dark_Cloud_Improved_Version
         static int[] brownbooRubyCheck = new int[15];
         static int[] brownbooUngagaCheck = new int[15];
         static int[] brownbooOsmondCheck = new int[15];
-        static int[] darkheavenXiaoCheck = new int[5];
-        static int[] darkheavenGoroCheck = new int[5];
-        static int[] darkheavenRubyCheck = new int[5];
+        static int[] darkheavenXiaoCheck = new int[15];
+        static int[] darkheavenGoroCheck = new int[15];
+        static int[] darkheavenRubyCheck = new int[15];
         static int[] darkheavenUngagaCheck = new int[15];
         static int[] darkheavenOsmondCheck = new int[15];
 
@@ -188,7 +188,6 @@ namespace Dark_Cloud_Improved_Version
         static byte[] value1 = new byte[1];
         static byte[] value = new byte[2];
         static byte[] value4 = new byte[4];
-
         static char[] gameCharacters = { '^', '§', '_', '¤', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', 'Ȟ', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', '§', //32
                               'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', //58
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', //84
