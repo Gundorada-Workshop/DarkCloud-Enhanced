@@ -1087,7 +1087,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void CheckActiveItems()
         {
-            if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Square)
+            if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Square && (Memory.ReadByte(0x21D5676D) > 0 && Memory.ReadInt(0x21D56770) == -1) )
             {
                 int currentSlot = Memory.ReadInt(0x202A3598);
                 int currentActiveItem = 0x21CDD8AC + (0x2 * currentSlot);

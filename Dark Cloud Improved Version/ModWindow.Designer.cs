@@ -95,6 +95,7 @@
             this.CBox_UserMode_WeaponBeeps = new System.Windows.Forms.CheckBox();
             this.CBox_UserMode_BattleMusic = new System.Windows.Forms.CheckBox();
             this.Tab_User1 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
             this.Label_UserMode_PlaceholderText = new System.Windows.Forms.Label();
             this.Label_UserMode_WelcomeTitle = new System.Windows.Forms.Label();
             this.Btn_UserMode_Quit = new System.Windows.Forms.Button();
@@ -105,7 +106,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Container_MainModes = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.Tab_Dev2.SuspendLayout();
             this.DEV_Page2_Table_Enemies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DEV_Page2_SplitContainer1)).BeginInit();
@@ -1037,6 +1037,15 @@
             this.Tab_User1.Text = "General";
             this.Tab_User1.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(49, 264);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(154, 16);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Beta Version: 0.9.02";
+            // 
             // Label_UserMode_PlaceholderText
             // 
             this.Label_UserMode_PlaceholderText.Location = new System.Drawing.Point(46, 70);
@@ -1141,15 +1150,6 @@
             this.Container_MainModes.Padding = new System.Windows.Forms.Padding(57, 0, 57, 0);
             this.Container_MainModes.Size = new System.Drawing.Size(530, 360);
             this.Container_MainModes.TabIndex = 7;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(49, 264);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(151, 16);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Beta Version: 0.9.01";
             // 
             // ModWindow
             // 

@@ -1181,6 +1181,8 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress = 0x20648FBA;
             }
 
+            TownCharacter.characterIDData = characterIdData;
+
             if (currentDialogue != null)
             {
                 byte[] dialogueArray = new byte[currentDialogue.Length * 2];
