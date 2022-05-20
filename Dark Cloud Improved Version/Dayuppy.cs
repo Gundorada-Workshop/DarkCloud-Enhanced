@@ -811,7 +811,9 @@ namespace Dark_Cloud_Improved_Version
             int ms;
 
             //Check if a dungeon message is displaying
-            if (Memory.ReadInt(Addresses.dunMessage) != -1 && Memory.ReadInt(Addresses.dunMessage) != 171) //Thirst Message
+            if (Memory.ReadInt(Addresses.dunMessage) != -1 &&
+                Memory.ReadInt(Addresses.dunMessage) != 171 //Thirst Message
+                && Memory.ReadInt(Addresses.dunItemMessage) != -1) 
             {
                 //Reset timer
                 ms = 0;
@@ -1015,7 +1017,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteInt(Addresses.dunMessage, messageId);
             Memory.WriteInt(Addresses.dunMessageDuration, displayTime);
             Thread.Sleep(300);
-            if (isFloorClearMessage) Memory.WriteByteArray(messageAddress, hornHead); //Display the 3319th dungeon message (last enemy name [HornHead] message)
+            if (isFloorClearMessage && CheckDisplayMessageAvailable()) Memory.WriteByteArray(messageAddress, hornHead); //Display the 3319th dungeon message (last enemy name [HornHead] message)
             /*messageThreadTimer = new Thread(() => DisplayMessageCustomTime(displayTime));
             messageThreadTimer.Start();*/
 

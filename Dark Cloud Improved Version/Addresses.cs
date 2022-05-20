@@ -65,6 +65,7 @@
         public const int dunPausePlayer = 0x202A3564;           //Is the player model in the pause state (0 = OFF/1 = ON)
         public const int dunPauseEnemy = 0x202A34DC;            //Are the enemy models in the pause state (0 = OFF/1 = ON)
         public const int dunMessage = 0x21EA76B4;               //Message box to display while in dungeon - 4294967295 shows nothing
+        public const int dunItemMessage = 0x21CFCCEC;           //The tooltip that appears when picking up and item
         public const int dunToggle1 = 0x21EA7690;               //Toggles the message on/off
         public const int dunToggle2 = 0x21EA76AC;               //Toggles the message on/off
         public const int dunMessageWidth = 0x21EB6438;          // Value is equal to the number of chars in a string (Ex: 5 -> width of a 5 char string)
