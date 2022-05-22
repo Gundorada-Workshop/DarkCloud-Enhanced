@@ -49,8 +49,8 @@ namespace Dark_Cloud_Improved_Version
                 int enemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count);
                 //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nEnemyNumber rolled before flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
 
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\n== Enemy IDs ==");
-                foreach (ushort enemy in Enemies.GetFloorEnemiesIds()) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + enemy);
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\n== Enemy IDs ==");
+                //foreach (ushort enemy in Enemies.GetFloorEnemiesIds()) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + enemy);
 
                 //Check if the chosen enemy has an ID
                 if (Enemies.GetFloorEnemyId(enemyNumber) > 0)

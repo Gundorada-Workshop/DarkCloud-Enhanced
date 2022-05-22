@@ -474,13 +474,15 @@ namespace Dark_Cloud_Improved_Version
                 }
 
                 //Add the HP value to the characters current HP
-                if (ToanHp < ToanMaxHp) Player.Toan.SetHp((ushort)(ToanHp + HpValueAdd));
-                    //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Toan HP add: " + (ToanHp + HpValueAdd));
-                if (GoroHp < GoroMaxHp) Player.Goro.SetHp((ushort)(GoroHp + HpValueAdd));
-                if (RubyHp < RubyMaxHp) Player.Ruby.SetHp((ushort)(RubyHp + HpValueAdd));
-                if (UngagaHp < UngagaMaxHp) Player.Ungaga.SetHp((ushort)(UngagaHp + HpValueAdd));
-                if (OsmondHp < OsmondMaxHp) Player.Osmond.SetHp((ushort)(OsmondHp + HpValueAdd));
-                if (isHealXiao && XiaoHp < XiaoMaxHp) Player.Xiao.SetHp((ushort)(XiaoHp + HpValueAdd));
+                if (ToanHp < ToanMaxHp && ToanHp > 0) Player.Toan.SetHp((ushort)(ToanHp + HpValueAdd));
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Toan HP add: " + (ToanHp + HpValueAdd));
+                if (GoroHp < GoroMaxHp && GoroHp > 0) Player.Goro.SetHp((ushort)(GoroHp + HpValueAdd));
+                if (RubyHp < RubyMaxHp && RubyHp > 0) Player.Ruby.SetHp((ushort)(RubyHp + HpValueAdd));
+                if (UngagaHp < UngagaMaxHp && UngagaHp > 0) Player.Ungaga.SetHp((ushort)(UngagaHp + HpValueAdd));
+                if (OsmondHp < OsmondMaxHp && OsmondHp > 0) Player.Osmond.SetHp((ushort)(OsmondHp + HpValueAdd));
+
+                //Only affect Xiao if Angel Gear does not have the Heal attribute already
+                if (isHealXiao && XiaoHp < XiaoMaxHp && XiaoHp > 0) Player.Xiao.SetHp((ushort)(XiaoHp + HpValueAdd));
 
                 //Wait in between additions
                 Thread.Sleep(Delay);

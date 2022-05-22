@@ -1269,7 +1269,7 @@ namespace Dark_Cloud_Improved_Version
                         Dialogues.SetDialogue(i, false, false, true);
                         Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
                         nearNPCSD = true;
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "itsfinished dialogue set");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "its finished dialogue set");
                         itsfinishedonDialogueFlag = 1;
                     }
                     checkNearNPC++;
@@ -1611,7 +1611,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
@@ -1641,7 +1641,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan did its thing!" /*multiplied FP's"*/);
                                 }
                                 else
                                 {
@@ -1718,7 +1718,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
@@ -1748,7 +1748,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan did its thing!" /*multiplied FP's"*/);
                                 }
                                 else
                                 {
@@ -1825,7 +1825,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
@@ -1855,7 +1855,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan did its thing!" /*multiplied FP's"*/);
                                 }
                                 else
                                 {
@@ -1949,7 +1949,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         fishArray[i] = Memory.ReadByte(currentAddress);
                         currentAddress += 0x00002410;
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "fish " + i + " ID: " + fishArray[i]);
                         fishCaught[i] = false;
                     }
 
@@ -1979,7 +1979,7 @@ namespace Dark_Cloud_Improved_Version
                                     FPavg = FPavg * mardanMultiplier;
                                     Memory.WriteInt(currentAddress, FPavg);
                                     currentAddress += 0x0000240C;
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan multiplied FP's");
+                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mardan did its thing!" /*multiplied FP's"*/);
                                 }
                                 else
                                 {

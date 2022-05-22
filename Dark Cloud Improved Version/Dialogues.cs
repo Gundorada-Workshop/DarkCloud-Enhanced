@@ -1805,7 +1805,7 @@ namespace Dark_Cloud_Improved_Version
             currentAddress += 0x00000001;
             Memory.WriteByte(currentAddress, 255);
 
-            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fairy King(renee house) dialogue fixed");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Fairy King (renee house) dialogue fixed");
         }
 
         public static void IntroTextAtNorune()
@@ -2130,7 +2130,7 @@ namespace Dark_Cloud_Improved_Version
             if (charByte > 250)
             {            
                  storageAllDialogues = Memory.ReadByteArray(0x20645000, 200000);
-                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "started char fixing, alldialogue length: " + storageAllDialogues.Length);
+                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "started char fixing, all dialogue length: " + storageAllDialogues.Length);
                  for (int i = 0; i < storageAllDialogues.Length; i++)
                  {
                      if (storageAllDialogues[i] == 250)
@@ -2183,7 +2183,7 @@ namespace Dark_Cloud_Improved_Version
             if (charByte > 250)
             {
                 storageAllDialogues = Memory.ReadByteArray(0x218229E0, 37000);
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "started shop char fixing, alldialogue length: " + storageAllDialogues.Length);
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "started shop char fixing, all dialogue length: " + storageAllDialogues.Length);
                 for (int i = 0; i < storageAllDialogues.Length; i++)
                 {
                     if (storageAllDialogues[i] == 250)
@@ -2242,7 +2242,7 @@ namespace Dark_Cloud_Improved_Version
             noruneXiao2[3] = "Gina would love to have you as a playmate,^the poor girl gets lonely now that^Ť is too busy to play with her.";
             noruneXiao2[4] = "If you are ever hungry you should go^to Uncle Pike, he always has spare fish!";
             noruneXiao2[5] = "Have you ever heard of the legendary^fish Mardan Garayan, knowing my^luck you probably ate one before!";
-            noruneXiao2[6] = "I remember there was once luchador who^wore a red lion mask who stood for justice^and good, he was as quick as thunder.¤He fought for many decades before^he was finally defeated by evil.^They say he fought valiantly to^the bitter end that even those evil¤doers respected his resolve. I´m sure^there are many who are following^the footsteps of that hero.";
+            noruneXiao2[6] = "I remember there was once a luchador who^wore a red lion mask who stood for justice^and good, he was as quick as thunder.¤He fought for many decades before^he was finally defeated by evil.^They say he fought valiantly to^the bitter end that even those evil¤doers respected his resolve. I´m sure^there are many who are following^the footsteps of that hero.";
             noruneXiao2[7] = "It´s no fair, I always wanted a pet cat^but my sister doesn´t let me have one^after I had that accident with my^pet fish Uncle Pike gave me...";
             noruneXiao2[8] = "Ť may act like a tough guy but^he doesn´t always use his head.^Sometimes I really worry about him.¤It´s not like I can go with him^you know. You can though, I see^you following him around everywhere.¤Can you do me a favour and make^sure he stays out of trouble?^Thanks Ӿ, I appreciate it.";
             noruneXiao2[9] = "Is Ť taking proper care of you?^That boy has a good heart but sometimes^he works way too hard, he gets^that habit from his father.";
@@ -2704,7 +2704,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaXiao[7] = "No one should ever under estimate the^killer instinct of an animal.¤You may be small but you´re a worthy^hunter in your own right.";
             muskarackaXiao[8] = "Hey cat, how about you bust me out of^here!";
             muskarackaXiao[9] = "Wow, a cat in our village!^Would you like to play with me?";
-            muskarackaXiao[10] = "You, your no ordinary cat...¤What are you?";
+            muskarackaXiao[10] = "You, you´re no ordinary cat...¤What are you?";
 
             muskarackaXiao2[0] = "Everyone thinks that Ų is^the most handsome looking man^in the village!¤Keep this between you and me but^everyone here has low standards!¤Here I am talking to^a wild animal, shoo!";
             muskarackaXiao2[1] = "I always see you following the boy in^the green hat. I once knew a man with^sparkling eyes just like him, full of^hope and strength.¤He was a travelling adventurer, when he^made his way here he defeated everyone^in the village!¤They say he was looking for something or^perhaps someplace...¤He was determined so I´m sure he found^what he was looking for.";
@@ -3098,7 +3098,7 @@ namespace Dark_Cloud_Improved_Version
             darkheavenGoro2 = "It´s time to make a stand brave Hunter,^like all of those hunters who came^before you: in the name of the young^who will come after you.¤For the sake of all the life on^Terra... For the sake of your Father.¤Make him proud Ʊ,^he´ll always be watching you.¤May the Spirits guide your way.";
             darkheavenRuby = "Whether it truly be for the personal^glory of proving that you are the best^Genie or a genuine concern for the^fate of Terra, it was very admirable^of you to aid Ť on his quest.¤To involve yourself in the affairs of^others, let alone aiding human, you^now have your chance to prove you are^indeed the most powerful genie in^all of the land.¤But know this, the Dark Genie will^not go out without a fight...";
             darkheavenRuby2 = "This is the final battle Ʀ,^Genie against Genie, magic against magic,^the Spirits cry out as you clash.¤The fate of Terra depends on which^side will prevail!¤This perilous journey has taken you^and your allies all around Terra and^now it´s finally met it´s end.";
-            darkheavenUngaga = "On that tragic night when the Genie^ravaged Terra, you fought to protect^your village.¤You fought to protect the^village you called home.¤As fate would have it you lost^everything, even the will to live...¤Despite the Genie´s best efforts to^destroy life on Terra, here you stand.¤That´s a testimate to the strength^you and your allies wield and the will^to succeed.¤Know that you are not fighting to^defend just your kinsfolk but also^those who you matter to you:^for Mikara.";
+            darkheavenUngaga = "On that tragic night when the Genie^ravaged Terra, you fought to protect^your village.¤You fought to protect the^village you called home.¤As fate would have it you lost^everything, even the will to live...¤Despite the Genie´s best efforts to^destroy life on Terra, here you stand.¤That´s a testament to the strength^you and your allies wield and the will^to succeed.¤Know that you are not fighting to^defend just your kinsfolk but also^those who you matter to you:^for Mikara.";
             darkheavenUngaga2 = "The warriors of Muska Racka have^always been renowned for their bravery.¤The Spirits and I have watched from^afar for generations as the desert^tribes clashed on the battlefield.¤Ų, you possess a skill which^many warriors do not: compassion.¤Perhaps after the threat of the Genie^has been vanquished you can use that^compassion to unify the tribes and^bring peace to the desert.";
             darkheavenOsmond = "I must say, when Ť and I^travelled to Yellow Drops I took the^opportunity to look down upon Terra^from the Moons.¤Looking at our world, our home, the^joy and suffering, it was a sobering^experience.¤Mankind has often dealt with an issue^of self-importance, Flagg Gilgister^is proof of that, but when I look¤at Ť and his allies I see a^band of brave adventurers taking^a stand to defend all life.¤I humbly thank you for involving^yourself in the affairs of Terra.¤Like it or not but for the moment,^this is where we make our stand.¤To preserve and cherish all life^in our world.";
             darkheavenOsmond2 = "I wonder how the magical power of the^Dark Genie will compare with the cutting^edge technology of Yellow Drops´^greatest inventor.¤I must say that strange weapon you^wield scares me ohohohohoho!";

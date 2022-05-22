@@ -3304,7 +3304,7 @@ namespace Dark_Cloud_Improved_Version
 
         public static void WeaponsBalanceChanges()
         {
-            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "MikeZorD weapon changes have been applied...");
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon changes have been applied...");
 
 
             /****************************************

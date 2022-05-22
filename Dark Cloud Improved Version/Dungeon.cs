@@ -840,7 +840,7 @@ namespace Dark_Cloud_Improved_Version
         {
             if (currentDungeon == 4 && currentFloor == 6 && Memory.ReadByte(0x21CE445E) == 1)
             {
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Yellow drops challenge active");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Yellow drops challenge active");
                 sambaChallengeQuest = true;
             }
             else
@@ -855,7 +855,7 @@ namespace Dark_Cloud_Improved_Version
                     if (currentFloor == Memory.ReadByte(0x21CE4469) -1)
                     {
                         mayorQuest = true;
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mayor quest active in this floor");
+                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mayor quest active in this floor");
                     }
                     else
                     {
@@ -945,7 +945,7 @@ namespace Dark_Cloud_Improved_Version
                 if ((currentweaponID != 258 && currentweaponID != 257) || Memory.ReadByte(0x21DC4484) == 26 || Memory.ReadByte(0x21DC4484) == 27)
                 {
                     Thread.Sleep(500);
-                    Dayuppy.DisplayMessage("Samba's quest has been cancelled.\nYou need to re-enter.", 2, 40, 4000);
+                    Dayuppy.DisplayMessage("Samba's quest has been cancelled.\nRe-enter in order to activate it.", 2, 40, 4000);
                     sambaChallengeQuestActive = false;
                 }
                 byte enemieskilled = 0;
@@ -1010,7 +1010,7 @@ namespace Dark_Cloud_Improved_Version
                 if (Memory.ReadByte(0x21DC4484) == 26 || Memory.ReadByte(0x21DC4484) == 27)
                 {
                     Thread.Sleep(500);
-                    Dayuppy.DisplayMessage("Mayor's quest has been cancelled.\nYou need to re-enter.", 2, 40, 4000);
+                    Dayuppy.DisplayMessage("Mayor's quest has been cancelled.\nRe-enter in order to re-attempt it.", 2, 40, 4000);
                     mayorQuestActive = false;
                 }
 
@@ -1323,7 +1323,7 @@ namespace Dark_Cloud_Improved_Version
 
             if (wepID == 296)
             {
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "SoZ leveled up!");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "SoZ leveled up!");
                 byte currentThunder = Memory.ReadByte(Player.Toan.WeaponSlot0.thunder + (0xF8 * wepOffset));
                 ushort storedThunder = (ushort)(Memory.ReadUShort(0x21CE446D) + currentThunder);
                 if (storedThunder > 30000)
@@ -1389,9 +1389,9 @@ namespace Dark_Cloud_Improved_Version
             {
                 ushort attackboost = (ushort)(storedThunder / 2);
                 maxAttack = (ushort)(maxAttack + attackboost);
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "maxattack: " + maxAttack);
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "maxattack: " + maxAttack);
             }
-            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "SoZ max attack changed!");
+            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "SoZ max attack changed!");
             Memory.WriteUShort(0x2027B298, maxAttack);
         }
 
