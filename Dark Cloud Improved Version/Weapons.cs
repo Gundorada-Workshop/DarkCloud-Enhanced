@@ -3304,251 +3304,254 @@ namespace Dark_Cloud_Improved_Version
 
         public static void WeaponsBalanceChanges()
         {
-            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon changes have been applied...");
-
-
-            /****************************************
-             *               TOAN                   *
-             ****************************************/
-
-            //Baselard
-            Memory.WriteUShort(endurance + (weaponoffset * (Items.baselard - daggerid)), 30);   //Endurance set to 30
-
-            //Antique Sword
-            Memory.WriteUShort(speed + (weaponoffset * (Items.antiquesword - daggerid)), 70);   //Speed set to 70
-            Memory.WriteUShort(fire + (weaponoffset * (Items.antiquesword - daggerid)), 15);    //Fire set to 15
-
-            //Kitchen Knife
-            Memory.WriteUShort((whp + (weaponoffset * (Items.kitchenknife - daggerid))), 50);          //Whp set to 50
-            Memory.WriteUShort((attack + (weaponoffset * (Items.kitchenknife - daggerid))), 25);       //Attack set to 25
-            Memory.WriteUShort((endurance + (weaponoffset * (Items.kitchenknife - daggerid))), 30);    //Endurance set to 30
-            Memory.WriteUShort((ice + (weaponoffset * (Items.kitchenknife - daggerid))), 0);           //Ice set to 0
-            Memory.WriteUShort((thunder + (weaponoffset * (Items.kitchenknife - daggerid))), 8);       //Thunder set to 0
-            Memory.WriteUShort((sea + (weaponoffset * (Items.kitchenknife - daggerid))), 90);          //Sea Killer set to 90
-            Memory.WriteUShort((buildup + 5 + (weaponoffset * (Items.kitchenknife - daggerid))), 0);   //Set build-up branches to none (The 5 was just to offset to the correct address since I wasn't finding a way to write 8 bytes)
-
-            //Tsukikage
-            Memory.WriteUShort((endurance + (weaponoffset * (Items.tsukikage - daggerid))), 33);    //Endurance set to 33
-            Memory.WriteUShort((speed + (weaponoffset * (Items.tsukikage - daggerid))), 80);        //Speed set to 80
-
-            //Macho Sword
-            Memory.WriteByte((effect2 + (weaponoffset * (Items.machosword - daggerid))), 32);  //Adds ABS up effect
-
-            //Heaven's Cloud
-            Memory.WriteUShort((synth3 + (weaponoffset * (Items.heavenscloud - daggerid))), 1);    //Adds a 3rd regular attachment slot
-
-            //Lamb's Sword
-            Memory.WriteUShort((synth3 + (weaponoffset * (Items.lambsswordnormal - daggerid))), 1);    //Adds a 3rd regular attachment slot
-            Memory.WriteDouble(lambTransformThreshold, 0.5);    //Change the percent limit for when the sword should transform
-            Memory.WriteFloat(lambStatsThreshold, (float) 0.5); //Change the percent limit for when the sword stats should upgrade
-
-            //Brave Ark
-            Memory.WriteUShort((synth3 + (weaponoffset * (Items.braveark - daggerid))), 1);    //Adds a 3rd regular attachment slot
-
-            //Big Gang
-            Memory.WriteUShort((speed + (weaponoffset * (Items.bigbang - daggerid))), 70);    //Speed set to 70
-
-            //Small Sword
-            Memory.WriteUShort((whp + (weaponoffset * (Items.smallsword - daggerid))), 35);      //Whp set to 35
-            Memory.WriteUShort((magic + (weaponoffset * (Items.smallsword - daggerid))), 17);    //Magic set to 17
-            Memory.WriteUShort((sea + (weaponoffset * (Items.smallsword - daggerid))), 0);       //Sea Killer set to 0
-            Memory.WriteUShort((metal + (weaponoffset * (Items.smallsword - daggerid))), 10);    //Metal Breaker set to 10
-
-            //Sand Breaker
-            Memory.WriteUShort((whp + (weaponoffset * (Items.sandbreaker - daggerid))), 45);          //Whp set to 45
-            Memory.WriteUShort((endurance + (weaponoffset * (Items.sandbreaker - daggerid))), 25);    //Endurance set to 25
-            Memory.WriteUShort((synth3 + (weaponoffset * (Items.sandbreaker - daggerid))), 1);        //Adds a 3rd regular attachment slot
-
-            //Drain Seeker
-            Memory.WriteUShort((whp + (weaponoffset * (Items.drainseeker - daggerid))), 60); //Whp set to 60
-
-            //Chopper
-            Memory.WriteUShort((speed + (weaponoffset * (Items.chopper - daggerid))), 60); //Speed set to 60
-
-            //Choora
-            Memory.WriteUShort((whp + (weaponoffset * (Items.choora - daggerid))), 57);      //Whp set to 57
-            Memory.WriteUShort((attack + (weaponoffset * (Items.choora - daggerid))), 45);   //Attack set to 45
-            Memory.WriteUShort((speed + (weaponoffset * (Items.choora - daggerid))), 70);    //Speed set to 70
-            Memory.WriteUShort((ice + (weaponoffset * (Items.choora - daggerid))), 10);      //Ice set to 10
-            Memory.WriteUShort((thunder + (weaponoffset * (Items.choora - daggerid))), 15);  //Thunder set to 15
-            Memory.WriteUShort((undead + (weaponoffset * (Items.choora - daggerid))), 15);   //Undead Buster set to 15
-            Memory.WriteUShort((beast + (weaponoffset * (Items.choora - daggerid))), 15);    //Beaster Buster set to 15
-            Memory.WriteUShort((metal + (weaponoffset * (Items.choora - daggerid))), 15);    //Metal Breaker set to 15
-            Memory.WriteUShort((synth3 + (weaponoffset * (Items.choora - daggerid))), 1);    //Adds a 3rd regular attachment slot
-
-            //Claymore
-            Memory.WriteUShort((undead + (weaponoffset * (Items.claymore - daggerid))), 10);   //Undead Buster set to 10
-            Memory.WriteUShort((beast + (weaponoffset * (Items.claymore - daggerid))), 10);    //Beaster Buster set to 10
-            Memory.WriteUShort((mage + (weaponoffset * (Items.claymore - daggerid))), 10);     //Mage Slayer set to 10
-
-            //Maneater
-            Memory.WriteUShort((endurance + (weaponoffset * (Items.maneater - daggerid))), 44);    //Endurance set to 44
-            Memory.WriteUShort((speed + (weaponoffset * (Items.maneater - daggerid))), 70);        //Speed set to 70
-            Memory.WriteUShort((magic + (weaponoffset * (Items.maneater - daggerid))), 45);        //Magic set to 45
-            Memory.WriteUShort((ice + (weaponoffset * (Items.maneater - daggerid))), 15);          //Ice set to 15
-            Memory.WriteUShort((thunder + (weaponoffset * (Items.maneater - daggerid))), 15);      //Thunder set to 15
-            Memory.WriteUShort((holy + (weaponoffset * (Items.maneater - daggerid))), 15);         //Holy set to 15
-            Memory.WriteUShort((undead + (weaponoffset * (Items.maneater - daggerid))), 15);       //Undead Buster set to 15
-            Memory.WriteUShort((beast + (weaponoffset * (Items.maneater - daggerid))), 15);        //Beast Buster set to 15
-            Memory.WriteUShort((metal + (weaponoffset * (Items.maneater - daggerid))), 15);        //Metal Breaker set to 15
-            Memory.WriteUShort((mimic + (weaponoffset * (Items.maneater - daggerid))), 10);        //Mimic Breaker set to 10
-
-            //Bone Rapier
-            Memory.WriteUShort((whp + (weaponoffset * (Items.bonerapier - daggerid))), 38);      //Whp set to 38
-            Memory.WriteUShort((magic + (weaponoffset * (Items.bonerapier - daggerid))), 26);    //Magic set to 26
-
-            //Sax
-            Memory.WriteUShort((speed + (weaponoffset * (Items.sax - daggerid))), 60);    //Speed set to 60
-            Memory.WriteUShort((fire + (weaponoffset * (Items.sax - daggerid))), 6);      //Fire set to 6
-            Memory.WriteUShort((sky + (weaponoffset * (Items.sax - daggerid))), 10);      //Sky Hunter set to 10
-
-            //7 Branch Sword
-            Memory.WriteUShort((whp + (weaponoffset * (Items.sevenbranchsword - daggerid))), 47);          //Whp set to 47
-            Memory.WriteUShort((endurance + (weaponoffset * (Items.sevenbranchsword - daggerid))), 47);    //Endurance set to 47
-            Memory.WriteUShort((magic + (weaponoffset * (Items.sevenbranchsword - daggerid))), 37);        //Magic set to 37
-            Memory.WriteUShort((dinoslayer + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);    //Dino Slayer set to 7
-            Memory.WriteUShort((undead + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);        //Undead Buster set to 7
-            Memory.WriteUShort((sea + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);           //Sea Killer set to 7
-            Memory.WriteUShort((stone + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Stone Breaker set to 7
-            Memory.WriteUShort((plant + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Plant Buster set to 7
-            Memory.WriteUShort((beast + (weaponoffset * (Items.sevenbranchsword - daggerid))), 8);         //Beast Buster set to 8
-            Memory.WriteUShort((sky + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);           //Sky Killer set to 7
-            Memory.WriteUShort((metal + (weaponoffset * (Items.sevenbranchsword - daggerid))), 10);        //Metal Breaker set to 10
-            Memory.WriteUShort((mimic + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Mimic Breaker set to 7
-            Memory.WriteUShort((mage + (weaponoffset * (Items.sevenbranchsword - daggerid))), 8);          //Mage Slayer set to 8
-
-            //Cross Hinder
-            Memory.WriteUShort((endurance + (weaponoffset * (Items.crosshinder - daggerid))), 50);    //Endurance set to 50
-            Memory.WriteUShort((speed + (weaponoffset * (Items.crosshinder - daggerid))), 70);        //Speed set to 70
-            Memory.WriteUShort((magic + (weaponoffset * (Items.crosshinder - daggerid))), 32);        //Magic set to 32
-
-            //Chronicle 2
-            Memory.WriteUShort(maxattack + (weaponoffset * (Items.chronicletwo - daggerid)), 999); //Max Attack set to 999
-
-
-
-
-            /****************************************
-             *               XIAO                   *
-             ****************************************/
-
-            //Wooden Slingshot
-            Memory.WriteUShort((attack + (xiaooffset + (weaponoffset * (Items.woodenslingshot - woodenid)))), 6); //Attack set to 6
-            Memory.WriteUShort((magic + (xiaooffset + (weaponoffset * (Items.woodenslingshot - woodenid)))), 2);  //Magic set to 2
-            Memory.WriteUShort((fire + (xiaooffset + (weaponoffset * (Items.woodenslingshot - woodenid)))), 4);   //Fire set to 4
-
-            //Bandit Slingshot
-            Memory.WriteUInt((buildup + (xiaooffset + (weaponoffset * (Items.banditslingshot - woodenid)))), 128); //Sets build-up to Double Impact only
-
-            //Bone Slingshot
-            Memory.WriteUShort((attack + (xiaooffset + (weaponoffset * (Items.boneslingshot - woodenid)))), 11);    //Attack set to 11
-            Memory.WriteUShort((endurance + (xiaooffset + (weaponoffset * (Items.boneslingshot - woodenid)))), 30); //Endurance set to 30
-
-            //Hardshooter
-            Memory.WriteUShort((speed + (xiaooffset + (weaponoffset * (Items.hardshooter - woodenid)))), 60); //Speed set to 60
-
-            //Matador
-            Memory.WriteByte((effect2 + (xiaooffset + (weaponoffset * (Items.matador - woodenid)))), 16); //Adds Critical effect
-
-
-
-
-            /****************************************
-             *               Goro                   *
-             ****************************************/
-
-            //Turtle Shell
-            Memory.WriteUShort((magic + (gorooffset + (weaponoffset * (Items.turtleshell - malletid)))), 10); //Magic set to 10
-
-            //Big Bucks Hammer
-            Memory.WriteUInt((buildup + (gorooffset + (weaponoffset * (Items.bigbuckshammer - malletid)))), 8); //Sets build-up branch to Magical Hammer only
-
-            //Frozen Tuna
-            Memory.WriteUShort((whp + (gorooffset + (weaponoffset * (Items.frozentuna - malletid)))), 65); //Whp set to 65
-
-            //Gaia Hammer
-            Memory.WriteUShort((endurance + (gorooffset + (weaponoffset * (Items.gaiahammer - malletid)))), 25); //Endurance set to 25
-
-            //Trial Hammer
-            Memory.WriteUShort((attack + (gorooffset + (weaponoffset * (Items.trialhammer - malletid)))), 30);    //Attack set to 30
-            Memory.WriteUShort((endurance + (gorooffset + (weaponoffset * (Items.trialhammer - malletid)))), 25); //Endurance set to 25
-
-
-
-
-            /****************************************
-             *               Ruby                   *
-             ****************************************/
-
-            //Gold Ring
-            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.goldring - goldringid)))), 15);  //Attack set to 15
-            Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (Items.goldring - goldringid)))), 30);   //Magic set to 30
-
-            //Bandit's Ring
-            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 30);      //Attack set to 30
-            Memory.WriteUShort((maxattack + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 50);   //Max Attack set to 50
-            Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 20);       //Magic set to 20
-            Memory.WriteInt((buildup + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 8200);      //Sets build-up branches to both Crystal Ring and Thorn Armlet
-
-            //Platinum Ring
-            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.platinumring - goldringid)))), 23); //Attack set to 23
-
-            //Pocklekul
-            Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 28);      //Attack set to 28
-            Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 28);       //Magic set to 28
-            Memory.WriteUShort((holy + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 0);         //Holy set to 0
-            Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 8256);   //Sets build-up branches to both Fairy Ring and Thorn Armlet
-
-            //Thorn Armlet
-            Memory.WriteUShort((maxmagic + (rubyoffset + (weaponoffset * (Items.thornarmlet - goldringid)))), 65); //Max Magic set to 65
-            Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (Items.thornarmlet - goldringid)))), 128); //Sets build-up branches to Destruction Ring
-
-            //Athenas Armlet
-            Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.athenasarmlet - daggerid)))), 32);
-
-
-
-
-            /****************************************
-             *               Ungaga                 *
-             ****************************************/
-
-            for (int ungagaweaponid = 348; ungagaweaponid <= 360; ungagaweaponid++)
+            if (Memory.ReadUShort(endurance + (weaponoffset * (Items.baselard - daggerid))) != 30) //check if changes have already applied
             {
-                if(ungagaweaponid != 357)
+
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon changes have been applied...");
+
+
+                /****************************************
+                 *               TOAN                   *
+                 ****************************************/
+
+                //Baselard
+                Memory.WriteUShort(endurance + (weaponoffset * (Items.baselard - daggerid)), 30);   //Endurance set to 30
+
+                //Antique Sword
+                Memory.WriteUShort(speed + (weaponoffset * (Items.antiquesword - daggerid)), 70);   //Speed set to 70
+                Memory.WriteUShort(fire + (weaponoffset * (Items.antiquesword - daggerid)), 15);    //Fire set to 15
+
+                //Kitchen Knife
+                Memory.WriteUShort((whp + (weaponoffset * (Items.kitchenknife - daggerid))), 50);          //Whp set to 50
+                Memory.WriteUShort((attack + (weaponoffset * (Items.kitchenknife - daggerid))), 25);       //Attack set to 25
+                Memory.WriteUShort((endurance + (weaponoffset * (Items.kitchenknife - daggerid))), 30);    //Endurance set to 30
+                Memory.WriteUShort((ice + (weaponoffset * (Items.kitchenknife - daggerid))), 0);           //Ice set to 0
+                Memory.WriteUShort((thunder + (weaponoffset * (Items.kitchenknife - daggerid))), 8);       //Thunder set to 0
+                Memory.WriteUShort((sea + (weaponoffset * (Items.kitchenknife - daggerid))), 90);          //Sea Killer set to 90
+                Memory.WriteUShort((buildup + 5 + (weaponoffset * (Items.kitchenknife - daggerid))), 0);   //Set build-up branches to none (The 5 was just to offset to the correct address since I wasn't finding a way to write 8 bytes)
+
+                //Tsukikage
+                Memory.WriteUShort((endurance + (weaponoffset * (Items.tsukikage - daggerid))), 33);    //Endurance set to 33
+                Memory.WriteUShort((speed + (weaponoffset * (Items.tsukikage - daggerid))), 80);        //Speed set to 80
+
+                //Macho Sword
+                Memory.WriteByte((effect2 + (weaponoffset * (Items.machosword - daggerid))), 32);  //Adds ABS up effect
+
+                //Heaven's Cloud
+                Memory.WriteUShort((synth3 + (weaponoffset * (Items.heavenscloud - daggerid))), 1);    //Adds a 3rd regular attachment slot
+
+                //Lamb's Sword
+                Memory.WriteUShort((synth3 + (weaponoffset * (Items.lambsswordnormal - daggerid))), 1);    //Adds a 3rd regular attachment slot
+                Memory.WriteDouble(lambTransformThreshold, 0.5);    //Change the percent limit for when the sword should transform
+                Memory.WriteFloat(lambStatsThreshold, (float)0.5); //Change the percent limit for when the sword stats should upgrade
+
+                //Brave Ark
+                Memory.WriteUShort((synth3 + (weaponoffset * (Items.braveark - daggerid))), 1);    //Adds a 3rd regular attachment slot
+
+                //Big Gang
+                Memory.WriteUShort((speed + (weaponoffset * (Items.bigbang - daggerid))), 70);    //Speed set to 70
+
+                //Small Sword
+                Memory.WriteUShort((whp + (weaponoffset * (Items.smallsword - daggerid))), 35);      //Whp set to 35
+                Memory.WriteUShort((magic + (weaponoffset * (Items.smallsword - daggerid))), 17);    //Magic set to 17
+                Memory.WriteUShort((sea + (weaponoffset * (Items.smallsword - daggerid))), 0);       //Sea Killer set to 0
+                Memory.WriteUShort((metal + (weaponoffset * (Items.smallsword - daggerid))), 10);    //Metal Breaker set to 10
+
+                //Sand Breaker
+                Memory.WriteUShort((whp + (weaponoffset * (Items.sandbreaker - daggerid))), 45);          //Whp set to 45
+                Memory.WriteUShort((endurance + (weaponoffset * (Items.sandbreaker - daggerid))), 25);    //Endurance set to 25
+                Memory.WriteUShort((synth3 + (weaponoffset * (Items.sandbreaker - daggerid))), 1);        //Adds a 3rd regular attachment slot
+
+                //Drain Seeker
+                Memory.WriteUShort((whp + (weaponoffset * (Items.drainseeker - daggerid))), 60); //Whp set to 60
+
+                //Chopper
+                Memory.WriteUShort((speed + (weaponoffset * (Items.chopper - daggerid))), 60); //Speed set to 60
+
+                //Choora
+                Memory.WriteUShort((whp + (weaponoffset * (Items.choora - daggerid))), 57);      //Whp set to 57
+                Memory.WriteUShort((attack + (weaponoffset * (Items.choora - daggerid))), 45);   //Attack set to 45
+                Memory.WriteUShort((speed + (weaponoffset * (Items.choora - daggerid))), 70);    //Speed set to 70
+                Memory.WriteUShort((ice + (weaponoffset * (Items.choora - daggerid))), 10);      //Ice set to 10
+                Memory.WriteUShort((thunder + (weaponoffset * (Items.choora - daggerid))), 15);  //Thunder set to 15
+                Memory.WriteUShort((undead + (weaponoffset * (Items.choora - daggerid))), 15);   //Undead Buster set to 15
+                Memory.WriteUShort((beast + (weaponoffset * (Items.choora - daggerid))), 15);    //Beaster Buster set to 15
+                Memory.WriteUShort((metal + (weaponoffset * (Items.choora - daggerid))), 15);    //Metal Breaker set to 15
+                Memory.WriteUShort((synth3 + (weaponoffset * (Items.choora - daggerid))), 1);    //Adds a 3rd regular attachment slot
+
+                //Claymore
+                Memory.WriteUShort((undead + (weaponoffset * (Items.claymore - daggerid))), 10);   //Undead Buster set to 10
+                Memory.WriteUShort((beast + (weaponoffset * (Items.claymore - daggerid))), 10);    //Beaster Buster set to 10
+                Memory.WriteUShort((mage + (weaponoffset * (Items.claymore - daggerid))), 10);     //Mage Slayer set to 10
+
+                //Maneater
+                Memory.WriteUShort((endurance + (weaponoffset * (Items.maneater - daggerid))), 44);    //Endurance set to 44
+                Memory.WriteUShort((speed + (weaponoffset * (Items.maneater - daggerid))), 70);        //Speed set to 70
+                Memory.WriteUShort((magic + (weaponoffset * (Items.maneater - daggerid))), 45);        //Magic set to 45
+                Memory.WriteUShort((ice + (weaponoffset * (Items.maneater - daggerid))), 15);          //Ice set to 15
+                Memory.WriteUShort((thunder + (weaponoffset * (Items.maneater - daggerid))), 15);      //Thunder set to 15
+                Memory.WriteUShort((holy + (weaponoffset * (Items.maneater - daggerid))), 15);         //Holy set to 15
+                Memory.WriteUShort((undead + (weaponoffset * (Items.maneater - daggerid))), 15);       //Undead Buster set to 15
+                Memory.WriteUShort((beast + (weaponoffset * (Items.maneater - daggerid))), 15);        //Beast Buster set to 15
+                Memory.WriteUShort((metal + (weaponoffset * (Items.maneater - daggerid))), 15);        //Metal Breaker set to 15
+                Memory.WriteUShort((mimic + (weaponoffset * (Items.maneater - daggerid))), 10);        //Mimic Breaker set to 10
+
+                //Bone Rapier
+                Memory.WriteUShort((whp + (weaponoffset * (Items.bonerapier - daggerid))), 38);      //Whp set to 38
+                Memory.WriteUShort((magic + (weaponoffset * (Items.bonerapier - daggerid))), 26);    //Magic set to 26
+
+                //Sax
+                Memory.WriteUShort((speed + (weaponoffset * (Items.sax - daggerid))), 60);    //Speed set to 60
+                Memory.WriteUShort((fire + (weaponoffset * (Items.sax - daggerid))), 6);      //Fire set to 6
+                Memory.WriteUShort((sky + (weaponoffset * (Items.sax - daggerid))), 10);      //Sky Hunter set to 10
+
+                //7 Branch Sword
+                Memory.WriteUShort((whp + (weaponoffset * (Items.sevenbranchsword - daggerid))), 47);          //Whp set to 47
+                Memory.WriteUShort((endurance + (weaponoffset * (Items.sevenbranchsword - daggerid))), 47);    //Endurance set to 47
+                Memory.WriteUShort((magic + (weaponoffset * (Items.sevenbranchsword - daggerid))), 37);        //Magic set to 37
+                Memory.WriteUShort((dinoslayer + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);    //Dino Slayer set to 7
+                Memory.WriteUShort((undead + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);        //Undead Buster set to 7
+                Memory.WriteUShort((sea + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);           //Sea Killer set to 7
+                Memory.WriteUShort((stone + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Stone Breaker set to 7
+                Memory.WriteUShort((plant + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Plant Buster set to 7
+                Memory.WriteUShort((beast + (weaponoffset * (Items.sevenbranchsword - daggerid))), 8);         //Beast Buster set to 8
+                Memory.WriteUShort((sky + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);           //Sky Killer set to 7
+                Memory.WriteUShort((metal + (weaponoffset * (Items.sevenbranchsword - daggerid))), 10);        //Metal Breaker set to 10
+                Memory.WriteUShort((mimic + (weaponoffset * (Items.sevenbranchsword - daggerid))), 7);         //Mimic Breaker set to 7
+                Memory.WriteUShort((mage + (weaponoffset * (Items.sevenbranchsword - daggerid))), 8);          //Mage Slayer set to 8
+
+                //Cross Hinder
+                Memory.WriteUShort((endurance + (weaponoffset * (Items.crosshinder - daggerid))), 50);    //Endurance set to 50
+                Memory.WriteUShort((speed + (weaponoffset * (Items.crosshinder - daggerid))), 70);        //Speed set to 70
+                Memory.WriteUShort((magic + (weaponoffset * (Items.crosshinder - daggerid))), 32);        //Magic set to 32
+
+                //Chronicle 2
+                Memory.WriteUShort(maxattack + (weaponoffset * (Items.chronicletwo - daggerid)), 999); //Max Attack set to 999
+
+
+
+
+                /****************************************
+                 *               XIAO                   *
+                 ****************************************/
+
+                //Wooden Slingshot
+                Memory.WriteUShort((attack + (xiaooffset + (weaponoffset * (Items.woodenslingshot - woodenid)))), 6); //Attack set to 6
+                Memory.WriteUShort((magic + (xiaooffset + (weaponoffset * (Items.woodenslingshot - woodenid)))), 2);  //Magic set to 2
+                Memory.WriteUShort((fire + (xiaooffset + (weaponoffset * (Items.woodenslingshot - woodenid)))), 4);   //Fire set to 4
+
+                //Bandit Slingshot
+                Memory.WriteUInt((buildup + (xiaooffset + (weaponoffset * (Items.banditslingshot - woodenid)))), 128); //Sets build-up to Double Impact only
+
+                //Bone Slingshot
+                Memory.WriteUShort((attack + (xiaooffset + (weaponoffset * (Items.boneslingshot - woodenid)))), 11);    //Attack set to 11
+                Memory.WriteUShort((endurance + (xiaooffset + (weaponoffset * (Items.boneslingshot - woodenid)))), 30); //Endurance set to 30
+
+                //Hardshooter
+                Memory.WriteUShort((speed + (xiaooffset + (weaponoffset * (Items.hardshooter - woodenid)))), 60); //Speed set to 60
+
+                //Matador
+                Memory.WriteByte((effect2 + (xiaooffset + (weaponoffset * (Items.matador - woodenid)))), 16); //Adds Critical effect
+
+
+
+
+                /****************************************
+                 *               Goro                   *
+                 ****************************************/
+
+                //Turtle Shell
+                Memory.WriteUShort((magic + (gorooffset + (weaponoffset * (Items.turtleshell - malletid)))), 10); //Magic set to 10
+
+                //Big Bucks Hammer
+                Memory.WriteUInt((buildup + (gorooffset + (weaponoffset * (Items.bigbuckshammer - malletid)))), 8); //Sets build-up branch to Magical Hammer only
+
+                //Frozen Tuna
+                Memory.WriteUShort((whp + (gorooffset + (weaponoffset * (Items.frozentuna - malletid)))), 65); //Whp set to 65
+
+                //Gaia Hammer
+                Memory.WriteUShort((endurance + (gorooffset + (weaponoffset * (Items.gaiahammer - malletid)))), 25); //Endurance set to 25
+
+                //Trial Hammer
+                Memory.WriteUShort((attack + (gorooffset + (weaponoffset * (Items.trialhammer - malletid)))), 30);    //Attack set to 30
+                Memory.WriteUShort((endurance + (gorooffset + (weaponoffset * (Items.trialhammer - malletid)))), 25); //Endurance set to 25
+
+
+
+
+                /****************************************
+                 *               Ruby                   *
+                 ****************************************/
+
+                //Gold Ring
+                Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.goldring - goldringid)))), 15);  //Attack set to 15
+                Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (Items.goldring - goldringid)))), 30);   //Magic set to 30
+
+                //Bandit's Ring
+                Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 30);      //Attack set to 30
+                Memory.WriteUShort((maxattack + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 50);   //Max Attack set to 50
+                Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 20);       //Magic set to 20
+                Memory.WriteInt((buildup + (rubyoffset + (weaponoffset * (Items.banditsring - goldringid)))), 8200);      //Sets build-up branches to both Crystal Ring and Thorn Armlet
+
+                //Platinum Ring
+                Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.platinumring - goldringid)))), 23); //Attack set to 23
+
+                //Pocklekul
+                Memory.WriteUShort((attack + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 28);      //Attack set to 28
+                Memory.WriteUShort((magic + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 28);       //Magic set to 28
+                Memory.WriteUShort((holy + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 0);         //Holy set to 0
+                Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (Items.pocklekul - goldringid)))), 8256);   //Sets build-up branches to both Fairy Ring and Thorn Armlet
+
+                //Thorn Armlet
+                Memory.WriteUShort((maxmagic + (rubyoffset + (weaponoffset * (Items.thornarmlet - goldringid)))), 65); //Max Magic set to 65
+                Memory.WriteUShort((buildup + (rubyoffset + (weaponoffset * (Items.thornarmlet - goldringid)))), 128); //Sets build-up branches to Destruction Ring
+
+                //Athenas Armlet
+                Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.athenasarmlet - daggerid)))), 32);
+
+
+
+
+                /****************************************
+                 *               Ungaga                 *
+                 ****************************************/
+
+                for (int ungagaweaponid = 348; ungagaweaponid <= 360; ungagaweaponid++)
                 {
-                    int CurrWeaponAttack = Memory.ReadUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));          //Reads the current weapon Attack value
-                    int CurrWeaponMaxAttack = Memory.ReadUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));    //Reads the current weapon Max Attack value
-                    int CurrWeaponEndurance = Memory.ReadUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));    //Reads the current weapon Endurance value
+                    if (ungagaweaponid != 357)
+                    {
+                        int CurrWeaponAttack = Memory.ReadUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));          //Reads the current weapon Attack value
+                        int CurrWeaponMaxAttack = Memory.ReadUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));    //Reads the current weapon Max Attack value
+                        int CurrWeaponEndurance = Memory.ReadUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))));    //Reads the current weapon Endurance value
 
-                    Memory.WriteUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponAttack + 10));       //Adds +10 Attack to the current weapon being looped through
-                    Memory.WriteUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMaxAttack + 10)); //Adds +10 Max Attack to the current weapon being looped through
-                    Memory.WriteUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponEndurance + 15)); //Adds +15 Endurance to the current weapon being looped through
+                        Memory.WriteUShort((attack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponAttack + 10));       //Adds +10 Attack to the current weapon being looped through
+                        Memory.WriteUShort((maxattack + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponMaxAttack + 10)); //Adds +10 Max Attack to the current weapon being looped through
+                        Memory.WriteUShort((endurance + (ungagaoffset + (weaponoffset * (ungagaweaponid - stickid)))), (ushort)(CurrWeaponEndurance + 15)); //Adds +15 Endurance to the current weapon being looped through
+                    }
                 }
+
+                //Babel Spear
+                Memory.WriteUShort((synth4 + (ungagaoffset + (weaponoffset * (Items.babelsspear - stickid)))), 1); //Adds a 4th regular attackment slot
+
+
+
+
+                /****************************************
+                 *               Osmond                 *
+                 ****************************************/
+
+                for (int osmondweaponid = Items.machinegun; osmondweaponid <= Items.swallow; osmondweaponid++)
+                {
+                    int CurrWeaponAttack = Memory.ReadUShort((attack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))));         //Reads the current weapon Attack value
+                    int CurrWeaponMaxAttack = Memory.ReadUShort((maxattack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))));   //Reads the current weapon Max Attack value
+
+                    Memory.WriteUShort((attack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))), (ushort)(CurrWeaponAttack + 15));      //Adds +15 Attack to the current weapon being looped through
+                    Memory.WriteUShort((maxattack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))), (ushort)(CurrWeaponMaxAttack + 15)); //Adds +15 Max Attack to the current weapon being looped through
+                }
+
+                Memory.WriteUShort((buildup + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 386);    //Add the Hexa Blaster buildup option
+
             }
-
-            //Babel Spear
-            Memory.WriteUShort((synth4 + (ungagaoffset + (weaponoffset * (Items.babelsspear - stickid)))), 1); //Adds a 4th regular attackment slot
-
-
-
-
-            /****************************************
-             *               Osmond                 *
-             ****************************************/
-
-            for (int osmondweaponid = Items.machinegun; osmondweaponid <= Items.swallow; osmondweaponid++)
-            {
-                int CurrWeaponAttack = Memory.ReadUShort((attack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))));         //Reads the current weapon Attack value
-                int CurrWeaponMaxAttack = Memory.ReadUShort((maxattack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))));   //Reads the current weapon Max Attack value
-
-                Memory.WriteUShort((attack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))), (ushort)(CurrWeaponAttack + 15));      //Adds +15 Attack to the current weapon being looped through
-                Memory.WriteUShort((maxattack + (osmondoffset + (weaponoffset * (osmondweaponid - machinegunid)))), (ushort)(CurrWeaponMaxAttack + 15)); //Adds +15 Max Attack to the current weapon being looped through
-            }
-
-            Memory.WriteUShort((buildup + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 386);    //Add the Hexa Blaster buildup option
-
-
         }
 
         public static void RerollWeaponSpecialEffects()

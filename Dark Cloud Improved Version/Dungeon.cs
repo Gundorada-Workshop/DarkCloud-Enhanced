@@ -877,22 +877,25 @@ namespace Dark_Cloud_Improved_Version
         {
             if (monsterQuestActive)
             {
-                for (int i = 0; i < monstersDead.Length; i++)
+                if (currentDungeon != 6)
                 {
-                    currentAddress = 0x21E16BC4 + (i * 0x190);
+                    for (int i = 0; i < monstersDead.Length; i++)
+                    {
+                        currentAddress = 0x21E16BC4 + (i * 0x190);
 
-                    if (Memory.ReadUShort(currentAddress) > 0)
-                    {
-                        monstersDead[i] = false;
-                    }
-                    else
-                    {
-                        if (monstersDead[i] == false)
+                        if (Memory.ReadUShort(currentAddress) > 0)
                         {
-                            CheckEnemyKill(currentAddress);
+                            monstersDead[i] = false;
                         }
+                        else
+                        {
+                            if (monstersDead[i] == false)
+                            {
+                                CheckEnemyKill(currentAddress);
+                            }
 
-                        monstersDead[i] = true;
+                            monstersDead[i] = true;
+                        }
                     }
                 }
             }

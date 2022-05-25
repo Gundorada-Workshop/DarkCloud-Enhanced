@@ -637,7 +637,7 @@ namespace Dark_Cloud_Improved_Version
                                                     }
                                                     else
                                                     {
-                                                        if (currentCharacter == 3 || currentCharacter == 5)
+                                                        if (currentCharacter == 3 || (currentCharacter == 5 && Memory.ReadByte(0x21DC4520) != 0))
                                                         {
                                                             break;
                                                         }
@@ -810,10 +810,12 @@ namespace Dark_Cloud_Improved_Version
         {
             int ms;
 
-            //Check if a dungeon message is displaying
+            //Check if a dungeon message is displaying / player is on chest opening state
             if (Memory.ReadInt(Addresses.dunMessage) != -1 &&
                 Memory.ReadInt(Addresses.dunMessage) != 171 //Thirst Message
-                && Memory.ReadInt(Addresses.dunItemMessage) != -1) 
+                && Memory.ReadInt(Addresses.dunItemMessage) != -1
+                && Memory.ReadByte(Addresses.dungeonDebugMenu) == 121 //big chest opening state
+                && Memory.ReadByte(Addresses.dungeonDebugMenu) == 131) //small chest opening state
             {
                 //Reset timer
                 ms = 0;

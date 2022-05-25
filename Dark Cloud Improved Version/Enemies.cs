@@ -231,8 +231,6 @@ namespace Dark_Cloud_Improved_Version
                 { 82, "King Mimic (Gallery of Time)" },
                 { 83, "Mimic (Gallery of Time)" },
                 { 85, "Sam" },
-                { 90, "Gol" },
-                { 91, "Sil" },
                 { 301, "Yammich" },
                 { 303, "Statue Dog" },
                 { 304, "Opar" },
@@ -262,6 +260,8 @@ namespace Dark_Cloud_Improved_Version
                 { 58, "Phantom" },
                 { 60, "Cave Bat" },
                 { 61, "Evil Bat" },
+                { 90, "Gol" }, //non-flying, but cannot drop an item
+                { 91, "Sil" },
             };
 
             internal static Dictionary<ushort, string> enemiesOverseas = new Dictionary<ushort, string>()

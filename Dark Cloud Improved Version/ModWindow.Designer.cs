@@ -1044,7 +1044,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(154, 16);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Beta Version: 0.9.05";
+            this.label6.Text = "Beta Version: 0.9.08";
             // 
             // Label_UserMode_PlaceholderText
             // 

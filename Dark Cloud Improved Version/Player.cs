@@ -31,22 +31,23 @@ namespace Dark_Cloud_Improved_Version
                                                             //10 = FPS
                                                             //155 = Static
         public const int Ultraman = 0x21D564B0;
-        public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
+        //public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
+        public const int currentCharacter = 0x21CD9550;     //Current character value (0-5)
         public const int animationId = 0x21DC448C;
 
         public static int CurrentCharacterNum()
         {
-            if (Memory.ReadInt(currentCharacter) == 1680945251)
+            if (Memory.ReadByte(currentCharacter) == 0)
                 return 0;
-            else if (Memory.ReadInt(currentCharacter) == 1647587427)
+            else if (Memory.ReadByte(currentCharacter) == 1)
                 return 1;
-            else if (Memory.ReadInt(currentCharacter) == 1630941283)
+            else if (Memory.ReadByte(currentCharacter) == 2)
                 return 2;
-            else if (Memory.ReadInt(currentCharacter) == 1630875747)
+            else if (Memory.ReadByte(currentCharacter) == 3)
                 return 3;
-            else if (Memory.ReadInt(currentCharacter) == 1630548323)
+            else if (Memory.ReadByte(currentCharacter) == 4)
                 return 4;
-            else if (Memory.ReadInt(currentCharacter) == 1631072611)
+            else if (Memory.ReadByte(currentCharacter) == 5)
                 return 5;
 
             else return 255;

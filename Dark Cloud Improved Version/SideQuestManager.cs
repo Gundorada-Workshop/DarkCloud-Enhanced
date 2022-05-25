@@ -590,6 +590,10 @@ namespace Dark_Cloud_Improved_Version
                     {
                         currentDialogue = "You conquered the Demon Shaft?^Well done!¤Unfortunately you´re still not^ready for my quests.¤Come back when you´ve obtained^everything in this world.";
                     }
+                    else if (Memory.ReadByte(0x21CDD811) != 255)
+                    {
+                        currentDialogue = "I knew you could do it!^Now that the Dark Genie has been^defeated, we can live in peace!¤What´s that?^You want to do more sidequests?¤Hmm... don´t you have one more^dungeon to complete?";
+                    }
                     else
                     {
                         currentDialogue = "I might have some quests for you later.¤But for now, come back when^you´re more experienced.";
@@ -1286,7 +1290,7 @@ namespace Dark_Cloud_Improved_Version
 
             if (checkHPs == false && checkDEFs == false && checkThirsts == false)
             {
-                dialogue = "I can´t believe it!¤You actually went and^maxed all the stats!¤Thank you for completing all^my quests, and also...¤Thank you for playing the Enchanted Mod!";
+                dialogue = "I can´t believe it!¤You actually went and^maxed all the stats!¤Thank you for completing all^my quests, and also...¤Thank you for playing the Enhanced Mod!";
                 Memory.WriteByte(0x21CE446B, 1);
                 return dialogue;
             }
