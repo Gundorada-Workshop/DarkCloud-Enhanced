@@ -1042,9 +1042,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(49, 264);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(154, 16);
+            this.label6.Size = new System.Drawing.Size(151, 16);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Beta Version: 0.9.08";
+            this.label6.Text = "Beta Version: 0.9.10";
             // 
             // Label_UserMode_PlaceholderText
             // 

@@ -601,7 +601,21 @@ namespace Dark_Cloud_Improved_Version
                                         {
                                             while (validElement == false)
                                             {
-                                                elementSelected--;
+                                                if (elementSelected == 0)
+                                                {
+                                                    if (currentCharacter == 3 || (currentCharacter == 5 && Memory.ReadByte(0x21DC4520) != 0))
+                                                    {
+                                                        elementSelected = 4;
+                                                    }
+                                                    else
+                                                    {
+                                                        elementSelected = 5;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    elementSelected--;
+                                                }
                                                 //byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
                                                 byte elemAmount = Memory.ReadByte(0x21EA75A7 + (elementSelected * 0x1));
 
@@ -610,7 +624,23 @@ namespace Dark_Cloud_Improved_Version
                                                     break;
                                                 }
 
-                                                if (elemAmount == 0)
+                                                if (elementSelected > 4)
+                                                {
+                                                    if (elementSelected > 5)
+                                                    {
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (currentCharacter == 3 || (currentCharacter == 5 && Memory.ReadByte(0x21DC4520) != 0))
+                                                        {
+                                                            break;
+                                                        }
+                                                    }
+
+                                                }
+
+                                                if (elemAmount == 0 && elementSelected < 5)
                                                 {
                                                     validElement = false;
                                                 }
@@ -625,7 +655,28 @@ namespace Dark_Cloud_Improved_Version
                                         {
                                             while (validElement == false)
                                             {
-                                                elementSelected++;
+                                                if (elementSelected > 3)
+                                                {
+                                                    if (elementSelected > 4)
+                                                    {
+                                                        elementSelected = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (currentCharacter == 3 || (currentCharacter == 5 && Memory.ReadByte(0x21DC4520) != 0))
+                                                        {
+                                                            elementSelected = 0;
+                                                        }
+                                                        else
+                                                        {
+                                                            elementSelected = 5;
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    elementSelected++;
+                                                }
                                                 //byte elemAmount = Memory.ReadByte(weaponElemAmount + (elementSelected * 0x1));
                                                 byte elemAmount = Memory.ReadByte(0x21EA75A7 + (elementSelected * 0x1));
 

@@ -72,10 +72,10 @@ namespace Dark_Cloud_Improved_Version
         {
             acquired = false;
 
-            if (Memory.ReadInt(Player.Toan.WeaponSlot0.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot1.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot2.id) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot3.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot4.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot5.id) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot6.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot7.id) == 298 || Memory.ReadInt(Player.Toan.WeaponSlot8.id) == 298
-                || Memory.ReadInt(Player.Toan.WeaponSlot9.id) == 298)
+            if (Memory.ReadUShort(Player.Toan.WeaponSlot0.id) == 298 || Memory.ReadUShort(Player.Toan.WeaponSlot1.id) == 298 || Memory.ReadUShort(Player.Toan.WeaponSlot2.id) == 298
+                || Memory.ReadUShort(Player.Toan.WeaponSlot3.id) == 298 || Memory.ReadUShort(Player.Toan.WeaponSlot4.id) == 298 || Memory.ReadUShort(Player.Toan.WeaponSlot5.id) == 298
+                || Memory.ReadUShort(Player.Toan.WeaponSlot6.id) == 298 || Memory.ReadUShort(Player.Toan.WeaponSlot7.id) == 298 || Memory.ReadUShort(Player.Toan.WeaponSlot8.id) == 298
+                || Memory.ReadUShort(Player.Toan.WeaponSlot9.id) == 298)
             {
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Chronicle 2");
                 acquired = true;
@@ -85,7 +85,7 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress = 0x21CE22D8;
                 for (int i = 0; i < 30; i++)
                 {
-                    if (Memory.ReadInt(currentAddress) == 298)
+                    if (Memory.ReadUShort(currentAddress) == 298)
                     {
                         acquired = true;
                         Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has Chronicle 2 in storage");
@@ -186,6 +186,23 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteInt(0x21EC8294 + (0x60 * i), 12);
                     Memory.WriteInt(0x21EC8298 + (0x60 * i), 18);
                 }
+
+                Memory.WriteFloat(Enemies.Enemy0.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy1.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy2.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy3.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy4.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy5.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy6.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy7.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy8.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy9.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy10.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy11.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy12.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy13.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy14.distanceToPlayer, 0);
+                Memory.WriteFloat(Enemies.Enemy15.distanceToPlayer, 0);
                 chronicleNewFloor = false;
             }
 

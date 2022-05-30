@@ -13,6 +13,8 @@ namespace Dark_Cloud_Improved_Version
         public const int enemyZeroHeight = 0x21E18534; //Enemy Height multiplier
         public const int enemyZeroDepth = 0x21E18538;  //Enemy Depth multiplier
         public const int scaleOffset = 0x3510;         //Offset for size
+        public static int enemyNumber = 0;
+        public static bool miniBossRolled = false;
         const int varOffset = 0x190;            //Offset for attributes
         const float scaleSize = 1.5F;           //Sets the total size of the miniboss
         const int enemyHPMult = 3;              //Miniboss HP multiplier
@@ -46,7 +48,7 @@ namespace Dark_Cloud_Improved_Version
             if (rnd.Next(100) <= 30 || skipFirstRoll)
             {
                 //Choose the enemy to convert into mini boss
-                int enemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count);
+                enemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count);
                 //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nEnemyNumber rolled before flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
 
                 //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\n== Enemy IDs ==");
@@ -137,7 +139,8 @@ namespace Dark_Cloud_Improved_Version
                             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Miniboss rolled with item!");
                         }
 
-                        return true; 
+                        miniBossRolled = true;
+                        return true;
                     }
                     //Retry if landing on a flying enemy
                     else { Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + " Miniboss landed on flying enemy!"); MiniBossSpawn(true, dungeon, floor); return true; }
@@ -145,7 +148,11 @@ namespace Dark_Cloud_Improved_Version
                 //Retry if landing on a enemy with ID 0
                 else { Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Chosen enemy ID must not be 0!"); MiniBossSpawn(true, dungeon, floor); return true; }
             }
-            else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Failed to roll for Mini Boss!");
+            else
+            {
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Failed to roll for Mini Boss!");
+                miniBossRolled = false;
+            }
 
             return false;
         }

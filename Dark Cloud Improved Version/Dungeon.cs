@@ -310,6 +310,7 @@ namespace Dark_Cloud_Improved_Version
                         dunUsedActiveEscape = false;
                         dunUsedEscapeCheck = false;
                         hasClearMessageShown = false;
+                        MiniBoss.miniBossRolled = false;
 
                         //Check if player is not on an event floor and call the Mini Boss
                         if (!excludeFloors.Contains(currentFloor))
@@ -341,6 +342,7 @@ namespace Dark_Cloud_Improved_Version
                     CheckClown();
                     CheckCurrentSidequests();
                     CheckDungeonLeaving();
+                    CheckMiniBossStamina();
                     if (CheckWeaponChange(currentWeapon))
                     {
                         ReusableFunctions.ClearRecentDamageAndDamageSource();
@@ -639,7 +641,7 @@ namespace Dark_Cloud_Improved_Version
         public static void DoMinibossSpawn(byte currentDungeon)
         {
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Processing mini boss...");
-
+           
             hasMiniBoss = MiniBoss.MiniBossSpawn(false, currentDungeon, currentFloor); 
 
             //If the mini boss spawned, start its warning message thread
@@ -1254,6 +1256,17 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteUShort(0x21CDD8B2, 0);
                     }
                     Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Consumed escape powder from active slots");
+                }
+            }
+        }
+
+        public static void CheckMiniBossStamina()
+        {
+            if (MiniBoss.miniBossRolled == true)
+            {
+                if (Memory.ReadInt(Enemies.Enemy0.staminaTimer + (0x190 * MiniBoss.enemyNumber)) < 60)
+                {
+                    Memory.WriteInt(Enemies.Enemy0.staminaTimer + (0x190 * MiniBoss.enemyNumber), 60000);
                 }
             }
         }

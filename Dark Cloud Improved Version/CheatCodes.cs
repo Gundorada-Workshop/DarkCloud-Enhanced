@@ -77,7 +77,14 @@ namespace Dark_Cloud_Improved_Version
 
                         if (CheckSequence(cheatGodmode))
                         {
-                            toggleGodMode(true);
+                            if (Memory.ReadByte(Player.Ultraman) == 0)
+                            {
+                                toggleGodMode(true);
+                            }
+                            else
+                            {
+                                toggleGodMode(false);
+                            }
                             Memory.WriteByte(0x21CE446C, 1);
                         }
 
@@ -186,11 +193,10 @@ namespace Dark_Cloud_Improved_Version
                     Dayuppy.DisplayMessage("^BCheater!!\n God Mode activated!^W", 2, 30, 3000);
                     Memory.WriteByte(Player.Ultraman, 2);
                 }
-
                 else
                 {
                     Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "God mode de-activated");
-                    Dayuppy.DisplayMessage("^RCheat De-Activated: God Mode");
+                    Dayuppy.DisplayMessage("^RCheat de-activated - God Mode^W", 1, 30, 3000);
                     Memory.WriteByte(Player.Ultraman, 0);
                 }
             }
