@@ -260,8 +260,8 @@ namespace Dark_Cloud_Improved_Version
                 { 58, "Phantom" },
                 { 60, "Cave Bat" },
                 { 61, "Evil Bat" },
-                { 90, "Gol" }, //non-flying, but cannot drop an item
-                { 91, "Sil" },
+                { 90, "Gol" },  //non-flying, but cannot drop an item
+                { 91, "Sil" },  //non-flying, but cannot drop an item
             };
 
             internal static Dictionary<ushort, string> enemiesOverseas = new Dictionary<ushort, string>()
