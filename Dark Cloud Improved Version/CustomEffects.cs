@@ -186,7 +186,6 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteInt(0x21EC8294 + (0x60 * i), 12);
                     Memory.WriteInt(0x21EC8298 + (0x60 * i), 18);
                 }
-
                 Memory.WriteFloat(Enemies.Enemy0.distanceToPlayer, 0);
                 Memory.WriteFloat(Enemies.Enemy1.distanceToPlayer, 0);
                 Memory.WriteFloat(Enemies.Enemy2.distanceToPlayer, 0);

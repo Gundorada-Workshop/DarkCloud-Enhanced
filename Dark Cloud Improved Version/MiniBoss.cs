@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -47,6 +48,12 @@ namespace Dark_Cloud_Improved_Version
             //Rolls for a 30% chance to spawn the miniboss
             if (rnd.Next(100) <= 30 || skipFirstRoll)
             {
+
+                if (skipFirstRoll == false)
+                {
+                    Thread.Sleep(200);
+                }
+
                 //Choose the enemy to convert into mini boss
                 enemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count);
                 //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nEnemyNumber rolled before flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");

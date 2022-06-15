@@ -335,6 +335,17 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteByte(0x21F1002C, 0);
             }
 
+            if (Memory.ReadByte(0x21CE4495) == 1) //option 4.5 (all music)
+            {
+                CBox_UserMode_MuteMusic.Checked = true;
+                Memory.WriteUShort(0x20299F53, 0);
+            }
+            else
+            {            
+                CBox_UserMode_MuteMusic.Checked = false;
+                Memory.WriteUShort(0x20299F53, 25637);
+            }
+
             if (Memory.ReadByte(0x21CE4494) == 1) //option 5
             {
                 Cbox_Usermode_AttackSounds.Checked = true;
@@ -454,7 +465,7 @@ namespace Dark_Cloud_Improved_Version
         {
             if (CBox_UserMode_BattleMusic.Checked == true)
             {
-                Memory.WriteByte(0x21F1002C, 1); //Flag to disable weapon beeping sounds
+                Memory.WriteByte(0x21F1002C, 1); //Flag to disable battle music
                 Memory.WriteByte(0x21CE4493, 1);
             }
             else if (CBox_UserMode_BattleMusic.Checked == false)
@@ -509,6 +520,27 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte(attackSoundAddresses[c], attackSoundValues[c]); //enable attack sounds
                 }
                 Memory.WriteByte(0x21CE4494, 0);
+            }
+        }
+
+        private void CBox_UserMode_MuteMusic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CBox_UserMode_MuteMusic.Checked == true)
+            {
+                Memory.WriteUShort(0x20299F53, 0);
+                Memory.WriteByte(0x21CE4495, 1);
+
+                if (CBox_UserMode_BattleMusic.Checked == false)
+                {
+                    Memory.WriteByte(0x21F1002C, 1); //Flag to battle music
+                    Memory.WriteByte(0x21CE4493, 1);
+                    CBox_UserMode_BattleMusic.Checked = true;
+                }
+            }
+            else if (CBox_UserMode_MuteMusic.Checked == false)
+            {
+                Memory.WriteUShort(0x20299F53, 25637);
+                Memory.WriteByte(0x21CE4495, 0);
             }
         }
 
@@ -754,6 +786,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteInt(Enemies.Enemy15.hp, Convert.ToInt32(DEV_Page2_TextBox_Enemy16.Text));
 
         }
+
 
 
 

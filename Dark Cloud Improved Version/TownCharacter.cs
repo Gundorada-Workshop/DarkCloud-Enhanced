@@ -116,7 +116,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(0x21CB6B0D, 51); //
 
 
-            if (Memory.ReadByte(0x21CE446B) != 0) //max hps for mayor quest
+            if (Memory.ReadByte(0x21CE4464) != 0) //max hps for mayor quest
             {
                 Memory.WriteByte(0x20293978, 250);
                 Memory.WriteByte(0x2029397A, 250);

@@ -88,6 +88,7 @@
             this.Btn_Dayuppy = new System.Windows.Forms.Button();
             this.TabControl_DEV = new System.Windows.Forms.TabControl();
             this.Tab_User2 = new System.Windows.Forms.TabPage();
+            this.CBox_UserMode_MuteMusic = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.Cbox_Usermode_AttackSounds = new System.Windows.Forms.CheckBox();
             this.CBox_UserMode_Graphics = new System.Windows.Forms.CheckBox();
@@ -938,6 +939,7 @@
             // 
             // Tab_User2
             // 
+            this.Tab_User2.Controls.Add(this.CBox_UserMode_MuteMusic);
             this.Tab_User2.Controls.Add(this.label4);
             this.Tab_User2.Controls.Add(this.Cbox_Usermode_AttackSounds);
             this.Tab_User2.Controls.Add(this.CBox_UserMode_Graphics);
@@ -953,9 +955,19 @@
             this.Tab_User2.Text = "Options";
             this.Tab_User2.UseVisualStyleBackColor = true;
             // 
+            // CBox_UserMode_MuteMusic
+            // 
+            this.CBox_UserMode_MuteMusic.Location = new System.Drawing.Point(65, 132);
+            this.CBox_UserMode_MuteMusic.Name = "CBox_UserMode_MuteMusic";
+            this.CBox_UserMode_MuteMusic.Size = new System.Drawing.Size(385, 20);
+            this.CBox_UserMode_MuteMusic.TabIndex = 6;
+            this.CBox_UserMode_MuteMusic.Text = "Mute all music (only updates after changing area)";
+            this.CBox_UserMode_MuteMusic.UseVisualStyleBackColor = true;
+            this.CBox_UserMode_MuteMusic.CheckedChanged += new System.EventHandler(this.CBox_UserMode_MuteMusic_CheckedChanged);
+            // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(46, 173);
+            this.label4.Location = new System.Drawing.Point(43, 211);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(434, 44);
             this.label4.TabIndex = 5;
@@ -965,7 +977,7 @@
             // Cbox_Usermode_AttackSounds
             // 
             this.Cbox_Usermode_AttackSounds.AutoSize = true;
-            this.Cbox_Usermode_AttackSounds.Location = new System.Drawing.Point(46, 127);
+            this.Cbox_Usermode_AttackSounds.Location = new System.Drawing.Point(46, 158);
             this.Cbox_Usermode_AttackSounds.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Cbox_Usermode_AttackSounds.Name = "Cbox_Usermode_AttackSounds";
             this.Cbox_Usermode_AttackSounds.Size = new System.Drawing.Size(262, 20);
@@ -1001,7 +1013,7 @@
             // CBox_UserMode_WeaponBeeps
             // 
             this.CBox_UserMode_WeaponBeeps.AutoSize = true;
-            this.CBox_UserMode_WeaponBeeps.Location = new System.Drawing.Point(46, 78);
+            this.CBox_UserMode_WeaponBeeps.Location = new System.Drawing.Point(46, 80);
             this.CBox_UserMode_WeaponBeeps.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CBox_UserMode_WeaponBeeps.Name = "CBox_UserMode_WeaponBeeps";
             this.CBox_UserMode_WeaponBeeps.Size = new System.Drawing.Size(316, 20);
@@ -1013,7 +1025,7 @@
             // CBox_UserMode_BattleMusic
             // 
             this.CBox_UserMode_BattleMusic.AutoSize = true;
-            this.CBox_UserMode_BattleMusic.Location = new System.Drawing.Point(46, 103);
+            this.CBox_UserMode_BattleMusic.Location = new System.Drawing.Point(46, 106);
             this.CBox_UserMode_BattleMusic.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CBox_UserMode_BattleMusic.Name = "CBox_UserMode_BattleMusic";
             this.CBox_UserMode_BattleMusic.Size = new System.Drawing.Size(434, 20);
@@ -1280,6 +1292,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox CBox_UserMode_MuteMusic;
     }
 }
 
