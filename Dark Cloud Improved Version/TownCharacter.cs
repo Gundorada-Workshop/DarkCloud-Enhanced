@@ -550,9 +550,9 @@ namespace Dark_Cloud_Improved_Version
                             }
                         }
                         currentArea = Memory.ReadByte(0x202A2518);
-                        if (currentArea == 11 || currentArea == 13 || currentArea == 13 || currentArea == 33 || currentArea == 35 || currentArea == 37 || currentArea == 14)
+                        if (currentArea == 11 || currentArea == 13 || currentArea == 33 || currentArea == 35 || currentArea == 37 || currentArea == 14)
                         {
-                            Memory.WriteByte(0x21F10000, 1); //disable eventpoints/triggers, pnach does rest
+                            Memory.WriteByte(0x21F10000, 1); //disable eventpoints/triggers, pnach does the rest
                         }
                         else
                         {
@@ -722,7 +722,7 @@ namespace Dark_Cloud_Improved_Version
                         }
                         else
                         {
-                            if (currentArea != 38)
+                            if (currentArea != 38 || currentArea != 19)
                             {
                                 Memory.WriteUShort(0x21D3D434, townDialogueIDs[currentArea]);
                             }

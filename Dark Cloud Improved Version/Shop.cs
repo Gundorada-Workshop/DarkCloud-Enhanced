@@ -32,6 +32,36 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteUShort(0x20291D52, (ushort)(Memory.ReadUShort(0x20291D50)/ baitPriceReduceFactor)); //Mimi
             Memory.WriteUShort(0x20291D5A, (ushort)(Memory.ReadUShort(0x20291D58)/ baitPriceReduceFactor)); //Prickly
 
+            //SET THE PRICES FOR THE BACKFLOOR KEYS
+            //Tram Oil
+            Memory.WriteUShort(0x20291DBC, 600);    //Buy
+            Memory.WriteUShort(0x20291DBE, 300);    //Sell
+
+            //Sundew
+            Memory.WriteUShort(0x20291DC0, 750);
+            Memory.WriteUShort(0x20291DC2, 375);
+
+            //Flapping Fish (fresh)
+            Memory.WriteUShort(0x20291DC4, 300);
+            Memory.WriteUShort(0x20291DC6, 150);
+
+            //Secret Path Key
+            Memory.WriteUShort(0x20291DCC, 900);
+            Memory.WriteUShort(0x20291DCE, 450);
+
+            //Bravery Launch
+            Memory.WriteUShort(0x20291DD0, 1200);
+            Memory.WriteUShort(0x20291DD2, 600);
+
+            //Flapping Duster
+            Memory.WriteUShort(0x20291DD4, 1500);
+            Memory.WriteUShort(0x20291DD6, 750);
+
+            /* ALREADY CHANGING IN DailyShopItem.cs Line in SetDailyItemsToShop()
+            //Crystal Eyeball
+            Memory.WriteUShort(0x20291DD8, 5000);
+            Memory.WriteUShort(0x20291DDA, 2500);
+            */
 
             //All weapons ranging from the broken dagger all the way through Swallow (including dummy weapons)
             ushort[] newBuyPrices = { 2, 2, 500, 650, 2500, 900, 5000, 1800, 3000, 4500, 9000, 3000, 5500, 1250, 12000, 7888, 3642, 9500, 12726, 18000, 2, 12000, 18000, 30000, 9021, 4500, 1900, 2250, 11500, 2500, 5000, 6000, 8000, 1001, 2150, 9507, 5300, 10000, 23331, 37035, 40011, 45000, 2, 2, 900, 4200, 1999, 750, 2800, 3100, 5525, 9015, 18000, 2552, 6666, 14000, 33333, 2, 2, 1700, 7035, 6000, 2704, 3250, 1701, 8000, 12000, 21816, 19998, 2, 2600, 2300, 33027, 2, 2, 2, 3800, 4300, 2500, 8000, 5000, 9000, 8000, 16314, 24000, 2, 2007, 3500, 36000, 2, 2, 2, 3400, 4000, 4700, 6000, 5000, 7000, 13500, 21036, 35823, 2, 5555, 6500, 2, 2, 2, 2, 4000, 3200, 3300, 6000, 10450, 11943, 12018, 24000, 24000, 3000, 9000 };

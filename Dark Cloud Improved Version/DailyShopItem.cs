@@ -4,19 +4,20 @@ namespace Dark_Cloud_Improved_Version
 {
     public class DailyShopItem
     {
-        public static int[] gems = { 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106 };
+        public static int[] gems = { Items.garnet, Items.amethyst, Items.aquamarine, Items.diamond, Items.emerald, Items.pearl, Items.ruby, Items.peridot, Items.sapphire, Items.opal, Items.topaz, Items.turquoise};
+        public static int[] usefulItems = { Items.amulet_antifreeze, Items.amulet_anticurse, Items.amulet_antigoo, Items.amulet_antidote, Items.staminadrink, Items.mightyhealing };
 
-        public static int[] gafferDay1 = { 181, 224 };
+        public static int[] gafferDay1 = { Items.treasurechestkey, Items.treasurechestkey, Items.tramoil };
         public static int[] gafferDay2 = gems;
-        public static int[] gafferDay3 = { 197, 199 };
-        public static int[] gafferDay4 = { 132, 133, 134, 135, 150, 154 };
+        public static int[] gafferDay3 = { Items.mimi, Items.prickly };
+        public static int[] gafferDay4 = usefulItems;
         public static int[] gafferDay5 = CustomChests.dbcSecondHalfWeapons;
         public static int[][] gafferRotation = { gafferDay1, gafferDay2, gafferDay3, gafferDay4, gafferDay5 };
 
-        public static int[] wiseowlDay1 = { 186, 188, 189 };
-        public static int[] wiseowlDay2 = { 132, 133, 134, 135, 150, 154 };
+        public static int[] wiseowlDay1 = { Items.carrot, Items.minon, Items.battan };
+        public static int[] wiseowlDay2 = usefulItems;
         public static int[] wiseowlDay3 = CustomChests.wiseowlSecondHalfWeapons;
-        public static int[] wiseowlDay4 = { 181, 225 };
+        public static int[] wiseowlDay4 = { Items.treasurechestkey, Items.treasurechestkey, Items.sundew };
         public static int[] wiseowlDay5 = gems;
         public static int[][] wiseowlRotation = { wiseowlDay1, wiseowlDay2, wiseowlDay3, wiseowlDay4, wiseowlDay5 };
 
@@ -24,30 +25,30 @@ namespace Dark_Cloud_Improved_Version
         public static int[][] jackRotation = { jackDay1, jackDay1, jackDay1, jackDay1, jackDay1 };
 
         public static int[] jokerDay1 = gems;
-        public static int[] jokerDay2 = { 186, 188, 189, 197, 199 };
-        public static int[] jokerDay3 = { 132, 133, 134, 135, 150, 154 };
-        public static int[] jokerDay4 = { 111, 112, 113, 114, 115, 116, 117, 118, 119, 120 };
+        public static int[] jokerDay2 = { Items.carrot, Items.minon, Items.battan, Items.mimi, Items.prickly };
+        public static int[] jokerDay3 = usefulItems;
+        public static int[] jokerDay4 = { Items.dragonslayer, Items.undeadbuster, Items.seakiller, Items.stonebreaker, Items.plantbuster, Items.beastbuster, Items.skyhunter, Items.metalbreaker, Items.mimicbreaker, Items.mageslayer };
         public static int[] jokerDay5 = { 181 };
         public static int[][] jokerRotation = { jokerDay1, jokerDay2, jokerDay3, jokerDay4, jokerDay5 };
        
-        public static int[] brookeDay1 = { 132, 133, 134, 135, 150 };
+        public static int[] brookeDay1 = { Items.amulet_antifreeze, Items.amulet_anticurse, Items.amulet_antigoo, Items.amulet_antidote, Items.staminadrink };
         public static int[] brookeDay2 = CustomChests.sunmoonSecondHalfWeapons;
-        public static int[] brookeDay3 = { 181, 228 };
+        public static int[] brookeDay3 = { Items.treasurechestkey, Items.treasurechestkey, Items.secretpathkey };
         public static int[] brookeDay4 = gems;
-        public static int[] brookeDay5 = { 169, 186, 188, 189, 193, 197, 199 };
+        public static int[] brookeDay5 = { Items.poisonousapple, Items.carrot, Items.minon, Items.battan, Items.evy, Items.mimi, Items.prickly };
         public static int[][] brookeRotation = { brookeDay1, brookeDay2, brookeDay3, brookeDay4, brookeDay5 };
 
-        public static int[] ledanDay1 = { 181, 229 };
+        public static int[] ledanDay1 = { Items.treasurechestkey, Items.treasurechestkey, Items.braverylaunch };
         public static int[] ledanDay2 = gems;
-        public static int[] ledanDay3 = { 118, 119 };
-        public static int[] ledanDay4 = { 132, 133, 134, 135, 150, 154 };
+        public static int[] ledanDay3 = { Items.metalbreaker, Items.mimicbreaker };
+        public static int[] ledanDay4 = usefulItems;
         public static int[] ledanDay5 = CustomChests.moonseaFirstHalfWeapons;
         public static int[][] ledanRotation = { ledanDay1, ledanDay2, ledanDay3, ledanDay4, ledanDay5 };
 
         public static int[] fairykingDay1 = CustomChests.galleryWeapons;
-        public static int[] fairykingDay2 = { 181, 230 };
-        public static int[] fairykingDay3 = { 169, 186, 187, 188, 189, 193, 197, 199 };
-        public static int[] fairykingDay4 = { 132, 133, 134, 135, 150, 154 };
+        public static int[] fairykingDay2 = { Items.treasurechestkey, Items.treasurechestkey, Items.flappingduster };
+        public static int[] fairykingDay3 = { Items.poisonousapple, Items.carrot, Items.potatocake, Items.minon, Items.battan, Items.evy, Items.mimi, Items.prickly };
+        public static int[] fairykingDay4 = usefulItems;
         public static int[][] fairykingRotation = { fairykingDay1, fairykingDay2, fairykingDay3, fairykingDay4, fairykingDay2 };
 
         static Random rnd = new Random();

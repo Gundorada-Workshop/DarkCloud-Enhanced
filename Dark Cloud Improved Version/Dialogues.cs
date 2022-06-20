@@ -2259,27 +2259,27 @@ namespace Dark_Cloud_Improved_Version
             noruneGoro[3] = "Oh so you are from Matataki Village?^My husband works as a travelling^merchant there!";
             noruneGoro[4] = "My goodness you look just like Claude,^were you two separated at birth?";
             noruneGoro[5] = "Look at you, a hunter!^You´re talking to a true blue fisherman^so I guess I´m a bit of a hunter myself.";
-            noruneGoro[6] = "So you´re a hunter from Matataki?^Do you think your so tough?^Let me tell you something, I´m strong.¤I bet you that I´m stronger than your^best hunter at Matataki mwahaha!";
+            noruneGoro[6] = "So you´re a hunter from Matataki?^Do you think you´re so tough?^Let me tell you something, I´m strong.¤I bet you that I´m stronger than your^best hunter at Matataki mwahaha!";
             noruneGoro[7] = "Hmm, I wonder what Alnet would say^if I brought home a mallet like that.";
             noruneGoro[8] = "I heard you are from Matataki Village,^I´ve never been there but I know Auntie^Laura´s husband has traveled there¤in the past for work.^I wonder if you know him?";
             noruneGoro[9] = "Hello there, you´re another one of^Toan´s friends! Do you ever get tired^from always carrying that mallet around?";
             noruneGoro[10] = "Everyone in the village says I look^just like you, you should give me^your bearskin hood¤and we can play a prank on all of Norune!";
             noruneGoro[11] = "I´ve heard that Matataki Village has^magical fairies called Laughapockle,^these seven fairies can be quite^mischievous!";
-            noruneGoro[12] = "I´ve heard you can find a monster named^King Prickly around Matataki Village,¤I´ve been having an issue with Pricklies^coming in my home so I can´t imagine^a King Prickley!";
+            noruneGoro[12] = "I´ve heard you can find a monster named^King Prickly around Matataki Village,¤I´ve been having an issue with Pricklies^coming in my home so I can´t imagine^a King Prickly!";
 
             noruneGoro2[0] = "You´re all pudgy just like Claude^but they say you´re a powerful hunter,^we should go down to the^cave and train together.";
             noruneGoro2[1] = "I´ve heard of a very frugal shopkeeper^by the name of Mr.Mustache in Matataki,^I hope you find my prices more fair.";
             noruneGoro2[2] = "I think carrying that big heavy hammer^around made you short haha!";
             noruneGoro2[3] = "Haha, finally there´s someone in the^village who is the same height as my^little Gina!";
             noruneGoro2[4] = "You look a little taller than Carl,^is everyone from Matataki Village^so short?";
-            noruneGoro2[5] = "Oh, you´ve come from Matataki Village?^I wonder what kind of fish you can^find it there.";
+            noruneGoro2[5] = "Oh, you´ve come from Matataki Village?^I wonder what kind of fish you can^find over there.";
             noruneGoro2[6] = "Norune Village is too quiet sometimes.^Our villagers don´t put much value in^exercise or body strength, they just^live care free.¤I think the other villagers could learn^something from you hunters of Matataki.";
             noruneGoro2[7] = "Matataki Village sounds like a weird^place, you´re telling me everyone wears^animal skins there?";
             noruneGoro2[8] = "When I first saw you I thought^you were Claude, another villager who^lives not too far from here.¤It´s almost like you could be twins,^perhaps distant relatives!";
             noruneGoro2[9] = "I know you like wearing animal skins^but please don´t do anything to our^Llama, we need it for milk and cheese.";
             noruneGoro2[10] = "I wonder what kind of food can be found^in Matataki Village, can you bring some^back for me?";
             noruneGoro2[11] = "Animals are essential to our^world´s spirits. I cannot condone your^village´s hunting practices¤but I guess to each is they´re own.";
-            noruneGoro2[12] = "Dran is a magical beast that defends^our village of Norune, tell the beast^hunters of Matataki that he is a gentle,¤well - mannered monster and not to^be hunted.";
+            noruneGoro2[12] = "Dran is a magical beast that defends^our village of Norune, tell the beast^hunters of Matataki that he is a gentle,¤well-mannered monster and not to^be hunted.";
 
 
             //macho, gaffer, gina, laura, alnet, pike, komacho, carl, paige, renee, claude, hag, mayor
@@ -2572,10 +2572,10 @@ namespace Dark_Cloud_Improved_Version
             queensGoro[4] = "Oh look at those chubby cheeks, you look^just like Stew when he was a baby!";
             queensGoro[5] = "Oh you say you are from the distant^village of Matataki?¤I hear the forests around the village^are home to many lethal monsters which^are poisonous such as the hornets or^Cannibal plants."; //CANNOT TALK TO THE NPC
             queensGoro[6] = "Hey there bear skin, King is the person^who runs this town and don´t you forget^it!";
-            queensGoro[7] = "Everyone is talking about that chubby^kid from Matataki and how he uses a^Frozen Tuna to pummel his enemies.¤Here´s a tip, if you can find a sundew^that will lead to finding many precious^gems.";
+            queensGoro[7] = "Everyone is talking about that chubby^kid from Matataki and how he uses a^Frozen Tuna to pummel his enemies.¤Here´s a tip: if you can find a sundew^it will lead you to many precious gems.";
             queensGoro[8] = "A band of warriors consisting of people^from all over the Earth, what an^inspiring sight.¤Strong people are those who are pure of^heart and put the needs of others before^themselves.¤Thank you for everything Ʊ.";
             queensGoro[9] = "You must be strong if you defeated a^bear, why don´t you join us?";
-            queensGoro[10] = "I see you´re wearing a bear skin on your^head, did you defeat that bear in^combat?¤You must be a very strong warrior indeed!¤Seeing you reminds me of family that I^have in far off village who also value^physical strength hahaha!";
+            queensGoro[10] = "I see you´re wearing a bear skin on your^head, did you defeat that bear in^combat?¤You must be a very strong warrior indeed!¤Seeing you reminds me of family that I^have in a far off village who also^value physical strength hahaha!";
             queensGoro[11] = "What brings you here, oh you wish to^have your fortune told? Which one first,^the bear or the boy?";
             queensGoro[12] = "You look like the kind of guy who would^really benefit from purchasing my^Big Bucks Hammer.¤You´d get so much money that you could^even ditch those old animal skins and^finally make yourself look presentable.¤Everyone in Queens will call you^Big Money Ʊ, all you have to do^is grab that hammer.";
 
@@ -2586,9 +2586,9 @@ namespace Dark_Cloud_Improved_Version
             queensGoro2[4] = "It´s good to see you again young man.^Thank you for helping fix our seaside^town, we´re very thankful.¤Maybe as a reward I can sew you some^clothes that don´t look so raggedy.";
             queensGoro2[5] = "I know you are a hunter but don´t get^ahead of yourself.¤Always remember to pack antidotes and^mighty healing when going on your^adventures."; //CANNOT TALK TO THE NPC
             queensGoro2[6] = "Hahaha I know this may sound weird but^you look like Auntie Medu!";
-            queensGoro2[7] = "The Shipwreck is not only home to the^treasures and but also many lethal^monsters, each one more challenging then^the next.¤Now it´s as if all of the treasure^hunters of Queens are profiting of their^Queen´s misfortunate demise.¤A tragedy to be sure but it´s not like^she needs those treasures anymore.";
+            queensGoro2[7] = "The Shipwreck is not only home to the^treasures, but also many lethal monsters,^each one more challenging than the next.¤Now it´s as if all of the treasure^hunters of Queens are profiting of their^Queen´s misfortunate demise.¤A tragedy to be sure but it´s not like^she needs those treasures anymore.";
             queensGoro2[8] = "When meeting travellers who come to^Queens I always love telling them about^the story of La Saia.¤I feel like it´s one that many could^relate to as we all have someone that^left us whom we miss...";
-            queensGoro2[9] = "Everyone says that your from Matataki^village but I never heard of that place.¤For all I know maybe you made that name^up.";
+            queensGoro2[9] = "Everyone says that you´re from Matataki^village but I never heard of that place.¤For all I know maybe you made that name^up.";
             queensGoro2[10] = "Anyone who could defeat a bear is worthy^enough to call themselves a warrior!";
             queensGoro2[11] = "I sense a lot of regret in your heart^young man.¤As if you lost something or someone^without properly saying goodbye.^However, it´s as if there is a spiritual^presence that´s watching you.¤I feel peace and a sense of pride^emanating from this presence.";
             queensGoro2[12] = "I wonder, out of all the weapons, why^did you choose to use a mallet?¤Oh, you use axes too?¤I hear only the most accomplished^Matataki hunters can use an axe^effectively.¤Whoever taught the ways of a hunter must^be proud.";
@@ -2604,7 +2604,7 @@ namespace Dark_Cloud_Improved_Version
             queensRuby[4] = "Back in my day proper ladies wouldn´t^dress like that.";
             queensRuby[5] = "I´m curious about your hair color^Ʀ, was it always like this?¤It´s a rare color indeed, perhaps it´s^connected to your magic!"; //CANNOT TALK TO THE NPC
             queensRuby[6] = "Hey there Ruby, how´s it going?¤The last time you got Jake and I in^trouble we couldn´t come into work with^King for a while!¤I´m going to be honest, it was nice^having that vacation!";
-            queensRuby[7] = "The Mask of Prajna is one of the undead^doomed to haunt the once hallowed halls^La Saia´s Shipwreck.";
+            queensRuby[7] = "The Mask of Prajna is one of the undead^doomed to haunt the once hallowed halls^of La Saia´s Shipwreck.";
             queensRuby[8] = "It would only make sense that a native^of Queens would try to free La Saia from^her curse.¤What happened between her and her lover^was tragic."; //THIS IS SPOILERS BEFORE THE BOSS FIGHT
             queensRuby[9] = "Don´t think that just because you´re^helping everyone that King owes you any^favours.";
             queensRuby[10] = "I´m very proud of how far you´ve come^Ʀ.¤I remember when you would cause all^sorts of issues for the people of Queens^with King and his hoodlums.¤Continue to make us proud Ʀ.";
@@ -3117,7 +3117,7 @@ namespace Dark_Cloud_Improved_Version
             norunefinishedDialogue[6] = "It´s hard to believe that in an instant^the Genie was able to destroy our^village, everything we hold dear.¤You all brought it back,^we´re in your debt.";
             norunefinishedDialogue[7] = "Don´t tell my older sister but I´m^secretly planning on joining your^adventure, I don´t tell Alnet or^she will get angry!";
             norunefinishedDialogue[8] = "It´s hard to believe that Norune Village´s^Ť is leading a band of warriors^that are going to stop the Dark Genie.¤You´re all special in your own way^but Ť is special to me...^Take care of him.";
-            norunefinishedDialogue[9] = "Even after the Genie destroyed our^village, the morning sun continued^to rise each day: that never changed.¤I can´t imagine losing my son or our^loved ones like that again. Thank you^for helping restore the world.";
+            norunefinishedDialogue[9] = "Even after the Genie destroyed our^village, the morning sun continued^to rise each day; that never changed.¤I can´t imagine losing my son or our^loved ones like that again. Thank you^for helping restore the world.";
             norunefinishedDialogue[10] = "Do you think if we gave the Dark Genie^a box full of candies he would leave^us all alone? I mean, that works^for me all the time.";
             norunefinishedDialogue[11] = "I´ve been gifted by the Spirits with^the ability to foresee the future,^however for the first time I´m^afraid to use this gift.¤I´m afraid of what I will see.^This Genie is a fearsome opponent^indeed, be sure to take caution.";
             norunefinishedDialogue[12] = "Nothing here.";

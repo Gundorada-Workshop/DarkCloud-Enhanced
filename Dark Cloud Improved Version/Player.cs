@@ -35,6 +35,15 @@ namespace Dark_Cloud_Improved_Version
         public const int currentCharacter = 0x21CD9550;     //Current character value (0-5)
         public const int animationId = 0x21DC448C;
 
+        /// <summary>
+        /// Returns the current character being used inside the dungeon.
+        /// </summary>
+        /// <returns>0 = Toan<br></br>
+        /// 1 = Xiao<br></br>
+        /// 2 = Goro<br></br>
+        /// 3 = Ruby<br></br>
+        /// 4 = Ungaga<br></br>
+        /// 5 = Osmond<br></br></returns>
         public static int CurrentCharacterNum()
         {
             if (Memory.ReadByte(currentCharacter) == 0)
@@ -52,7 +61,24 @@ namespace Dark_Cloud_Improved_Version
 
             else return 255;
         }
-
+        /// <summary>
+        /// Returns a string with the characters name basing on the input id.
+        /// </summary>
+        /// <param name="character">
+        /// 0 = Toan<br></br>
+        /// 1 = Xiao<br></br>
+        /// 2 = Goro<br></br>
+        /// 3 = Ruby<br></br>
+        /// 4 = Ungaga<br></br>
+        /// 5 = Osmond<br></br>
+        /// </param>
+        /// <returns>
+        /// 0 = "Toan"<br></br>
+        /// 1 = "Xiao"<br></br>
+        /// 2 = "Goro"<br></br>
+        /// 3 = "Ruby"<br></br>
+        /// 4 = "Ungaga"<br></br>
+        /// 5 = "Osmond"<br></br></returns>
         public static string GetCharacterName(int character)
         {
             switch (character)
@@ -67,9 +93,13 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
+        /// </summary>
+        /// <returns></returns>
         public static bool InDungeonFloor()
         {
-            if (Memory.ReadByte(0x21CD954F) != 255)  //Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
+            if (Memory.ReadByte(0x21CD954F) != 255)
                 return true;
 
             else

@@ -114,7 +114,7 @@ namespace Dark_Cloud_Improved_Version
                         int[] weaponTable = CustomChests.GetDungeonWeaponsTable(dungeon, floor);
 
                         //Roll first for the backfloor key
-                        if (rnd.Next(100) < 50)
+                        if (rnd.Next(100) < 35)
                         {
                             //Fetch the backfloor key
                             byte backFloorKey = Dungeon.GetDungeonBackFloorKey(dungeon);
