@@ -2882,18 +2882,18 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsXiao[6] = "Are you impressed with the technology we^have here on Yellow Drops?";
             yellowdropsXiao[7] = "It´s hard to think about how the other^Moon People are living on Terra, have^they lost touch with their culture, can^they still use magic?";
             yellowdropsXiao[9] = "Oh wow, you are very far away from home^little kitty!";
-            yellowdropsXiao[10] = "Not to sound rude or anything but cats^don´t belong here, if you wonder into^the Moon Factory and cause mischief¤again who knows what Ō^will do!";
+            yellowdropsXiao[10] = "Not to sound rude or anything but cats^don´t belong here, if you wander into^the Moon Factory and cause mischief¤again who knows what Ō^will do!";
             yellowdropsXiao[11] = "I wonder how Ʊ still manages^to carry that large mallet out here,^imagine how heavy it is!";
             yellowdropsXiao[12] = "The Sun Giant will always be the pride^of Yellow Drops!";
 
             yellowdropsXiao2[2] = "I wonder how it would be to live^just one day on Terra...";
             yellowdropsXiao2[3] = "Salsa said that he saw you transform^into a person haha!¤Oh Salsa, what a comedian!";
-            yellowdropsXiao2[4] = "Seeing Osmand fly with his heli-pac is^so inspiring, is there anything he^can´t do?";
+            yellowdropsXiao2[4] = "Seeing Ō fly with his heli-pack^is so inspiring, is there anything he^can´t do?";
             yellowdropsXiao2[5] = "We saw the Dark Genie´s attack from up^here, it looked so scary! I´m sorry you^all had to go through that...";
             yellowdropsXiao2[6] = "Perhaps one day Blue Terra could be just^as advanced as we are in technology!";
             yellowdropsXiao2[7] = "I hear that the Moon people on Terra^have become lazy, I guess that comes^when living the good life!";
             yellowdropsXiao2[9] = "I always see you chasing around^Ť and his companions, I wish I^could go on an adventure like you!";
-            yellowdropsXiao2[10] = "Promise to always stay by Ť^side, he has a good heart and will make^sure you won´t cause any trouble!¤The last time you wondered into the^Moon Factory you left destruction in^your wake.¤Who would have thought such a small^creature could cause large damage!";
+            yellowdropsXiao2[10] = "Promise to always stay by Ť^side, he has a good heart and will make^sure you won´t cause any trouble!¤The last time you wandered into the^Moon Factory you left destruction in^your wake.¤Who would have thought such a small^creature could cause large damage!";
             yellowdropsXiao2[11] = "I admire Ų´s height.^I wish that I can be that tall one day^that way Ō won´t boss^me around!"; // REVIEW THIS
             yellowdropsXiao2[12] = "I wish it were possible for me to take^that Sun Giant out for a spin!";
 
@@ -2945,7 +2945,7 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsRuby2[4] = "I remember reading in an old textbook^that long ago there once used to be^floating continent. I wonder if that was^the work of the Dark Genie was well!";
             yellowdropsRuby2[5] = "I heard that in some parts of Terra they^don´t use technology at all?¤That can´t be true can it?";
             yellowdropsRuby2[6] = "I heard from the other allies that some^of Terra´s animals have become^dangerous. They must be under the^influence of the Dark Genie!";
-            yellowdropsRuby2[7] = "I wonder, you´re a strong magic user you^should compete in the coliseum!¤If that blockhead Minotaur Joe could be^a champion so could you!";
+            yellowdropsRuby2[7] = "I wonder, you´re a strong magic user^right? I think you should compete in the^coliseum!¤If that blockhead Minotaur Joe could be^a champion so could you!";
             yellowdropsRuby2[9] = "Last time I found a baby Moon Beetle^under my pillow, crazy right!";
             yellowdropsRuby2[10] = "Yellow Drops has always took pride in^how we use magic and technology, maybe^we could learn from each other!";
             yellowdropsRuby2[11] = "Everyone in Yellow Drops was so excited^when you all came, we rarely get^visitors!";
@@ -2958,7 +2958,7 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsUngaga[2] = "Woah you´re so much taller than me!^Your almost as big as the sun giant!";
             yellowdropsUngaga[3] = "You´re almost as tall as Minotaur Joe^but he still bigger haha!";
             yellowdropsUngaga[4] = "I heard the fighting stick is only used^by the most honorable sand warriors!";
-            yellowdropsUngaga[5] = "Thank you for all of your help^Ų I know the Moon People could^count on the Desert Tribe to help defeat^Dark Genie!";
+            yellowdropsUngaga[5] = "Thank you for all of your help^Ų! I knew the Moon People could^count on the Desert Tribe to help defeat^Dark Genie!";
             yellowdropsUngaga[6] = "Ʊ seems pretty scary, he´s^wearing an animal pelt! What if he^attacks me, that mallet is huge!";
             yellowdropsUngaga[7] = "I always wanted to go on an adventure,^maybe once this is all done Ō^can plan an expedition across the^Moon Sea!";
             yellowdropsUngaga[9] = "Both you and Ʊ carry your^weapons out, if any monsters appear I^know that you two will defend us!";
@@ -2969,11 +2969,11 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsUngaga2[2] = "I saw Ӿ the cat walking around^with a slingshot in her mouth, what was^she up to?";
             yellowdropsUngaga2[3] = "Minotaur Joe always acts like a crazy^beast in the ring but I heard he´s a^quiet Minotaur when outside of the^coliseum.¤Looks can be deceiving!";
             yellowdropsUngaga2[4] = "Often I wonder about the power of the^Dark Genie, would it be possible for^someone to harness that power and use it^for good?¤I guess it´s not possible, after all the^Genie was locked away to prevent anyone^from misusing that power.";
-            yellowdropsUngaga2[5] = "I hope that once this situation is over^that the Moon People of Yellow Drops can^find some way to keep in contact with^the people of Blue Terra!";
+            yellowdropsUngaga2[5] = "I hope that once this situation is over,^that the Moon People of Yellow Drops can^find some way to keep in contact with^the people of Blue Terra!";
             yellowdropsUngaga2[6] = "Maybe I was over exaggerating, I would^totally beat Ʊ in a duel.¤Just don´t tell him I said that!";
             yellowdropsUngaga2[7] = "I had a question Mr.Ų when you^look down at that little blue marble.^Do you ever get homesick?";
             yellowdropsUngaga2[9] = "I love your head wrap! Can you teach me^how to make one?! I´ll make it Yellow^Drop´s new fashion trend!";
-            yellowdropsUngaga2[10] = "I was surprised when Jive told me that^Muska Laka is home to a legendary family^of fish!";
+            yellowdropsUngaga2[10] = "I was surprised when Jive told me that^Muska Racka is home to a legendary^family of fish!";
             yellowdropsUngaga2[11] = "Ӿ once tried to jump into that^yellow water, she looked disappointed^when Ť stopped her!¤It seems like that little cat thinks^that she´s the boss of everyone haha!";
             yellowdropsUngaga2[12] = "Once this is all done I´m sure you´re^excited to be back home! Make sure you^tell everyone about the mighty warrior^Cheek okay?";
 
@@ -3042,7 +3042,7 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             brownbooRuby[6] = "I´m glad that you are indeed a friendly^Genie!¤Unless you are waiting for the right^moment to trick us!¤I really hope that´s not the case...";
             brownbooRuby[7] = "Genie´s can´t be all bad, I mean here^you are helping out Ť and his^friends.¤You don´t have to do that, but here you^are!¤I guess it´s proof that you can´t always^judge a book by it´s cover, only in this^case don´t judge a Genie haha!";
-            brownbooRuby[8] = "We´ve been living in the village of^Brownboo for generations!¤Initially, the Moon People used to^maintain a good relationship with the^humans of Terra who live out in the far¤away village of Muska Laka but we wanted^an easier life!";
+            brownbooRuby[8] = "We´ve been living in the village of^Brownboo for generations!¤Initially, the Moon People used to^maintain a good relationship with the^humans of Terra who live out in the far¤away village of Muska Racka but we^wanted an easier life!";
             brownbooRuby[10] = "Brownboo has always been a village of^solitude, the Dark Genie didn´t think of^attacking us!¤We´ve been living in secret for many^lifetimes so they probably didn´t know^where we were.¤It was so sad, we all heard the voices^of Terra cry out for help, only to be^silenced in unison...¤I´m glad that Ť answered that^call for help.¤Life on Terra can still be saved.";
             brownbooRuby[11] = "The village of Matataki hunts down^beasts, a stark contrast to it´s^neighboring village of Norune where^people live in harmony with the beasts¤such as Dran. Meanwhile Queens is a^bustling port town that doesn´t have any^relationship with beasts at all!¤Terra is such an interesting place when^you think about it!";
             brownbooRuby[12] = "I found a witch parfait the other day^and it was delicious, I can see why they^are your favorite food!";
@@ -3060,7 +3060,7 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             brownbooUngaga[6] = "I think if you gave up scorpion jerky,^you would probably be stronger.¤Why not eat Moon Fruit instead?";
             brownbooUngaga[7] = "I wonder how you got so tall, maybe it´s^all of the scorpion jerky you´ve been^eating!";
-            brownbooUngaga[8] = "We´ve been living in Brownboo for^generations!¤Initially the Moon People used to^maintain a good working relationship^with the humans of Terra in Muska Laka^but it started being too much of a¤commitment and we wanted an easier life!^It´s not like we made the promise,^rather it was our ancestors.¤Should we be held responsible for the^decisions of our forebears, that doesn´t^seem very fair does it.";
+            brownbooUngaga[8] = "We´ve been living in Brownboo for^generations!¤Initially the Moon People used to^maintain a good working relationship^with the humans of Terra in Muska Racka^but it started being too much of a¤commitment and we wanted an easier life!^It´s not like we made the promise,^rather it was our ancestors.¤Should we be held responsible for the^decisions of our forebears, that doesn´t^seem very fair does it.";
             brownbooUngaga[10] = "I always have been curious, why did you^choose to use a fighting stick as your^weapon of choice?¤I think the weapon that someone chooses^says a lot about their personality.¤Perhaps you like to keep the enemy at a^distance because you don´t want to get^hurt, but you don´t seem like the overly^defensive type...¤Is there someone you care for, aha that^is probably it!¤Make sure you finish this journey in one^piece, make that special person proud!";
             brownbooUngaga[11] = "Sometimes I like to sit along the pier^and just listen to the waves.¤I think about a lot of things like all^of my friends here in Brownboo and even^life on Terra.¤Do you think that we´ll get rid of the^Dark Genie for good?¤I just want us all to live in peace^without the fear of being trapped in^Atla!";
             brownbooUngaga[12] = "Some of you lost loved ones from the^Dark Genie´s attack, we can live here in^protection and comfort but we are not^numb to the suffering of the outside¤world. We, the people of Brownboo, are^here for you.";
