@@ -97,7 +97,7 @@ namespace Dark_Cloud_Improved_Version
             
             else //We did not find a process matching procName.
             {
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + procName + " was not found in the list of running processes.");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + procName + " was not found in the list of running processes.");
                 //CloseHandle(processH);
                 return 0;
             }

@@ -107,6 +107,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Container_MainModes = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.Tab_Dev2.SuspendLayout();
             this.DEV_Page2_Table_Enemies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DEV_Page2_SplitContainer1)).BeginInit();
@@ -939,6 +940,7 @@
             // 
             // Tab_User2
             // 
+            this.Tab_User2.Controls.Add(this.button1);
             this.Tab_User2.Controls.Add(this.CBox_UserMode_MuteMusic);
             this.Tab_User2.Controls.Add(this.label4);
             this.Tab_User2.Controls.Add(this.Cbox_Usermode_AttackSounds);
@@ -967,7 +969,7 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(43, 211);
+            this.label4.Location = new System.Drawing.Point(43, 192);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(434, 44);
             this.label4.TabIndex = 5;
@@ -1163,6 +1165,16 @@
             this.Container_MainModes.Size = new System.Drawing.Size(530, 360);
             this.Container_MainModes.TabIndex = 7;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(46, 259);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(289, 34);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Submit Bug Report (opens a website)";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // ModWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -1293,6 +1305,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox CBox_UserMode_MuteMusic;
+        private System.Windows.Forms.Button button1;
     }
 }
 

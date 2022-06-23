@@ -790,8 +790,12 @@ namespace Dark_Cloud_Improved_Version
 
 
 
+
         #endregion
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://docs.google.com/forms/d/e/1FAIpQLSd5AnT7PedD4fz1nbL88cM0SPttiDvxAKewInLoHDytL8lU4A/viewform?usp=sf_link");
+        }
     }
 }
