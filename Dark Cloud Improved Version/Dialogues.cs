@@ -536,6 +536,17 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = "I needed your help earlier,^but I´m okay now.¤You see, I slipped on this^pink thing which made me all^slow and slimey.¤Well, I survived from that disaster.";
                                 }
+                                else if (characterIdData == 14640) 
+                                {
+                                    if (Memory.ReadInt(0x2029AA0E) == 1680945251) //check toan
+                                    {
+                                        currentDialogue = "Did you buy bombs from Gaffer´s shop?^Please be careful Ť,^I just want you to come home safely.";    //dialogue requested by beta tester
+                                    }
+                                    else
+                                    {
+                                        currentDialogue = "Sorry, I don´t have any quests currently.";
+                                    }
+                                }                               
                                 else
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
@@ -562,6 +573,17 @@ namespace Dark_Cloud_Improved_Version
                                 else if (characterIdData == 12849)
                                 {
                                     currentDialogue = "I needed your help earlier,^but I´m okay now.¤You see, I slipped on this^pink thing which made me all^slow and slimey.¤Well, I survived from that disaster.";
+                                }
+                                else if (characterIdData == 14640)
+                                {
+                                    if (Memory.ReadInt(0x2029AA0E) == 1680945251) //check toan
+                                    {
+                                        currentDialogue = "Did you buy bombs from Gaffer´s shop?^Please be careful Ť,^I just want you to come home safely.";    //dialogue requested by beta tester
+                                    }
+                                    else
+                                    {
+                                        currentDialogue = "Sorry, I don´t have any quests currently.";
+                                    }
                                 }
                                 else
                                 {
