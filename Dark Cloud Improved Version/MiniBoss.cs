@@ -67,12 +67,14 @@ namespace Dark_Cloud_Improved_Version
                     //Check if chosen enemy is flying type
                     if (!nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)))
                     {
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nEnemyNumber rolled after flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss ID: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() +   "\nEnemyNumber rolled after flying check: " + enemyNumber + "" +
+                                                                                    "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + 
+                                                                                    "\nChosen miniboss ID: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
 
                         //Check if chosen enemy has the key
                         if (Enemies.EnemyHasKey(enemyNumber, dungeon))
                         {
-                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nThe Key has landed on the mini boss!");
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "The Key has landed on the mini boss!");
 
                             int newEnemyNumber;
 
