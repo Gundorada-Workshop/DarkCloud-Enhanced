@@ -88,6 +88,7 @@
             this.Btn_Dayuppy = new System.Windows.Forms.Button();
             this.TabControl_DEV = new System.Windows.Forms.TabControl();
             this.Tab_User2 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.CBox_UserMode_MuteMusic = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.Cbox_Usermode_AttackSounds = new System.Windows.Forms.CheckBox();
@@ -107,7 +108,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Container_MainModes = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.Tab_Dev2.SuspendLayout();
             this.DEV_Page2_Table_Enemies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DEV_Page2_SplitContainer1)).BeginInit();
@@ -957,6 +957,16 @@
             this.Tab_User2.Text = "Options";
             this.Tab_User2.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(46, 259);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(289, 34);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Submit Bug Report (opens a website)";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // CBox_UserMode_MuteMusic
             // 
             this.CBox_UserMode_MuteMusic.Location = new System.Drawing.Point(65, 132);
@@ -1056,9 +1066,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(49, 264);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(151, 16);
+            this.label6.Size = new System.Drawing.Size(107, 16);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Beta Version: 0.9.10";
+            this.label6.Text = "Version: 1.0.0";
             // 
             // Label_UserMode_PlaceholderText
             // 
@@ -1127,12 +1137,12 @@
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(57, 183);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(165, 16);
+            this.label3.Size = new System.Drawing.Size(432, 77);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Testers: Coming soon";
+            this.label3.Text = "Testers: aWolfsOath, BeeMan753, Glace, Glitchedd, Hiddencastle, Kazarov, MagicaJe" +
+    "sta, Merideth, Misterboy64, Ridepod, Shaztopia";
             // 
             // label2
             // 
@@ -1164,16 +1174,6 @@
             this.Container_MainModes.Padding = new System.Windows.Forms.Padding(57, 0, 57, 0);
             this.Container_MainModes.Size = new System.Drawing.Size(530, 360);
             this.Container_MainModes.TabIndex = 7;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(46, 259);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(289, 34);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Submit Bug Report (opens a website)";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ModWindow
             // 

@@ -633,6 +633,10 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     currentDialogue = "I wish you happened to be there.¤One day I accidentally ventured^too deep into the forest and^was surronded by monsters.¤Luckily, I had this red pouch which^allowed me to get back to safety.";
                                 }
+                                else if (characterIdData == 13106)
+                                {
+                                    currentDialogue = "Unless I was made of Gilda, I wouldn´t^buy fish bait from Mr. Mustache.^With the right weapon, you can find^plenty of bait in the forest.";  //dialogue requested by beta tester
+                                }
                                 else
                                 {
                                     currentDialogue = "Sorry, I don´t have any quests currently.";
@@ -659,6 +663,10 @@ namespace Dark_Cloud_Improved_Version
                                 else if (characterIdData == 14386)
                                 {
                                     currentDialogue = "I wish you happened to be there.¤One day I accidentally ventured^too deep into the forest and^was surronded by monsters.¤Luckily, I had this red pouch which^allowed me to get back to safety.";
+                                }
+                                else if (characterIdData == 13106)
+                                {
+                                    currentDialogue = "Unless I was made of Gilda, I wouldn´t^buy fish bait from Mr. Mustache.^With the right weapon, you can find^plenty of bait in the forest.";  //dialogue requested by beta tester
                                 }
                                 else
                                 {

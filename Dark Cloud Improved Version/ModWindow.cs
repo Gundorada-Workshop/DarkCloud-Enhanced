@@ -14,7 +14,7 @@ namespace Dark_Cloud_Improved_Version
             instance = this;
 
             //User mode on launch!!!
-            //UserModeLaunch();
+            UserModeLaunch();
 
         } 
 
