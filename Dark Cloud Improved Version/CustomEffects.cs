@@ -801,8 +801,8 @@ namespace Dark_Cloud_Improved_Version
                 //Declare the scale for the chance to base on (0 - 100)
                 int procChance = random.Next(100);
 
-                //Check for the chance to take effect (15 = 15%)
-                if (procChance < 15)
+                //Check for the chance to take effect (30 = 30%)
+                if (procChance < 30)
                 {
                     //Give the Stamina effect for 30 seconds (1800 = 30 seg)
                     Player.Ungaga.SetStatus("stamina", 1800);
@@ -821,9 +821,9 @@ namespace Dark_Cloud_Improved_Version
 
             if (hasHit)
             {
-                int procChance = random.Next(100); //Chance to apply stop (4%)
+                int procChance = random.Next(100); //Chance to apply stop (6%)
 
-                if (procChance < 4)
+                if (procChance < 6)
                 {
                     if(Memory.ReadByte(Enemies.Enemy0.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy0.freezeTimer, 300); //Stop duration (300 = 5 seconds)
                     if (Memory.ReadByte(Enemies.Enemy1.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy1.freezeTimer, 300);

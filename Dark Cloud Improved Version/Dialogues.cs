@@ -2712,7 +2712,7 @@ namespace Dark_Cloud_Improved_Version
             queensOsmond2[4] = "Stew is still embarrassed about this^when he was young he would play pretend^hero!¤He would call himself King Speed but^then one day he found a strange feather^that made him faster then everyone.";
             queensOsmond2[5] = "The Genie caught us all by surprise but^now we´re ready."; //CANNOT TALK TO THE NPC
             queensOsmond2[6] = "What brings you down here anyways?^The Dark Genie isn´t the business of the^Moon People, we can solve our own^problems.";
-            queensOsmond2[7] = "Is there any rare gems to be found on^the Moon?";
+            queensOsmond2[7] = "Are there any rare gems to be found on^the Moon?";
             queensOsmond2[8] = "Through the flurry of changes one must^ensure that they stay true to^themselves.¤I can tell that you´re a good^person Ō and that goes for the^rest of your allies.";
             queensOsmond2[9] = "I´ve never seen a bunny in Queens^before, what are you doing here?";
             queensOsmond2[10] = "I do what I can to keep our sea side^town safe but if you ever need anything^Ō let me know.";
@@ -2838,7 +2838,7 @@ namespace Dark_Cloud_Improved_Version
             // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
             muskarackaOsmond[0] = "You cover your face with goggles and a^scarf, why not show your beauty for all^to see?";
             muskarackaOsmond[1] = "Ah hah, finally a Moon person comes to^our village!¤I´ll have you know that the people of^Muska Racka have been staying on top of^the defending the Sun and Moon Temple as^well as the Signets.¤We´re not lazy like those bunnies who^chose to live the easy life in the^forest...";
-            muskarackaOsmond[2] = "Ah a Moon person, have you come to visit^the Sun and Moon Temple?¤Take caution as it is invested with^monsters!";
+            muskarackaOsmond[2] = "Ah a Moon person, have you come to visit^the Sun and Moon Temple?¤Take caution as it is infested with^monsters!";
             muskarackaOsmond[3] = "So if you´re here that must^mean that Ų and his friends^made his way to the moons!";
             muskarackaOsmond[4] = "Old Enga would tell us that the moons^are home to the Moon tribe but I never^thought they would be bunnies!";
             muskarackaOsmond[5] = "You may be small and cuddly, but I bet^you´re quite the warrior! Ȟ"; // <3 AT THE END
@@ -2849,7 +2849,7 @@ namespace Dark_Cloud_Improved_Version
             muskarackaOsmond[10] = "Moons... Pretty...";
 
             muskarackaOsmond2[0] = "Are you a short hair or a long hair^bunny, what is your hair care regimen?";
-            muskarackaOsmond2[1] = "I can tell by your demeanour that you’re^the leader of your moon tribe, care to^have a duel?¤The winner will be both the chief of the^desert tribe as well as the moon^bunnies!";
+            muskarackaOsmond2[1] = "I can tell by your demeanour that you´re^the leader of your moon tribe, care to^have a duel?¤The winner will be both the chief of the^desert tribe as well as the moon^bunnies!";
             muskarackaOsmond2[2] = "What is that weapon you use, it´s like^a slingshot but mechanical! I know Moon^people are adept in magic but what magic^is this?!";
             muskarackaOsmond2[3] = "When this is all over I hope that we can^continue to live in unison.¤It seems like people have been fighting^each other for some time now and that^has to change.";
             muskarackaOsmond2[4] = "Ų is the best warrior the^village has to offer, I hope he will aid^you all on your quest.";
@@ -2966,7 +2966,7 @@ namespace Dark_Cloud_Improved_Version
             yellowdropsRuby[6] = "If I can go anywhere on Terra I´d love^to visit Queens!";
             yellowdropsRuby[7] = "Being in Yellow Drops must be different^from being in Queens, let me know if you^need anything!";
             yellowdropsRuby[9] = "Yellow Drops is always in a state of^nightfall, sometimes it gets scary and^I´d get the others to check under^my bed!";
-            yellowdropsRuby[10] = "The others were uncomfortable with the^idea of having a genie in Yellow Drops^but you´re nothing like the Dark Genie.¤Thanks helping Ť and his^allies!";
+            yellowdropsRuby[10] = "The others were uncomfortable with the^idea of having a genie in Yellow Drops^but you´re nothing like the Dark Genie.¤Thanks for helping Ť and his^allies!";
             yellowdropsRuby[11] = "I can´t imagine living on Blue Terra!";
             yellowdropsRuby[12] = "When I was young my friends and I would^go to the Moon Sea and try to test our^bravery! We would all chicken out except^for Ō of course!";
 
@@ -3111,7 +3111,7 @@ namespace Dark_Cloud_Improved_Version
             brownbooOsmond[12] = "Usually whenever we get an outsider in^the village, we tie them up and put them^through a trial of questions.¤It´s pretty fun!";
 
             brownbooOsmond2[6] = "Thanks for visiting Brownboo Ō^we don´t get very many outsiders here!";
-            brownbooOsmond2[7] = "If only we knew that the Genie would^come back, we would have maintained^better contact with our people back^home...¤I guess there’s nothing that could be^done about that now.¤Moving forward, we can make a change for^the better and stay in contact.¤Life is too short to stay distant from^one another.";
+            brownbooOsmond2[7] = "If only we knew that the Genie would^come back, we would have maintained^better contact with our people back^home...¤I guess there´s nothing that could be^done about that now.¤Moving forward, we can make a change for^the better and stay in contact.¤Life is too short to stay distant from^one another.";
             brownbooOsmond2[8] = "You may think we live a primitive life^here in Brownboo compared to the^technologically rich society of Yellow^Drops.¤In reality, we value the simple things^in life...¤Although, having a heli-pack like that^would be pretty cool!";
             brownbooOsmond2[10] = "Yikes, is that a gun?! Watch where you^point that thing, you´ll poke someone´s^eye out!";
             brownbooOsmond2[11] = "I don´t think we did a good job staying^in touch with everyone in Yellow Drops,^make sure you tell them that we´re all^doing well and that we can handle any¤challenge that comes our way. Dark Genie^or otherwise!";
