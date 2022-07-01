@@ -108,6 +108,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Container_MainModes = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.Tab_Dev2.SuspendLayout();
             this.DEV_Page2_Table_Enemies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DEV_Page2_SplitContainer1)).BeginInit();
@@ -1048,6 +1049,7 @@
             // 
             // Tab_User1
             // 
+            this.Tab_User1.Controls.Add(this.button2);
             this.Tab_User1.Controls.Add(this.label6);
             this.Tab_User1.Controls.Add(this.Label_UserMode_PlaceholderText);
             this.Tab_User1.Controls.Add(this.Label_UserMode_WelcomeTitle);
@@ -1174,6 +1176,16 @@
             this.Container_MainModes.Padding = new System.Windows.Forms.Padding(57, 0, 57, 0);
             this.Container_MainModes.Size = new System.Drawing.Size(530, 360);
             this.Container_MainModes.TabIndex = 7;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(349, 261);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(148, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Join our Discord!";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // ModWindow
             // 
@@ -1306,6 +1318,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox CBox_UserMode_MuteMusic;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

@@ -797,5 +797,10 @@ namespace Dark_Cloud_Improved_Version
         {
             System.Diagnostics.Process.Start("https://docs.google.com/forms/d/e/1FAIpQLSd5AnT7PedD4fz1nbL88cM0SPttiDvxAKewInLoHDytL8lU4A/viewform?usp=sf_link");
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://discord.gg/8KcnBjgRHP");
+        }
     }
 }
