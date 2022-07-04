@@ -316,7 +316,7 @@ namespace Dark_Cloud_Improved_Version
                         if (!excludeFloors.Contains(currentFloor))
                         {
                             //Initialize the spawns check
-                            Memory.WriteInt(Enemies.Enemy0.hp, 1);
+                            Memory.WriteInt(Enemies.Enemy14.hp, 1);
                             spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
                             spawnsCheck.Start();                          
 
@@ -568,7 +568,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 //Listens for the enemy render address value to change, from 0 or 10 seconds have passed
                 //We use the enemy render value here because enemies spawn after chests
-                while (Memory.ReadByte(Enemies.Enemy0.renderStatus) == 255 && ms < 10000)
+                while (Memory.ReadByte(Enemies.Enemy14.renderStatus) == 255 && ms < 10000)
                 {
                     Thread.Sleep(100);
                     ms += 100;
@@ -579,7 +579,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 //Listens for the enemy hp address value to change, from 0 or 10 seconds have passed
                 //We use the enemy render value here because enemies spawn after chests
-                while (Memory.ReadByte(Enemies.Enemy0.hp) == 1 && ms < 10000)
+                while (Memory.ReadByte(Enemies.Enemy14.hp) == 1 && ms < 10000)
                 {
                     Thread.Sleep(100);
                     ms += 100;
@@ -1268,6 +1268,11 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Memory.WriteInt(Enemies.Enemy0.staminaTimer + (0x190 * MiniBoss.enemyNumber), 60000);
                 }
+            }
+
+            if (Memory.ReadByte(Addresses.dunBackFloorFlag) != 0)
+            {
+                MiniBoss.miniBossRolled = false;    //if player enters backfloor, remove miniboss stamina value
             }
         }
 
