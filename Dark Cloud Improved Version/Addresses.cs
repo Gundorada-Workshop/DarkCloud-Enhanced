@@ -112,6 +112,8 @@
         public const int backfloorcircleSpawn3 = 0x21DE61F0;
         public const int backfloorcircleEffect3 = 0x21DE61F4;
 
+        public const int dunBackFloorFlag = 0x202A34B4;
+
         //Menu Stuff
         public const int menuWMIconHover = 0x202A2D4C;  //The walking mode menu icon the cursor is hovering
         public const int menuWMLastVisited = 0x202A2D48;//The last walking mode menu the player last accessed

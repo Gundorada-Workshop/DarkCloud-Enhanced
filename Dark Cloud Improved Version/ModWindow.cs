@@ -795,7 +795,7 @@ namespace Dark_Cloud_Improved_Version
 
         private void button1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://docs.google.com/forms/d/e/1FAIpQLSd5AnT7PedD4fz1nbL88cM0SPttiDvxAKewInLoHDytL8lU4A/viewform?usp=sf_link");
+            System.Diagnostics.Process.Start("https://docs.google.com/forms/d/e/1FAIpQLSdIaCjLTJ9aRqQVO731o2UwQKByF85W_yAj54pssO1RMkLewQ/viewform?usp=sf_link");
         }
 
         private void button2_Click(object sender, EventArgs e)
