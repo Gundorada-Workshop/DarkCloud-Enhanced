@@ -1062,17 +1062,15 @@ namespace Dark_Cloud_Improved_Version
             {
                 messageId = 3319;
                 messageAddress = Addresses.dunMessageLastEnemyName;
-                outputMessage = original10Message;//Memory.ReadByteArray(Addresses.dunMessage10, 157);
+                outputMessage = original10Message;
             }
 
-            Memory.WriteUInt(Addresses.dunMessage, 4294967295); //Display nothing
-            Memory.WriteByteArray(messageAddress, outputMessage);
-            Memory.WriteInt(Addresses.dunMessage, messageId);
-            Memory.WriteInt(Addresses.dunMessageDuration, displayTime);
+            Memory.WriteUInt(Addresses.dunMessage, 4294967295);         //Clear any display message
+            Memory.WriteByteArray(messageAddress, outputMessage);       //Write our message string onto memory
+            Memory.WriteInt(Addresses.dunMessage, messageId);           //Display our custom message
+            Memory.WriteInt(Addresses.dunMessageDuration, displayTime); //Set our custom message duration
             Thread.Sleep(300);
-            if (isFloorClearMessage && CheckDisplayMessageAvailable()) Memory.WriteByteArray(messageAddress, hornHead); //Display the 3319th dungeon message (last enemy name [HornHead] message)
-            /*messageThreadTimer = new Thread(() => DisplayMessageCustomTime(displayTime));
-            messageThreadTimer.Start();*/
+            if (isFloorClearMessage && CheckDisplayMessageAvailable()) Memory.WriteByteArray(messageAddress, hornHead); //In case it is the floor clear message, re-write the HornHead string back onto memory
 
             return outputMessage;
         }
