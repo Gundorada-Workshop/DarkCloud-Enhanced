@@ -590,8 +590,11 @@ namespace Dark_Cloud_Improved_Version
             //Set the flag to true
             if(Memory.ReadByte(Enemies.Enemy0.renderStatus) > 0) enemiesSpawn = true;
 
-            //Get the quantity of normal enemies in the floor
-            foreach (byte enemy in Enemies.GetFloorEnemiesIds())
+            //Get all the current floor enemy ids
+            List<ushort> enemyFloorIds = Enemies.GetFloorEnemiesIds();
+
+            //Calculate the amount of non-flying enemies in the floor
+            foreach (ushort enemy in enemyFloorIds)
             {
                 if (Enemies.GetNormalEnemies().ContainsKey(enemy)) numNormalEnemies++;
             }
