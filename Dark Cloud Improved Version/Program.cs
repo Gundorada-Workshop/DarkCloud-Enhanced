@@ -2,38 +2,80 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.Windows;
+using Application = System.Windows.Forms.Application;
+using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
+using System.Collections;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace Dark_Cloud_Improved_Version
 {
     static class Program
     {
-        static void PrintInfo()
-        {
-            Console.WriteLine("\nDark Cloud Enhanced - Created by Wordofwind, Dayuppy, MikeZorD, and Plgue");
-            Console.WriteLine("Version 0.9.05 - Beta\n");
-        }
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
 
-        public static void PressEntertoContinue() //Added a simple function for pausing and waiting for input from the user.
-        {
-            //Console.WriteLine("\n\nPress the Enter key to continue");
-            Console.Read(); //Wait for input and then discard it.
-        }
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        public const int SW_HIDE = 0;
+        public const int SW_SHOWNOACTIVATE = 4;
+        public const int SW_SHOW = 5;
+
+        internal static Form modWindowForm;
+
+        internal static readonly IntPtr consoleH = GetConsoleWindow();
 
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-            PrintInfo();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-            
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new ModWindow());
+            Console.WriteLine("Dark Cloud Enhanced - Created by Wordofwind, Dayuppy, MikeZorD, and Plgue");
+            Console.WriteLine("Version 0.9.05 - Beta");
 
+            //ShowWindow(consoleH, SW_HIDE); //Hide Console
+
+            Memory.process = Memory.GetProcess(Memory.procName);
+
+            if (Memory.process == null)
+            {
+                ShowWindow(consoleH, SW_SHOW); //Show the console
+                Console.WriteLine("\n{0} was not found in the list of running processes.", Memory.procName);
+                PressAnyKey();
+                return;
+            }
+
+            Console.WriteLine("\nFound running instance of {0} ({1})", Memory.process.ProcessName, Memory.process.Id);
+
+            Memory.EEMem_Offset = Memory.GetEEMem_Offset();
+
+            if (Memory.EEMem_Offset < 0)
+            {
+                ShowWindow(consoleH, SW_SHOW); //Show the console
+
+                if (Memory.EEMem_Offset == -1)
+                {
+                    Console.WriteLine("\nUnable to locate pcsx2_offsetreader.exe in the resources directory");
+                }
+                    
+                Console.WriteLine("\nEEMem_Loc file from the pcsx2_offsetreader.exe helper application was not found.");
+
+                Console.WriteLine("\nSetting EEMem location to 0x0. If you are not running pcsx2 version 1.6 or lower, this is a mistake! Please restart the mod and try again.");
+            }
+
+            Console.WriteLine("\nEEmem Location: {0:X8}", Memory.EEMem_Offset);  
+            //Memory.TestProgress();
+        
             Memory.WriteByte(0x21F10024, 0);
-                //Memory.CloseHandle(Memory.processH); //Close our handle to the process, we are finished with our program
             
-
-            PressEntertoContinue();
+            modWindowForm = new ModWindow();
+            Application.Run(modWindowForm);
         }
 
         public static void ConsoleLogging()
@@ -50,6 +92,12 @@ namespace Dark_Cloud_Improved_Version
             streamwriter.AutoFlush = true;
             Console.SetOut(streamwriter);
             Console.SetError(streamwriter);
+        }
+
+        public static void PressAnyKey() //Added a simple function for pausing and waiting for input from the user.
+        {
+            Console.WriteLine("\nPress any key to continue . . .");
+            Console.ReadKey(); //Wait for input and then discard it.
         }
     }
 }

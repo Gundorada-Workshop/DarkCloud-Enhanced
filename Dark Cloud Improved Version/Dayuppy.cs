@@ -1101,13 +1101,13 @@ namespace Dark_Cloud_Improved_Version
         {
             bool successful;
 
-            Memory.VirtualProtect(Memory.processH, 0x201B6A0C, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
-            successful = Memory.VirtualProtectEx(Memory.processH, 0x201B6A0C, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+            Memory.VirtualProtect(Memory.process.Handle, 0x201B6A0C, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
+            successful = Memory.VirtualProtectEx(Memory.process.Handle, 0x201B6A0C, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             
             if (successful == false) //There was an error
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
-            successful = Memory.VirtualProtectEx(Memory.processH, 0x201B6A14, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
+            successful = Memory.VirtualProtectEx(Memory.process.Handle, 0x201B6A14, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
 
             if (successful == false) //There was an error
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
@@ -1196,12 +1196,12 @@ namespace Dark_Cloud_Improved_Version
         {
             byte[] TIM2_Header = new byte[] { 0x54, 0x49, 0x4D, 0x32, 0x03, 0x00, 0x01 };
             byte[] texture;
-            int size;
+            long size;
             int resultIndex;
 
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Retreiving and writing textures from memory to disk. This may take some time...");
 
-            List<int> results = Memory.ByteArraySearch(0x20B69600, 0x2191F530, TIM2_Header);
+            List<long> results = Memory.ByteArraySearch(0x20B69600, 0x2191F530, TIM2_Header);
 
             if (!Directory.Exists("memtextures"))
                 Directory.CreateDirectory("memtextures");

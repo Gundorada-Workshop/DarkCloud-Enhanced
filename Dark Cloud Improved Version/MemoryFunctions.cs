@@ -1,14 +1,33 @@
-﻿using System;
+﻿using Dark_Cloud_Improved_Version.Properties;
+using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
+using System.Diagnostics.PerformanceData;
+using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Dark_Cloud_Improved_Version
 {
     class Memory
     {
+        internal static Process process;
+        internal static long EEMem_Offset;
+
+        internal static string procName = "pcsx2";
+
         //Define some needed flags
         public const uint FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
         public const uint FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
@@ -26,7 +45,7 @@ namespace Dark_Cloud_Improved_Version
 
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern int FormatMessage(uint dwFlags, IntPtr lpSource, uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer, uint nSize, IntPtr Arguments);
-        
+
         [DllImport("user32.dll", SetLastError = true)] //Import DLL that will allow us to retrieve processIDs from Window Handles.
         private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int processID); //This is a function within the dll that we are adding to our program.
 
@@ -34,16 +53,16 @@ namespace Dark_Cloud_Improved_Version
         private static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
         [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.ThisCall)]
-        public static extern bool VirtualProtect(IntPtr processH, int lpAddress, int lpBuffer, uint flNewProtect, out uint lpflOldProtect);
+        public static extern bool VirtualProtect(IntPtr processH, long lpAddress, long lpBuffer, uint flNewProtect, out uint lpflOldProtect);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool VirtualProtectEx(IntPtr processH, int lpAddress, int lpBuffer, uint flNewProtect, out uint lpflOldProtect);
+        public static extern bool VirtualProtectEx(IntPtr processH, long lpAddress, long lpBuffer, uint flNewProtect, out uint lpflOldProtect);
 
         [DllImport("kernel32.dll", SetLastError = true)] //Import for reading process memory.
-        private static extern bool ReadProcessMemory(IntPtr processH, int lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
+        private static extern bool ReadProcessMemory(IntPtr processH, long lpBaseAddress, byte[] lpBuffer, long dwSize, out ulong lpNumberOfBytesRead);
 
         [DllImport("kernel32.dll", SetLastError = true)] //Import for writing process memory.
-        private static extern bool WriteProcessMemory(IntPtr processH, int lpBaseAddress, byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesWritten);
+        private static extern bool WriteProcessMemory(IntPtr processH, long lpBaseAddress, byte[] lpBuffer, long dwSize, out ulong lpNumberOfBytesWritten);
 
         [DllImport("kernel32.dll", SetLastError = true)]  //Import DLL again for Closing Handles to processes and add the function to our program.
         internal static extern bool CloseHandle(IntPtr processH);
@@ -57,15 +76,15 @@ namespace Dark_Cloud_Improved_Version
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool DebugActiveProcessStop(int PID);
 
-        public static void SuspendProcess(int processId)
+        public static void SuspendProcess()
         {
-            DebugActiveProcess(processId);
+            DebugActiveProcess(process.Id);
             DebugSetProcessKillOnExit(false);
         }
 
-        public static void ResumeProcess(int processId)
+        public static void ResumeProcess()
         {
-            DebugActiveProcessStop(PID);
+            DebugActiveProcessStop(process.Id);
         }
 
         internal static string GetSystemMessage(uint errorCode)
@@ -80,235 +99,298 @@ namespace Dark_Cloud_Improved_Version
             return sRet;
         }
 
-        public static int GetProcessID(string procName) //Function for retrieving processID from running processes.
+        public static Process GetProcess(string procName) //Function for retrieving process from running processes.
         {
-            Process[] Processes = Process.GetProcessesByName(procName); //Search the list of running processes for procName - ex. (pcsx2)
-            if (Processes.Length > 0) //If we found the process, continue.
-            {
-                int PID = 0; //Initialize processID to 0
-                IntPtr hWnd = IntPtr.Zero; //Initialize Window handle to 0x0
+            Process[] processes = Process.GetProcesses(); //Fetch the array of running processes
+            Process foundProcess = null;
+            int processInstances = 0;
 
-                hWnd = Processes[0].MainWindowHandle; //Grab the window handle
-                GetWindowThreadProcessId(hWnd, out PID); //Retrieve the ProcessID using the handle to the Window we found and output to PID variable
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "WindowHandle:" + hWnd);
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "PID: " + PID);
-                return PID; //Return our process ID
-            }
-            
-            else //We did not find a process matching procName.
+            procName = procName.ToLowerInvariant().Trim();
+
+            foreach (Process process in processes)
             {
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + procName + " was not found in the list of running processes.");
-                //CloseHandle(processH);
-                return 0;
+                if (process.ProcessName.ToLowerInvariant().Trim().Contains(procName)) //If we found the process, continue.
+                {
+                    foundProcess = process;
+                    processInstances++;
+                }
+            }
+
+            if (processInstances > 1)
+            {
+                Console.WriteLine("Found {0} running instances of {1}. Using the last instance found...", processInstances, foundProcess.ProcessName);
+            }
+
+            return foundProcess; //Return our process or default null if not found
+        }
+
+        public static IntPtr GetProcessHandle(int PID)
+        {
+            IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
+            return processH;
+        }
+
+        internal static long GetEEMem_Offset()
+        {
+            switch (process.ProcessName)
+            {
+                case "pcsx2": //Most likely 1.6 or below version of pcsx2
+                    return 0x0; //Our addresses already include the previous fixed offset, so, return 0.
+
+                default:
+                    if (!File.Exists(".\\Resources\\offsetreader.exe"))
+                    {
+                        return -1;
+                    }
+
+                    File.WriteAllText("pcsx2_name", process.ProcessName + ".exe"); //Export found executable name for build of pcsx2 found for use by offset finder program
+
+                    Process EEMem_Helper_Program = new Process(); //Construct a new empty process that we will launch
+                    EEMem_Helper_Program.StartInfo = new ProcessStartInfo(".\\Resources\\offsetreader.exe"); //Launch modified offset finder C++ program
+                    EEMem_Helper_Program.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; //Start hidden
+                    EEMem_Helper_Program.Start(); //Start offset reader
+
+                    Console.WriteLine("\nStarted offset reader\n");
+
+                    while (!EEMem_Helper_Program.HasExited) //Wait for program to exit
+                    {
+                        Console.Write(".");
+                    }
+                    
+                    string EEMem_Pointer = File.ReadAllText("EEMem_Loc"); //Retrieve EEMem pointer from output file
+                    
+                    File.Delete("EEMem_Loc");
+                    File.Delete("pcsx2_name");
+
+                    return long.Parse(EEMem_Pointer) - 0x20000000; // - 0x20000000 to normalize found addresses relative to previous fixed EEMLoc
             }
         }
 
-        //Make PID available anywhere within the program.
-        internal static readonly int PID = GetProcessID("pcsx2");   //Case sensitive
-
-        //Open process with Read and Write permissions
-        internal static IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
-
-        public static void GetProcess(int PID)
-        {
-            processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
-        }
-
-        internal static byte ReadByte(int address)  //Read byte from address
+        internal static byte ReadByte(long address)  //Read byte from address + EEMem_Offset
         {
             byte[] dataBuffer = new byte[1];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return dataBuffer[0];
         }
 
-        internal static byte[] ReadByteArray(int address, int numBytes)  //Read byte from address
+        internal static byte[] ReadByteArray(long address, long numBytes)  //Read byte array from address + EEMem_Offset
         {
             byte[] dataBuffer = new byte[numBytes];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.LongLength, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return dataBuffer;
         }
 
-        internal static ushort ReadUShort(int address)  //Read unsigned short from address
+        internal static ushort ReadUShort(long address)  //Read unsigned short from address + EEMem_Offset
         {
             byte[] dataBuffer = new byte[2];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _);
 
             return BitConverter.ToUInt16(dataBuffer, 0);
         }
 
-        internal static short ReadShort(int address)
+        internal static short ReadShort(long address)
         {
-            byte[] dataBuffer = new byte[2]; //Read this many bytes of the address
+            byte[] dataBuffer = new byte[2]; //Read this many bytes of the address + EEMem_Offset
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return BitConverter.ToInt16(dataBuffer, 0); //Convert Bit Array to 16-bit Int (short) and return it
         }
 
-        internal static uint ReadUInt(int address)
+        internal static uint ReadUInt(long address)
         {
             byte[] dataBuffer = new byte[4];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return BitConverter.ToUInt32(dataBuffer, 0);
         }
 
-        internal static int ReadInt(int address)
+        internal static int ReadInt(long address)
         {
             byte[] dataBuffer = new byte[4];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
 
             return BitConverter.ToInt32(dataBuffer, 0);
         }
 
-        internal static float ReadFloat(int address)
+        internal static float ReadFloat(long address)
         {
-            byte[] dataBuffer = new byte[8];
+            byte[] dataBuffer = new byte[4];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _);
 
             return BitConverter.ToSingle(dataBuffer, 0);
         }
 
-        internal static double ReadDouble(int address)
+        internal static double ReadDouble(long address)
         {
             byte[] dataBuffer = new byte[8];
 
-            ReadProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _);
 
             return BitConverter.ToDouble(dataBuffer, 0); ;
         }
 
-        internal static string ReadString(int address, int length)
+        internal static long ReadLong(long address)
+        {
+            byte[] dataBuffer = new byte[8];
+
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.Length, out _); //_ seems to act as NULL, we don't need numOfBytesRead
+
+            return BitConverter.ToInt64(dataBuffer, 0);
+        }
+
+        internal static string ReadString(long address, long length)
         {
             //http://stackoverflow.com/questions/1003275/how-to-convert-byte-to-string
             byte[] dataBuffer = new byte[length];
 
-            ReadProcessMemory(processH, address, dataBuffer, length, out _);
-     
+            ReadProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, length, out _);
+
             return Encoding.GetEncoding(10000).GetString(dataBuffer);
         }
 
-        internal static bool Write(int address, byte[] value)
+        internal static bool Write(long address, byte[] value)
         {
-            return WriteProcessMemory(processH, address, value, value.Length, out _);
+            return WriteProcessMemory(process.Handle, address + EEMem_Offset, value, value.LongLength, out _);
         }
 
-        internal static bool WriteOneByte(int address, byte[] value)
+        internal static bool WriteOneByte(long address, byte[] value)
         {
-            return WriteProcessMemory(processH, address, value, 1, out _);
+            return WriteProcessMemory(process.Handle, address + EEMem_Offset, value, sizeof(byte), out _);
         }
 
-        internal static bool WriteString(int address, string stringToWrite) //Untested
+        internal static bool WriteString(long address, string stringToWrite) //Untested
         {
             // http://stackoverflow.com/questions/16072709/converting-string-to-byte-array-in-c-sharp
             byte[] dataBuffer = Encoding.GetEncoding(10000).GetBytes(stringToWrite); //Western European (Mac) Encoding Table
 
-            return WriteProcessMemory(processH, address, dataBuffer, dataBuffer.Length, out _);
+            return WriteProcessMemory(process.Handle, address + EEMem_Offset, dataBuffer, dataBuffer.LongLength, out _);
         }
 
-        internal static bool WriteByte(int address, byte value)
+        internal static bool WriteByte(long address, byte value)
         {
-            //return Write(address, BitConverter.GetBytes(value));
+            //return Write(address + EEMem_Offset + EEMem_Offset, BitConverter.GetBytes(value));
             return WriteOneByte(address, BitConverter.GetBytes(value));
         }
 
-        internal static void WriteByteArray(int address, byte[] byteArray)  //Write byte array at address
+        internal static void WriteByteArray(long address, byte[] byteArray)  //Write byte array at address + EEMem_Offset
         {
             bool successful;
 
-            successful = VirtualProtectEx(processH, address, byteArray.Length, PAGE_EXECUTE_READWRITE, out _);
-             
+            successful = VirtualProtectEx(process.Handle, address + EEMem_Offset, byteArray.LongLength, PAGE_EXECUTE_READWRITE, out _);
+
             if (successful == false) //There was an error
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetLastError() + " - " + GetSystemMessage(GetLastError())); //Get the last error code and write out the message associated with it.
 
-            successful = WriteProcessMemory(processH, address, byteArray, byteArray.Length, out _);
+            successful = WriteProcessMemory(process.Handle, address + EEMem_Offset, byteArray, byteArray.LongLength, out _);
 
             if (successful == false)
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetLastError() + " - " + GetSystemMessage(GetLastError()));
         }
 
-        internal static bool WriteUShort(int address, ushort value)
+        internal static bool WriteUShort(long address, ushort value)
         {
             return Write(address, BitConverter.GetBytes(value));
         }
 
-        internal static bool WriteInt(int address, int value)
+        internal static bool WriteInt(long address, int value)
         {
             return Write(address, BitConverter.GetBytes(value));
         }
 
-        internal static bool WriteUInt(int address, uint value)
+        internal static bool WriteUInt(long address, uint value)
         {
             return Write(address, BitConverter.GetBytes(value));
         }
 
-        internal static bool WriteFloat(int address, float value)
+        internal static bool WriteFloat(long address, float value)
         {
             return Write(address, BitConverter.GetBytes(value));
         }
 
-        internal static bool WriteDouble(int address, double value)
+        internal static bool WriteDouble(long address, double value)
         {
             return Write(address, BitConverter.GetBytes(value));
         }
 
-        internal static List<int> StringSearch(int startOffset, int stopOffset, string searchString)
+        internal static List<long> StringSearch(long startOffset, long stopOffset, string searchString)
         {
-            byte[] stringBuffer = new byte[searchString.Length];
-            List<int> resultsList = new List<int>();
+            byte[] stringBuffer = new byte[searchString.LongCount()];
+            List<long> resultsList = new List<long>();
 
-            VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
+            VirtualProtectEx(process.Handle, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
 
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Searching for " + searchString + ". This may take awhile.");
 
-            for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
+            for (long currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
             {
-                if (ReadString(currentOffset, stringBuffer.Length) == searchString) //If we found a match
+                if (ReadString(currentOffset, stringBuffer.LongLength) == searchString) //If we found a match
                     resultsList.Add(currentOffset); //Add it to the list
 
-                ReadString(currentOffset, stringBuffer.Length); //Search for our string at the current offset
+                ReadString(currentOffset, stringBuffer.LongLength); //Search for our string at the current offset
             }
             return resultsList;
         }
 
-        internal static List<int> IntSearch(int startOffset, int stopOffset, int searchValue)
+        internal static List<long> IntSearch(long startOffset, long stopOffset, int searchValue)
         {
-            List<int> resultsList = new List<int>();
+            List<long> resultsList = new List<long>();
 
-            VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
+            VirtualProtectEx(process.Handle, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _); //Change our protection first
 
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Searching for " + searchValue + ". This may take awhile.");
 
-            for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
+            for (long currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
             {
                 if (ReadInt(currentOffset) == searchValue)
                     resultsList.Add(currentOffset);
 
-                ReadInt(currentOffset);
+                //ReadInt(currentOffset);
             }
             return resultsList;
         }
 
-        internal static List<int> ByteArraySearch(int startOffset, int stopOffset, byte[] byteArray)
+        public static void TestProgress()
         {
-            List<int> resultsList = new List<int>();
+            System.Windows.Forms.ProgressBar pBar1 = new System.Windows.Forms.ProgressBar(); //Construct a new ProgressBar;
+           
+            pBar1.Height = 20;
+            pBar1.Width = 200;
+            pBar1.Visible = true; //Show the ProgressBar
+            pBar1.Minimum = 0; //Set minimum value
+            pBar1.Maximum = 100; //Set maximum value
+            pBar1.Value = 0; //Set initial value
 
-            VirtualProtectEx(processH, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _);
-
-            for (int currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
+            for (int i = 0; i < 100; i++)
             {
-                if (ReadByteArray(currentOffset, byteArray.Length).SequenceEqual(byteArray))
-                    resultsList.Add(currentOffset);
+                Thread.Sleep(100);
+               
+                pBar1.Value = i; //Set the progress
+            }
+        }
 
-                ReadInt(currentOffset);
+        internal static List<long> ByteArraySearch(long startOffset, long stopOffset, byte[] byteArray)
+        {
+            List<long> resultsList = new List<long>();
+
+            VirtualProtectEx(process.Handle, startOffset, stopOffset - startOffset, PAGE_EXECUTE_READWRITE, out _);
+
+            for (long currentOffset = startOffset; currentOffset < stopOffset; currentOffset++)
+            {
+                if (ReadByteArray(currentOffset, byteArray.LongLength).SequenceEqual(byteArray))
+                {
+                    resultsList.Add(currentOffset);
+                }
+
+                Console.WriteLine("{0:X8}", currentOffset);
             }
             return resultsList;
         }

@@ -392,6 +392,9 @@ namespace Dark_Cloud_Improved_Version
             TabControl_DEV.Visible = true;
             Container_MainModes.Visible = false;
 
+            //Show console if launched as Dev
+            Program.ShowWindow(Program.consoleH, Program.SW_SHOWNOACTIVATE);
+
             //Initialize fields
             DEV_Page2_TextBox_Gilda.Text = Player.Gilda.ToString();
 

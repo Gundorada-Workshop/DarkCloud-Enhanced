@@ -34,7 +34,7 @@ namespace Dark_Cloud_Improved_Version
                 Memory.WriteByte(0x21F10024, 0); //mod's flag for PNACH
                 if (PID == 0)
                 {
-                    PID = Memory.GetProcessID("pcsx2");                   
+                    PID = Memory.process.Id;                   
                 }
                 //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "CheckEmulatorAndGame");
                 if (PID == 0)
@@ -48,7 +48,6 @@ namespace Dark_Cloud_Improved_Version
                 } */
                 else if (PID != 0)
                 {
-                    Memory.GetProcess(PID);
                     //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.ReadInt(0x20299540));
                     if (Memory.ReadInt(0x20299540) != 1802658116) //check if DC1 has been booted
                     {
