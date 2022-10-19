@@ -148,21 +148,49 @@ namespace Dark_Cloud_Improved_Version
                     Process EEMem_Helper_Program = new Process(); //Construct a new empty process that we will launch
                     EEMem_Helper_Program.StartInfo = new ProcessStartInfo(".\\Resources\\offsetreader.exe"); //Launch modified offset finder C++ program
                     EEMem_Helper_Program.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; //Start hidden
-                    EEMem_Helper_Program.Start(); //Start offset reader
+                    EEMem_Helper_Program.StartInfo.Arguments = process.ProcessName + ".exe";
 
-                    Console.WriteLine("\nStarted offset reader\n");
+                    string EEMem_Pointer = null;
+                    long EEMem_Loc = -1;
+                    
+                    int maxRetryAttempts = 40;
+                    int currentAttempts = 1;
 
-                    while (!EEMem_Helper_Program.HasExited) //Wait for program to exit
+                    Console.WriteLine("\nStarting offset reader\n");
+
+                offset_reader:
+                    if (currentAttempts < maxRetryAttempts)
                     {
-                        Console.Write(".");
+                        EEMem_Helper_Program.Start(); //Start offset reader
+                        Console.WriteLine("Attempt number {0} of {1} to retrieve EEMem pointer", currentAttempts, maxRetryAttempts);
+                        
+                        EEMem_Helper_Program.WaitForExit(); //Wait for program to exit
+
+                        try
+                        {
+                            EEMem_Pointer = File.ReadAllText("EEMem_Loc"); //Retrieve EEMem pointer from output file
+                            EEMem_Loc = long.Parse(EEMem_Pointer) - 0x20000000;
+                        }
+
+                        catch (Exception exception)
+                        {
+                            if (exception is IOException || exception is FormatException)
+                            {
+                                currentAttempts++;
+                                goto offset_reader;
+                            }
+                        }
                     }
-                    
-                    string EEMem_Pointer = File.ReadAllText("EEMem_Loc"); //Retrieve EEMem pointer from output file
-                    
+
+                    else
+                    {
+                        Console.WriteLine("EEMem location was not found. This might be caused by a locked file. Rebooting your system and trying again may resolve the issue.");
+                    }
+
                     File.Delete("EEMem_Loc");
                     File.Delete("pcsx2_name");
 
-                    return long.Parse(EEMem_Pointer) - 0x20000000; // - 0x20000000 to normalize found addresses relative to previous fixed EEMLoc
+                    return EEMem_Loc; // - 0x20000000 to normalize found addresses relative to previous fixed EEMLoc
             }
         }
 
@@ -356,25 +384,6 @@ namespace Dark_Cloud_Improved_Version
                 //ReadInt(currentOffset);
             }
             return resultsList;
-        }
-
-        public static void TestProgress()
-        {
-            System.Windows.Forms.ProgressBar pBar1 = new System.Windows.Forms.ProgressBar(); //Construct a new ProgressBar;
-           
-            pBar1.Height = 20;
-            pBar1.Width = 200;
-            pBar1.Visible = true; //Show the ProgressBar
-            pBar1.Minimum = 0; //Set minimum value
-            pBar1.Maximum = 100; //Set maximum value
-            pBar1.Value = 0; //Set initial value
-
-            for (int i = 0; i < 100; i++)
-            {
-                Thread.Sleep(100);
-               
-                pBar1.Value = i; //Set the progress
-            }
         }
 
         internal static List<long> ByteArraySearch(long startOffset, long stopOffset, byte[] byteArray)
