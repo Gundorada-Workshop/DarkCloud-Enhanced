@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -24,27 +25,29 @@ namespace Dark_Cloud_Improved_Version
     class Memory
     {
         internal static Process process;
-        internal static long EEMem_Offset;
-
         internal static string procName = "pcsx2";
+        internal static long EEMem_Address, EEMem_Offset;
 
         //Define some needed flags
-        public const uint FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
-        public const uint FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
-        public const uint FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
+        internal const uint FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
+        internal const uint FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
+        internal const uint FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
 
-        public const uint PROCESS_VM_READ = 0x0010;
-        public const uint PROCESS_VM_WRITE = 0x0020;
-        public const uint PROCESS_VM_OPERATION = 0x0008;
-        public const uint PROCESS_SUSPEND_RESUME = 0x0800;
+        internal const uint PROCESS_VM_READ = 0x0010;
+        internal const uint PROCESS_VM_WRITE = 0x0020;
+        internal const uint PROCESS_VM_OPERATION = 0x0008;
+        internal const uint PROCESS_SUSPEND_RESUME = 0x0800;
 
-        public const uint PAGE_EXECUTE_READWRITE = 0x40;
+        internal const uint PAGE_EXECUTE_READWRITE = 0x40;
+
+        [DllImport("\\Resources\\pcsx2_offsetreader.dll", EntryPoint = "?GetEEMem@@YAJH@Z", CallingConvention = CallingConvention.Cdecl)]
+        private static extern long GetEEMem(int procID);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern uint GetLastError();
+        internal static extern uint GetLastError();
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern int FormatMessage(uint dwFlags, IntPtr lpSource, uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer, uint nSize, IntPtr Arguments);
+        private static extern int FormatMessage(uint dwFlags, IntPtr lpSource, uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer, uint nSize, IntPtr Arguments);
 
         [DllImport("user32.dll", SetLastError = true)] //Import DLL that will allow us to retrieve processIDs from Window Handles.
         private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int processID); //This is a function within the dll that we are adding to our program.
@@ -95,8 +98,44 @@ namespace Dark_Cloud_Improved_Version
                 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, IntPtr.Zero, (uint)errorCode, 0, ref lpMsgBuf, 0, IntPtr.Zero);
 
             string sRet = Marshal.PtrToStringAnsi(lpMsgBuf);
-
             return sRet;
+        }
+
+        //private static IntPtr GetEEmemAddress()
+        //{
+        //    switch(process.ProcessName)
+        //    {
+        //        case "pcsx2": //Most likely 1.6 or below version of pcsx2
+        //            return (IntPtr)0x20000000; //Our addresses already include the previous fixed offset, so, return 0.
+
+        //        case "pcsx2-qtx64":
+        //            break;
+
+        //        case "pcsx2x64-avx2":
+        //            break;
+
+        //        default:
+        //            return IntPtr.Zero;
+        //    }
+
+        //    return GetProcAddressEx(process.MainModule.BaseAddress, process.Handle, "EEmem".ToCharArray());
+        //}
+
+        public static int Initialize()
+        {
+            process = GetProcess(procName);
+
+            EEMem_Address = ReadLong(GetEEMem(process.Id));
+            EEMem_Offset = EEMem_Address - 0x20000000;
+
+            switch(process.ProcessName)
+            {
+                case "pcsx2":
+                    EEMem_Offset += 0x20000000;
+                    break;
+            }
+
+            return 0;
         }
 
         public static Process GetProcess(string procName) //Function for retrieving process from running processes.
@@ -107,16 +146,16 @@ namespace Dark_Cloud_Improved_Version
 
             procName = procName.ToLowerInvariant().Trim();
 
-            foreach (Process process in processes)
+            foreach(Process process in processes)
             {
-                if (process.ProcessName.ToLowerInvariant().Trim().Contains(procName)) //If we found the process, continue.
+                if(process.ProcessName.ToLowerInvariant().Trim().Contains(procName)) //If we found the process, continue.
                 {
                     foundProcess = process;
                     processInstances++;
                 }
             }
 
-            if (processInstances > 1)
+            if(processInstances > 1)
             {
                 Console.WriteLine("Found {0} running instances of {1}. Using the last instance found...", processInstances, foundProcess.ProcessName);
             }
@@ -128,70 +167,6 @@ namespace Dark_Cloud_Improved_Version
         {
             IntPtr processH = OpenProcess(PROCESS_VM_OPERATION | PROCESS_SUSPEND_RESUME | PROCESS_VM_READ | PROCESS_VM_WRITE, false, PID);
             return processH;
-        }
-
-        internal static long GetEEMem_Offset()
-        {
-            switch (process.ProcessName)
-            {
-                case "pcsx2": //Most likely 1.6 or below version of pcsx2
-                    return 0x0; //Our addresses already include the previous fixed offset, so, return 0.
-
-                default:
-                    if (!File.Exists(".\\Resources\\offsetreader.exe"))
-                    {
-                        return -1;
-                    }
-
-                    File.WriteAllText("pcsx2_name", process.ProcessName + ".exe"); //Export found executable name for build of pcsx2 found for use by offset finder program
-
-                    Process EEMem_Helper_Program = new Process(); //Construct a new empty process that we will launch
-                    EEMem_Helper_Program.StartInfo = new ProcessStartInfo(".\\Resources\\offsetreader.exe"); //Launch modified offset finder C++ program
-                    EEMem_Helper_Program.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; //Start hidden
-                    EEMem_Helper_Program.StartInfo.Arguments = process.ProcessName + ".exe";
-
-                    string EEMem_Pointer = null;
-                    long EEMem_Loc = -1;
-                    
-                    int maxRetryAttempts = 40;
-                    int currentAttempts = 1;
-
-                    Console.WriteLine("\nStarting offset reader\n");
-
-                offset_reader:
-                    if (currentAttempts < maxRetryAttempts)
-                    {
-                        EEMem_Helper_Program.Start(); //Start offset reader
-                        Console.WriteLine("Attempt number {0} of {1} to retrieve EEMem pointer", currentAttempts, maxRetryAttempts);
-                        
-                        EEMem_Helper_Program.WaitForExit(); //Wait for program to exit
-
-                        try
-                        {
-                            EEMem_Pointer = File.ReadAllText("EEMem_Loc"); //Retrieve EEMem pointer from output file
-                            EEMem_Loc = long.Parse(EEMem_Pointer) - 0x20000000;
-                        }
-
-                        catch (Exception exception)
-                        {
-                            if (exception is IOException || exception is FormatException)
-                            {
-                                currentAttempts++;
-                                goto offset_reader;
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("EEMem location was not found. This might be caused by a locked file. Rebooting your system and trying again may resolve the issue.");
-                    }
-
-                    File.Delete("EEMem_Loc");
-                    File.Delete("pcsx2_name");
-
-                    return EEMem_Loc; // - 0x20000000 to normalize found addresses relative to previous fixed EEMLoc
-            }
         }
 
         internal static byte ReadByte(long address)  //Read byte from address + EEMem_Offset

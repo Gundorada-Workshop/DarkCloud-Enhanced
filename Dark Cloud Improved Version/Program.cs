@@ -34,14 +34,13 @@ namespace Dark_Cloud_Improved_Version
         private static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetCompatibleTextRenderingDefault(true);
 
             Console.WriteLine("Dark Cloud Enhanced - Created by Wordofwind, Dayuppy, MikeZorD, and Plgue");
             Console.WriteLine("Version 0.9.05 - Beta");
 
             //ShowWindow(consoleH, SW_HIDE); //Hide Console
-
-            Memory.process = Memory.GetProcess(Memory.procName);
+            Memory.Initialize();
 
             if (Memory.process == null)
             {
@@ -53,25 +52,28 @@ namespace Dark_Cloud_Improved_Version
 
             Console.WriteLine("\nFound running instance of {0} ({1})", Memory.process.ProcessName, Memory.process.Id);
 
-            Memory.EEMem_Offset = Memory.GetEEMem_Offset();
+            //Memory.EEMem_Offset = Memory.GetEEMem_Offset();
 
-            if (Memory.EEMem_Offset < 0)
-            {
-                ShowWindow(consoleH, SW_SHOW); //Show the console
+            //if (Memory.EEMem_Offset < 0)
+            //{
+            //    ShowWindow(consoleH, SW_SHOW); //Show the console
 
-                if (Memory.EEMem_Offset == -1)
-                {
-                    Console.WriteLine("\nUnable to locate pcsx2_offsetreader.exe in the resources directory");
-                }
-                    
-                Console.WriteLine("\nEEMem_Loc file from the pcsx2_offsetreader.exe helper application was not found.");
+            //    if (Memory.EEMem_Offset == -1)
+            //    {
+            //        Console.WriteLine("\nUnable to locate pcsx2_offsetreader.exe in the resources directory");
+            //    }
 
-                Console.WriteLine("\nSetting EEMem location to 0x0. If you are not running pcsx2 version 1.6 or lower, this is a mistake! Please restart the mod and try again.");
-            }
+            //    Console.WriteLine("\nEEMem_Loc file from the pcsx2_offsetreader.exe helper application was not found.");
 
-            Console.WriteLine("\nEEmem Location: {0:X8}", Memory.EEMem_Offset);  
+            //    Console.WriteLine("\nSetting EEMem location to 0x0. If you are not running pcsx2 version 1.6 or lower, this is a mistake! Please restart the mod and try again.");
+            //}
+
+            //Console.WriteLine("\nEEmem Location: {0:X8}", Memory.EEMem_Offset);  
             //Memory.TestProgress();
-        
+
+            Console.WriteLine("\nEEMem_Address: {0:X8}", $"0x{Memory.EEMem_Address:X}");
+            Console.WriteLine("\nEEMem_Offset: {0:X8}", $"0x{Memory.EEMem_Offset:X}");
+           
             Memory.WriteByte(0x21F10024, 0);
             
             modWindowForm = new ModWindow();
