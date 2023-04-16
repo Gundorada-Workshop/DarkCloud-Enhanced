@@ -40,6 +40,7 @@ namespace Dark_Cloud_Improved_Version
         static int fishMultiplier = 0;
         static int matatakiLocation = 0;
         static int matatakiLocationID = 0;
+        static int duplicateRetries = 0;
         public static int generatedNeededFishCount = 0;
         public static int generatedMinFishSize = 0;
         public static int generatedMaxFishSize = 0;
@@ -700,10 +701,19 @@ namespace Dark_Cloud_Improved_Version
                 if (Memory.ReadByte(0x21CE4406) == enemyID || Memory.ReadByte(0x21CE440B) == enemyID || Memory.ReadByte(0x21CE4410) == enemyID || Memory.ReadByte(0x21CE4415) == enemyID)
                 {
                     Console.WriteLine(ReusableFunctions.GetDateTimeForLog() +  "Duplicate quest, rerolling...");
+                    duplicateRetries++;
                     checkDuplicate = true;
                 }
                 else
                 {
+                    checkDuplicate = false;
+                    duplicateRetries = 0;
+                }
+
+                if (duplicateRetries > 50) //Eventually give up and give duplicate quest to avoid softlock
+                {
+                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Too many duplicate retries... giving duplicate quest");
+                    duplicateRetries = 0;
                     checkDuplicate = false;
                 }
             }

@@ -27,6 +27,7 @@ namespace Dark_Cloud_Improved_Version
         internal static Process process;
         internal static string procName = "pcsx2";
         internal static long EEMem_Address, EEMem_Offset;
+        internal static long Check_EEMem_Address, Check_EEMem_Offset;
 
         //Define some needed flags
         internal const uint FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
@@ -125,14 +126,23 @@ namespace Dark_Cloud_Improved_Version
         {
             process = GetProcess(procName);
 
-            EEMem_Address = ReadLong(GetEEMem(process.Id));
-            EEMem_Offset = EEMem_Address - 0x20000000;
-
-            switch(process.ProcessName)
+            if (process != null)
             {
-                case "pcsx2":
-                    EEMem_Offset += 0x20000000;
-                    break;
+                Check_EEMem_Address = ReadLong(GetEEMem(process.Id));
+                Check_EEMem_Offset = Check_EEMem_Address - 0x20000000;
+
+                switch (process.ProcessName)
+                {
+                    case "pcsx2":
+                        EEMem_Offset += 0x20000000;
+                        break;
+                }
+
+                if (Check_EEMem_Address > 0x0)
+                {
+                    EEMem_Address = Check_EEMem_Address;
+                    EEMem_Offset = Check_EEMem_Offset;
+                }
             }
 
             return 0;
@@ -291,7 +301,7 @@ namespace Dark_Cloud_Improved_Version
             successful = VirtualProtectEx(process.Handle, address + EEMem_Offset, byteArray.LongLength, PAGE_EXECUTE_READWRITE, out _);
 
             if (successful == false) //There was an error
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetLastError() + " - " + GetSystemMessage(GetLastError())); //Get the last error code and write out the message associated with it.
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetLastError() + " - " + GetSystemMessage(GetLastError())); //Get the last error code and write out the message associated with it.
 
             successful = WriteProcessMemory(process.Handle, address + EEMem_Offset, byteArray, byteArray.LongLength, out _);
 

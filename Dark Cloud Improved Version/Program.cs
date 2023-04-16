@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Windows;
 using Application = System.Windows.Forms.Application;
@@ -40,17 +41,35 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine("Version 0.9.05 - Beta");
 
             //ShowWindow(consoleH, SW_HIDE); //Hide Console
+            
+            /*
+            while (Memory.process == null)
+            {
+                GetPCSX2Executable();
+            }
+            Memory.WriteByte(0x21F10024, 0);
+            */
+            
+            modWindowForm = new ModWindow();
+            Application.Run(modWindowForm);
+        }
+
+        public static void GetPCSX2Executable()
+        {
             Memory.Initialize();
 
             if (Memory.process == null)
             {
                 ShowWindow(consoleH, SW_SHOW); //Show the console
                 Console.WriteLine("\n{0} was not found in the list of running processes.", Memory.procName);
-                PressAnyKey();
+                Thread.Sleep(1000);
                 return;
             }
 
+
             Console.WriteLine("\nFound running instance of {0} ({1})", Memory.process.ProcessName, Memory.process.Id);
+
+
 
             //Memory.EEMem_Offset = Memory.GetEEMem_Offset();
 
@@ -73,11 +92,6 @@ namespace Dark_Cloud_Improved_Version
 
             Console.WriteLine("\nEEMem_Address: {0:X8}", $"0x{Memory.EEMem_Address:X}");
             Console.WriteLine("\nEEMem_Offset: {0:X8}", $"0x{Memory.EEMem_Offset:X}");
-           
-            Memory.WriteByte(0x21F10024, 0);
-            
-            modWindowForm = new ModWindow();
-            Application.Run(modWindowForm);
         }
 
         public static void ConsoleLogging()

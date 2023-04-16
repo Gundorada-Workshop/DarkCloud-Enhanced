@@ -3147,7 +3147,7 @@ namespace Dark_Cloud_Improved_Version
             norunefinishedDialogue[6] = "It´s hard to believe that in an instant^the Genie was able to destroy our^village, everything we hold dear.¤You all brought it back,^we´re in your debt.";
             norunefinishedDialogue[7] = "Don´t tell my older sister but I´m^secretly planning on joining your^adventure, I don´t tell Alnet or^she will get angry!";
             norunefinishedDialogue[8] = "It´s hard to believe that Norune Village´s^Ť is leading a band of warriors^that are going to stop the Dark Genie.¤You´re all special in your own way^but Ť is special to me...^Take care of him.";
-            norunefinishedDialogue[9] = "Even after the Genie destroyed our^village, the morning sun continued^to rise each day; that never changed.¤I can´t imagine losing my son or our^loved ones like that again. Thank you^for helping restore the world.";
+            norunefinishedDialogue[9] = "Even after the Genie destroyed our^village, the morning sun continued^to rise each day, this never changed.¤I can´t imagine losing my son or our^loved ones like that again. Thank you^for helping restore the world.";
             norunefinishedDialogue[10] = "Do you think if we gave the Dark Genie^a box full of candies he would leave^us all alone? I mean, that works^for me all the time.";
             norunefinishedDialogue[11] = "I´ve been gifted by the Spirits with^the ability to foresee the future,^however for the first time I´m^afraid to use this gift.¤I´m afraid of what I will see.^This Genie is a fearsome opponent^indeed, be sure to take caution.";
             norunefinishedDialogue[12] = "Nothing here.";

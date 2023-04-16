@@ -12,6 +12,7 @@ namespace Dark_Cloud_Improved_Version
         public static bool saveStateUsed = false;
         public static bool saveFileMessageBox = false;
         public static int PID = 0;
+        public static int PID_attempts = 0;
         public static int currentFrameCounter = 0;
         public static int previousFrameCounter = 0;
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
@@ -28,13 +29,34 @@ namespace Dark_Cloud_Improved_Version
         public static void CheckEmulatorAndGame()
         {
             firstlaunch = true;
-            Program.ConsoleLogging(); //LOGS CONSOLE WRITES TO TEXT FILE!
+            //Program.ConsoleLogging(); //LOGS CONSOLE WRITES TO TEXT FILE!
             while (true)
             {
-                Memory.WriteByte(0x21F10024, 0); //mod's flag for PNACH
+                if (Memory.process != null)
+                {
+                    Memory.WriteByte(0x21F10024, 0); //mod's flag for PNACH
+                }
                 if (PID == 0)
                 {
-                    PID = Memory.process.Id;                   
+                    PID_attempts++;
+                    if (PID_attempts < 3600) //If program has been inactive for more than hour, starts checking every 30s to decrease console clogging
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        Thread.Sleep(30000);
+                    }
+
+                    Program.GetPCSX2Executable();
+                    if (Memory.process != null)
+                    {
+                        PID = Memory.process.Id;
+                    }
+                    else
+                    {
+                        PID = 0;
+                    }
                 }
                 //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "CheckEmulatorAndGame");
                 if (PID == 0)
@@ -51,6 +73,7 @@ namespace Dark_Cloud_Improved_Version
                     //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.ReadInt(0x20299540));
                     if (Memory.ReadInt(0x20299540) != 1802658116) //check if DC1 has been booted
                     {
+                        Console.WriteLine("DC1 check: " + Memory.ReadInt(0x20299540));
                         PID = 0;
                         ModWindow.EmulatorCount(1);
                     }
@@ -222,7 +245,7 @@ namespace Dark_Cloud_Improved_Version
                         break;
                     }
                 }
-
+                
                 if (currentFrameCounter < previousFrameCounter || currentFrameCounter > previousFrameCounter + 300 || currentFrameCounter == 0)
                 {
                     Thread.Sleep(200);
@@ -235,7 +258,7 @@ namespace Dark_Cloud_Improved_Version
                     ModWindow.SaveStateDetected();
                     
                 }
-
+                
                 if (currentFrameCounter > 0)
                 {
                     if (Memory.ReadByte(0x21F10020) != 1) //check PNACH flag

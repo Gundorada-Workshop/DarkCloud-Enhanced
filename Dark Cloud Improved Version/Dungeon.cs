@@ -74,11 +74,14 @@ namespace Dark_Cloud_Improved_Version
         public static void InsideDungeonThread()
         {
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Dungeon Thread Activated");
-            cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
             elementSwapThread = new Thread(new ThreadStart(Dayuppy.ElementSwapping));
-            cheatCodeThread.Start();
             elementSwapThread.Start();
-            Resources.initiateRubyMemeFix();
+            if (!cheatCodeThread.IsAlive)
+            {
+                cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));             
+                cheatCodeThread.Start();
+                Resources.initiateRubyMemeFix();
+            }
             while (true)
             {
                 if (Player.InDungeonFloor())
