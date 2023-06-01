@@ -1029,7 +1029,7 @@ namespace Dark_Cloud_Improved_Version
                             }
                             else
                             {
-                                currentDialogue = "I have an extremely valuable crystal.¤I know you are strong,^but if you want my crystal, you need^to proof that you are smart as well!¤I have a puzzle for you.^Talk to me again if you^wish to know more.";
+                                currentDialogue = "I have an extremely valuable crystal.¤I know you are strong,^but if you want my crystal, you need^to prove that you are smart as well!¤I have a puzzle for you.^Talk to me again if you^wish to know more.";
                             }
                             
                         }

@@ -340,6 +340,8 @@ namespace Dark_Cloud_Improved_Version
                         currentClownSmallWeaponsTable = demonshaftClownSmallWeapons;
                         currentBigBoxAddressArea = 0x20277C78;
                         currentSmallBoxAddressArea = 0x20277D78;
+                        currentBackFloorBigBoxAddressArea = 0x202798E8;
+                        currentBackFloorSmallBoxAddressArea = 0x202799E8;
                     }
                     else
                     {
@@ -350,8 +352,8 @@ namespace Dark_Cloud_Improved_Version
                         currentClownSmallWeaponsTable = demonshaftClownSmallWeapons;
                         currentBigBoxAddressArea = 0x20277E80;
                         currentSmallBoxAddressArea = 0x20277F80;
-                        currentBackFloorBigBoxAddressArea = 0x202798E8;
-                        currentBackFloorSmallBoxAddressArea = 0x202799E8;
+                        currentBackFloorBigBoxAddressArea = 0x20279AF0;
+                        currentBackFloorSmallBoxAddressArea = 0x20279BF0;
                     }
                     //Demon shaft F1-50 0x202732D0
 

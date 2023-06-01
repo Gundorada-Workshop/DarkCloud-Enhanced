@@ -52,6 +52,8 @@ namespace Dark_Cloud_Improved_Version
         static bool fishingQuestCheck = false;
         static bool demonshaftUnlocked = false;
         static bool playerAtCredits = false;
+        static bool areaEnteredClockCheck = false;
+        static bool areaEnteredCheck = false;
         public static bool mintTalk = false;
         public static byte mayorReward;
 
@@ -913,41 +915,54 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (currentAreaFrames > 5)
                         {
-                            CheckClockAdvancement(currentArea);
-                            shopkeeper = false;
+                            if (!areaEnteredClockCheck)
+                            {
+                                CheckClockAdvancement(currentArea);
+                                shopkeeper = false;
+                                areaEnteredClockCheck = true;
+                            }
                         }
+                    }
+                    else
+                    {
+                        areaEnteredClockCheck = false;
                     }
 
                     if (currentAreaFrames < 50) //check player duration in new area (to check if its a new/changed area)
                     {
                         if (currentAreaFrames > 30 && areaChanged == false)
                         {
-                            areaChanged = true;
-                            CheckAllyFishing();
-                            if (currentArea == 42) Dialogues.SetDefaultDialogue(42);
-                            else if (currentArea == 14) Dialogues.SetDefaultDialogue(14);
-
-                            if (currentArea == 23)
+                            if (!areaEnteredCheck)
                             {
-                                if (Dialogues.storageOriginalDialogue != null)
+                                areaChanged = true;
+                                CheckAllyFishing();
+                                if (currentArea == 42) Dialogues.SetDefaultDialogue(42);
+                                else if (currentArea == 14) Dialogues.SetDefaultDialogue(14);
+
+                                if (currentArea == 23)
                                 {
-                                    if (Dialogues.storageOriginalDialogue.Length > 0)
+                                    if (Dialogues.storageOriginalDialogue != null)
                                     {
-                                        Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
-                                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cleared storage original dialogue");
+                                        if (Dialogues.storageOriginalDialogue.Length > 0)
+                                        {
+                                            Array.Clear(Dialogues.storageOriginalDialogue, 0, Dialogues.storageOriginalDialogue.Length);
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Cleared storage original dialogue");
+                                        }
                                     }
                                 }
-                            }
-                            if (!characterNamesFixThread.IsAlive)
-                            {
-                                characterNamesFixThread = new Thread(() => Dialogues.FixCharacterNamesInDialogues());
-                                characterNamesFixThread.Start();
+                                if (!characterNamesFixThread.IsAlive)
+                                {
+                                    characterNamesFixThread = new Thread(() => Dialogues.FixCharacterNamesInDialogues());
+                                    characterNamesFixThread.Start();
+                                }
+                                areaEnteredCheck = true;
                             }
                         }
                     }
                     else
                     {
                         areaChanged = false;
+                        areaEnteredCheck = false;
                     }
 
                     if ((buildingCheck == 0 && checkBuildingFlag == true) || areaChanged == true) //check if player is not inside a house

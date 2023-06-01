@@ -300,44 +300,51 @@ namespace Dark_Cloud_Improved_Version
                     //Define event and boss floors
                     excludeFloors = GetDungeonEventFloors(currentDungeon);
 
+                   
                     //Get current Floor
                     currentFloor = Memory.ReadByte(Addresses.checkFloor);
+                    
 
                     //Check if the player has entered a new floor
                     if (currentFloor != prevFloor)
                     {
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has entered a new floor!");
-
-                        doorIsOpen = false;
-                        magicCircleChanged = false;
-                        dunUsedActiveEscape = false;
-                        dunUsedEscapeCheck = false;
-                        hasClearMessageShown = false;
-                        MiniBoss.miniBossRolled = false;
-
-                        //Check if player is not on an event floor and call the Mini Boss
-                        if (!excludeFloors.Contains(currentFloor))
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Floor changed!");
+                        Thread.Sleep(120);  // check if player is still in dungeon(to prevent a new floor process when leaving dungeon)
+                        if (Player.InDungeonFloor())
                         {
-                            //Initialize the spawns check
-                            Memory.WriteInt(Enemies.Enemy14.hp, 1);
-                            spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
-                            spawnsCheck.Start();                          
+                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has entered a new floor!");
 
-                            eventfloor = false;
+                            doorIsOpen = false;
+                            magicCircleChanged = false;
+                            dunUsedActiveEscape = false;
+                            dunUsedEscapeCheck = false;
+                            hasClearMessageShown = false;
+                            MiniBoss.miniBossRolled = false;
+
+                            //Check if player is not on an event floor and call the Mini Boss
+                            if (!excludeFloors.Contains(currentFloor))
+                            {
+                                //Initialize the spawns check
+                                Memory.WriteInt(Enemies.Enemy14.hp, 1);
+                                spawnsCheck = new Thread(new ThreadStart(CheckSpawns));
+                                spawnsCheck.Start();
+
+                                eventfloor = false;
+                            }
+                            else
+                            {
+                                eventfloor = true;
+                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has entered an event floor!");
+                            }
+
+                            FixUngagaDoors(currentDungeon);
+
+                            //Save current weapon
+                            currentWeapon = Player.Weapon.GetCurrentWeaponId();
+
+                            //Once everything is done, we set this so it wont reroll again in same floor
+                            prevFloor = currentFloor;
                         }
-                        else
-                        {
-                            eventfloor = true;
-                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Player has entered an event floor!");
-                        }
-
-                        FixUngagaDoors(currentDungeon);
-
-                        //Save current weapon
-                        currentWeapon = Player.Weapon.GetCurrentWeaponId();
-
-                        //Once everything is done, we set this so it wont reroll again in same floor
-                        prevFloor = currentFloor;
                     }
 
                     CheckUngagaSwap();
@@ -480,7 +487,7 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Checking quest...");
             if (monsterQuestMachoActive)
             {
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Macho quest active");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Macho quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4406))
                 {
@@ -500,7 +507,7 @@ namespace Dark_Cloud_Improved_Version
             }
             if (monsterQuestGobActive)
             {
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Gob quest active");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Gob quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE440B))
                 {
@@ -520,7 +527,7 @@ namespace Dark_Cloud_Improved_Version
             }
             if (monsterQuestJakeActive)
             {
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Jake quest active");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Jake quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4410))
                 {
@@ -540,7 +547,7 @@ namespace Dark_Cloud_Improved_Version
             }
             if (monsterQuestChiefActive)
             {
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Chief quest active");
+                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Chief quest active");
                 int currentEnemyAddress2 = currentEnemyAddress + 0x0000001E;
                 if (Memory.ReadByte(currentEnemyAddress2) == Memory.ReadByte(0x21CE4415))
                 {

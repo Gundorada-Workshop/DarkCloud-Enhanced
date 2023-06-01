@@ -1005,9 +1005,9 @@
             this.CBox_UserMode_Graphics.Location = new System.Drawing.Point(46, 28);
             this.CBox_UserMode_Graphics.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CBox_UserMode_Graphics.Name = "CBox_UserMode_Graphics";
-            this.CBox_UserMode_Graphics.Size = new System.Drawing.Size(264, 20);
+            this.CBox_UserMode_Graphics.Size = new System.Drawing.Size(478, 20);
             this.CBox_UserMode_Graphics.TabIndex = 3;
-            this.CBox_UserMode_Graphics.Text = "Enable Graphical Improvements";
+            this.CBox_UserMode_Graphics.Text = "Enable Graphical Improvements (not compatible in PSCX2 1.7)";
             this.CBox_UserMode_Graphics.UseVisualStyleBackColor = true;
             this.CBox_UserMode_Graphics.CheckedChanged += new System.EventHandler(this.CBox_UserMode_Graphics_Changed);
             // 

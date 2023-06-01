@@ -134,7 +134,7 @@ namespace Dark_Cloud_Improved_Version
                 switch (process.ProcessName)
                 {
                     case "pcsx2":
-                        EEMem_Offset += 0x20000000;
+                        EEMem_Offset = 0x00000000;
                         break;
                 }
 
@@ -142,6 +142,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     EEMem_Address = Check_EEMem_Address;
                     EEMem_Offset = Check_EEMem_Offset;
+                    ModWindow.NightlyVersionCheck();
                 }
             }
 
@@ -298,9 +299,9 @@ namespace Dark_Cloud_Improved_Version
         {
             bool successful;
 
-            successful = VirtualProtectEx(process.Handle, address + EEMem_Offset, byteArray.LongLength, PAGE_EXECUTE_READWRITE, out _);
+            //successful = VirtualProtectEx(process.Handle, address + EEMem_Offset, byteArray.LongLength, PAGE_EXECUTE_READWRITE, out _);
 
-            if (successful == false) //There was an error
+            //if (successful == false) //There was an error
                 //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + GetLastError() + " - " + GetSystemMessage(GetLastError())); //Get the last error code and write out the message associated with it.
 
             successful = WriteProcessMemory(process.Handle, address + EEMem_Offset, byteArray, byteArray.LongLength, out _);

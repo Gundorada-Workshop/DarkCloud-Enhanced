@@ -29,6 +29,7 @@ namespace Dark_Cloud_Improved_Version
 
         public int[] attackSoundAddresses = { 0x20265DBC, 0x20265DC2, 0x20265DC8, 0x20265DCE, 0x20265F0C, 0x20265F12, 0x2026605C, 0x20266062, 0x202661AC, 0x202661B8, 0x202662FC, 0x20266302, 0x20266308, 0x2026644C };
         public byte[] attackSoundValues = { 68, 69, 70, 71, 83, 84, 98, 99, 113, 115, 128, 129, 130, 156 };
+        public bool nightlyVersion = false;
 
         #region Basic stuff
         private void ModWindow_FormClosed(object sender, FormClosedEventArgs e)
@@ -65,6 +66,11 @@ namespace Dark_Cloud_Improved_Version
         public static void PnachNotActive()
         {
             instance.FormPnachNotActive(true);
+        }
+
+        public static void NightlyVersionCheck()
+        {
+            instance.nightlyVersion = true;
         }
 
         public static void CurrentlyInMainMenu()
@@ -203,6 +209,10 @@ namespace Dark_Cloud_Improved_Version
                 return;
             }
             Label_UserMode_PlaceholderText.Text = "Enhanced Mod is active! Currently in Main menu.\n\nYou can start a new game or load a save.";
+            if (instance.nightlyVersion == true)
+            {
+                instance.CBox_UserMode_Graphics.Enabled = false;
+            }
         }
 
         void FormCurrentlyInGame(bool enable)
