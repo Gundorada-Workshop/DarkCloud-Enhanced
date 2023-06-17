@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace Dark_Cloud_Improved_Version
@@ -19,7 +18,10 @@ namespace Dark_Cloud_Improved_Version
         private static Random random = new Random();
         public static Thread damageFadeoutThread = new Thread(new ThreadStart(DamageFadeout));
 
-
+        /// <summary>
+        /// Toggles the effect of the bone rapier
+        /// </summary>
+        /// <param name="isActive">True if to active the effect</param>
         public static void BoneRapierEffect(bool isActive)
         {
             if (isActive)
@@ -30,7 +32,10 @@ namespace Dark_Cloud_Improved_Version
             //Otherwise reset BypassBoneDoor
             else if (Dungeon.IsBypassBoneDoor()) Dungeon.SetBypassBoneDoor(false);
         }
-
+        
+        /// <summary>
+        /// Trigger to open a bone door
+        /// </summary>
         public static void BoneDoorTrigger()
         {
             while (!Dungeon.doorIsOpen &&
@@ -67,7 +72,7 @@ namespace Dark_Cloud_Improved_Version
                 Thread.Sleep(500);
             }
         }
-
+        
         public static bool CheckChronicle2(bool acquired)
         {
             acquired = false;
@@ -128,9 +133,14 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Triggers SeventhHeaven effect: Whenever an attachment is acquired, another one is given.
+        /// </summary>
         public static void SeventhHeaven()
         {
-            while (Player.Weapon.GetCurrentWeaponId() == Items.seventhheaven && Memory.ReadByte(Addresses.mode) == 3 && Player.CheckDunIsWalkingMode() == true)
+            while ( Player.Weapon.GetCurrentWeaponId() == Items.seventhheaven && 
+                    Memory.ReadByte(Addresses.mode) == 3 && 
+                    Player.CheckDunIsWalkingMode() == true)
             {
                 //Store the first empty slot
                 int slot = Player.Inventory.GetBagAttachmentsFirstAvailableSlot();
@@ -148,7 +158,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     const int attachmentOffset = 0x20;
                     const int attachmentValuesRange = 0x1F;
-
+                    
                     //Store the newly obtained attachment values
                     byte[] attachmentValues = Memory.ReadByteArray(Addresses.firstBagAttachment + (attachmentOffset * slot), attachmentValuesRange);
 
@@ -175,6 +185,9 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Triggers Chronicle effect: Attacks now hit all nearby targets for a percentage of the damage.
+        /// </summary>
         public static void ChronicleSword()
         {
             if (chronicleNewFloor == true)
@@ -245,8 +258,6 @@ namespace Dark_Cloud_Improved_Version
                 int[] effectDamageDigit3 = new int[15];
                 int[] effectDamageDigit4 = new int[15];
                 int[] effectDamageDigit5 = new int[15];
-                //List<float> enemiescoordinateZ = new List<float>();
-                //List<float> enemiescoordinateY = new List<float>();
 
                 for (int i= 0; i < 15; i++)
                 {
@@ -409,50 +420,9 @@ namespace Dark_Cloud_Improved_Version
         }
 
         /// <summary>
-        /// Grants the ability to fly upwards
+        /// Triggers Angel Gear effect: Applies the Heal regeneration effect to all allies
         /// </summary>
-        
-        public static void DragonsY()
-        {/*
-            const int dunPositionZ = 0x21EA1D34;
-            //const int dunPositionX = 0x21EA1D30;
-            //const int dunPositionY = 0x21EA1D38;
-
-            const int xiaoAnimationId = 0x21DC4484;
-
-            //float posX = Memory.ReadFloat(dunPositionX);
-            //float posY = Memory.ReadFloat(dunPositionY);
-            //float posZ = Memory.ReadFloat(dunPositionZ);
-            //ushort healspeed1 = Memory.ReadUShort(0x202A2B88);
-
-            var i = 0.15; // Acceleration modifier
-            var a = 0.000001; // Base acceleration value
-
-            while (Memory.ReadUShort(Addresses.buttonInputs) == 1        //L2 being pressed?
-                && Memory.ReadUShort(xiaoAnimationId) >= 11 && Memory.ReadUShort(xiaoAnimationId) <= 13
-                && Memory.ReadFloat(dunPositionZ) < 30
-                
-                && !Player.CheckDunIsInteracting()
-                && !Player.CheckDunIsOpeningChest()
-                && !Player.CheckDunIsPaused()
-                
-                && healspeed1 == Memory.ReadUShort(0x202A2B88)  // Is on a fountain?
-                && Memory.ReadFloat(dunPositionX) == posX       // Is moving along the X axis?
-                && Memory.ReadFloat(dunPositionY) == posY       // Is moving along the Y axis?
-                && Player.CheckDunIsPaused() == false           // Is paused?
-                && Player.CheckDunFirstPersonMode() == false    // Is in first person?
-                && Player.CheckDunIsOpeningChest() == false     // Is opening a chest?
-                && Player.CheckDunIsInteracting() == false)   // Is interacting with an element? (Doors, backfloor gates...))     
-            {
-                Memory.WriteFloat(dunPositionZ, Memory.ReadFloat(dunPositionZ) + ((float)(a * i)));
-                i++;
-            }*/
-        }
-
-            /// <summary>
-            /// Applies the Heal regeneration effect to all allies
-            /// </summary>
-            public static void AngelGear()
+        public static void AngelGear()
         {
             //Initialize variables
             ushort HpValueAdd = 1;
@@ -506,7 +476,7 @@ namespace Dark_Cloud_Improved_Version
         }
 
         /// <summary>
-        /// Reduces enemies size on hit
+        /// Triggers Tall Hammer effect: Reduces enemies size on hit
         /// </summary>
         public static void TallHammer()
         {
@@ -523,7 +493,7 @@ namespace Dark_Cloud_Improved_Version
 
             int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == 2;
+            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == Player.GoroId;
 
             if (hasHit)
             {
@@ -561,25 +531,21 @@ namespace Dark_Cloud_Improved_Version
         }
 
         /// <summary>
-        /// Increase attack power depending on health and thirst
+        /// Triggers Inferno effect: Increase attack power depending on health and thirst
         /// </summary>
         public static void Inferno()
         {
-            float goroMaxHP = Player.Goro.GetMaxHp();   //Memory.ReadUShort(0x21CD9556);
-            float goroCurrentHP = Player.Goro.GetHp();  //Memory.ReadUShort(0x21CD9562);
+            float goroMaxHP = Player.Goro.GetMaxHp();
+            float goroCurrentHP = Player.Goro.GetHp();
 
             float hpPercentage = 100 - (goroCurrentHP / goroMaxHP * 100);
-            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "hpPercentage: " + hpPercentage);
 
-            float goroMaxThirst = Memory.ReadFloat(0x21CDD840);
-            float goroCurrentThirst = Player.Goro.GetThirst();  //Memory.ReadFloat(0x21CDD858);
+            float goroMaxThirst = Player.Goro.GetMaxThirst();
+            float goroCurrentThirst = Player.Goro.GetThirst();
 
             float thirstPercentage = 100 - (goroCurrentThirst / goroMaxThirst * 100);
-            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "thirstPercentage: " + thirstPercentage);
 
-            //byte currentWepNum = Player.Goro.GetWeaponSlot(); //Memory.ReadByte(0x21CDD88E);
-
-            ushort currentBaseAttack = Player.Weapon.GetCurrentWeaponAttack();//Memory.ReadUShort(Player.Goro.WeaponSlot0.attack + (0xF8 * currentWepNum));
+            ushort currentBaseAttack = Player.Weapon.GetCurrentWeaponAttack();
 
             ushort attachmentsAttack = 0;
 
@@ -603,7 +569,7 @@ namespace Dark_Cloud_Improved_Version
         }
 
         /// <summary>
-        /// Increases damage output the longer you charge an attack
+        /// Triggers Mobius Ring effect: Increases damage output the longer you charge an attack
         /// </summary>
         public static void MobiusRing()
         {
@@ -615,7 +581,7 @@ namespace Dark_Cloud_Improved_Version
             int chargeGlowTimer = 0x21DC449E;
             ushort chargeTimer = 0;
 
-            //Check these addresses which tells us if Ruby is charging
+            //Check these addresses which tells us if Ruby is charging an attack
             if (Player.Ruby.IsChargingAttack())
             {
                 //Fetch the active orbs
@@ -626,17 +592,19 @@ namespace Dark_Cloud_Improved_Version
 
                 while (Player.Ruby.IsChargingAttack())
                 {
+                    //Check if the game is paused during the charge
                     if (Player.CheckDunIsPaused())
                     {
                         ReusableFunctions.AwaitUnpause(1);
                     }
-                    
+                    //If the damage increase reaches the set max value, stop increasing it further
                     if (damage >= ushort.MaxValue)
                     {
                         damage = ushort.MaxValue;
                     }
                     else damage += damage / 2;
 
+                    //Set messages to display onscreen
                     if (damage > 9000)
                     {
                         message = "Total damage is over 9000";
@@ -650,7 +618,7 @@ namespace Dark_Cloud_Improved_Version
                         width = message.Length;
                     }
 
-                    //When this timer reaches 17008, Ruby flashes
+                    //Keep looping until chargeGlowTimer reaches the value 17008 or the player stops charging
                     while (Memory.ReadUShort(chargeGlowTimer) < 17008 && Player.Ruby.IsChargingAttack())
                     {
                         if (Player.CheckDunIsPaused())
@@ -661,7 +629,10 @@ namespace Dark_Cloud_Improved_Version
                         continue;
                     }
 
+                    //Save the value of the timer
                     chargeTimer = Memory.ReadUShort(chargeGlowTimer);
+
+                    //Check if the timer hit the value we are looking for. This value makes Ruby flash
                     if (chargeTimer == 17008)
                     {
                         //Display current damage
@@ -670,12 +641,13 @@ namespace Dark_Cloud_Improved_Version
                         Thread.Sleep(sleep);
 
                         //Reset Flash
-                        Memory.WriteUShort(0x21DC449E, 0);
+                        Memory.WriteUShort(chargeGlowTimer, 0);
                     }
 
                     Thread.Sleep(100);
                 }
 
+                //Go through the different slots that Ruby stores her attacks in memory
                 foreach (int id in OrbIds)
                 {
                     switch (id)
@@ -784,7 +756,7 @@ namespace Dark_Cloud_Improved_Version
         }
 
         /// <summary>
-        /// Chance on getting hit to gain Stamina
+        /// Triggers Hercules Wrath effect: Chance on getting hit to gain Stamina.
         /// </summary>
         public static void HerculesWrath()
         {
@@ -804,25 +776,26 @@ namespace Dark_Cloud_Improved_Version
                 //Check for the chance to take effect (30 = 30%)
                 if (procChance < 30)
                 {
-                    //Give the Stamina effect for 30 seconds (1800 = 30 seg)
+                    //Give the Stamina effect for 30 seconds (1800 = 30 sec)
                     Player.Ungaga.SetStatus("stamina", 1800);
                 }
             }
         }
 
         /// <summary>
-        /// Chance on hit to apply stop to all enemies
+        /// Triggers Babel Spear effect: Chance on hit to apply stop to all enemies.
         /// </summary>
         public static void BabelSpear()
         {
             int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == 4;
+            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == Player.UngagaId;
 
             if (hasHit)
             {
-                int procChance = random.Next(100); //Chance to apply stop (6%)
+                int procChance = random.Next(100);
 
+                //Chance to apply stop (6%)
                 if (procChance < 6)
                 {
                     if(Memory.ReadByte(Enemies.Enemy0.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy0.freezeTimer, 300); //Stop duration (300 = 5 seconds)
@@ -843,11 +816,13 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadByte(Enemies.Enemy15.renderStatus) == 2) Memory.WriteUShort(Enemies.Enemy15.freezeTimer, 300);
                 }
             }
+
+            //Reset the damage and source values
             ReusableFunctions.ClearRecentDamageAndDamageSource();
         }
 
         /// <summary>
-        /// Chance on hit to apply a random status
+        /// Triggers Supernova effect: Chance on hit to apply a random status
         /// </summary>
         public static void Supernova()
         {
@@ -858,7 +833,7 @@ namespace Dark_Cloud_Improved_Version
 
             int hit = ReusableFunctions.GetRecentDamageDealtByPlayer();
 
-            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == 5;
+            bool hasHit = hit > -1 && ReusableFunctions.GetDamageSourceCharacterID() == Player.OsmondId;
 
             if (hasHit)
             {
@@ -1027,11 +1002,12 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
 
+            //Reset the damage and source values
             ReusableFunctions.ClearRecentDamageAndDamageSource();
         }
 
         /// <summary>
-        /// Chance on kill to get an empty synthsphere (Breaks down any weapon)
+        /// Triggers StarBreaker effect: Chance on kill to get an empty synthsphere (Breaks down any weapon)
         /// </summary>
         public static void StarBreaker()
         {
@@ -1047,14 +1023,16 @@ namespace Dark_Cloud_Improved_Version
 
             int roll = random.Next(100);
 
-            //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Enemies killed count: " + enemiesKilled.Count);
-
+            //Check if an enemy was killed and if the roll chance was met (2%)
             if(enemiesKilled.Count > 0 && roll < 2)
             {
+                //Check if the player has free inventory slots
                 if (Player.Inventory.GetBagAttachmentsFirstAvailableSlot() >= 0)
                 {
+                    //Place the synth sphere in inventory
                     Player.Inventory.SetBagAttachments(Items.synthsphere);
 
+                    //Display the effect message
                     Dayuppy.DisplayMessage("The Star Breaker sent\nyou a shooting star!", 2, 21);
                 }
             }

@@ -2,14 +2,16 @@
 {
     class Addresses
     {
-        public const int mode = 0x202A2534; //0=Main title;
-                                            //1=Intro;
-                                            //2=Town;
-                                            //3=Dungeon;
-                                            //4=? (doesnt crash in dungeon);
-                                            //5=Opening cutscene(dark shrine);
-                                            //6=?
-                                            //7=Debug menu
+        /// <summary>
+        ///     0 = Main title
+        /// <br>1 = Intro</br>
+        /// <br>2 = Town</br>
+        /// <br>3 = Dungeon</br>
+        /// <br>4 = ? (doesnt crash in dungeon)</br>
+        /// <br>5 = Opening cutscene (dark shrine)</br>
+        /// <br>7 = Debug menu</br>
+        /// </summary>
+        public const int mode = 0x202A2534;
 
         public const int gilda = 0x21CDD892;
         public const int magicCrystal = 0x202A35A0;
@@ -17,8 +19,10 @@
         public const int miniMap = 0x202A35B0;
         public const int visibility = 0x202A359C;
 
-        public const int sessionTimer = 0x202A2400; //Timer that runs from boot and does not stop;
-        public const int ingameTimer = 0x21CD4314;  //Timer that runs from boot/resumes from load and stops whenever the game is paused or not rendering anything;
+        /// <summary>Timer that runs from boot and does not stop.</summary>
+        public const int sessionTimer = 0x202A2400;
+        /// <summary>Timer that runs from boot/resumes from load and stops whenever the game is paused or not rendering anything.</summary>
+        public const int ingameTimer = 0x21CD4314;
 
         //Coordinates
         public const int positionX = 0x21D331D8;
@@ -29,37 +33,51 @@
         public const int dunPositionZ = 0x21EA1D34;
 
         //Town Stuff
-        public const int townSoftReset = 0x202A287C;    //This allows resetting to main menu in town with a value of 1
-        public const int townFirstPerson = 0x202A26E0;  //0 = 3rd Person, 1 = 1st Person
+        /// <summary>This allows resetting to main menu in town with a value of 1.</summary>
+        public const int townSoftReset = 0x202A287C;
+
+        /// <summary>
+        ///     0 = 3rd Person
+        /// <br>1 = 1st Person</br>
+        /// </summary>
+        public const int townCameraPerspective = 0x202A26E0;
         public const int townMessageWidth = 0x21EB6438;
         public const int townMessageHeight = 0x21EB643C;
-        public const int townMode = 0x202A1F50; //0 = No NPCS/Player
-                                                //1 = Walking Mode
-                                                //2 = Returns to the last NPC spoken to (Crashes if no NPC has been interected with before a load)
-                                                //3 = Fade in transition (Reloads state to 1)
-                                                //4 = Georama Mode
-                                                //5 = Last Menu accessed
-                                                //6 = Georama Menu
-                                                //7 = Transitioning to the last previous menu
-                                                //8 = Is on a menu (If forcing it while on a menu, goes to state 1, if on state 1 already it just gives a blank screen)
-                                                //9 = Pause
-                                                //10 = Pause without character models on the background
-                                                //11 = Transition to Interior Mode (If used in Walking Mode: Freezes the game except some audio [CANNOT UNDO]))
-                                                //12 = Interior Mode (if used in Walking Mode: Same as 11 excepts BGM still plays [CANNOT UNDO])
-                                                //14 = Time Transition (Cannot Set)
-                                                //16 = Fishing Mode
 
-        public const int interiorMode = 0x202A2A84; //0 = Walking Mode
-                                                    //1 = Transitioning to the outside
-                                                    //2 = Finished unloading the interior
-                                                    //3 = Talking to NPC
-                                                    //4 = ???
-                                                    //5 = Pause the game
-                                                    //6 = Transitioning to the last previous menu
-                                                    //7 = Last previous menu
-                                                    //8+ = Freeze (CAN UNDO)
-                                                    //14 = Camera Zoom (still freeze, CAN UNDO)
+        /// <summary>
+        ///     0 = No NPCS/Player
+        /// <br>1 = Walking Mode</br>
+        /// <br>2 = Returns to the last NPC spoken to (Crashes if no NPC has been interected with before a load)</br>
+        /// <br>3 = Fade in transition (Reloads state to 1)</br>
+        /// <br>4 = Georama Mode</br>
+        /// <br>5 = Last Menu accessed</br>
+        /// <br>6 = Georama Menu</br>
+        /// <br>7 = Transitioning to the last previous menu</br>
+        /// <br>8 = Is on a menu (If forcing it while on a menu, goes to state 1, if on state 1 already it just gives a blank screen)</br>
+        /// <br>9 = Pause</br>
+        /// <br>10 = Pause without character models on the background</br>
+        /// <br>11 = Transition to Interior Mode (If used in Walking Mode: Freezes the game except some audio [CANNOT UNDO]))</br>
+        /// <br>12 = Interior Mode (if used in Walking Mode: Same as 11 excepts BGM still plays [CANNOT UNDO])</br>
+        /// <br>14 = Time Transition (Cannot Set)</br>
+        /// <br>16 = Fishing Mode</br>
+        /// </summary>
+        public const int townMode = 0x202A1F50;
 
+        /// <summary>
+        ///     0 = Walking Mode
+        /// <br>1 = Transitioning to the outside</br>
+        /// <br>2 = Finished unloading the interior</br>
+        /// <br>3 = Talking to NPC</br>
+        /// <br>4 = ???</br>
+        /// <br>5 = Pause the game</br>
+        /// <br>6 = Transitioning to the last previous menu</br>
+        /// <br>7 = Last previous menu</br>
+        /// <br>8+ = Freeze (CAN UNDO)</br>
+        /// <br>14 = Camera Zoom (still freeze, CAN UNDO)</br>
+        /// </summary>
+        public const int interiorMode = 0x202A2A84;
+
+        //Dungeon Stuff
         public const int dungeonClear = 0x21DF881C;             //If this int = 4294967281, the dungeon is likely cleared. No idea why.
         public const int dunPauseTitle = 0x202A35C4;            //Show the "PAUSE" title on screen (0 = OFF/1 = ON)
         public const int dunPausePlayer = 0x202A3564;           //Is the player model in the pause state (0 = OFF/1 = ON)
@@ -80,26 +98,37 @@
         public const int dungDoorType = 0x21D56770;             //Tells us the type of door when interacting with X or Square
         public const int checkFloor = 0x21CD954E;               //Tells the current floor player is on, updates when entering the floor
         public const int checkDungeon = 0x202A3594;             //Tells what dungeon we are in. DBC = 0, Wise Owl = 1 etc.
-        public const int dungeonMode = 0x202A355C;              //1 = Walking Mode
-                                                                //2 = On Menu
-                                                                //3 = Door Menu
-                                                                //4 = ??
-                                                                //5 = Ally Quick Select
-                                                                //6 = ??
-                                                                //7 = Next Floor Screen
+        
+        ///<summary>
+        ///     1 = Walking Mode
+        /// <br>2 = On Menu</br>
+        /// <br>3 = Door Menu</br>
+        /// <br>5 = Ally Quick Select</br>
+        /// <br>7 = Next Floor Screen</br>
+        ///</summary>
+        public const int dungeonMode = 0x202A355C;
 
-        public const int circleSpawn1 = 0x21DD56A0;     //0 = Null | 1 = Spawned | 2 = Destroy animation
-        public const int circleEffect1 = 0x21DD56A4;    //0 = Player stamina
-                                                        //1 = Funds Increased
-                                                        //2 = Abs full
-                                                        //3 = Max Whp increased
-                                                        //4 = Whp recover
-                                                        //5 = Monster stamina
-                                                        //6 = Funds Decreased
-                                                        //7 = Status changed
-                                                        //8 = Max Whp decreased
-                                                        //9 = Whp decrease
-                                                        //10 = Unused effect (item "melted" into blank)
+        /// <summary>
+        ///     0 = Null
+        /// <br>1 = Spawned</br>
+        /// <br>2 = Destroy animation</br>
+        /// </summary>
+        public const int circleSpawn1 = 0x21DD56A0;
+
+        /// <summary>
+        ///     0 = Player stamina
+        /// <br>1 = Funds Increased</br>
+        /// <br>2 = Abs full</br>
+        /// <br>3 = Max Whp increased</br>
+        /// <br>4 = Whp recover</br>
+        /// <br>5 = Monster stamina</br>
+        /// <br>6 = Funds Decreased</br>
+        /// <br>7 = Status changed</br>
+        /// <br>8 = Max Whp decreased</br>
+        /// <br>9 = Whp decrease</br>
+        /// <br>10 = Unused effect (item "melted" into blank)</br>
+        /// </summary>
+        public const int circleEffect1 = 0x21DD56A4;
         public const int circleSpawn2 = 0x21DD56C0;
         public const int circleEffect2 = 0x21DD56C4;
         public const int circleSpawn3 = 0x21DD56E0;
@@ -119,62 +148,78 @@
         public const int menuWMLastVisited = 0x202A2D48;//The last walking mode menu the player last accessed
         public const int menuGMIconHover = 0x21D9EF58;  //The georama mode menu the cursor is hovering
 
-        public const int selectedMenu = 0x202A2010;     //Tells us which menu we are on:
-                                                        //0 = Game Menu
-                                                        //1 = Item Menu
-                                                        //2 = Weapon Menu
-                                                        //3 = Allies Menu
-                                                        //5 = Leave Dungeon/Map
-                                                        //12 = Georama Parts Menu
-                                                        //14 = Options
-                                                        //15 = Save
-                                                        //16 = Manuals
+        /// <summary>
+        /// Tells us which menu we are on:
+        /// <br>0 = Game Menu</br>
+        /// <br>1 = Item Menu</br>
+        /// <br>2 = Weapon Menu</br>
+        /// <br>3 = Allies Menu</br>
+        /// <br>5 = Leave Dungeon/Map</br>
+        /// <br>12 = Georama Parts Menu</br>
+        /// <br>14 = Options</br>
+        /// <br>15 = Save</br>
+        /// <br>16 = Manuals</br>
+        /// </summary>
+        public const int selectedMenu = 0x202A2010;
 
 
         //2 byte addresses that have specific values depending on which map location the cursor is hovering
-        public const int MapLocationHover1 = 0x202A2DBC; //Norune Village = 13760
-                                                         //Divine Beast Case = 13776
-                                                         //Matataki Village = 13792
-                                                         //Wise Owl Forest = 13808
-                                                         //Brownboo Village = 13824
-                                                         //Queens = 13840
-                                                         //Shipwreck = 13856
-                                                         //Muska Lacka = 13872
-                                                         //Sun & Moon Temple = 13888
-                                                         //Sun & Moon Temple (Inside) = 13904
-                                                         //Yellow Drops = 13920
-                                                         //Moon Factory = 13936
-                                                         //Moon Sea = 13952
-                                                         //Dark Heaven Castle = 13968
-                                                         //Gallery of Time = 13984
-                                                         //Demon Shaft = 14000
+        /// <summary>
+        ///     Norune Village = 13760
+        /// <br>Divine Beast Case = 13776</br>
+        /// <br>Matataki Village = 13792</br>
+        /// <br>Wise Owl Forest = 13808</br>
+        /// <br>Brownboo Village = 13824</br>
+        /// <br>Queens = 13840</br>
+        /// <br>Shipwreck = 13856</br>
+        /// <br>Muska Lacka = 13872</br>
+        /// <br>Sun & Moon Temple = 13888</br>
+        /// <br>Sun & Moon Temple (Inside) = 13904</br>
+        /// <br>Yellow Drops = 13920</br>
+        /// <br>Moon Factory = 13936</br>
+        /// <br>Moon Sea = 13952</br>
+        /// <br>Dark Heaven Castle = 13968</br>
+        /// <br>Gallery of Time = 13984</br>
+        /// <br>Demon Shaft = 14000</br>
+        /// </summary>
+        public const int MapLocationHover1 = 0x202A2DBC;
 
-        public const int MapLocationHover2 = 0x202A2DC0; //Norune Village = 18064
-                                                         //Divine Beast Case = 18688
-                                                         //Matataki Village = 17440
-                                                         //Wise Owl Forest = 16816
-                                                         //Brownboo Village = 16192
-                                                         //Queens = 15568
-                                                         //Shipwreck = 14944
-                                                         //Muska Lacka = 14320
-                                                         //Sun & Moon Temple = 20560
-                                                         //Sun & Moon Temple (Inside) = 13696
-                                                         //Yellow Drops = 19312
-                                                         //Moon Factory = 13072
-                                                         //Moon Sea = 12448
-                                                         //Dark Heaven Castle = 19936
-                                                         //Gallery of Time = 11824
-                                                         //Demon Shaft = 21184
-        
+        /// <summary>
+        ///     Norune Village = 18064
+        /// <br>Divine Beast Case = 18688</br>
+        /// <br>Matataki Village = 17440</br>
+        /// <br>Wise Owl Forest = 16816</br>
+        /// <br>Brownboo Village = 16192</br>
+        /// <br>Queens = 15568</br>
+        /// <br>Shipwreck = 14944</br>
+        /// <br>Muska Lacka = 14320</br>
+        /// <br>Sun & Moon Temple = 20560</br>
+        /// <br>Sun & Moon Temple (Inside) = 13696</br>
+        /// <br>Yellow Drops = 19312</br>
+        /// <br>Moon Factory = 13072</br>
+        /// <br>Moon Sea = 12448</br>
+        /// <br>Dark Heaven Castle = 19936</br>
+        /// <br>Gallery of Time = 11824</br>
+        /// <br>Demon Shaft = 21184</br>
+        /// </summary>
+        public const int MapLocationHover2 = 0x202A2DC0;
+
         //Hide HUD
-        public const int hideHud = 0x202A347C;          //0 = HUD active | 1 = HUD hidden
+        /// <summary>
+        ///     0 = HUD active
+        /// <br>1 = HUD hidden</br>
+        /// </summary>
+        public const int hideHud = 0x202A347C;
         public const int hideClock = 0x202A2894;
         public const int showNPCArrows = 0x202A28A4;
 
         //Time
-        public const int timeofDayRead = 0x202A28F4;    //Same as Time of Day value but does not clear when leaving town. Only for reading
-        public const int timeofDayWrite = 0x21CD4310;   //Time of Day in town 
-        public const int currentDay = 0x21CD4318;       //Current ingame day
+        /// <summary>Same as Time of Day value but does not clear when leaving town.</summary>
+        public const int timeofDayRead = 0x202A28F4;
+        /// <summary>Time of Day in town.</summary>
+        public const int timeofDayWrite = 0x21CD4310;
+        /// <summary>Current ingame day.</summary>
+        public const int currentDay = 0x21CD4318;
 
         //Inventory
         public const int activeItem1 = 0x21CDD8AE;
@@ -193,29 +238,35 @@
         public const int firstStorageAttachment = 0x21CE3FE8;
 
         //Weapon Menu
-        public const int weaponsMode = 0x21D9EA72;  //0 = Weapon Menu
-                                                    //1 = Weapon Options
-                                                    //2 = Weapon Attribute Menu
-                                                    //3 = Weapon upgrade confirmation prompt
-                                                    //4 = Weapon status break confirmation prompt
-                                                    //5 = Buildup list
-                                                    //6 = Buildup confirmation prompt
-                                                    //7 = Buildup list inspect
-                                                    //8 = Customize menu (Cursor on weapon)
-                                                    //9 = Customize menu (Cursor on synth slots)
-                                                    //10 = Customize menu (Cursor on attachment bag)
-                                                    //11 = Customize menu (Cursor on weapon stats)
+        /// <summary>
+        ///     0 = Weapon Menu
+        /// <br>1 = Weapon Options</br>
+        /// <br>2 = Weapon Attribute Menu</br>
+        /// <br>3 = Weapon upgrade confirmation prompt</br>
+        /// <br>4 = Weapon status break confirmation prompt</br>
+        /// <br>5 = Buildup list</br>
+        /// <br>6 = Buildup confirmation prompt</br>
+        /// <br>7 = Buildup list inspect</br>
+        /// <br>8 = Customize menu (Cursor on weapon)</br>
+        /// <br>9 = Customize menu (Cursor on synth slots)</br>
+        /// <br>10 = Customize menu (Cursor on attachment bag)</br>
+        /// <br>11 = Customize menu (Cursor on weapon stats)</br>
+        /// </summary>
+        public const int weaponsMode = 0x21D9EA72;
 
-        public const int weaponMenuTransitions = 0x21D9EA7C;            //0 = Default
-                                                                        //1 = Weapon menu fade in
-                                                                        //2 = Returns to the main menu
-                                                                        //5 = Triggers when "Equip" option is selected
-                                                                        //7 = In upgrade state
-                                                                        //8 = In statusbreak state
-                                                                        //9 = In buildup state
-                                                                        //10 = In repair state
-                                                                        //12 = "Dump" option is highlighted
-                                                                        //13 = "Dump" option confirmation prompt
+        /// <summary>
+        ///     0 = Default
+        /// <br>1 = Weapon menu fade in</br>
+        /// <br>2 = Returns to the main menu</br>
+        /// <br>5 = Triggers when "Equip" option is selected</br>
+        /// <br>7 = In upgrade state</br>
+        /// <br>8 = In statusbreak state</br>
+        /// <br>9 = In buildup state</br>
+        /// <br>10 = In repair state</br>
+        /// <br>12 = "Dump" option is highlighted</br>
+        /// <br>13 = "Dump" option confirmation prompt</br>
+        /// </summary>
+        public const int weaponMenuTransitions = 0x21D9EA7C;
 
         public const int weaponMenuMessageType = 0x21D9EA78;            //The message prompts that display during various weapon menu interactions
         public const int weaponMenuCurrentWeaponHover = 0x21D9EA74;     //Which weapon we are hovering (0-9)

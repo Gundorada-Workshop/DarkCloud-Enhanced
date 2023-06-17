@@ -23,7 +23,7 @@ namespace Dark_Cloud_Improved_Version
         public const int synth4 = 0x2027A71A;       //Synth slot 4 (0 = None, 1 = Regular gray slot, 2 = Synth blue slot); (ALSO RUNTIME)
         public const int synth5 = 0x2027A71B;       //Synth slot 5 (0 = None, 1 = Regular gray slot, 2 = Synth blue slot); (ALSO RUNTIME)
         public const int synth6 = 0x2027A71C;       //Synth slot 6 (0 = None, 1 = Regular gray slot, 2 = Synth blue slot); (ALSO RUNTIME)
-        public const int ownership = 0x2027A716;    //(0 = Toan, 1 = Xiao, 2 = Goro, 3 = Ruby, 4 = Ungaga, 5 = Osmond);
+        public const int ownership = 0x2027A716;    //0 = Toan, 1 = Xiao, 2 = Goro, 3 = Ruby, 4 = Ungaga, 5 = Osmond;
         public const int whp = 0x2027A70C;          //Base weapon health points;
         public const int abs = 0x2027A73C;          //Base weapon absorption points; (ALSO RUNTIME)
         public const int absadd = 0x2027A73E;       //How much abs to be added per weapon level; (ALSO RUNTIME)
@@ -70,6 +70,9 @@ namespace Dark_Cloud_Improved_Version
 
         static Random rnd = new Random();
 
+        /// <summary>
+        /// Adds a listener to the customize weapon menu to check for custom synthspheres and apply its effects if used
+        /// </summary>
         public static void WeaponListenForSynthSphere()
         {
             int attack;
@@ -3302,12 +3305,15 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Applies all the weapon changes to their base values (This runs once when starting the mod)
+        /// </summary>
         public static void WeaponsBalanceChanges()
         {
             if (Memory.ReadUShort(endurance + (weaponoffset * (Items.baselard - daggerid))) != 30) //check if changes have already applied
             {
 
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon changes have been applied...");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Applying the new weapon changes...");
 
 
                 /****************************************
@@ -3551,12 +3557,19 @@ namespace Dark_Cloud_Improved_Version
 
                 Memory.WriteUShort((buildup + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 386);    //Add the Hexa Blaster buildup option
 
+
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished applying new weapon changes!");
+
             }
+
+            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "New weapon changes have already been applied!");
         }
 
-        public static void RerollWeaponSpecialEffects()
+        /// <summary>
+        /// Process to roll the new weapon special attributes on weapons that now may have them
+        /// </summary>
+        public static void RerollWeaponSpecialAttributes()
         {
-             
             while (true)
             {
                 if (MainMenuThread.userMode == true)
@@ -3564,6 +3577,7 @@ namespace Dark_Cloud_Improved_Version
                     if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                     {
                         Thread.Sleep(100);
+
                         if (Memory.ReadByte(Addresses.mode) == 0 || Memory.ReadByte(Addresses.mode) == 1)
                         {
                             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Not ingame anymore! Exited from WeaponRerollEffectsThread!");
@@ -3575,14 +3589,17 @@ namespace Dark_Cloud_Improved_Version
                 //Base weapon special effects (Set 1); (ALSO RUNTIME) - 2=Big bucks, 4=poor, 8=quench, 16=thirst, 32=poison, 64=stop, 128=steal
                 //Base weapon special effects (Set 2); (ALSO RUNTIME) - 1=fragile, 2=durable, 4=drain, 8=heal, 16=critical, 32=absup
 
-                int effectRoll = rnd.Next(100);
+                /*********************
+                 *   Heavens Cloud   *
+                 *********************/
 
-                if (effectRoll < 50) //first roll if weapon gets effect
+                int attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50) //first roll if weapon gets attribute
                 {
+                    attributeRoll = rnd.Next(100);
 
-                    effectRoll = rnd.Next(100);
-
-                    if (effectRoll < 50) //roll for which effect it gets
+                    if (attributeRoll < 50) //roll for which attribute it gets
                     {
                         Memory.WriteByte((effect + (weaponoffset * (Items.heavenscloud - daggerid))), 32);
                         Memory.WriteByte((effect2 + (weaponoffset * (Items.heavenscloud - daggerid))), 0);
@@ -3599,13 +3616,18 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect2 + (weaponoffset * (Items.heavenscloud - daggerid))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
 
-                if (effectRoll < 50) //first roll if weapon gets effect
+                /**********************
+                 *     Dark Cloud     *
+                 **********************/
+
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50) //first roll if weapon gets effect
                 {
-                    effectRoll = rnd.Next(100);
+                    attributeRoll = rnd.Next(100);
 
-                    if (effectRoll < 50) //roll for which effect it gets
+                    if (attributeRoll < 50) //roll for which effect it gets
                     {
                         Memory.WriteByte((effect + (weaponoffset * (Items.darkcloud - daggerid))), 32);
                     }
@@ -3619,13 +3641,17 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect + (weaponoffset * (Items.darkcloud - daggerid))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
+                /*********************
+                 *      Big Bang     *
+                 *********************/
 
-                if (effectRoll < 50) //first roll if weapon gets effect
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50) //first roll if weapon gets effect
                 {
-                    effectRoll = rnd.Next(100); 
+                    attributeRoll = rnd.Next(100); 
 
-                    if (effectRoll < 50) //roll for which effect it gets
+                    if (attributeRoll < 50) //roll for which effect it gets
                     {
                         Memory.WriteByte((effect2 + (weaponoffset * (Items.bigbang - daggerid))), 16);
                         Memory.WriteByte((effect + (weaponoffset * (Items.bigbang - daggerid))), 0);
@@ -3642,13 +3668,17 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect2 + (weaponoffset * (Items.bigbang - daggerid))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
+                /************************
+                 *   Atlamillia Sword   *
+                 ************************/
 
-                if (effectRoll < 50) //first roll if weapon gets effect
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50) //first roll if weapon gets effect
                 {
-                    effectRoll = rnd.Next(100); 
+                    attributeRoll = rnd.Next(100); 
 
-                    if (effectRoll < 50) //roll for which effect it gets
+                    if (attributeRoll < 50) //roll for which effect it gets
                     {
                         Memory.WriteByte((effect2 + (weaponoffset * (Items.atlamilliasword - daggerid))), 8);
                         Memory.WriteByte((effect + (weaponoffset * (Items.atlamilliasword - daggerid))), 0);
@@ -3665,9 +3695,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect2 + (weaponoffset * (Items.atlamilliasword - daggerid))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
+                /*********************
+                 *       Dagger      *
+                 *********************/
 
-                if (effectRoll < 50)
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50)
                 {
                     Memory.WriteByte((effect + (weaponoffset * (Items.dusack - daggerid))), 128);
                 }
@@ -3676,9 +3710,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect + (weaponoffset * (Items.dusack - daggerid))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
+                /**********************
+                 *    Goddess Ring    *
+                 **********************/
 
-                if (effectRoll < 50)
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50)
                 {
                     Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.goddessring - goldringid)))), 8);
                 }
@@ -3687,9 +3725,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.goddessring - goldringid)))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
+                /************************
+                 *   Destruction Ring   *
+                 ************************/
 
-                if (effectRoll < 50)
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50)
                 {
                     Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.destructionring - goldringid)))), 16);
                 }
@@ -3698,10 +3740,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.destructionring - goldringid)))), 0);
                 }
 
+                /*********************
+                 *    Satans Ring    *
+                 *********************/
 
-                effectRoll = rnd.Next(100);
+                attributeRoll = rnd.Next(100);
 
-                if (effectRoll < 50)
+                if (attributeRoll < 50)
                 {
                     Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.satansring - goldringid)))), 4);
                 }
@@ -3710,9 +3755,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect2 + (rubyoffset + (weaponoffset * (Items.satansring - goldringid)))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
+                /*********************
+                 *       Skunk       *
+                 *********************/
 
-                if (effectRoll < 50)
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50)
                 {
                     Memory.WriteByte((effect + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 32);
                 }
@@ -3721,9 +3770,13 @@ namespace Dark_Cloud_Improved_Version
                     Memory.WriteByte((effect + (osmondoffset + (weaponoffset * (Items.skunk - machinegunid)))), 0);
                 }
 
-                effectRoll = rnd.Next(100);
+                /*********************
+                 *      Swallow      *
+                 *********************/
 
-                if (effectRoll < 50)
+                attributeRoll = rnd.Next(100);
+
+                if (attributeRoll < 50)
                 {
                     Memory.WriteByte((effect + (osmondoffset + (weaponoffset * (Items.swallow - machinegunid)))), 128);
                 }

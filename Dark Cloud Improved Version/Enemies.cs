@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Dark_Cloud_Improved_Version
 {
@@ -115,31 +116,56 @@ namespace Dark_Cloud_Improved_Version
         public const int silvergear = 318;
         public const int hornhead = 319;
 
+        /// <summary>
+        /// Returns a list of enemy ids that can drop dungeon keys.
+        /// </summary>
         public static Dictionary<ushort, string> GetNormalEnemies()
         {
             return EnemyList.enemiesNormal;
         }
 
+        /// <summary>
+        /// Returns a list of enemy ids that cannot drop the dungeon keys.
+        /// </summary>
         public static Dictionary<ushort, string> GetFlyingEnemies()
         {
             return EnemyList.enemiesFlying;
         }
 
+        /// <summary>
+        /// Returns a list of enemy ids that are not present in the original Japanese version of the game.
+        /// </summary>
         public static Dictionary<ushort, string> GetOverseasEnemies()
         {
             return EnemyList.enemiesOverseas;
         }
 
+        /// <summary>
+        /// Returns a list of boss enemy ids.
+        /// </summary>
         public static Dictionary<ushort, string> GetBossEnemies()
         {
             return EnemyList.enemiesBoss;
         }
 
+        /// <summary>
+        /// Returns the id of the given enemy number on the dungeon floor.
+        /// </summary>
+        /// <param name="enemyFloorNum">The enemy number (0-15).</param>
         public static ushort GetFloorEnemyId(int enemyFloorNum)
         {
+            if(enemyFloorNum < 0 || enemyFloorNum > 15)
+            {
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetFloorEnemyId() input fell outside of range: " + enemyFloorNum);
+                return ushort.MinValue;
+            }
+
             return Memory.ReadUShort(Enemy0.nameTag + (offset * enemyFloorNum));
         }
 
+        /// <summary>
+        /// Returns a list of all the enemy ids currently on the dungeon floor.
+        /// </summary>
         public static List<ushort> GetFloorEnemiesIds()
         {
             List<ushort> Ids = new List<ushort>();
@@ -152,6 +178,12 @@ namespace Dark_Cloud_Improved_Version
             return Ids;
         }
 
+        /// <summary>
+        /// Returns true if the given enemy number on the dungeon floor is holding the dungeon key.
+        /// </summary>
+        /// <param name="enemyNumber">The enemy spawn number.</param>
+        /// <param name="dungeon">The dungeon the enemy belongs to.</param>
+        /// <returns></returns>
         public static bool EnemyHasKey(int enemyNumber, byte dungeon)
         {
             return Dungeon.GetDungeonGateKey(dungeon).Contains(Memory.ReadByte(Enemy0.forceItemDrop + (offset * enemyNumber)));

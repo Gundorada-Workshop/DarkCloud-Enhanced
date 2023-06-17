@@ -64,6 +64,9 @@ namespace Dark_Cloud_Improved_Version
             public const int element = Orb0.element + (offset * OrbMultiplier);
         }
 
+        /// <summary>
+        /// Returns a list with the IDs of the Ruby orbs that are currently active
+        /// </summary>
         public static List<int> GetRubyActiveOrbs()
         {
             //Create a list to store the IDs

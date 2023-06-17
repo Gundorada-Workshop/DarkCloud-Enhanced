@@ -277,12 +277,19 @@ namespace Dark_Cloud_Improved_Version
             return damage;
         }
 
+        /// <summary>
+        /// Returns the source of the last damage caused
+        /// </summary>
+        /// <returns>PlayerId, if source is a character's weapon. -1 if source is a throwable.</returns>
         public static int GetDamageSourceCharacterID()
         {
             int character = Memory.ReadInt(Player.damageSource);
             return character;
         }
 
+        /// <summary>
+        /// Clears the last damage and damage source values in memory.
+        /// </summary>
         public static void ClearRecentDamageAndDamageSource()
         {
             Memory.WriteInt(Player.mostRecentDamage, -1);

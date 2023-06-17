@@ -42,7 +42,7 @@
   <PropertyGroup>
     <ApplicationIcon>ModIcon.ico</ApplicationIcon>
   </PropertyGroup>
-   <PropertyGroup>
+  <PropertyGroup>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
@@ -122,21 +122,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\PNACH\A5C05C78.pnach">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\RubyMemeFix\Fire" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Holy" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Ice" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Thunder" />
     <EmbeddedResource Include="Resources\RubyMemeFix\Wind" />
     <EmbeddedResource Include="Resources\Font\DarkCloud_Speech-Thin.ttf" />
+    <EmbeddedResource Include="Resources\PNACH\A5C05C78.pnach">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\d06o_out_result.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModIcon.ico" />
+    <Content Include="Resources\pcsx2_offsetreader.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

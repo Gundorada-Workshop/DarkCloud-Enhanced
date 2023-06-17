@@ -4,6 +4,13 @@ namespace Dark_Cloud_Improved_Version
 {
     internal class Player
     {
+        public const int ToanId = 0;
+        public const int XiaoId = 1;
+        public const int GoroId = 2;
+        public const int RubyId = 3;
+        public const int UngagaId = 4;
+        public const int OsmondId = 5;
+
         public const int gilda = 0x21CDD892;
         public const int inventoryCurrentSize = 0x21CDD8AD;
         public const int inventoryTotalSize = 0x21CDD8AC;
@@ -25,70 +32,67 @@ namespace Dark_Cloud_Improved_Version
         public const int dunPositionY = 0x21EA1D38;
         public const int dunPositionZ = 0x21EA1D34;
 
-        public const int townState = 0x202A1F50;            //Check Addresses.cs for value description
-        public const int townFirstPerson = 0x202A26E0;      //0 = 3rd Person, 1 = 1st Person
-        public const int dunCameraPerspective = 0x202A35EC; //0 = Normal
-                                                            //10 = FPS
-                                                            //155 = Static
-        public const int Ultraman = 0x21D564B0;
-        //public const int currentCharacter = 0x20429E80;     //Tells the current player selected, string 4bytes long
+        public const int townState = Addresses.townMode;
+        public const int townFirstPerson = Addresses.townCameraPerspective;
+        public const int dunCameraPerspective = 0x202A35EC; //0 = Normal, 10 = FPS, 155 = Static
+        public const int Ultraman = 0x21D564B0;             //Godmode
         public const int currentCharacter = 0x21CD9550;     //Current character value (0-5)
         public const int animationId = 0x21DC448C;
 
         /// <summary>
         /// Returns the current character being used inside the dungeon.
         /// </summary>
-        /// <returns>0 = Toan<br></br>
-        /// 1 = Xiao<br></br>
-        /// 2 = Goro<br></br>
-        /// 3 = Ruby<br></br>
-        /// 4 = Ungaga<br></br>
-        /// 5 = Osmond<br></br></returns>
+        /// <returns><br>0 = Toan</br>
+        /// <br>1 = Xiao</br>
+        /// <br>2 = Goro</br>
+        /// <br>3 = Ruby</br>
+        /// <br>4 = Ungaga</br>
+        /// <br>5 = Osmond</br></returns>
         public static int CurrentCharacterNum()
         {
-            if (Memory.ReadByte(currentCharacter) == 0)
-                return 0;
-            else if (Memory.ReadByte(currentCharacter) == 1)
-                return 1;
-            else if (Memory.ReadByte(currentCharacter) == 2)
-                return 2;
-            else if (Memory.ReadByte(currentCharacter) == 3)
-                return 3;
-            else if (Memory.ReadByte(currentCharacter) == 4)
-                return 4;
-            else if (Memory.ReadByte(currentCharacter) == 5)
-                return 5;
+            int character = Memory.ReadByte(currentCharacter);
 
-            else return 255;
+            switch (character)
+            {
+                case ToanId: return ToanId;
+                case XiaoId: return XiaoId;
+                case GoroId: return GoroId;
+                case RubyId: return RubyId;
+                case UngagaId: return UngagaId;
+                case OsmondId: return OsmondId;
+
+                default: return 255;
+            }
         }
+
         /// <summary>
         /// Returns a string with the characters name basing on the input id.
         /// </summary>
         /// <param name="character">
-        /// 0 = Toan<br></br>
-        /// 1 = Xiao<br></br>
-        /// 2 = Goro<br></br>
-        /// 3 = Ruby<br></br>
-        /// 4 = Ungaga<br></br>
-        /// 5 = Osmond<br></br>
+        /// <br>0 = Toan</br>
+        /// <br>1 = Xiao</br>
+        /// <br>2 = Goro</br>
+        /// <br>3 = Ruby</br>
+        /// <br>4 = Ungaga</br>
+        /// <br>5 = Osmond</br>
         /// </param>
         /// <returns>
-        /// 0 = "Toan"<br></br>
-        /// 1 = "Xiao"<br></br>
-        /// 2 = "Goro"<br></br>
-        /// 3 = "Ruby"<br></br>
-        /// 4 = "Ungaga"<br></br>
-        /// 5 = "Osmond"<br></br></returns>
+        /// <br>0 = "Toan"</br>
+        /// <br>1 = "Xiao"</br>
+        /// <br>2 = "Goro"</br>
+        /// <br>3 = "Ruby"</br>
+        /// <br>4 = "Ungaga"</br>
+        /// <br>5 = "Osmond"</br></returns>
         public static string GetCharacterName(int character)
         {
             switch (character)
             {
-                case 0: return "Toan";
-                case 1: return "Xiao";
-                case 2: return "Goro";
-                case 3: return "Ruby";
-                case 4: return "Ungaga";
-                case 5: return "Osmond";
+                case ToanId: return "Toan";
+                case XiaoId: return "Xiao";
+                case GoroId: return "Goro";
+                case RubyId: return "Ruby";
+                case UngagaId: return "Ungaga";
+                case OsmondId: return "Osmond";
                 default: return null;
             }
         }
@@ -96,7 +100,6 @@ namespace Dark_Cloud_Improved_Version
         /// <summary>
         /// Value is 255 when in town AND dungeon select, changes when floor is loaded. This also triggers when entering and leaving the menu in a dungeon.
         /// </summary>
-        /// <returns></returns>
         public static bool InDungeonFloor()
         {
             if (Memory.ReadByte(0x21CD954F) != 255)
@@ -106,6 +109,9 @@ namespace Dark_Cloud_Improved_Version
                 return false;
         }
 
+        /// <summary>
+        /// Get or set the current amount of Gilda.
+        /// </summary>
         public static ushort Gilda
         {
             get
@@ -121,6 +127,9 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Returns true if the player is in first person view while in town
+        /// </summary>
         public static bool CheckTownFirstPersonMode()
         {
             if (Memory.ReadUShort(townFirstPerson) == 1)
@@ -130,6 +139,9 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is in first person view while inside a dungeon
+        /// </summary>
         public static bool CheckDunFirstPersonMode()
         {
             if (Memory.ReadUShort(dunCameraPerspective) == 10)
@@ -139,6 +151,9 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is interacting with a chest
+        /// </summary>
         public static bool CheckDunIsOpeningChest()
         {
             if (Memory.ReadUShort(dunCameraPerspective) == 121 ||   //Big Chest
@@ -149,6 +164,9 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is interacting with something while inside a dungeon (Ex: dialogue with exit gate)
+        /// </summary>
         public static bool CheckDunIsInteracting()
         {
             if (Memory.ReadUShort(dunCameraPerspective) == 400 ||
@@ -159,6 +177,9 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the game is paued while in town
+        /// </summary>
         public static bool CheckTownIsPaused()
         {
             if (Memory.ReadUShort(townState) == 9)
@@ -168,6 +189,9 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the game is paused while inside a dungeon
+        /// </summary>
         public static bool CheckDunIsPaused()
         {
             int dunPauseTitle = 0x202A35C4;
@@ -185,36 +209,54 @@ namespace Dark_Cloud_Improved_Version
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is in the world map menu
+        /// </summary>
         public static bool CheckIsWorldMapMenu()
         {
             if (Memory.ReadUShort(townState) == 8) return true;
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is editing georama
+        /// </summary>
         public static bool CheckIsGeoramaMode()
         {
             if (Memory.ReadUShort(townState) == 4) return true;
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is fishing
+        /// </summary>
         public static bool CheckIsFishingMode()
         {
             if (Memory.ReadUShort(townState) == 16) return true;
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is not in a menu while inside a dungeon
+        /// </summary>
         public static bool CheckDunIsWalkingMode()
         {
             if (Memory.ReadUShort(Addresses.dungeonMode) == 1) return true;
             else return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is inside the weapons menu
+        /// </summary>
         public static bool CheckIsWeaponMenu()
         {
             if (Memory.ReadByte(Addresses.selectedMenu) == 2) return true;
             return false;
         }
 
+        /// <summary>
+        /// Returns true if the player is in the customize weapon menu
+        /// </summary>
         public static bool CheckIsWeaponCustomizeMenu()
         {
             if (Memory.ReadByte(Addresses.selectedMenu) == 2 &&
@@ -225,21 +267,17 @@ namespace Dark_Cloud_Improved_Version
 
         internal class Inventory
         {
+            /// <summary>
+            /// Returns the current bag size.
+            /// </summary>
             public static int GetBagCurrentCount()
             {
-                /*int bagItemQuantity = 0;
-                int activeItemQuantity = GetActiveItemsQuantity();
-
-                foreach (int item in GetBagItems()){
-                    if (item != -1) bagItemQuantity++; 
-                }
-
-                return bagItemQuantity + activeItemQuantity;*/
-
                 return Memory.ReadByte(inventoryCurrentSize);
-
             }
 
+            /// <summary>
+            /// Returns true if the bag is full.
+            /// </summary>
             public static bool CheckBagItemsFull()
             {
                 int currentCount = GetBagCurrentCount();
@@ -249,6 +287,10 @@ namespace Dark_Cloud_Improved_Version
                 else return false;
             }
 
+            /// <summary>
+            /// Returns an array with the ids of the items currently on the active item slots.
+            /// </summary>
+            /// <returns>[ItemId] if there is an item on the slot;<br>[-1] if slot is empty;</br></returns>
             public static int[] GetActiveItems()
             {
                 const byte itemOffset = 0x2;
@@ -268,7 +310,9 @@ namespace Dark_Cloud_Improved_Version
 
                 return activeItems;
             }
-
+            /// <summary>
+            /// Returns the total sum quantity of all 3 items currently on the active item slots.
+            /// </summary>
             public static int GetActiveItemsQuantity()
             {
                 const byte itemOffset = 0x2;
@@ -282,7 +326,12 @@ namespace Dark_Cloud_Improved_Version
 
                 return quantityTotal;
             }
-
+            /// <summary>
+            /// Set an item on the given active slot.
+            /// </summary>
+            /// <param name="activeItemSlot">The active item slot (0,1 or 2).</param>
+            /// <param name="itemId">The item id.</param>
+            /// <param name="quantity">The quantity for the chosen item.</param>
             public static void SetActiveItem(byte activeItemSlot, int itemId, int quantity)
             {
 
@@ -316,6 +365,10 @@ namespace Dark_Cloud_Improved_Version
                 else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nBag inventory is full!");
             }
 
+            /// <summary>
+            /// Returns an array with all the current inventory slots.
+            /// </summary>
+            /// <returns>[ItemId] if there is an item on the slot;<br>[-1] if slot is empty;</br></returns>
             public static int[] GetBagItems()
             
             {
@@ -335,10 +388,13 @@ namespace Dark_Cloud_Improved_Version
                     } else inventoryItems[slot] = -1;
                 }
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished GetBagItems process!");
-                //foreach(int item in inventoryItems) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + item);
                 return inventoryItems;
             }
 
+            /// <summary>
+            /// Returns the first empty slot found in the inventory.
+            /// </summary>
+            /// <returns>SlotNumber of the inventory slot if an empty one is found;<br>-1 if no empty slot is found;</br></returns>
             public static int GetBagItemsFirstAvailableSlot()
             {
                 int slot = 0;
@@ -351,7 +407,6 @@ namespace Dark_Cloud_Improved_Version
                     if (item == -1)
                     {
                         if(counter == 0) return slot;
-                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished GetBagItemsFirstAvailableSlot process: " + slot);
                         counter--;
                     }
                     slot++;
@@ -360,7 +415,11 @@ namespace Dark_Cloud_Improved_Version
                 //Return -1 if no empty slot was found
                 return -1;
             }
-
+            /// <summary>
+            /// Set an item on the given inventory slot.
+            /// </summary>
+            /// <param name="slot">The numbered slot to place the item in.</param>
+            /// <param name="itemId">The item ID.</param>
             public static void SetBagItems(int slot, int itemId)
             {
                 const byte itemOffset = 0x2;
@@ -378,6 +437,11 @@ namespace Dark_Cloud_Improved_Version
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished SetBagItems process!");
             }
 
+            /// <summary>
+            /// Returns an array with the weapon IDs for the given character. If no character ID is provided, returns the entire weapon inventory instead.
+            /// </summary>
+            /// <param name="character">The character ID.</param>
+            /// <returns></returns>
             public static int[] GetBagWeapons(int character = -1)
             
             {
@@ -388,7 +452,7 @@ namespace Dark_Cloud_Improved_Version
                 const int characterWeaponOffset = 0xAA8;
 
                 //Define the correct slot ranges to search in
-                if (character != -1)
+                if (character >= ToanId && character <= OsmondId)
                 {
                     slot = 0;
                     maxslot = 9;
@@ -437,16 +501,11 @@ namespace Dark_Cloud_Improved_Version
                     else
                     {
                         inventoryWeapons[slot] = -1;
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " WeaponID: -1");
+                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " WeaponID: Null");
                     }
 
                     slot++;
                 }
-
-                /* Debug logs
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished GetBagWeapons process:");
-                foreach (int weapon in inventoryWeapons) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + weapon);
-                */
 
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetBagWeapons for character " + GetCharacterName(character) + " process finished!\n");
 
@@ -456,12 +515,17 @@ namespace Dark_Cloud_Improved_Version
                 return inventoryWeapons;
             }
 
+            /// <summary>
+            /// Returns the first empty slot in the weapon inventory for the given character. If no character ID is provided, it will consider the entire weapon inventory.
+            /// </summary>
+            /// <param name="character">The character ID.</param>
+            /// <returns></returns>
             public static int GetBagWeaponsFirstAvailableSlot(int character = -1)
             {
                 int slot = 0;
                 int[] weaponsBag = GetBagWeapons(character);
 
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Started GetBagWeaponsFirstAvailableSlot process!");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Started GetBagWeaponsFirstAvailableSlot process!");
 
                 foreach (int item in weaponsBag)
                 {
@@ -474,74 +538,22 @@ namespace Dark_Cloud_Improved_Version
                     slot++;
                 }
 
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished GetBagWeaponsFirstAvailableSlot process:\nNo empty slot found!\n");
+                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished GetBagWeaponsFirstAvailableSlot process: No slot available.");
 
                 //Return -1 if no empty slot was found
                 return -1;
             }
 
-            //NEEDS REWORK! (Address stat values do not correspond between Base Table and Bag Table)
-            /*public static void SetBagWeapons(int weaponId, int slot)
-            {
-                int owner = -1;
-                const int tableWeaponOffset = Weapons.weaponoffset;
-                const int weaponValuesRange = 0x47;
-                const int weaponBagOffset = 0xF8;
-                const int chararacterOffSet = 0x9B0;
-                const int tableDaggerFirstAddress = 0x2027A70C;
-
-                //Check to whom the weapon belongs to
-                foreach (int weapon in Toan.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 0; };
-                foreach (int weapon in Xiao.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 1; };
-                foreach (int weapon in Goro.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 2; };
-                foreach (int weapon in Ruby.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 3; };
-                foreach (int weapon in Ungaga.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 4; };
-                foreach (int weapon in Osmond.GetWeaponsList()) { if (weaponId.Equals(weapon)) owner = 5; };
-
-               
-                try
-                {
-                    if (GetBagWeapons(owner)[slot] == -1)
-                    {
-                        //Fetch the values from the original values database
-                        byte[] weaponValues = Memory.ReadByteArray(tableDaggerFirstAddress + (tableWeaponOffset * (weaponId - Items.dagger)), weaponValuesRange);
-
-                        //Write the values on the specified location
-                        Memory.WriteByteArray(Addresses.firstBagWeapon + (chararacterOffSet * owner) + (weaponBagOffset * slot), weaponValues);
-                    }
-                    else
-                    {
-                        Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot is not empty!\n Retrying...\n");
-                        slot = GetBagWeaponsFirstAvailableSlot(owner);
-                        if (slot > -1)
-                        {
-                            SetBagWeapons(weaponId, slot);
-                        }
-                        else Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Inventory is full!\n");
-                    }
-                }
-                catch
-                {
-                    //If the provided slot is out of bounds, retry again by using the next available free slot
-                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Invalid slot input for SetBagWeapons! Revoking function passing slot as GetBagWeaponsFirstAvailableSlot!\n");
-                    SetBagWeapons(weaponId, GetBagWeaponsFirstAvailableSlot(owner));
-                }
-
-                //Debug
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Table weapon ID: " + Memory.ReadByte(tableDaggerFirstAddress + (tableWeaponOffset * (weaponId - Items.dagger))));
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Weapon Bag Slot: " + Memory.ReadByte(Addresses.firstBagWeapon + (chararacterOffSet * owner) + (weaponBagOffset * slot)));
-
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nFinished SetBagWeapons process!\n");
-            }*/
-
+            /// <summary>
+            /// Returns an array of the attachment inventory slots and the item ids occupying it.
+            /// </summary>
+            /// <returns></returns>
             public static int[] GetBagAttachments()
             
             {
                 const byte itemOffset = 0x20;
                 byte inventorySize = inventorySizeAttachments;
                 int[] inventoryAttachments = new int[inventorySize + 2];
-
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetBagAttachments process started!\n");
 
                 //Run through the attachment bag
                 for (int slot = 0; slot < inventorySize + 2; slot++)
@@ -553,42 +565,43 @@ namespace Dark_Cloud_Improved_Version
                     if (itemId >= Items.fire && itemId <= 1000)
                     {
                         inventoryAttachments[slot] = itemId;
-                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " AttachmentID: " + itemId);
                     }
                     else
                     {
                         inventoryAttachments[slot] = -1;
-                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Slot: " + slot + " AttachmentID: -1");
                     }
                 }
 
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nGetBagAttachments process finished!\n");
                 return inventoryAttachments;
             }
 
+            /// <summary>
+            /// Returns the first empty slot found in the attachment bag.<br> Returns -1 if no empty slot is found.</br>
+            /// </summary>
+            /// <returns></returns>
             public static int GetBagAttachmentsFirstAvailableSlot()
             {
                 int slot = 0;
                 int[] attachmentBag = GetBagAttachments();
-
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "GetBagAttachmentsFirstAvailableSlot process started!\n");
 
                 //Run until you find an empty slot and return the slot number if found
                 foreach (int item in attachmentBag)
                 {
                     if (item == -1)
                     {
-                        //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished GetBagAttachmentsFirstAvailableSlot process:\nSlot " + slot + "\n");
                         return slot;
                     }
                     slot++;
                 }
 
-                //Return -1 if no empty slot was found
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Attachment bag is full!\n");
                 return -1;
             }
 
+            /// <summary>
+            /// Set an item in the chosen attachment inventory slot.
+            /// </summary>
+            /// <param name="attachmentId">The item id.</param>
+            /// <param name="slot">The slot in the attachment inventory.</param>
             public static void SetBagAttachments(int attachmentId, int slot = -1)
             {
                 const int attachmentOffset = 0x20;
@@ -626,10 +639,9 @@ namespace Dark_Cloud_Improved_Version
         }
 
         internal class Weapon
-        //The current equipped weapon (THIS IS READ ONLY)
         {
             private const int id = 0x21EA7590;
-            private const int level = 0x21EA7592;        //The level # displayed on the weapon name
+            //private const int level = 0x21EA7592;        //The level # displayed on the weapon name
             private const int attack = 0x21EA7594;
             private const int endurance = 0x21EA7594;
             private const int speed = 0x21EA7594;
@@ -820,8 +832,8 @@ namespace Dark_Cloud_Improved_Version
             private const int defense = 0x21CDD894;
             private const int thirst = 0x21CDD850;
             private const int thirstMax = 0x21CDD83A;
-            private const int pocketSize = 0x21CDD8AC;
-            private const int status = 0x21CDD814;           //04 Freeze, 08 Stamina, 16 Poison, 32 Curse, 64 Goo.
+            //private const int pocketSize = 0x21CDD8AC;
+            private const int status = 0x21CDD814;           //02 Near Death, 04 Freeze, 08 Stamina, 16 Poison, 32 Curse, 64 Goo.
             private const int statusTimer = 0x21CDD824;
             private const int currentWeaponSlot = 0x21CDD88C;
             
@@ -878,6 +890,11 @@ namespace Dark_Cloud_Improved_Version
                 return Memory.ReadUShort(status);
             }
 
+            /// <summary>
+            /// Sets the character status.
+            /// </summary>
+            /// <param name="type">The type of status ("freeze", "stamina", "poison", "curse", "goo"</param>
+            /// <param name="timer">The amount of time in frames (60 = 1 sec) to set the status for.</param>
             public static void SetStatus(string type, ushort timer)
             {
                 switch (type.ToLower())
@@ -909,12 +926,18 @@ namespace Dark_Cloud_Improved_Version
                 }
             }
 
+            /// <summary>
+            /// Returns an array with all of Toan's weapon IDs.
+            /// </summary>
             public static int[] GetWeaponsList()
             {
                 int[] swords = { Items.brokendagger, Items.dagger, Items.baselard, Items.gladius, Items.wiseowlsword, Items.crystalknife, Items.antiquesword, Items.bustersword, Items.kitchenknife, Items.tsukikage, Items.sunsword, Items.serpentsword, Items.machosword, Items.shamshir, Items.heavenscloud, Items.lambsswordnormal, Items.darkcloud, Items.braveark, Items.bigbang, Items.atlamilliasword, Items.lamsswordtransformed, Items.mardaneins, Items.mardantwei, Items.arisemardan, Items.agassword, Items.evilcise, Items.smallsword, Items.sandbreaker, Items.drainseeker, Items.chopper, Items.choora, Items.claymore, Items.maneater, Items.bonerapier, Items.sax, Items.sevenbranchsword, Items.dusack, Items.crosshinder, Items.seventhheaven, Items.swordofzeus, Items.chroniclesword, Items.chronicletwo};
                 return swords;
             }
 
+            /// <summary>
+            /// Returns the slot the current weapon is occupying.
+            /// </summary>
             public static byte GetWeaponSlot()
             {
                 return Memory.ReadByte(currentWeaponSlot);
@@ -2367,7 +2390,7 @@ namespace Dark_Cloud_Improved_Version
             }
             public static float GetMaxThirst()
             {
-                return Memory.ReadFloat(thirst);
+                return Memory.ReadFloat(thirstMax);
             }
 
             public static void SetMaxThirst(float newmaxthirst)

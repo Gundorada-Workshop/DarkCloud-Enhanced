@@ -52,22 +52,30 @@ namespace Dark_Cloud_Improved_Version
         public static int[][] fairykingRotation = { fairykingDay1, fairykingDay2, fairykingDay3, fairykingDay4, fairykingDay2 };
 
         static Random rnd = new Random();
-
+        
+        /// <summary>
+        /// Applies the new changes to the base shops (this only runs once when the mod starts)
+        /// </summary>
         public static void BaseShopChanges()
         {
             //Gaffer shop changes
-            Memory.WriteUShort(0x20292038, 81);
-            Memory.WriteUShort(0x2029203A, 82);
-            Memory.WriteUShort(0x2029203C, 83);
-            Memory.WriteUShort(0x2029203E, 84);
-            Memory.WriteUShort(0x20292040, 85);
-            Memory.WriteUShort(0x20292042, 111);
-            Memory.WriteUShort(0x20292044, 192);
+            Memory.WriteUShort(0x20292038, Items.fire);
+            Memory.WriteUShort(0x2029203A, Items.ice);
+            Memory.WriteUShort(0x2029203C, Items.thunder);
+            Memory.WriteUShort(0x2029203E, Items.wind);
+            Memory.WriteUShort(0x20292040, Items.holy);
+            Memory.WriteUShort(0x20292042, Items.dragonslayer);
+            Memory.WriteUShort(0x20292044, Items.goldbullion);
 
             //Fairy King attachment shop changes
-            Memory.WriteUShort(0x202922E0, 118);
-            Memory.WriteUShort(0x202922E2, 119);
+            Memory.WriteUShort(0x202922E0, Items.metalbreaker);
+            Memory.WriteUShort(0x202922E2, Items.mimicbreaker);
         }
+
+        /// <summary>
+        /// Process to roll the daily items for each shop
+        /// </summary>
+        /// <param name="currentInGameDay">The current day in-game</param>
         public static void RerollDailyRotation(int currentInGameDay)
         {
             int currentItemRotation = currentInGameDay % 5;
@@ -105,6 +113,9 @@ namespace Dark_Cloud_Improved_Version
             SetDailyItemsToShop();
         }
 
+        /// <summary>
+        /// Sets the new items in the reserved slot for daily rotation in each shop
+        /// </summary>
         public static void SetDailyItemsToShop()
         {
             Memory.WriteUShort(0x20292046, Memory.ReadUShort(0x21CE447C));

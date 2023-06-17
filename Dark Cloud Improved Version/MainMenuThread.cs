@@ -18,7 +18,7 @@ namespace Dark_Cloud_Improved_Version
         public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
         public static Thread changesThread = new Thread(new ThreadStart(ApplyNewChanges));
         public static Thread dungeonthread = new Thread(new ThreadStart(Dungeon.InsideDungeonThread));
-        public static Thread weaponspecialeffectThread = new Thread(new ThreadStart(Weapons.RerollWeaponSpecialEffects));
+        public static Thread weaponspecialeffectThread = new Thread(new ThreadStart(Weapons.RerollWeaponSpecialAttributes));
 
         internal static void ApplyNewChanges()
         {
@@ -190,7 +190,7 @@ namespace Dark_Cloud_Improved_Version
                                         changesThread = new Thread(() => ApplyNewChanges());
                                         townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
                                         dungeonthread = new Thread(() => Dungeon.InsideDungeonThread());
-                                        weaponspecialeffectThread = new Thread(() => Weapons.RerollWeaponSpecialEffects());
+                                        weaponspecialeffectThread = new Thread(() => Weapons.RerollWeaponSpecialAttributes());
                                         if (!changesThread.IsAlive) changesThread.Start();
                                         if (!townThread.IsAlive) townThread.Start();
                                         if (!dungeonthread.IsAlive) dungeonthread.Start();

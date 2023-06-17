@@ -2243,6 +2243,9 @@ namespace Dark_Cloud_Improved_Version
         // Ȟ = heart symbol
         // ^ = Next Line, ¤ = Next Dialogue Bubble. 40 symbols max per line, more than that can clip dialogue
 
+        /// <summary>
+        /// Applies the new dialogues for all NPCs that allies can talk to
+        /// </summary>
         public static void InitializeDialogues()
         {
             sideQuestDialogueOption[0] = "Hello.^  How should I rebuild Norune?^  It´s finished!^  Do you have any sidequests?";

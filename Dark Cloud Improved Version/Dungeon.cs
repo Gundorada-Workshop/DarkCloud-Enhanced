@@ -28,7 +28,6 @@ namespace Dark_Cloud_Improved_Version
         static bool PPowdermenuOpen = false;
         static bool circlePressed = false;
         static bool hasClearMessageShown = false;
-        //static string "[" + DateTime.Now + "]" + " " = ReusableVariables.Get"[" + DateTime.Now + "]" + " "();
         static byte[] wepLevelArray = new byte[10];
         public static bool monsterQuestMachoActive = false;
         public static bool monsterQuestGobActive = false;
@@ -57,7 +56,6 @@ namespace Dark_Cloud_Improved_Version
         public static Thread seventhHeavenThread = new Thread(new ThreadStart(CustomEffects.SeventhHeaven));
         public static Thread chronicleSwordThread = new Thread(new ThreadStart(CustomEffects.ChronicleSword));
         public static Thread evilciseThread = new Thread(new ThreadStart(CustomEffects.Evilcise));
-        public static Thread dragonsYThread = new Thread(new ThreadStart(CustomEffects.DragonsY));
         public static Thread angelGearThread = new Thread(new ThreadStart(CustomEffects.AngelGear));
         public static Thread tallHammerThread = new Thread(new ThreadStart(CustomEffects.TallHammer));
         public static Thread infernoHammerThread = new Thread(new ThreadStart(CustomEffects.Inferno));
@@ -91,7 +89,7 @@ namespace Dark_Cloud_Improved_Version
                         switch (Player.CurrentCharacterNum())
                         {
                             //Toan
-                            case 0:
+                            case Player.ToanId:
                                 if(magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
                                 switch (Player.Weapon.GetCurrentWeaponId())
@@ -124,8 +122,6 @@ namespace Dark_Cloud_Improved_Version
                                         }
                                         break;
 
-
-
                                     default:
                                         CustomEffects.BoneRapierEffect(false);
                                         break;
@@ -133,20 +129,12 @@ namespace Dark_Cloud_Improved_Version
                                 break;
 
                             //Xiao
-                            case 1:
+                            case Player.XiaoId:
                                 CustomEffects.BoneRapierEffect(false);
                                 if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
                                 switch (Player.Weapon.GetCurrentWeaponId())
                                 {
-                                    case Items.dragonsy:
-                                        if (!dragonsYThread.IsAlive)
-                                        {
-                                            dragonsYThread = new Thread(new ThreadStart(CustomEffects.DragonsY));
-                                            dragonsYThread.Start();
-                                        }
-                                        break;
-
                                     case Items.angelgear:
                                         if (!angelGearThread.IsAlive)
                                         {
@@ -158,7 +146,7 @@ namespace Dark_Cloud_Improved_Version
                                 break;
 
                             //Goro
-                            case 2:
+                            case Player.GoroId:
                                 CustomEffects.BoneRapierEffect(false);
                                 if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
@@ -183,9 +171,9 @@ namespace Dark_Cloud_Improved_Version
                                         break;
                                 }
                                 break;
-
+                             
                             //Ruby
-                            case 3:
+                            case Player.RubyId:
                                 CustomEffects.BoneRapierEffect(false);
 
                                 switch (Player.Weapon.GetCurrentWeaponId())
@@ -212,7 +200,7 @@ namespace Dark_Cloud_Improved_Version
                                 break;
 
                             //Ungaga
-                            case 4:
+                            case Player.UngagaId:
                                 CustomEffects.BoneRapierEffect(false);
                                 if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
@@ -240,7 +228,7 @@ namespace Dark_Cloud_Improved_Version
                                 break;
 
                             //Osmond
-                            case 5:
+                            case Player.OsmondId:
                                 CustomEffects.BoneRapierEffect(false);
                                 if (magicCircleChanged) CustomEffects.SecretArmletDisable(); magicCircleChanged = false;
 
@@ -386,6 +374,18 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Returns a list with the dungeon key ids for the given dungeon.
+        /// </summary>
+        /// <param name="dungeon">The dungeon id:
+        /// <br>0 = Divine Beast Cave</br>
+        /// <br>1 = Wise Owl</br>
+        /// <br>2 = Shipwreck</br>
+        /// <br>3 = Sun and Moon</br>
+        /// <br>4 = Moon Sea</br>
+        /// <br>5 = Gallery of Time</br>
+        /// <br>6 = Demon Shaft</br></param>
+        /// <returns></returns>
         public static List<byte> GetDungeonGateKey(byte dungeon)
         {
             List<byte> key = new List<byte>();
@@ -394,25 +394,25 @@ namespace Dark_Cloud_Improved_Version
             {
                 //DBC
                 case 0:
-                    key.Add(195); break;
+                    key.Add(Items.dranscrest); break;
                 //Wise Owl
                 case 1:
-                    key.Add(196); key.Add(198); key.Add(205); break; 
+                    key.Add(Items.shinystone); key.Add(Items.redberry); key.Add(Items.pointychestnut); break; 
                 //Shipwreck
                 case 2:
-                    key.Add(201); break;
+                    key.Add(Items.hook); break;
                 //Sun&Moon
                 case 3:
-                    key.Add(202); break;
+                    key.Add(Items.kingsslate); break;
                 //Moon Sea
                 case 4:
-                    key.Add(203); break;
+                    key.Add(Items.gunpowder); break;
                 //Gallery
                 case 5:
-                    key.Add(204); break;
+                    key.Add(Items.clockhands); break;
                 //Demon Shaft
                 case 6:
-                    key.Add(206); break;
+                    key.Add(Items.blackknightcrest); break;
                 default:
                     break;
             }
@@ -420,32 +420,32 @@ namespace Dark_Cloud_Improved_Version
         }
 
         public static byte GetDungeonBackFloorKey(byte dungeon)
-        {
+        { 
             switch (dungeon)
             {
                 //DBC
                 case 0:
-                    return 224;
+                    return Items.tramoil;
                 //Wise Owl
                 case 1:
-                    return 225;
+                    return Items.sundew;
                 //Shipwreck
                 case 2:
-                    return 226;
+                    return Items.flappingfish;
                 //Sun&Moon
                 case 3:
-                    return 228;
+                    return Items.secretpathkey;
                 //Moon Sea
                 case 4:
-                    return 229;
+                    return Items.braverylaunch;
                 //Gallery
                 case 5:
-                    return 230;
+                    return Items.flappingduster;
                 //Demon Shaft
                 case 6:
-                    return 231;
+                    return Items.crystaleyeball;
                 default:
-                    return 255;
+                    return byte.MaxValue;
             }
         }
 
@@ -567,6 +567,9 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
+        /// <summary>
+        /// Check enemy spawns upon entering a dungeon floor
+        /// </summary>
         public static void CheckSpawns() 
         {
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Checking spawns...");
@@ -627,7 +630,6 @@ namespace Dark_Cloud_Improved_Version
 
             CheckSidequests();
 
-            //CustomEffects.evilciseNewFloor = true;
             CustomEffects.chronicleNewFloor = true;
             ReusableFunctions.ClearRecentDamageAndDamageSource();
 
@@ -639,11 +641,12 @@ namespace Dark_Cloud_Improved_Version
             }
 
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished spawn checking");
-
-            //Close this thread
-            //spawnsCheck.Abort();
         }
 
+        /// <summary>
+        /// Returns true if the given weapon ID is different to the one the player is currently using
+        /// </summary>
+        /// <param name="weapon">The weapon ID to check</param>
         public static bool CheckWeaponChange(ushort weapon)
         {
             if (Player.Weapon.GetCurrentWeaponId() != weapon) return true;
@@ -651,6 +654,10 @@ namespace Dark_Cloud_Improved_Version
             return false;
         }
 
+        /// <summary>
+        /// Process to start the mini boss spawn
+        /// </summary>
+        /// <param name="currentDungeon">The current dungeon ID</param>
         public static void DoMinibossSpawn(byte currentDungeon)
         {
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Processing mini boss...");
@@ -665,10 +672,11 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Mini boss has rolled: " + hasMiniBoss);
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished mini boss process!");
 
-            //Close this thread
-            //minibossProcess.Abort();
         }
 
+        /// <summary>
+        /// Displays the mini boss screen message
+        /// </summary>
         public static void MiniBossMessage()
         {
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Working on the message...");
@@ -683,38 +691,23 @@ namespace Dark_Cloud_Improved_Version
                 continue;
             }
 
-            /*Check if a dungeon message is displaying
-            if (Memory.ReadInt(Addresses.dunMessage) != -1)
-            {
-                //Reset timer
-                ms = 0;
-
-                //Wait for whatever message is currently displaying
-                while(Memory.ReadInt(Addresses.dunMessage) != -1 && ms < 5000)
-                {
-                    Thread.Sleep(100);
-                    ms += 100;
-                    continue;
-                }
-
-                //Display our message
-                Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
-            }
-            else*/
-
             Dayuppy.DisplayMessage("A mysterious enemy lurks\naround. Be careful!", 2, 24, 4000);
 
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Finished message process!");
-
-            //Close this thread
-            //miniBossMessage.Abort();
         }
 
+        /// <summary>
+        /// Returns true if the bone door opening trigger is active
+        /// </summary>
         public static bool IsBypassBoneDoor()
         {
             return Memory.ReadByte(Addresses.BoneDoorOpenType) == 5 ? true: false;
         }
 
+        /// <summary>
+        /// Activates or deactivates the door trigger
+        /// </summary>
+        /// <param name="flag">True if to activate the door</param>
         public static void SetBypassBoneDoor(bool flag)
         {
             byte n;

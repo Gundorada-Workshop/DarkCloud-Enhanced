@@ -524,21 +524,7 @@ namespace Dark_Cloud_Improved_Version
             while (true)
             {
                 int currentCharacter = Player.CurrentCharacterNum();
-                byte currentWeaponSlot;
-
                 
-                //Free - Running
-                //Free - Walking
-                //Combat - Blocking Startup
-                //Combat - Blocking Active
-                //Combat - Blocking Recovery
-                //Combat - Idle
-                //Combat - Strafing Right
-                //Combat - Strafing Left
-                //Combat - Strafing Forwards
-                //Combat - Strafing Backwards
-                //Combat - Strafing Blocking
-
                 //Check for character animations
                 switch (Memory.ReadByte(0x21DC4484))
                 {
@@ -1369,7 +1355,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
 
-                if (Player.CurrentCharacterNum() == 2) //If Xiao
+                if (Player.CurrentCharacterNum() == Player.XiaoId) //If Xiao
                 {
                     Memory.WriteByteArray(textureAddress1, modifiedTexture1);
                     Memory.WriteByteArray(textureAddress2, modifiedTexture2);

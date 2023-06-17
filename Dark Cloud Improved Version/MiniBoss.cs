@@ -7,7 +7,6 @@ namespace Dark_Cloud_Improved_Version
 {
     public class MiniBoss
     {
-        //static string "[" + DateTime.Now + "]" + " " = ReusableVariables.Get"[" + DateTime.Now + "]" + " "();
         static Random rnd = new Random();
 
         public const int enemyZeroWidth = 0x21E18530;  //Enemy Width multiplier
@@ -56,10 +55,6 @@ namespace Dark_Cloud_Improved_Version
 
                 //Choose the enemy to convert into mini boss
                 enemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count);
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\nEnemyNumber rolled before flying check: " + enemyNumber + "\nIs flying enemy: " + nonKeyEnemies.ContainsKey(Enemies.GetFloorEnemyId(enemyNumber)) + "\nChosen miniboss: " + Enemies.GetFloorEnemyId(enemyNumber) + "\n");
-
-                //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "\n== Enemy IDs ==");
-                //foreach (ushort enemy in Enemies.GetFloorEnemiesIds()) Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + enemy);
 
                 //Check if the chosen enemy has an ID
                 if (Enemies.GetFloorEnemyId(enemyNumber) > 0)
