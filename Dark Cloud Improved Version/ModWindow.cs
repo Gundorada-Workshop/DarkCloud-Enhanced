@@ -14,13 +14,13 @@ namespace Dark_Cloud_Improved_Version
             instance = this;
 
             //User mode on launch!!!
-            //UserModeLaunch();
+            UserModeLaunch();
 
         } 
 
-        public static Thread dayThread = new Thread(new ThreadStart(Dayuppy.Testing)); //Create a new thread to run Testing() from within Dayuppy.cs
+        //public static Thread dayThread = new Thread(new ThreadStart(Dayuppy.Testing)); //Create a new thread to run Testing() from within Dayuppy.cs
         //public static Thread chestThread = new Thread(new ThreadStart(CustomChests.ChestRandomizer));
-        public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
+        public static Thread townThread = new Thread(new ThreadStart(TownCharacter.MainScript));
         public static Thread TASSThread = new Thread(new ThreadStart(TASThread.RunTAS));
         public static Thread TASSThread2 = new Thread(new ThreadStart(TASThread.RecordTAS));
         public static Thread dungeonthread = new Thread(new ThreadStart(Dungeon.InsideDungeonThread));
@@ -562,10 +562,10 @@ namespace Dark_Cloud_Improved_Version
         #region DEV Page 1
         private void DEV_Page1_Btn_Dayuppy(object sender, EventArgs e)  //Dayuppy
         {
-            if (dayThread.ThreadState == ThreadState.Unstarted)
-            {
-                dayThread.Start();
-            }
+            //if (dayThread.ThreadState == ThreadState.Unstarted)
+            //{
+             //   dayThread.Start();
+            //}
         }
 
         private void DEV_Page1_Btn_Mike(object sender, EventArgs e) //Mike

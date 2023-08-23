@@ -62,8 +62,7 @@ namespace Dark_Cloud_Improved_Version
                 while (1 == 1)
                 {
                     Thread.Sleep(50);
-
-                    
+               
                     if (Player.CheckDunIsPaused() == true)
                     {
                         if (Memory.ReadUShort(Addresses.buttonInputs) != 0)
@@ -278,7 +277,7 @@ namespace Dark_Cloud_Improved_Version
 
                 for (int i = 0; i < cheatCodeArray.Length; i++)
                 {
-                    tmp[(i + amount) % tmp.Length] = cheatCodeArray[i]; //I don't understand how this line works, but it does.
+                    tmp[(i + amount) % tmp.Length] = cheatCodeArray[i];
                 }
 
                 return tmp;
@@ -306,7 +305,7 @@ namespace Dark_Cloud_Improved_Version
             }         
         }
 
-        public static void InitializeBD()
+        public static void InitializeBD() //set custom values for the broken dagger attachment
         {
             attachmentValues[0] = 90;
             attachmentValues[1] = 0;

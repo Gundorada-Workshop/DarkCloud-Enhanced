@@ -74,7 +74,7 @@ namespace Dark_Cloud_Improved_Version
                             int newEnemyNumber;
 
                             //Get the enemy key ID
-                            byte KeyId = Memory.ReadByte(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber));
+                            ushort KeyId = Memory.ReadUShort(Enemies.Enemy0.forceItemDrop + (varOffset * enemyNumber));
 
                             //Re-roll for a different enemy that does not hold the key (due to Wise Owl) and is non flying
                             do { newEnemyNumber = rnd.Next(Enemies.GetFloorEnemiesIds().Count); } while (newEnemyNumber == enemyNumber &&

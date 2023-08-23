@@ -80,11 +80,8 @@ namespace Dark_Cloud_Improved_Version
         static bool itemQuestSpawned = false;
         static byte itemQuestitemID;
 
-        static int currentFloor;
-        static int prevFloor;
         static int firstChestItem;
         static int chestSize;
-        static int tierRoll;
         static int storeItem;
         static int itemValue;
         static int currentAddress;
@@ -99,8 +96,6 @@ namespace Dark_Cloud_Improved_Version
 
         static bool hasMap;
         static bool hasMC;
-
-        static int loop = 1;
 
         static Random rnd = new Random();
 
@@ -145,7 +140,7 @@ namespace Dark_Cloud_Improved_Version
             itemQuestSpawn = false;
             Thread.Sleep(100);
 
-            switch (currentDungeon)
+            switch (currentDungeon) //set loot tables and addresses based on current dungeon
             {
                 case 0:
 

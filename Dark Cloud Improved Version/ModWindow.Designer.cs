@@ -1005,9 +1005,9 @@
             this.CBox_UserMode_Graphics.Location = new System.Drawing.Point(46, 28);
             this.CBox_UserMode_Graphics.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CBox_UserMode_Graphics.Name = "CBox_UserMode_Graphics";
-            this.CBox_UserMode_Graphics.Size = new System.Drawing.Size(478, 20);
+            this.CBox_UserMode_Graphics.Size = new System.Drawing.Size(483, 20);
             this.CBox_UserMode_Graphics.TabIndex = 3;
-            this.CBox_UserMode_Graphics.Text = "Enable Graphical Improvements (not compatible in PSCX2 1.7)";
+            this.CBox_UserMode_Graphics.Text = "Enable Graphical Improvements (not compatible in pcsx2 v1.7)";
             this.CBox_UserMode_Graphics.UseVisualStyleBackColor = true;
             this.CBox_UserMode_Graphics.CheckedChanged += new System.EventHandler(this.CBox_UserMode_Graphics_Changed);
             // 
@@ -1078,9 +1078,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(49, 264);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 16);
+            this.label6.Size = new System.Drawing.Size(103, 16);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Version: 1.0.0";
+            this.label6.Text = "Version: 1.0.1";
             // 
             // Label_UserMode_PlaceholderText
             // 
@@ -1153,8 +1153,8 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(432, 77);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Testers: aWolfsOath, BeeMan753, Glace, Glitchedd, Hiddencastle, Kazarov, MagicaJe" +
-    "sta, Merideth, Misterboy64, Ridepod, Shaztopia";
+            this.label3.Text = "Testers: aWolfsOath, Glace, Glitchedd, Hiddencastle, Kazarov, MagicaJesta, Meride" +
+    "th, Misterboy64, Rashi753, Ridepod, Shaztopia";
             // 
             // label2
             // 

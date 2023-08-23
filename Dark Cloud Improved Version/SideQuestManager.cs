@@ -585,15 +585,19 @@ namespace Dark_Cloud_Improved_Version
                     bool hasWeapon = CheckWeapon(298);
                     if (Memory.ReadByte(0x21CE4463) == 1)
                     {
-                        currentDialogue = "Woah, you truly are something!¤You know what?^Since you proved your power of will^to collect everything, how about^doing some bonus sidequests?¤You already got so far, so why not^keep going, right?";
+                        currentDialogue = "Woah, you truly are something!¤You know what?^Since you proved your determination^to collect everything, how about^doing some bonus sidequests?¤You already got so far, so why not^keep going, right?";
                     }
                     else if (hasWeapon == true)
                     {
-                        currentDialogue = "You conquered the Demon Shaft?^Well done!¤Unfortunately you´re still not^ready for my quests.¤Come back when you´ve obtained^everything in this world.";
+                        currentDialogue = "You conquered the Demon Shaft?^Well done!¤Unfortunately you´re still not^ready for my quests.¤Come back when you´ve obtained^everything in this world.¤Perhaps someone at the Brownboo^Village can give more details?";
                     }
-                    else if (Memory.ReadByte(0x21CDD811) != 255)
+                    else if (Memory.ReadByte(0x21CE448B) == 1)
                     {
                         currentDialogue = "I knew you could do it!^Now that the Dark Genie has been^defeated, we can live in peace!¤What´s that?^You want to do more sidequests?¤Hmm... don´t you have one more^dungeon to complete?";
+                    }
+                    else if (Memory.ReadUShort(0x21CE702A) > 0)
+                    {
+                        currentDialogue = "I see that your journey brings you^many travels around the world.¤While you are at it, I´m working^on something else that might^help you later.¤Return to me when you are^near the end of your journey.";
                     }
                     else
                     {

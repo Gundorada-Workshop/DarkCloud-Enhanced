@@ -15,7 +15,7 @@ namespace Dark_Cloud_Improved_Version
         public static int PID_attempts = 0;
         public static int currentFrameCounter = 0;
         public static int previousFrameCounter = 0;
-        public static Thread townThread = new Thread(new ThreadStart(TownCharacter.InitializeChrOffsets));
+        public static Thread townThread = new Thread(new ThreadStart(TownCharacter.MainScript));
         public static Thread changesThread = new Thread(new ThreadStart(ApplyNewChanges));
         public static Thread dungeonthread = new Thread(new ThreadStart(Dungeon.InsideDungeonThread));
         public static Thread weaponspecialeffectThread = new Thread(new ThreadStart(Weapons.RerollWeaponSpecialAttributes));
@@ -29,7 +29,7 @@ namespace Dark_Cloud_Improved_Version
         public static void CheckEmulatorAndGame()
         {
             firstlaunch = true;
-            //Program.ConsoleLogging(); //LOGS CONSOLE WRITES TO TEXT FILE!
+            Program.ConsoleLogging(); //LOGS CONSOLE WRITES TO TEXT FILE!
             while (true)
             {
                 if (Memory.process != null)
@@ -64,10 +64,6 @@ namespace Dark_Cloud_Improved_Version
                     //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Memory PID 0");
                     ModWindow.EmulatorCount(0); //no emulators running
                 }
-                /*else if (PID > 1)
-                {
-                    Form1.EmulatorCount(2); //more than 1 emulator running
-                } */
                 else if (PID != 0)
                 {
                     //Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.ReadInt(0x20299540));
@@ -188,7 +184,7 @@ namespace Dark_Cloud_Improved_Version
                                     {
                                         Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Entered ingame, starting all threads!");
                                         changesThread = new Thread(() => ApplyNewChanges());
-                                        townThread = new Thread(() => TownCharacter.InitializeChrOffsets());
+                                        townThread = new Thread(() => TownCharacter.MainScript());
                                         dungeonthread = new Thread(() => Dungeon.InsideDungeonThread());
                                         weaponspecialeffectThread = new Thread(() => Weapons.RerollWeaponSpecialAttributes());
                                         if (!changesThread.IsAlive) changesThread.Start();
@@ -246,7 +242,7 @@ namespace Dark_Cloud_Improved_Version
                     }
                 }
                 
-                if (currentFrameCounter < previousFrameCounter || currentFrameCounter > previousFrameCounter + 300 || currentFrameCounter == 0)
+                if (currentFrameCounter < previousFrameCounter || currentFrameCounter > previousFrameCounter + 360 || currentFrameCounter == 0)
                 {
                     Thread.Sleep(200);
                     Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Save state detected!");

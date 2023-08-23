@@ -1,0 +1,138 @@
+21CE43FE = Brownboo Pickle  1st time dialogue check (uses 4 bytes)
+
+21CE4402 = Norune Macho Sidequest progress
+21CE4403 = Macho's sidequest dungeon ID
+21CE4404 = Macho's sidequest enemy name
+21CE4405 = Macho's sidequest enemies left counter
+21CE4406 = Macho's sidequest enemy ID
+
+21CE4407 = Matataki Gob Sidequest progress
+21CE4408 = Gob's sidequest dungeon ID
+21CE4409 = Gob's sidequest enemy name
+21CE440A = Gob's sidequest enemies left counter
+21CE440B = Gob's sidequest enemy ID
+
+21CE440C = Queens Jake Sidequest progress
+21CE440D = Jack's sidequest dungeon ID
+21CE440E = Jack's sidequest enemy name
+21CE440F = Jack's sidequest enemies left counter
+21CE4410 = Jack's sidequest enemy ID
+
+21CE4411 = Muska Chief Sidequest progress
+21CE4412 = Chief's sidequest dungeon ID
+21CE4413 = Chief's sidequest enemy name
+21CE4414 = Chief's sidequest enemies left counter
+21CE4415 = Chief's sidequest enemy ID
+
+21CE4416 = Norune Pike Sidequest progress
+21CE4417 = Pike's sidequest (0 or 1)
+21CE4418 = Pike's sidequest required fish name
+21CE4419 = Pike's sidequest required fish ID
+21CE441A = Pike's sidequest needed fish counter
+21CE441B = Pike's sidequest needed fish minimum size
+21CE441C = Pike's sidequest needed fish maximum size
+21CE441D = Pike's sidequest original fish count
+
+21CE441E = Matataki Pao Sidequest progress
+21CE441F = Pao's sidequest (0 or 1)
+21CE4420 = Pao's sidequest required fish name
+21CE4421 = Pao's sidequest required fish ID
+21CE4422 = Pao's sidequest needed fish counter
+21CE4423 = Pao's sidequest needed fish minimum size
+21CE4424 = Pao's sidequest needed fish maximum size
+21CE4425 = Pao's sidequest original fish count
+21CE4426 = Pao's sidequest matataki location
+
+21CE4427 = Queens Sam Sidequest progress
+21CE4428 = Sam's sidequest (0 or 1)
+21CE4429 = Sam's sidequest required fish name
+21CE442A = Sam's sidequest required fish ID
+21CE442B = Sam's sidequest needed fish counter
+21CE442C = Sam's sidequest needed fish minimum size
+21CE442D = Sam's sidequest needed fish maximum size
+21CE442E = Sam's sidequest original fish count
+21CE442F = Sam's sidequests complete counter
+21CE4430 = Sam's special reward check
+
+21CE4431 = Muska Devia Sidequest progress
+21CE4432 = Devia's sidequest (0 or 1)
+21CE4433 = Devia's sidequest required fish name
+21CE4434 = Devia's sidequest required fish ID
+21CE4435 = Devia's sidequest needed fish counter
+21CE4436 = Devia's sidequest needed fish minimum size
+21CE4437 = Devia's sidequest needed fish maximum size
+21CE4438 = Devia's sidequest original fish count
+
+21CE4439 = Bobo acquired flag
+21CE443A = Gobbler acquired flag
+21CE443B = Nonky acquired flag
+21CE443C = Kaiji acquired flag
+21CE443D = Baku Baku acquired flag
+21CE443E = Mardan acquired flag
+21CE443F = Gummy acquired flag
+21CE4440 = Niler acquired flag
+21CE4441 = NULL acquired (unused fish ID, including so its easier to keep track of ID's)
+21CE4442 = Umadakara acquired flag
+21CE4443 = Tarton acquired flag
+21CE4444 = Piccoly acquired flag
+21CE4445 = Bon acquired flag
+21CE4446 = Hamahama acquired flag
+21CE4447 = Negie acquired flag
+21CE4448 = Den acquired flag
+21CE4449 = Heela acquired flag
+21CE444A = Baron acquired flag
+
+21CE444B = Brownboo Mint 1st time dialogue check (uses 4 bytes!)
+21CE444F = Brownboo Mint quest complete flag
+21CE4450 = Brownboo Mint Quest Reward claim first time flag
+
+21CE4451 = Norune Laura's sidequest progress
+21CE4452 = Matataki Ro's sidequest progress
+21CE4453 = Queens Phil's sidequest progress
+21CE4454 = Muska Zabo's sidequest progress
+21CE4455 = Brownboo Cool's sidequest progress (uses 4 bytes!)
+
+21CE4459 = Yellow Drops Ledan's sidequest progress (uses 4 bytes!)
+21CE445D = Yellow Drops Ledan quest complete
+
+21CE445E = Yellow Drops Storage's sidequest progress (uses 4 bytes!)
+21CE4462 = Yellow Drops storage quest complete
+
+21CE4463 = 100% completion flag
+21CE4464 = Mayor Sidequest unlock flag (uses 4 bytes!)
+21CE4468 = Mayor sidequest progress
+21CE4469 = Demon Shaft quest floor
+21CE446A = Demon Shaft quest required ally
+21CE446B = Mayors all quests done
+
+21CE446C = Cheats used flag
+
+21CE446D = Sword of Zeus stored thunder (2 bytes!)
+
+21CE4470 = PNACH active flag (uses 4 bytes!)
+
+21CE4474 = Norune Macho sidequest First Time Dialogue
+21CE4475 = Norune Pike sidequest First Time Dialogue
+21CE4476 = Matataki Gob sidequest First Time Dialogue
+21CE4477 = Matataki Pao sidequest First Time dialogue
+21CE4478 = Queens Jake sidequest First Time Dialogue
+21CE4479 = Queens Sam sidequest First Time dialogue
+21CE447A = Muska Chief Bonka sidequest First Time Dialogue
+21CE447B = Muska Devia sidequest First Time Dialogue
+
+21CE447C = Gaffer Daily Rotation Item ID (2 bytes)
+21CE447E = Wise Owl shop Daily Rotation Item ID (2 bytes)
+21CE4480 = Jack Daily Rotation Item ID (2 bytes)
+21CE4482 = Joker Daily Rotation Item ID (2 bytes)
+21CE4484 = Brooke Daily Rotation Item ID (2 bytes)
+21CE4486 = Ledan Daily Rotation Item ID (2 bytes)
+21CE4488 = Fairy King Daily Rotation Item ID (2 bytes)
+
+21CE448A = Enhanced Mod Save File Flag
+21CE448B = Game/Genie beaten flag
+
+21CE448C = First Monster quest complete
+
+---------------------------------------------------------------
+
+21CE4490-21CE449F =  ModWindow option flags (USED: 4490-4495)

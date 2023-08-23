@@ -7,6 +7,7 @@ namespace Dark_Cloud_Improved_Version
 {
     class Patcher
     {
+        //This script is for patching the ISO file with our own data, but in the end we didn't end up using this, since everything applies real-time
         public static int HexStringToInt(string stringToParse)
         {
             int.TryParse(stringToParse, System.Globalization.NumberStyles.HexNumber, null, out int result);

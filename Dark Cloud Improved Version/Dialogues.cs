@@ -514,7 +514,6 @@ namespace Dark_Cloud_Improved_Version
                 currentArea = Memory.ReadByte(0x202A2518);
                 SetDefaultDialogue(currentArea);
             }
-            //SetDialogueOptions(currentDialogueOptions); //TESTING EXTRA DIALOGUE OPTIONS: adds sidequest option after finishing house event
 
             currentAddress = offset * 0x14A0 + 0x21D26FD9;
             characterIdData = Memory.ReadShort(currentAddress);     //store the ID value of nearby character
@@ -522,9 +521,9 @@ namespace Dark_Cloud_Improved_Version
             {
                 for (int i = 0; i < noruneCharacters.Length; i++)   //search through array to find character match
                 {
-                    if (characterIdData == noruneCharacters[i])
+                    if (characterIdData == noruneCharacters[i]) //when the NPC is detected, fetch the correct dialogues
                     {
-                        if (customDialoguesCheck[i] != 1)
+                        if (customDialoguesCheck[i] != 1) //checks which one of the two dialogues should be written. This results in unoptimal extra code, but I can't be bothered with it
                         {
                             if (isSidequest)
                             {
@@ -1310,7 +1309,7 @@ namespace Dark_Cloud_Improved_Version
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "nearNPC");
         }
 
-        public static void SetDefaultDialogue(int area)
+        public static void SetDefaultDialogue(int area) //this is used if player is too quick talking to NPC and the mod hasn't finished writing dialogue yet
         {
             string defDialogue = "Hello.";
             
@@ -2081,7 +2080,7 @@ namespace Dark_Cloud_Improved_Version
             Memory.WriteByte(0x21CE4450, 1);
         }
 
-        public static void CheckFish()
+        public static void CheckFish() //this is the checklist for the fishing master quest
         {
             currentAddress = 0x21CE4439;
             byte fishCount = 0;
@@ -2133,7 +2132,7 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static void FixCharacterNamesInDialogues()
+        public static void FixCharacterNamesInDialogues() //replaces all mentions of Toan with correct ally, in some cases it doesn't fit well
         {
             byte charByte = 0;
             if (Memory.ReadInt(Addresses.chrFileLocation + 0x6) == 791752805) //Xiao

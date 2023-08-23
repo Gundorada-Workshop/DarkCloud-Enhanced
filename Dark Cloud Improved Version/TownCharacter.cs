@@ -3,6 +3,10 @@ using System.Threading;
 
 namespace Dark_Cloud_Improved_Version
 {
+
+    //This is the core script file for handling various overworld features, such as ally switching, dialogues, sidequests
+    //and so on. Basically the "main" script. Some of these are not mixed optimally and could use their own scripts,
+    //but they are commented as much as they can be.
     class TownCharacter
     {
         static char[] characters = { ' ', '!', '"', '#', '$', '%', '&', '`', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@',
@@ -23,7 +27,6 @@ namespace Dark_Cloud_Improved_Version
         static byte[] townDialogueIDs = { 247, 167, 87, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         static byte[] fishArray = new byte[5];
         
-
         static string cfgFile;
         static string chrFilePath;
         static string currentCharacter = "chara/c01d.chr";
@@ -91,16 +94,17 @@ namespace Dark_Cloud_Improved_Version
         public static int currentInGameDay = 0;
         public static Thread characterNamesFixThread = new Thread(() => Dialogues.FixCharacterNamesInDialogues());
 
+        //The following comments are for various flags that we utilize within unused game memory
         //used bool checks in addresses: 21F10000,21F10004,21F10008 (check if player is next to NPC), 21F1000C,
         //21F10010 (toan next to pickle in brownboo), 21F10014, 21F10018 (element check), 21F1001C (clock check),
         //21F10020 (PNACH flag), 21F10024 (mod flag), 21F10028 (Option 1 Flag), 21F1002C (Option 2 Flag), 21F10030 (Option 3 Flag), 21F10034 (Option 4 Flag)
 
-        public static void InitializeChrOffsets()
+        public static void MainScript()
         {
 
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Towncharacter running");
 
-            Dialogues.InitializeDialogues();
+            Dialogues.InitializeDialogues(); //pre-loads all custom dialogue
             Memory.WriteByte(0x2027DD50, 0); //make shell ring discardable
             Memory.WriteByte(0x2027DD28, 0); //make magical lamp discardable
             Memory.WriteByte(0x2027DC80, 8); //change map ordering
@@ -134,6 +138,9 @@ namespace Dark_Cloud_Improved_Version
             demonshaftUnlocked = false;
 
             Dungeon.ChangeSoZMaxAtt(Memory.ReadUShort(0x21CE446D)); //NEEDS TO BE APPLIED AFTER SAVE LOAD!
+
+            //THE FOLLOWING CODE UP TO WHILE LOOP is for setting up ally switching in the overworld, by editing
+            //some of the game's code that handles the character files
 
             Memory.VirtualProtect(Memory.process.Handle, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             successful = Memory.VirtualProtectEx(Memory.process.Handle, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
@@ -175,11 +182,8 @@ namespace Dark_Cloud_Improved_Version
                         value1 = BitConverter.GetBytes(a + 32);
                     }
                 }
-
                 Memory.WriteByte(currentAddress, value1[0]);
-
                 currentAddress += 0x00000001;
-
             }
 
             chrFilePath = "chara/c01d.chr"; //the path to the character file that should be loaded
@@ -203,198 +207,66 @@ namespace Dark_Cloud_Improved_Version
                 currentAddress += 0x00000001;
 
             }
-            /*
-            Memory.VirtualProtect(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-            successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-            if (successful == false) //There was an error
-                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
-
-            Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));     //whenever X is pressed while on allies menu and in town, this will reload the town instead of playing a single sound
-            */
 
 
             while (true)
             {
                 //Check if player is in town
                 if (Memory.ReadByte(Addresses.mode) == 2)
-                {
-                    
+                {                   
 
-                    //jal editinit = e0 e0 05 0c / 224 224 5 12
-                    if (Memory.ReadByte(Addresses.mode) == 0x3)
+                    if (Memory.ReadByte(Addresses.mode) == 0x2 && Memory.ReadByte(Addresses.selectedMenu) == 0x3) //check if player entered allies menu in the overworld
                     {
-                        indungeon = true;
-                    }
-                    else
-                    {
-                        indungeon = false;
-                    }
-
-
-                    if (indungeon == true && charaSwitchFunctionsRestored == false)     //check if player is on DUNGEON, change/restore ingame functions
-                    {
-
-
-                        charaSwitchFunctionsRestored = true;
-                    }
-                    else if (indungeon == false && charaSwitchFunctionsRestored == true)        //check if player is on TOWN, change ingame functions
-                    {
-
-                        charaSwitchFunctionsRestored = false;
-                    }
-
-                    if (Memory.ReadByte(Addresses.mode) == 0x2 && Memory.ReadByte(Addresses.selectedMenu) == 0x3)
-                    {
-                        if (Memory.ReadUShort(Addresses.buttonInputs) == (ushort)CheatCodes.InputBuffer.Button.Cross)
-                        {
-                            if (charSelected == true)
-                            {
-                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Chara selected");
-
-                                currentAddress = Addresses.chrFileLocation;
-
-                                for (int i = 0; i < chrFilePath.Length; i++)
-                                {
-                                    char character = chrFilePath[i];
-
-                                    for (int a = 0; a < characters.Length; a++)
-                                    {
-                                        if (character.Equals(characters[a]))
-                                        {
-                                            value1 = BitConverter.GetBytes(a + 32);
-                                        }
-                                    }
-
-                                    Memory.WriteByte(currentAddress, value1[0]);
-
-                                    currentAddress += 0x00000001;
-
-                                }
-
-                                Memory.WriteInt(0x202A2524, -1);
-
-                                //Memory.WriteByte(Addresses.activateCharacter, 4);
-
-                                charSelected = true;
-                            }
-                        }
-
-                        if (Memory.ReadInt(0x202A28F4) == 0)    //set currentCharacter after switching ally
+                        
+                        if (Memory.ReadInt(0x202A28F4) == 0)    //set currentCharacter variable after cycling through allies
                         {
                             currentCharacter = chrFilePath;
                         }
 
                         charNumber = Memory.ReadByte(0x21D90470);
 
-                        if (prevCharNumber != charNumber)
+                        if (prevCharNumber != charNumber) //whenever player cycles through the allies, the correct character file will be determined
                         {
                             allyCount = Memory.ReadByte(0x21CD9551);
                             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + charNumber);
                             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "different char");
                             currentAddress = Addresses.chrFileLocation;
 
-                            for (int i = 0; i < 30; i++)
+                            for (int i = 0; i < 30; i++) //clears the memory so the character file name wont be broken
                             {
                                 Memory.WriteByte(currentAddress, 0);
                                 currentAddress += 0x00000001;
                             }
+     
 
-                            /*
-                            Memory.VirtualProtect(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-                            successful = Memory.VirtualProtectEx(Memory.processH, 0x201F7DB4, 4, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-                            if (successful == false) //There was an error
-                                Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
-                                */
-
-                            if (charNumber == 0)
+                            switch (charNumber) //gets character file path based on selected ally
                             {
-                                chrFilePath = "chara/c01d.chr";
-                            }
-                            else if (charNumber == 1)
-                            {
-                                /*
-                                if (allyCount > 1)
-                                {
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                                }
-                                else
-                                {
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                                }
-                                */
-                                chrFilePath = "gedit/e01/chara/c04pcat.chr";
-                            }
-                            else if (charNumber == 2)
-                            {
-                                /*
-                                if (allyCount > 2)
-                                {
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                                }
-                                else
-                                {
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                                }
-                                */
-                                chrFilePath = "gedit/s01/chara/c06p.chr";
-
-                            }
-                            else if (charNumber == 3)
-                            {
-                                /*
-                                if (allyCount > 3)
-                                {
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                                }
-                                else
-                                {
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                                }
-                                */
-                                chrFilePath = "gedit/e03/chara/c05a.chr";
-                            }
-                            else if (charNumber == 4)
-                            {
-                                /*
-                                if (allyCount > 4)
-                                {
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                                }
-                                else
-                                {
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                                }*/
-
-                                chrFilePath = "gedit/s79/chara/c10a.chr";
-                            }
-                            else if (charNumber == 5)
-                            {
-                                /*
-                                if (allyCount > 5)
-                                {
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201711840));
-                                }
-                                else
-                                {
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "not enough allies");
-                                    Memory.Write(0x201F7DB4, BitConverter.GetBytes(201896892));
-                                }*/
-                                chrFilePath = "gedit/e05/chara/c18p.chr";
-                            }
-                            else
-                            {
-                                chrFilePath = "chara/c01d.chr";
+                                case 0:
+                                    chrFilePath = "chara/c01d.chr";
+                                    break;
+                                case 1:
+                                    chrFilePath = "gedit/e01/chara/c04pcat.chr";
+                                    break;
+                                case 2:
+                                    chrFilePath = "gedit/s01/chara/c06p.chr";
+                                    break;
+                                case 3:
+                                    chrFilePath = "gedit/e03/chara/c05a.chr";
+                                    break;
+                                case 4:
+                                    chrFilePath = "gedit/s79/chara/c10a.chr";
+                                    break;
+                                case 5:
+                                    chrFilePath = "gedit/e05/chara/c18p.chr";
+                                    break;
+                                default:
+                                    chrFilePath = "chara/c01d.chr";
+                                    break;
                             }
 
                             currentAddress = Addresses.chrFileLocation;
 
-                            for (int i = 0; i < chrFilePath.Length; i++)
+                            for (int i = 0; i < chrFilePath.Length; i++) //writes character file path to the memory (USES OLD METHOD, SHOULD BE STRING ARRAY)
                             {
                                 char character = chrFilePath[i];
 
@@ -406,18 +278,9 @@ namespace Dark_Cloud_Improved_Version
                                     }
                                 }
 
-                                /*Memory.VirtualProtect(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
-                                successful = Memory.VirtualProtectEx(Memory.processH, currentAddress, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
-
-                                if (successful == false) //There was an error
-                                    Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError()));
-                                    */
-
                                 Memory.WriteByte(currentAddress, value1[0]);
 
-
                                 currentAddress += 0x00000001;
-
                             }
 
 
@@ -444,12 +307,8 @@ namespace Dark_Cloud_Improved_Version
                                 }
                             }
 
-
                             Memory.WriteByte(currentAddress, value1[0]);
-
-
                             currentAddress += 0x00000001;
-
                         }
                         menuExited = true;
                         prevCharNumber = 99;
@@ -459,7 +318,6 @@ namespace Dark_Cloud_Improved_Version
                     {
                         Memory.WriteByte(0x21D33E30, 3);
                     }
-
 
                     if (Memory.ReadInt(0x2029AA0E) != 1680945251)   //If not using Toan, force any house event to be cancelled
                     {
@@ -518,15 +376,15 @@ namespace Dark_Cloud_Improved_Version
                                 {
                                     if (Memory.ReadByte(0x21D19FF8) != 1)
                                     {
-                                        if (Memory.ReadByte(0x21D19710) == 1 && jokerHouse == false) //check if at joker's house door
+                                        if (Memory.ReadByte(0x21D19710) == 1 && jokerHouse == false) //check if at joker's house door (INCONSISTENT, DOESN'T WORK ALL TIMES)
                                         {
-                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "entered jokerssss");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "entered jokers");
                                             Memory.WriteByte(0x202A2A08, 0);
                                             jokerHouse = true;
                                         }
                                         else if (Memory.ReadByte(0x21D19710) == 0 && jokerHouse == true)
                                         {
-                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "left jokerss");
+                                            Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "left jokers");
                                             Memory.WriteByte(0x202A2A08, 1);
                                             jokerHouse = false;
                                         }
@@ -577,6 +435,7 @@ namespace Dark_Cloud_Improved_Version
 
                         for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
                         {
+                            //this following dialogue handling is a bit of mess, but it works fine and I don't want to break it lol
                             currentAddress = i * 0x14A0 + 0x21D26FF8;
                             if (Memory.ReadByte(currentAddress) == 1)
                             {
@@ -664,7 +523,7 @@ namespace Dark_Cloud_Improved_Version
                             Memory.WriteByte(0x21F1000C, 0); //xiaoFlag for PNACH
                         }
 
-                        if (shopkeeper == true)     //check shopkeeper and change dialogue ID
+                        if (shopkeeper == true) //check for shopkeeper and change dialogue ID, this part is a bit poorly written and could be cleaner
                         {
                             if (currentArea != 23)
                             {
@@ -769,7 +628,7 @@ namespace Dark_Cloud_Improved_Version
                         }
 
                     }
-                    else
+                    else //after the massive if check for ally usage, some custom dialogue is set for Toan
                     {
                         isUsingAlly = false;
                         Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints if they were disable
@@ -846,7 +705,7 @@ namespace Dark_Cloud_Improved_Version
                                 sidequestonDialogueFlag = 0;
                             }
                         }
-                        else if (currentArea == 14)
+                        else if (currentArea == 14) //Brownboo is the only area where Toan has custom dialogue (outside of sidequests), so this special part is needed
                         {
                             int checkNearNPC = 0;
                             for (int i = 0; i < 6; i++)     //check if player is next to a character. If so, jumps to SetDialogue() and writes the dialogues
@@ -905,9 +764,9 @@ namespace Dark_Cloud_Improved_Version
                                 }
                             }
                         }
-                    }
+                    }  //END OF CHARACTER RELATED DIALOGUE SETUP
 
-                    buildingCheck = Memory.ReadByte(0x202A281C); //is player inside house
+                    buildingCheck = Memory.ReadByte(0x202A281C); //is player inside house?
 
                     int currentAreaFrames = Memory.ReadInt(0x202A2880);
 
@@ -915,7 +774,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (currentAreaFrames > 5)
                         {
-                            if (!areaEnteredClockCheck)
+                            if (!areaEnteredClockCheck) //Enables clock for areas that dont originally have it (yellow drops & dark heaven)
                             {
                                 CheckClockAdvancement(currentArea);
                                 shopkeeper = false;
@@ -932,7 +791,7 @@ namespace Dark_Cloud_Improved_Version
                     {
                         if (currentAreaFrames > 30 && areaChanged == false)
                         {
-                            if (!areaEnteredCheck)
+                            if (!areaEnteredCheck) //Initializes some data when entering an area for the first time, might do it multiple times but its fine, just spams the console a bit
                             {
                                 areaChanged = true;
                                 CheckAllyFishing();
@@ -987,7 +846,7 @@ namespace Dark_Cloud_Improved_Version
                             {
                                 if (Memory.ReadUShort(0x20425014) == 64820)
                                 {
-                                    Dialogues.FixFairyKingDialogue();
+                                    Dialogues.FixFairyKingDialogue(); //just to change one dialogue...
                                 }
                             }
                         }
@@ -1010,7 +869,7 @@ namespace Dark_Cloud_Improved_Version
                         chrFilePath = "chara/c01d.chr";
                         Memory.WriteByte(0x21F10000, 0); //re-enable eventpoints in case they were disabled'
 
-
+                        //when player is about to enter another area, a cutscene might play. We switch back to Toan to prevent any character models from breaking
 
                         currentAddress = Addresses.chrFileLocation;
 
@@ -1034,16 +893,12 @@ namespace Dark_Cloud_Improved_Version
                                 }
                             }
 
-
                             Memory.WriteByte(currentAddress, value1[0]);
-
-
                             currentAddress += 0x00000001;
-
                         }
 
                         Thread.Sleep(350);
-                        if (Memory.ReadByte(0x21D2DA4C) < 61)
+                        if (Memory.ReadByte(0x21D2DA4C) < 61) //sometimes when teleporting from yellow drops or dark heaven, the area might turn dark. This part tries to prevent it
                         {
                             int timerCheck = 0;
                             while (Memory.ReadByte(0x21D2DA4C) < 58 && timerCheck <= 25)
@@ -1055,12 +910,12 @@ namespace Dark_Cloud_Improved_Version
                         Memory.WriteByte(0x21F1001C, 0);
                     }
 
-                    if (Memory.ReadByte(0x202A1E90) == 255)
+                    if (Memory.ReadByte(0x202A1E90) == 255) //not 100% sure about this value, but it should be static while the player is not in the process of switching areas
                     {
                         changingLocation = false;
                     }
 
-                    int checkFishing = Memory.ReadByte(0x21D19714);
+                    int checkFishing = Memory.ReadByte(0x21D19714); //checks if player has entered fishing mode
                     if (fishingActive == false & checkFishing == 1)
                     {
                         fishingActive = true;
@@ -1074,7 +929,7 @@ namespace Dark_Cloud_Improved_Version
 
                     if (fishingActive == true)
                     {
-                        CheckFishingQuest(currentArea);
+                        CheckFishingQuest(currentArea); //as long as player is in fishing mode, enter this function to observe fishing
                         if (checkFishing == 0)
                         {
                             fishingActive = false;
@@ -1108,9 +963,9 @@ namespace Dark_Cloud_Improved_Version
                         }
                     }
 
-                    Dungeon.CheckWepLvlUp();
+                    Dungeon.CheckWepLvlUp(); //check if player is upgrading a weapon
                     
-                    DemonShaftUnlockCheck();
+                    DemonShaftUnlockCheck(); //prevents players from accessing post-game dungeon before completing the base game
 
                     //Check if player is inside the weapon customize menu
                     if (Player.CheckIsWeaponCustomizeMenu())
@@ -1127,65 +982,12 @@ namespace Dark_Cloud_Improved_Version
                         }
                     }
 
-                    if (Memory.ReadUShort(0x21CD4318) > currentInGameDay)
+                    if (Memory.ReadUShort(0x21CD4318) > currentInGameDay) //whenever the ingame day counter increases, reroll the shops
                     {
                         DailyShopItem.RerollDailyRotation(currentInGameDay);
                         currentInGameDay = Memory.ReadUShort(0x21CD4318);
                     }
-
-                    /*
-                    if (dialogueWritten == false)
-                    {
-                        currentAddress = 0x21D3D434; //Dialogue ID for the first chat option
-
-                        for (int s = 0; s < 4; s++)
-                        {
-                            Memory.WriteByte(currentAddress, 46);
-                            currentAddress += 0x4;
-                        }
-
-                        string circletext = "I´ll have two number 9s, a number 9 large,^a number 6 with extra dip,^a number 7, two number 45s,^one with cheese, and a large soda.";
-
-                        currentAddress = 0x206498A0;
-
-                        for (int i = 0; i < circletext.Length; i++)
-                        {
-                            char character = circletext[i];
-
-                            for (int a = 0; a < gameCharacters.Length; a++)
-                            {
-                                if (character.Equals(gameCharacters[a]))
-                                {
-                                    value1 = BitConverter.GetBytes(a);
-                                }
-                            }
-
-
-                            Memory.WriteByte(currentAddress, value1[0]);
-
-                            currentAddress += 0x00000001;
-
-                            if (value1[0] == 0 || value1[0] == 2)
-                            {
-                                value1 = BitConverter.GetBytes(255);
-                                Memory.WriteByte(currentAddress, value1[0]);
-                            }
-                            else
-                            {
-                                value1 = BitConverter.GetBytes(253);
-                                Memory.WriteByte(currentAddress, value1[0]);
-                            }
-
-                            currentAddress += 0x00000001;
-                        }
-
-                        Memory.WriteByte(currentAddress, 1);
-                        currentAddress += 0x00000001;
-                        Memory.WriteByte(currentAddress, 255);
-                        dialogueWritten = true;
-                    }
-                    */
-                }
+                } //end of check if player is in town mode
 
                 if (MainMenuThread.userMode == true)
                 {
@@ -1202,10 +1004,10 @@ namespace Dark_Cloud_Improved_Version
 
                 if (Memory.ReadByte(Addresses.mode) == 13)
                 {
-                    CheckCreditsScene();
+                    CheckCreditsScene(); //when player finishes credits, properly save the game and redirect to demon shaft
                 }
 
-                Thread.Sleep(50);
+                Thread.Sleep(50); //resets the code loop in 50ms intervals. Sleep is required, otherwise CPU usage will skyrocket
             }
 
         }
@@ -1217,12 +1019,6 @@ namespace Dark_Cloud_Improved_Version
 
             Memory.WriteByteArray(currentAddress, arrayy);
 
-            /*for (int i = 0; i < 4500; i++)
-            {
-                Memory.WriteInt(currentAddress, 0);
-                currentAddress += 0x00000004;
-            }
-            */
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Broken dagger fix finished");
         }
 
@@ -1247,27 +1043,6 @@ namespace Dark_Cloud_Improved_Version
                     checkNearNPC++;
                 }
             }
-
-            /*if (checkNearNPC == 0)
-            {
-                nearNPCSD = false;
-                Memory.WriteByte(0x21F10010, 0); //nearNPC flag for PNACH to use
-                sidequestonDialogueFlag = 0;
-            } 
-
-            if (Memory.ReadUShort(0x21D1CC0C) == sidequestDialogueID && sidequestonDialogueFlag == 0) //check if current dialogue is our custom dialogue, set a flag
-            {
-                sidequestonDialogueFlag = 1;
-            }
-
-            if (sidequestonDialogueFlag == 2)
-            {
-                if (Memory.ReadByte(0x21D1CC0C) == 255) //check if previous custom dialogue has ended
-                {
-                    sidequestonDialogueFlag = 0;
-                }
-            }
-            */
         }
 
         public static void SetItsFinishedDialogue()
@@ -1280,7 +1055,6 @@ namespace Dark_Cloud_Improved_Version
                 {
                     if (itsfinishedonDialogueFlag == 0)
                     {
-
                         Dialogues.SetDialogue(i, false, false, true);
                         Memory.WriteByte(0x21F10010, 1); //nearNPC flag for PNACH to use
                         nearNPCSD = true;
@@ -1317,8 +1091,7 @@ namespace Dark_Cloud_Improved_Version
                 {
                     Memory.WriteOneByte(0x20421A8A, BitConverter.GetBytes(1)); //disable fishing
                     Dialogues.SetFishingDisabledDialogue(currentArea);
-                }
-                
+                }              
             }
         }
 
@@ -1338,7 +1111,6 @@ namespace Dark_Cloud_Improved_Version
                     {
                         //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
                     }
-
                     else if (Memory.ReadByte(0x21CE4402) == 2)
                     {
                         SideQuestManager.MonsterQuestReward();
@@ -1362,7 +1134,6 @@ namespace Dark_Cloud_Improved_Version
                     {
                         //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
                     }
-
                     else if (Memory.ReadByte(0x21CE4407) == 2)
                     {
                         SideQuestManager.MonsterQuestReward();
@@ -1386,7 +1157,6 @@ namespace Dark_Cloud_Improved_Version
                     {
                         //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
                     }
-
                     else if (Memory.ReadByte(0x21CE440C) == 2)
                     {
                         SideQuestManager.MonsterQuestReward();
@@ -1410,7 +1180,6 @@ namespace Dark_Cloud_Improved_Version
                     {
                         //Memory.WriteOneByte(0x21CE4402, BitConverter.GetBytes(2));
                     }
-
                     else if (Memory.ReadByte(0x21CE4411) == 2)
                     {
                         SideQuestManager.MonsterQuestReward();
@@ -1615,11 +1384,12 @@ namespace Dark_Cloud_Improved_Version
             }
         }
 
-        public static void CheckFishingQuest(int area)
+        public static void CheckFishingQuest(int area) //handles fishing mode, checks for caught fish and quest progress
         {
+            //this entire function could be shortened by 75% if the area check is utilized better instead of copying the whole process...
             if (area == 0)
             {
-                if (!fishingQuestCheck)
+                if (!fishingQuestCheck) //variable for checking if current area has a fishing quest
                 {
                     currentAddress = 0x214798D0;
                     for (int i = 0; i < 4; i++)
@@ -1638,7 +1408,7 @@ namespace Dark_Cloud_Improved_Version
                         minFishSize = Memory.ReadByte(0x21CE441B);
                         maxFishSize = Memory.ReadByte(0x21CE441C);
                     }
-                    if (hasMardanSword)
+                    if (hasMardanSword) //apply mardan sword effect
                     {
                         Thread.Sleep(300);
                         currentAddress = 0x214798E0;
@@ -2109,7 +1879,7 @@ namespace Dark_Cloud_Improved_Version
             if (Memory.ReadInt(0x202A2518) == -1 && playerAtCredits == false) //credits scene
             {
                 playerAtCredits = true;
-                Memory.WriteByte(0x21CE448B, 1); //game cleared flag
+                Memory.WriteByte(0x21CE448B, 1); //game cleared flag, our custom flag
                 if (Memory.ReadByte(0x21CE70A0) == 0)
                 {
                     Memory.WriteByte(0x21CE70A0, 1); //demon shaft visit count
@@ -2119,9 +1889,9 @@ namespace Dark_Cloud_Improved_Version
             else if (Memory.ReadInt(0x202A2518) != 51 && playerAtCredits == true)
             {
                 Memory.WriteInt(0x202A2518, 60);
-                if (Memory.ReadByte(0x21DA8AD0) == 2 && Memory.ReadByte(0x21DA8AE0) > 70)
+                if (Memory.ReadByte(0x21DA8AD0) == 2 && Memory.ReadByte(0x21DA8AE3) < 255)
                 {
-                    Memory.WriteByte(0x21DA8AD0, 1);
+                    Memory.WriteByte(0x21DA8AD0, 1); //changes the menu to properly save the game
                     playerAtCredits = false;
                 }              
             }
@@ -2132,7 +1902,7 @@ namespace Dark_Cloud_Improved_Version
             {
                 if (Memory.ReadByte(0x21CE448B) == 1)
                 {
-                    demonshaftUnlocked = true;
+                    demonshaftUnlocked = true; //if DS is unlocked, set this so we don't need to check for it anymore
                 }
 
                 if (Memory.ReadByte(Addresses.selectedMenu) == 13) //check if worldmap open
@@ -2147,6 +1917,10 @@ namespace Dark_Cloud_Improved_Version
 
         public static void InitializeCharacterOffsetValues()
         {
+            //This process is required at the start of the game to edit the memory offsets for the character file switching
+            //The game reads the character file (for example Xiao's model and such) from a specific address,
+            //but this location needs to be moved, so that we can apply longer character file paths
+
             Memory.VirtualProtect(Memory.process.Handle, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
             successful = Memory.VirtualProtectEx(Memory.process.Handle, Addresses.chrConfigFileOffset, 8, Memory.PAGE_EXECUTE_READWRITE, out _);
 
@@ -2154,7 +1928,6 @@ namespace Dark_Cloud_Improved_Version
                 Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + Memory.GetLastError() + " - " + Memory.GetSystemMessage(Memory.GetLastError())); //Get the last error code and write out the message associated with it.
 
             Memory.Write(Addresses.chrConfigFileOffset, BitConverter.GetBytes(608545264)); //this changes the offset value in game's code to make it read the file in right location
-
 
             currentAddress = Addresses.chrConfigFileLocation;
 
@@ -2189,9 +1962,7 @@ namespace Dark_Cloud_Improved_Version
                 }
 
                 Memory.WriteByte(currentAddress, value1[0]);
-
                 currentAddress += 0x00000001;
-
             }
 
 
@@ -2211,11 +1982,8 @@ namespace Dark_Cloud_Improved_Version
                         value1 = BitConverter.GetBytes(a + 32);
                     }
                 }
-
                 Memory.WriteByte(currentAddress, value1[0]);
-
                 currentAddress += 0x00000001;
-
             }
         }
     }

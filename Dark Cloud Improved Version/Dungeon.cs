@@ -65,7 +65,6 @@ namespace Dark_Cloud_Improved_Version
         public static Thread supernovaThread = new Thread(new ThreadStart(CustomEffects.Supernova));
         public static Thread starBreakerThread = new Thread(new ThreadStart(CustomEffects.StarBreaker));
         public static Thread elementSwapThread = new Thread(new ThreadStart(Dayuppy.ElementSwapping)); //Create a new thread to run monitorElementSwapping()
-        public static Thread exitDungeonThread = new Thread(new ThreadStart(ExitDungeonFromFloorSelect)); 
         public static Thread dunEscapeConfirmThread;
 
         public static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor));
@@ -1064,35 +1063,10 @@ namespace Dark_Cloud_Improved_Version
                 if (Memory.ReadUShort(Addresses.buttonInputs) != (ushort)CheatCodes.InputBuffer.Button.Circle)
                 {
                     currentGilda = Memory.ReadUShort(Addresses.gilda);
+                    Memory.WriteUShort(Addresses.dungeonDebugMenu, 170);
                     Memory.WriteByte(Addresses.dungeonMode, 1);
-                    exitDungeonThread = new Thread(new ThreadStart(ExitDungeonFromFloorSelect));
-                    if (!exitDungeonThread.IsAlive)
-                    {
-                        exitDungeonThread.Start();
-                    }
                     circlePressed = false;
                 }
-            }
-        }
-
-        public static void ExitDungeonFromFloorSelect()
-        {
-            int localtimer = 0;
-            while (localtimer < 5000)
-            {
-                if (Memory.ReadByte(0x202A3560) == 1)
-                {
-                    Memory.WriteUShort(Addresses.dungeonDebugMenu, 201);
-                }
-
-                if (Memory.ReadUShort(Addresses.gilda) < currentGilda)
-                {
-                    Thread.Sleep(500);
-                    Memory.WriteUShort(Addresses.gilda, currentGilda);
-                    break;
-                }
-                Thread.Sleep(200);
-                localtimer += 200;
             }
         }
 

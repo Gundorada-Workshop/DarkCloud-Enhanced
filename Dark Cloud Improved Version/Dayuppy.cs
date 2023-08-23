@@ -11,8 +11,8 @@ namespace Dark_Cloud_Improved_Version
     {
         private static Thread cheatCodeThread = new Thread(new ThreadStart(CheatCodes.InputBuffer.Monitor)); //Create a new thread to run monitorElementSwapping()
         private static Thread elementSwapThread = new Thread(new ThreadStart(ElementSwapping)); //Create a new thread to run monitorElementSwapping()
-        private static Thread dayEnemyThread = new Thread(new ThreadStart(EnemyDropRandomizer)); //Create a new thread to run monitorElementSwapping()
-        private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
+        //private static Thread dayEnemyThread = new Thread(new ThreadStart(EnemyDropRandomizer)); //Create a new thread to run monitorElementSwapping()
+        //private static Thread dayChestThread = new Thread(new ThreadStart(DayChestRandomizer)); //Create a new thread to run monitorElementSwapping()
         public static Thread messageThread;
         //public static Thread messageThreadTimer;
 
@@ -85,6 +85,7 @@ namespace Dark_Cloud_Improved_Version
         public static byte[] elemRGBNone = { 64, 64, 64, 63, 6, 6, 6, 63, 64, 64, 64, 31, 6, 6, 6, 31};
         public static byte[][] elemRGBs = new byte[6][];
 
+        /* UNUSED TEST CODE
         private static int GetRandomLoot(int[] lootTable)
         {
             int randomItem = random.Next(lootTable.Length);
@@ -498,8 +499,8 @@ namespace Dark_Cloud_Improved_Version
                 else
                     prevFloor = 200;    //used to reset the floor data when going back to dungeon
             }
-        }
-
+        } //UNUSED TEST CODE
+        */
         public static void ElementSwapping()
         {
             string[] elementName = new string[6];
@@ -1061,6 +1062,7 @@ namespace Dark_Cloud_Improved_Version
             return outputMessage;
         }
 
+        //UNUSED TEST CODE
         /*
         public static void DisplayMessageCustomTime(int displayTime)
         {
@@ -1070,6 +1072,7 @@ namespace Dark_Cloud_Improved_Version
             //messageThread.Abort();
         }*/
 
+        /*
         public static void CallGameFunction(byte[] function) // functionBGMStop
         {
             Console.WriteLine(ReusableFunctions.GetDateTimeForLog() + "Function address to write: {0:X}", Addresses.functionEntryPoint);
@@ -1253,8 +1256,8 @@ namespace Dark_Cloud_Improved_Version
 
             elementSwapThread.Start(); //Start thread
             cheatCodeThread.Start();
-            dayChestThread.Start();
-            dayEnemyThread.Start();  
+            //dayChestThread.Start();
+            //dayEnemyThread.Start();  
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -1369,6 +1372,7 @@ namespace Dark_Cloud_Improved_Version
             //Form1.dayThread.Abort();
             //elementSwapThread.Abort();
             //stopWatch.Stop();
-        }
+        } //UNUSED TEST CODE
+        */
     }
 }

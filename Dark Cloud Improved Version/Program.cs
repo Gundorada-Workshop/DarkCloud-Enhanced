@@ -38,7 +38,7 @@ namespace Dark_Cloud_Improved_Version
             Application.SetCompatibleTextRenderingDefault(true);
 
             Console.WriteLine("Dark Cloud Enhanced - Created by Wordofwind, Dayuppy, MikeZorD, and Plgue");
-            Console.WriteLine("Version 0.9.05 - Beta");
+            Console.WriteLine("Version 1.xxx - Release");
 
             //ShowWindow(consoleH, SW_HIDE); //Hide Console
             
